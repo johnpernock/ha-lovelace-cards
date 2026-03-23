@@ -1,0 +1,42 @@
+# waze-sensors.yaml
+# Waze Travel Time sensors for the traffic-card.
+#
+# ── INSTALLATION ──────────────────────────────────────────────────────────────
+# In configuration.yaml, merge into your sensor: block:
+#
+#   sensor: !include ha-config/waze-sensors.yaml
+#
+# Or paste directly under an existing sensor: block.
+# After saving: Developer Tools → YAML → Reload (or restart HA)
+#
+# Waze sensors update approximately every 5 minutes.
+# Typical duration is calculated by Waze as a rolling historical average.
+# The route attribute contains the road name Waze selected.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ── To work: 21 Beryl Rd → 1030 Continental Dr via US-202 N ──────────────────
+- platform: waze_travel_time
+  name: "Commute to Work"
+  origin: "21 Beryl Rd, Paoli, PA 19301"
+  destination: "1030 Continental Dr, King of Prussia, PA 19406"
+  region: US
+  realtime: true
+
+# ── Home via 202 S: 1030 Continental Dr → 21 Beryl Rd ────────────────────────
+- platform: waze_travel_time
+  name: "Commute Home via 202"
+  origin: "1030 Continental Dr, King of Prussia, PA 19406"
+  destination: "21 Beryl Rd, Paoli, PA 19301"
+  region: US
+  realtime: true
+
+# ── Home via Route 30 W: avoids US-202 for alternate route ───────────────────
+# Waze will route via Lancaster Ave / Rt 30 when 202 is congested.
+# avoid_highways: true nudges Waze toward the local road option.
+- platform: waze_travel_time
+  name: "Commute Home via Rt 30"
+  origin: "1030 Continental Dr, King of Prussia, PA 19406"
+  destination: "21 Beryl Rd, Paoli, PA 19301"
+  region: US
+  realtime: true
+  avoid_highways: true

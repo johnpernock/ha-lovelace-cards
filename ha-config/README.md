@@ -92,3 +92,24 @@ After saving: **Developer Tools → YAML → Groups → Reload** (or restart HA)
 ### `dashboard.yaml`
 
 The complete Lovelace dashboard YAML for all 5 views. Paste into the HA raw config editor or use as a `ui-lovelace.yaml` source. See [`dashboard-README.md`](dashboard-README.md) for full installation instructions and a summary of all views and changes.
+
+---
+
+### `waze-sensors.yaml`
+
+Three Waze Travel Time sensors for the `traffic-card`:
+
+| Sensor entity | Route | Direction |
+|---|---|---|
+| `sensor.commute_to_work` | US-202 N | 21 Beryl Rd → 1030 Continental Dr |
+| `sensor.commute_home_via_202` | US-202 S | 1030 Continental Dr → 21 Beryl Rd |
+| `sensor.commute_home_via_rt_30` | Route 30 W (avoid_highways) | 1030 Continental Dr → 21 Beryl Rd |
+
+**Installation:**
+
+```yaml
+# configuration.yaml
+sensor: !include ha-config/waze-sensors.yaml
+```
+
+After saving: **Developer Tools → YAML → Reload** (or restart HA). Allow ~5 minutes for first readings.

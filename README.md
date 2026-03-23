@@ -126,6 +126,7 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/peco-card/peco-card.js` | JavaScript Module |
 | `/local/cards/ecoflow-card/ecoflow-card.js` | JavaScript Module |
 | `/local/cards/now-playing-card/now-playing-card.js` | JavaScript Module |
+| `/local/cards/traffic-card/traffic-card.js` | JavaScript Module |
 
 > **Note:** The `shared/` modules do **not** need to be registered. They are imported directly by the card JS files using relative paths.
 
@@ -173,6 +174,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | PECO Energy | `cards/peco-card/` | v1 |
 | Ecoflow | `cards/ecoflow-card/` | v1 |
 | Now Playing | `cards/now-playing-card/` | v1 |
+| Traffic (Commute) | `cards/traffic-card/` | v1 |
 
 ✦ = fully migrated to shared modules (proof of concept)
 
@@ -200,6 +202,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **Traffic commute card.** `traffic-card` using Waze Travel Time sensors — live travel time, delay vs typical, distance, Waze route name, dynamic Fastest badge across home routes, incident banner when delay exceeds threshold, to-work row dims after noon. Three Waze sensors added to `ha-config/waze-sensors.yaml`. Card added to Home view column 1. |
 | Mar 2026 | **Four new cards + Energy view.** `wallbox-card` (Beryl Pulsar Plus — session energy, range, power, current slider, solar mode, lock); `peco-card` (PECO electric + gas billing — usage bar, forecast, cost, typical comparison); `ecoflow-card` (River 2 Pro — battery, power flows, max charge slider, AC/DC toggles); `now-playing-card` (Apple TV / media players — collapses when idle, tap → more-info). New Energy view added to dashboard with all three energy cards. Now-playing card added to Home view above room buttons. |
 | Mar 2026 | **Dashboard YAML added.** Full `dashboard.yaml` committed to `ha-config/` covering all 5 views (Home, Lights/Fans, Cameras, Technology, 3D Printer). Includes theme changes to Yard room and Yard button. `dashboard-README.md` documents all views, prerequisites, and the two specific changes made. |
 | Mar 2026 | **Outdoor lighting theme indicator.** New `ha-config/` folder with template sensor (`sensor.outdoor_lighting_theme`) covering 13 holidays + Default. New `light.yard_spotlights` light group. `room-controls-card` gains `theme_block:` config — Option B zone indicator with color swatches, gradient bars, and per-area state (All Outdoor, Display Lights, Front Path, Side Path). `room-buttons-card` gains `theme_sensor:` on buttons — holiday color strip + name label, hidden on Default nights. |
