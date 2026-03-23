@@ -73,6 +73,12 @@ views:
                 name: Family Room
               - entity: media_player.master_bedroom_hp
                 name: Master Bedroom
+              - entity: media_player.family_room
+                name: Family Room TV
+              - entity: media_player.master_bedroom
+                name: Bedroom TV
+              - entity: media_player.office
+                name: Office TV
           - type: custom:room-buttons-card
             buttons:
               - entity: light.all_main_lights
