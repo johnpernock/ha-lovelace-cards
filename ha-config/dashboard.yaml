@@ -67,12 +67,12 @@ views:
                 type: door
           - type: custom:now-playing-card
             players:
-              - entity: media_player.family_room
+              - entity: media_player.dining_hp
+                name: Dining Room
+              - entity: media_player.family_room_hp
                 name: Family Room
-              - entity: media_player.master_bedroom
+              - entity: media_player.master_bedroom_hp
                 name: Master Bedroom
-              - entity: media_player.office
-                name: Office
           - type: custom:room-buttons-card
             buttons:
               - entity: light.all_main_lights
