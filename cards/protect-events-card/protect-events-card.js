@@ -76,17 +76,34 @@ function typeMeta(type) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Helper — derive detection sensor entity IDs from a camera entity ID
-// camera.front_door → binary_sensor.front_door_person_detected etc.
+// Helper — normalise a cameras: entry to { entity, sensorBase }
+//
+// Each entry in config.cameras may be either:
+//   - a plain string:  "camera.driveway"
+//   - an object:       { entity: "camera.g6_entry_high_resolution_channel",
+//                        sensor_base: "g6_entry" }
+//
+// sensor_base is only needed when the stream entity ID does not match the
+// device-level sensor prefix (e.g. the G6 Entry whose stream entities have
+// _high_resolution_channel / _package_camera suffixes but whose detection
+// sensors are binary_sensor.g6_entry_*).
 // ─────────────────────────────────────────────────────────────────────────────
-function sensorId(cameraEntity, type) {
-  const base = cameraEntity.replace(/^camera\./, '');
-  return `binary_sensor.${base}_${type}_detected`;
+function normaliseCam(entry) {
+  if (typeof entry === 'string') {
+    return { entity: entry, sensorBase: entry.replace(/^camera\./, '') };
+  }
+  return {
+    entity:     entry.entity,
+    sensorBase: (entry.sensor_base ?? entry.entity.replace(/^camera\./, '')),
+  };
 }
 
-function motionSensorId(cameraEntity) {
-  const base = cameraEntity.replace(/^camera\./, '');
-  return `binary_sensor.${base}_motion_detected`;
+function sensorId(sensorBase, type) {
+  return `binary_sensor.${sensorBase}_${type}_detected`;
+}
+
+function motionSensorId(sensorBase) {
+  return `binary_sensor.${sensorBase}_motion_detected`;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -209,9 +226,9 @@ class ProtectEventsCard extends HTMLElement {
     // Determine detection type
     let type = null;
     for (const t of DETECT_TYPES) {
-      if (entityId === sensorId(camera, t)) { type = t; break; }
+      if (entityId === sensorId(camera.sensorBase, t)) { type = t; break; }
     }
-    if (!type && this._config.show_motion && entityId === motionSensorId(camera)) {
+    if (!type && this._config.show_motion && entityId === motionSensorId(camera.sensorBase)) {
       type = 'motion';
     }
     if (!type) return;
@@ -227,8 +244,8 @@ class ProtectEventsCard extends HTMLElement {
 
     const entry = {
       id:          crypto.randomUUID(),
-      camera:      camera,
-      cameraName:  getFriendlyName(this._hass, camera),
+      camera:      camera.entity,
+      cameraName:  getFriendlyName(this._hass, camera.entity),
       type,
       conf:        confPct,
       eventId,
@@ -253,9 +270,9 @@ class ProtectEventsCard extends HTMLElement {
   }
 
   _cameraForSensor(entityId) {
-    for (const cam of this._config.cameras) {
-      const base = cam.replace(/^camera\./, '');
-      if (entityId.startsWith(`binary_sensor.${base}_`)) return cam;
+    for (const raw of this._config.cameras) {
+      const cam = normaliseCam(raw);
+      if (entityId.startsWith(`binary_sensor.${cam.sensorBase}_`)) return cam;
     }
     return null;
   }
@@ -364,8 +381,9 @@ class ProtectEventsCard extends HTMLElement {
   _patch() {
     // Count currently-active motion sensors
     let active = 0;
-    for (const cam of this._config.cameras) {
-      const motId = motionSensorId(cam);
+    for (const raw of this._config.cameras) {
+      const cam = normaliseCam(raw);
+      const motId = motionSensorId(cam.sensorBase);
       if (this._hass?.states[motId]?.state === 'on') active++;
     }
     const activeEl = this.shadowRoot.getElementById('pe-active');

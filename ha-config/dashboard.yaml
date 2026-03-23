@@ -416,7 +416,7 @@ views:
       - type: custom:camera-layout-card
         height: 680
         doorbell:
-          entity: camera.g6_entry
+          entity: camera.g6_entry_high_resolution_channel
           name: Front Door
         cameras:
           - entity: camera.driveway
@@ -707,7 +707,7 @@ views:
           - type: custom:camera-layout-card
             height: 640
             doorbell:
-              entity: camera.g6_entry
+              entity: camera.g6_entry_high_resolution_channel
               name: Front Door
             cameras:
               - entity: camera.driveway
@@ -724,7 +724,8 @@ views:
         cards:
           - type: custom:protect-events-card
             cameras:
-              - camera.g6_entry
+              - entity: camera.g6_entry_high_resolution_channel
+                sensor_base: g6_entry
               - camera.driveway
               - camera.back_garden
               - camera.back_yard

@@ -76,17 +76,29 @@ cameras_view: /cameras      # path to navigate when "All →" is tapped, optiona
 
 ## Entity naming convention
 
-The card derives sensor IDs from each camera entity automatically:
+By default the card derives sensor IDs by stripping `camera.` from the entity ID:
 
-| Camera entity | Detection sensors used |
+| Camera entry | Sensors resolved |
 |---|---|
-| `camera.front_door` | `binary_sensor.front_door_person_detected` |
-| | `binary_sensor.front_door_vehicle_detected` |
-| | `binary_sensor.front_door_animal_detected` |
-| | `binary_sensor.front_door_package_detected` |
-| | `binary_sensor.front_door_motion_detected` *(if `show_motion: true`)* |
+| `camera.driveway` | `binary_sensor.driveway_person_detected`, `…_vehicle_detected`, etc. |
+| `camera.back_yard` | `binary_sensor.back_yard_person_detected`, etc. |
 
-If your sensors have different naming, rename them in HA via **Settings → Entities** or use template sensors to bridge.
+### Multi-channel cameras (G6 Entry, G4 Doorbell Pro)
+
+Some cameras expose multiple stream entities with suffixes like `_high_resolution_channel` or `_package_camera`, but their detection sensors sit at the device level without those suffixes. Use the `sensor_base` key to override the prefix used for sensor lookup:
+
+```yaml
+cameras:
+  - entity: camera.g6_entry_high_resolution_channel  # stream to display
+    sensor_base: g6_entry                             # prefix for binary_sensor.*_person_detected etc.
+  - camera.driveway                                   # plain string still works for standard cameras
+```
+
+Without `sensor_base`, passing `camera.g6_entry_high_resolution_channel` would look for
+`binary_sensor.g6_entry_high_resolution_channel_person_detected` — which doesn't exist.
+With `sensor_base: g6_entry` it correctly resolves `binary_sensor.g6_entry_person_detected`.
+
+If you're unsure of your sensor names, check **Settings → Entities** and filter by `binary_sensor` + your camera name.
 
 ---
 
@@ -130,4 +142,5 @@ Thumbnails are fetched from `/api/unifiprotect/thumbnail/{event_id}` — the HA 
 
 | Version | Notes |
 |---|---|
+| v1.1 | `sensor_base` override for multi-channel cameras (G6 Entry, G4 Doorbell Pro). `cameras:` entries now accept `{entity, sensor_base}` objects in addition to plain entity ID strings. |
 | v1 | Initial release. Ring buffer, filter pills, thumbnail fetch, portal popup, live state_changed subscription. |
