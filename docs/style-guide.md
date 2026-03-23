@@ -1,0 +1,525 @@
+# UI Style Guide & Design Principles
+
+Shared design language, color system, component patterns, and interaction principles used across all cards. When building new cards or modifying existing ones, follow these conventions so everything feels like it belongs together.
+
+---
+
+## Core philosophy
+
+- **Wall display first.** Designed for 1200×800 (iPad landscape, wall-mounted). Mobile is fully supported but secondary.
+- **Transparent backgrounds.** Cards never set their own background color — they inherit the dashboard theme. This lets the HA theme's background show through uniformly.
+- **No outer borders on cards.** The card itself has no visible border. Sections and pills inside the card use subtle borders.
+- **Dark theme assumed.** All colors are tuned for a dark background. Light theme compatibility is not a design goal.
+- **Information density over decoration.** Every pixel should earn its place. No padding for padding's sake.
+
+---
+
+## Color palette
+
+All cards use this shared set of semantic colors. Never introduce one-off colors — pick the closest semantic match.
+
+| Token | Hex | RGB | Meaning |
+|-------|-----|-----|---------|
+| Amber | `#fbbf24` | `251,191,36` | Lights on, active |
+| Blue | `#60a5fa` | `96,165,250` | Fans, info, cool mode |
+| Purple | `#a78bfa` | `167,139,250` | Blinds, calibrating |
+| Orange | `#fb923c` | `251,146,60` | Heat mode, closing |
+| Green | `#4ade80` | `74,222,128` | OK, closed, complete, on-time |
+| Red | `#f87171` | `248,113,113` | Error, open, alert, delayed |
+| Teal | `#2dd4bf` | `45,212,191` | Fan-only HVAC mode |
+| Amber-dim | `#fbbf24` at `.35` opacity | — | Warm white color temp |
+| Dim white | `rgba(255,255,255,0.35)` | — | Offline, unavailable |
+
+### Using color with backgrounds and borders
+
+Colors are never used at full opacity for backgrounds. Always pair a color with a low-opacity background and a medium-opacity border:
+
+```css
+/* Example: green "closed" state */
+background: rgba(74, 222, 128, 0.08);
+border: 1px solid rgba(74, 222, 128, 0.25);
+color: #4ade80;
+
+/* Example: red "open" state */
+background: rgba(248, 113, 113, 0.10);
+border: 1px solid rgba(248, 113, 113, 0.35);
+color: #f87171;
+
+/* Example: blue "info" state */
+background: rgba(96, 165, 250, 0.08);
+border: 1px solid rgba(96, 165, 250, 0.25);
+color: #60a5fa;
+```
+
+Background opacity: `0.04–0.10`. Border opacity: `0.18–0.45`. Text/icon: full hex.
+
+---
+
+## Typography
+
+All cards inherit `var(--primary-font-family, -apple-system, sans-serif)` from the HA theme.
+
+| Use | Size | Weight | Notes |
+|-----|------|--------|-------|
+| Section label / eyebrow | `10px` | `700` | Uppercase, `0.08em` letter-spacing, `rgba(255,255,255,.3)` |
+| Room name / card title | `13–15px` | `700` | — |
+| Primary value (temp, %) | `28–34px` | `700` | Tight letter-spacing `-1px` to `-1.5px` |
+| Secondary value | `18–20px` | `700` | — |
+| Body / label | `12–13px` | `400–600` | — |
+| Sub-label / meta | `10–11px` | `500–700` | `rgba(255,255,255,.4)` |
+| Badge / pill text | `10px` | `700` | Uppercase, `0.05em` letter-spacing |
+
+---
+
+## Spacing & sizing
+
+| Element | Value |
+|---------|-------|
+| Card inner padding | `10–14px` |
+| Section gap | `8–10px` |
+| Border radius — card section | `10px` |
+| Border radius — pill/badge | `4–6px` |
+| Border radius — left accent bar | `0 8px 8px 0` (flat left, rounded right) |
+| Border radius — full button | `8–12px` |
+| Divider | `1px solid rgba(255,255,255,.07)` |
+| Subtle background (inactive) | `rgba(255,255,255,.03–.06)` |
+| Subtle border (inactive) | `rgba(255,255,255,.10–.14)` |
+
+---
+
+## Left accent bar pattern
+
+Used on lights rows, thermostat rows, blind pills, garage pills, and popup block headers. Creates a colored left edge while the rest of the element has a rounded right side.
+
+```css
+.accent-element {
+  border-radius: 0 8px 8px 0;
+  border-left: 3px solid <color>;
+  /* or use a positioned ::before pseudo-element */
+}
+```
+
+**Mockup — lights row with accent:**
+```
+┌──────────────────────────────────┐
+│▌ Living Room        ●●●●●○  72% │
+└──────────────────────────────────┘
+  ↑ 3px amber left bar
+```
+
+**Mockup — thermostat row:**
+```
+┌──────────────────────────────────┐
+│▌ 71°  [AC sensor 68°] │ [Heat] − 72 + │
+└──────────────────────────────────┘
+  ↑ orange left bar
+```
+
+---
+
+## Status pill pattern
+
+Used for blinds, garage doors, and similar binary/ternary position states. All pills follow the same structure:
+
+```
+ ● Label        sub-label
+ ████████░░░░   position bar    ›
+```
+
+| State | Dot color | Background | Border |
+|-------|-----------|------------|--------|
+| Closed / OK | `#4ade80` green | `rgba(74,222,128,.06)` | `rgba(74,222,128,.2)` |
+| Open / Active | `#fbbf24` amber | `rgba(251,191,36,.06)` | `rgba(251,191,36,.2)` |
+| Moving / Partial | `#60a5fa` blue | `rgba(96,165,250,.06)` | `rgba(96,165,250,.2)` |
+
+**Mockup — blind pill (closed):**
+```
+┌─────────────────────────────────┐
+│ ● Closed    0%                ›│
+│ ████████████████████████████   │
+└─────────────────────────────────┘
+```
+
+**Mockup — blind pill (open at 87%):**
+```
+┌─────────────────────────────────┐
+│ ● Open      87%               ›│
+│ ████████████████████░░░░░░░░░  │
+└─────────────────────────────────┘
+```
+
+---
+
+## Fan pip pattern
+
+Fan speed is shown as a row of signal-bar pips. Off is a special state (✕ or flat line). Each pip grows taller as the speed increases. The active pip is highlighted with the speed color; inactive pips are dim.
+
+```
+Fan Name      ✕  ▁  ▃  ▅  ▇
+              off  1  2  3  4
+```
+
+**Active at speed 2:**
+```
+Front Fan     ✕  ▁  ▐  ░  ░
+                    ↑ active (blue)
+```
+
+Pips are `data-idx` driven — tapping any pip calls `fan.set_percentage` with the corresponding percentage.
+
+---
+
+## Door pill pattern
+
+Door sensor pills sit inline in the room header, flush beside the room name.
+
+```
+Family Room  [● Entry]
+```
+
+| State | Dot | Background | Border |
+|-------|-----|------------|--------|
+| Closed | Green | `rgba(74,222,128,.10)` | `rgba(74,222,128,.3)` |
+| Open | Red | `rgba(248,113,113,.12)` | `rgba(248,113,113,.35)` |
+
+---
+
+## Badge / tag pattern
+
+Small inline badges used for status labels, "Active", "Done", counts.
+
+```css
+.badge {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+```
+
+**Examples:**
+```
+[PRINTING]   [DONE]   [ACTION NEEDED]   [ACTIVE]   [ON TIME]   [18 MIN LATE]
+  blue        green        red            green        green         red
+```
+
+---
+
+## Popup pattern
+
+All popups follow the same structure. They are portalled to `document.body` to avoid HA CSS transform clipping.
+
+### Portal container
+```css
+position: fixed;
+inset: 0;
+pointer-events: none;
+z-index: 9999;
+font-size: 16px;   /* reset — escapes HA scaling */
+```
+
+### Overlay (backdrop)
+```css
+position: absolute;
+inset: 0;
+background: rgba(0, 0, 0, 0.55);
+display: flex;
+align-items: flex-end;     /* mobile: bottom sheet */
+justify-content: center;
+pointer-events: all;
+```
+
+### Popup sheet
+```css
+background: var(--card-background-color, #1e1e2a);
+border: 1px solid rgba(255, 255, 255, 0.12);
+border-radius: 16px 16px 0 0;
+border-bottom: none;
+padding: 20px;
+width: 100%;
+max-height: 80vh;
+overflow-y: auto;
+```
+
+### Desktop override (≥768px)
+```css
+@media (min-width: 768px) {
+  /* overlay */
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+
+  /* sheet */
+  max-width: 420px;
+  border-radius: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+```
+
+### Popup anatomy
+
+```
+┌─────────────────────────────────────┐
+│  ━━━━━   ← drag handle (mobile only)│
+│                                     │
+│  Section Title              [✕]     │
+│  Sub-label or status                │
+│  ─────────────────────────────────  │
+│                                     │
+│  [  Content area — scrollable  ]    │
+│                                     │
+└─────────────────────────────────────┘
+```
+
+**Drag handle** — only shown on mobile (`display:none` at ≥768px):
+```css
+width: 36px; height: 4px;
+background: rgba(255,255,255,0.15);
+border-radius: 2px;
+margin: 0 auto 16px;
+```
+
+**Close button:**
+```css
+background: rgba(255,255,255,0.08);
+border-radius: 50%;
+width: 28px; height: 28px;
+```
+
+---
+
+## Interaction states
+
+### Tap / press
+All interactive elements use:
+```css
+transition: transform 0.1s, filter 0.12s;
+-webkit-tap-highlight-color: transparent;
+```
+On `:active`:
+```css
+transform: scale(0.96);
+filter: brightness(0.9);
+```
+
+### Disabled state
+Moving/transitioning states (garage door opening, etc.) set `pointer-events: none` or `disabled` attribute on the button. Visual opacity drops to `0.5–0.6`.
+
+### Busy lock
+Service calls use a boolean `_busy` flag with a `setTimeout` reset (600–800ms) to prevent double-firing on rapid taps.
+
+---
+
+## Drag slider pattern
+
+Used for brightness and blind position sliders. No `<input type="range">` is used.
+
+```
+ ░░░░░████████████████░░░░░░░░░░░
+        ↑ custom thumb
+```
+
+```js
+// Track starts on mousedown/touchstart
+// Updates on mousemove/touchmove on document
+// Ends on mouseup/touchend on document
+// Debounce HA service call 150ms
+```
+
+```css
+.slider-track {
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.12);
+  position: relative;
+  touch-action: none;
+  cursor: pointer;
+}
+.slider-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: <color>;
+  pointer-events: none;
+}
+.slider-thumb {
+  position: absolute;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: white;
+  top: 50%; transform: translate(-50%, -50%);
+  box-shadow: 0 1px 4px rgba(0,0,0,.4);
+}
+```
+
+---
+
+## HVAC mode colors
+
+Used in `room-controls-card` thermostat row and `thermostat-card`.
+
+| Mode | Color | Dot style |
+|------|-------|-----------|
+| `heat` | `#fb923c` orange | Solid dot |
+| `cool` | `#60a5fa` blue | Solid dot |
+| `heat_cool` / `auto` | Orange + blue | **Split dot** — left half orange, right half blue |
+| `fan_only` | `#2dd4bf` teal | Solid dot |
+| `dry` | `#fbbf24` amber | Solid dot |
+| `off` | `rgba(255,255,255,.25)` | Solid dot |
+
+**Split dot HTML:**
+```html
+<div style="width:8px;height:8px;border-radius:50%;overflow:hidden;display:flex">
+  <div style="flex:1;background:#fb923c"></div>
+  <div style="flex:1;background:#60a5fa"></div>
+</div>
+```
+
+---
+
+## Card structure template
+
+All cards follow this shadow DOM structure:
+
+```js
+class MyCard extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this._config = {};
+    this._hass   = null;
+  }
+
+  setConfig(config) {
+    this._config = config;
+    this._render();
+  }
+
+  set hass(h) {
+    const prev = this._hass;
+    this._hass = h;
+    // Full render first time only — patch after
+    if (!this.shadowRoot.innerHTML || !prev) { this._render(); return; }
+    this._patch();
+  }
+
+  getCardSize() { return 3; }
+
+  _render() {
+    this.shadowRoot.innerHTML = `
+      <style>${this._css()}</style>
+      <ha-card>
+        <!-- card content -->
+      </ha-card>`;
+    this._attachListeners();
+  }
+
+  _patch() {
+    // Update values in-place — do not rebuild DOM or re-attach listeners
+  }
+
+  _css() { return `
+    :host { display: block; }
+    ha-card {
+      background: transparent !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+  `; }
+}
+
+customElements.define('my-card', MyCard);
+```
+
+---
+
+## Section header pattern
+
+Used inside popup sheets and card sections to label a group of controls.
+
+```
+SECTION LABEL
+─────────────────────────
+```
+
+```css
+.section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 8px;
+}
+.section-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin: 10px 0;
+}
+```
+
+---
+
+## Unavailable / offline state
+
+All cards handle missing or unavailable entities gracefully. Never show broken UI — show a minimal unavailable indicator instead.
+
+```html
+<div class="unavail">unavailable</div>
+```
+
+```css
+.unavail {
+  font-size: 12px;
+  color: var(--secondary-text-color);
+  text-align: center;
+  padding: 16px 0;
+  opacity: 0.5;
+  font-style: italic;
+}
+```
+
+For sensors that may show `unavailable` or `unknown` state: always check before parsing, and display `—` (em dash) as the fallback value.
+
+---
+
+## Grid layouts
+
+### 2-column grid (popup entity tiles)
+```css
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 8px;
+```
+
+### 3-column grid (door sensors, room buttons)
+```css
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 8px;
+```
+
+### Temperature 2×2 grid (Bambu card)
+```css
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 6px;
+```
+
+---
+
+## Do's and Don'ts
+
+| ✅ Do | ❌ Don't |
+|------|---------|
+| Use semantic color tokens from the palette | Introduce one-off colors |
+| Patch values in `_patch()` after first render | Call `_render()` on every hass update |
+| Portal popups to `document.body` | Render popups inside shadow DOM |
+| Use `border-radius: 0 8px 8px 0` for accent bars | Use full borders on accent elements |
+| Read `hvac_modes` from live entity | Hardcode a list of HVAC modes |
+| Set `speeds:` explicitly in YAML for Lutron fans | Rely on entity attributes for Lutron Caseta |
+| Store API keys in `secrets.yaml` | Hardcode API keys in dashboard YAML |
+| Show `—` for unavailable sensor values | Show `null`, `undefined`, or empty string |
+| Use `rgba` backgrounds at `.04–.10` opacity | Use solid color backgrounds |
+| `touch-action: none` on drag elements | Let browser scroll hijack drag sliders |

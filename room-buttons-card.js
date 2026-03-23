@@ -267,13 +267,29 @@ class RoomButtonsCard extends HTMLElement {
     return map[domain] || 'home';
   }
 
+  _fanResolvedSpeeds(cfg) {
+    if (cfg.speeds != null) return cfg.speeds;
+    const e = this._entityState(cfg.entity);
+    if (!e) return 3;
+    const step = e.attributes.percentage_step;
+    if (step && step > 0) return Math.round(100 / step);
+    const sc = e.attributes.speed_count;
+    if (sc && sc > 1) return sc;
+    return 3;
+  }
+
+  _fanSpeedPercentages(cfg) {
+    if (cfg.speed_percentages) return cfg.speed_percentages;
+    const speeds = this._fanResolvedSpeeds(cfg);
+    return Array.from({length: speeds}, (_, i) => Math.round((i + 1) * (100 / speeds)));
+  }
+
   _fanCurrentStep(cfg) {
     const e = this._entityState(cfg.entity);
     if (!e || e.state === 'off' || e.state === 'unavailable') return 0;
     const pct = e.attributes.percentage;
     if (pct == null || pct === 0) return e.state === 'on' ? 1 : 0;
-    const speeds = cfg.speeds || 3;
-    const sps = cfg.speed_percentages || (speeds === 4 ? [25, 50, 75, 100] : [33, 66, 100]);
+    const sps = this._fanSpeedPercentages(cfg);
     for (let i = 0; i < sps.length; i++) {
       if (pct <= sps[i] + 8) return i + 1;
     }
@@ -386,9 +402,8 @@ class RoomButtonsCard extends HTMLElement {
       this._callService('fan', 'turn_off', entityId, `fan-${entityId}`);
       return;
     }
-    const speeds = cfg.speeds || 3;
-    const sps    = cfg.speed_percentages || (speeds === 4 ? [25, 50, 75, 100] : [33, 66, 100]);
-    const pct    = sps[step - 1] || 100;
+    const sps = this._fanSpeedPercentages(cfg);
+    const pct = sps[step - 1] || 100;
     this._callServiceData('fan', 'set_percentage', {
       entity_id:  entityId,
       percentage: pct,
@@ -467,8 +482,8 @@ class RoomButtonsCard extends HTMLElement {
   }
 
   _fanTileHTML(cfg) {
-    const speeds       = cfg.speeds || 3;
-    const sps          = cfg.speed_percentages || (speeds === 4 ? [25, 50, 75, 100] : [33, 66, 100]);
+    const speeds       = this._fanResolvedSpeeds(cfg);
+    const sps          = this._fanSpeedPercentages(cfg);
     const currentStep  = this._fanCurrentStep(cfg);
     const isOn         = currentStep > 0;
     const color        = '#38bdf8';
@@ -477,8 +492,8 @@ class RoomButtonsCard extends HTMLElement {
       || this._entityState(cfg.entity)?.attributes?.friendly_name
       || cfg.entity;
 
-    // Pip heights for header indicator
-    const pipHs = speeds === 4 ? [6, 9, 12, 15] : [8, 11, 15];
+    // Pip heights for header indicator — generated for any speed count
+    const pipHs = Array.from({length: speeds}, (_, i) => Math.round(5 + (i / (speeds - 1 || 1)) * 11));
     const headerPips = pipHs.map((h, i) =>
       `<div style="width:5px;height:${h}px;border-radius:2px 2px 1px 1px;` +
       `background:${i < currentStep && isOn ? color : 'rgba(255,255,255,0.14)'}"></div>`
@@ -496,7 +511,7 @@ class RoomButtonsCard extends HTMLElement {
     // Speed 1..N buttons
     for (let i = 1; i <= speeds; i++) {
       const isActive = i === currentStep;
-      const btnPipHs = speeds === 4 ? [6, 9, 12, 15].slice(0, i) : [8, 11, 15].slice(0, i);
+      const btnPipHs = Array.from({length: i}, (_, j) => Math.round(5 + (j / (speeds - 1 || 1)) * 11));
       const pips     = btnPipHs.map(h =>
         `<div style="width:4px;height:${h}px;border-radius:2px 2px 1px 1px;` +
         `background:${isActive ? color : 'rgba(255,255,255,0.18)'}"></div>`
@@ -676,7 +691,7 @@ class RoomButtonsCard extends HTMLElement {
     popup.querySelectorAll('.fan-tile[data-fan-tile]').forEach((tileEl, fi) => {
       const cfg = fans[fi];
       if (!cfg) return;
-      const speeds = cfg.speeds || 3;
+      const speeds = this._fanResolvedSpeeds(cfg);
 
       // Tap on tile header = cycle speed
       tileEl.addEventListener('click', e => {
