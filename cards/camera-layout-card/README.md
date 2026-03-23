@@ -1,24 +1,51 @@
 # camera-layout-card
 
-Portrait doorbell on the left, 2×2 camera grid on the right. Built for a 1200×800 wall-mounted display using native `ha-camera-stream` components for live video.
+**v2** — Portrait doorbell on the left, dynamic 2×N camera grid on the right. Built for a 1200×800 wall-mounted display using native `ha-camera-stream` components for live video.
+
+---
+
+## Layout
+
+```
+┌──────────┬────────────────────────────┐
+│          │  Driveway  │  Back Garden  │
+│  Front   ├────────────┼───────────────┤
+│  Door    │  Back Yard │  Garage Side  │
+│ (tall)   ├────────────┼───────────────┤
+│          │Utility Side│  + Camera     │
+└──────────┴────────────┴───────────────┘
+  26% wide       74% wide — 2×3 grid
+```
+
+Grid rows are derived **automatically** from the number of cameras configured — no extra config needed:
+
+| Cameras | Grid |
+|---------|------|
+| 1–2 | 2×1 (1 row) |
+| 3–4 | 2×2 (2 rows) |
+| 5–6 | 2×3 (3 rows) |
+
+Slots without a camera show a dashed `+ Camera` placeholder.
 
 ---
 
 ## How it works
 
-The card uses HA's built-in `ha-camera-stream` custom element — the same component that powers the built-in picture-glance card. Each stream element receives both `hass` and `stateObj` (the camera entity state) so it can negotiate the correct stream URL internally.
+The card uses HA's built-in `ha-camera-stream` custom element — the same component that powers the built-in picture-glance card. Each stream element receives both `hass` and `stateObj` (the camera entity state) so it can negotiate the correct RTSP(S) stream URL internally.
 
-### Render strategy
+**Render strategy** — on first load a full DOM render creates the stream elements. On every subsequent `hass` update only `_patchStreams()` is called, which re-assigns `hass` and `stateObj` to existing stream elements without re-creating them. Streams stay alive and uninterrupted through HA state updates.
 
-On first load a full render is done, which creates the stream elements. On subsequent `hass` updates only `_patchStreams()` is called — this re-assigns `hass` and `stateObj` to existing stream elements without re-creating them. This keeps streams alive through HA state updates.
+**Grid sizing** — `grid-template-rows: repeat(N, 1fr)` is computed at render time from `Math.ceil(cameras.length / 2)`. The doorbell column is `width: 26%` — slightly narrower than the previous `29%` to give the 3-row grid better aspect ratios at 680px height.
 
-### Empty slots
+**Scan line effect** — a `repeating-linear-gradient` overlay is applied to each cell for a subtle CRT/security-camera texture. Purely cosmetic — no effect on stream rendering.
 
-If fewer than 4 cameras are configured for the grid, remaining slots show a `+ Camera` dashed placeholder. The doorbell slot is always required.
+---
 
-### Scan line effect
+## Prerequisites
 
-A subtle `repeating-linear-gradient` overlay is applied to each cell for a slight CRT/security-camera texture. Pure cosmetic — doesn't affect stream rendering.
+- **UniFi Protect integration** configured in HA (built-in)
+- **RTSP enabled** on each camera in UniFi Protect settings (`Share Livestream`)
+- Integration user must have **Full Management** permission in Protect
 
 ---
 
@@ -26,20 +53,45 @@ A subtle `repeating-linear-gradient` overlay is applied to each cell for a sligh
 
 | Parameter | Required | Default | Description |
 |-----------|----------|---------|-------------|
-| `doorbell` | ✅ | — | Doorbell camera object (see below) |
-| `cameras` | ❌ | `[]` | List of up to 4 grid camera objects (see below) |
-| `height` | ❌ | `680` | Total card height in pixels. Adjust to fit your dashboard row height. |
+| `doorbell` | ✅ | — | Doorbell camera (see camera object below). Occupies the tall left column. |
+| `cameras` | ❌ | `[]` | List of up to 6 grid cameras. Grid row count is derived from this list length. |
+| `height` | ❌ | `680` | Total card height in px. Tune to your dashboard row height. |
 
-### Camera object (doorbell and each grid entry)
+### Camera object
 
-| Parameter | Required | Default | Description |
-|-----------|----------|---------|-------------|
+| Key | Required | Default | Description |
+|-----|----------|---------|-------------|
 | `entity` | ✅ | — | `camera.*` entity ID |
 | `name` | ❌ | friendly_name | Label shown at the bottom of the cell |
 
 ---
 
-## Example
+## Example — full 6-camera UniFi Protect setup
+
+```yaml
+type: custom:camera-layout-card
+height: 680
+doorbell:
+  entity: camera.g6_entry
+  name: Front Door
+cameras:
+  - entity: camera.driveway
+    name: Driveway
+  - entity: camera.back_garden
+    name: Back Garden
+  - entity: camera.back_yard
+    name: Back Yard
+  - entity: camera.garage_side_yard
+    name: Garage Side
+  - entity: camera.utility_side_yard
+    name: Utility Side
+```
+
+This produces a doorbell column on the left and a 2×3 grid on the right (5 cameras + 1 placeholder in the 6th slot).
+
+---
+
+## Example — original 4-camera setup (2×2 grid)
 
 ```yaml
 type: custom:camera-layout-card
@@ -56,19 +108,7 @@ cameras:
     name: Back Right
 ```
 
-For 4 grid cameras (future 7-camera layout with G6 Entry + 6 turrets — entity IDs TBD after hardware install):
-
-```yaml
-cameras:
-  - entity: camera.turret_front_left
-    name: Front Left
-  - entity: camera.turret_front_right
-    name: Front Right
-  - entity: camera.turret_back_left
-    name: Back Left
-  - entity: camera.turret_back_right
-    name: Back Right
-```
+3 cameras → grid rounds up to 2×2 (4 slots) with 1 placeholder. Identical to v1 behaviour.
 
 ---
 
@@ -76,5 +116,5 @@ cameras:
 
 | Version | Changes |
 |---------|---------|
-| Current | `_patchStreams()` on hass updates — streams survive state changes without restart |
-| Initial | Initial release — doorbell + 2×2 grid with ha-camera-stream |
+| v2 | Dynamic grid rows — auto-derived from camera count (supports 1–6 cameras / 1–3 rows). Doorbell column narrowed to 26% for better cell aspect ratios in 3-row layout. `getStubConfig()` updated to UniFi Protect entity IDs. |
+| v1 | Initial release — hardcoded doorbell + 2×2 grid with `ha-camera-stream`. `_patchStreams()` on hass updates keeps streams alive. |

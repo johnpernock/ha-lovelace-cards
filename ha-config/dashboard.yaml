@@ -416,15 +416,19 @@ views:
       - type: custom:camera-layout-card
         height: 680
         doorbell:
-          entity: camera.front_doorbell
+          entity: camera.g6_entry
           name: Front Door
         cameras:
-          - entity: camera.driveway_camera
+          - entity: camera.driveway
             name: Driveway
-          - entity: camera.back_left_camera
-            name: Back Left
-          - entity: camera.back_right_camera
-            name: Back Right
+          - entity: camera.back_garden
+            name: Back Garden
+          - entity: camera.back_yard
+            name: Back Yard
+          - entity: camera.garage_side_yard
+            name: Garage Side
+          - entity: camera.utility_side_yard
+            name: Utility Side
 
   - title: Technology
     path: technology
@@ -689,4 +693,44 @@ views:
             grid_options:
               columns: 24
               rows: auto
+    cards: []
+
+  - title: Security
+    path: security
+    icon: mdi:shield-home
+    type: sections
+    max_columns: 2
+    theme: Amoled+
+    sections:
+      - type: grid
+        cards:
+          - type: custom:camera-layout-card
+            height: 640
+            doorbell:
+              entity: camera.g6_entry
+              name: Front Door
+            cameras:
+              - entity: camera.driveway
+                name: Driveway
+              - entity: camera.back_garden
+                name: Back Garden
+              - entity: camera.back_yard
+                name: Back Yard
+              - entity: camera.garage_side_yard
+                name: Garage Side
+              - entity: camera.utility_side_yard
+                name: Utility Side
+      - type: grid
+        cards:
+          - type: custom:protect-events-card
+            cameras:
+              - camera.g6_entry
+              - camera.driveway
+              - camera.back_garden
+              - camera.back_yard
+              - camera.garage_side_yard
+              - camera.utility_side_yard
+            max_events: 8
+            show_motion: false
+            cameras_view: /cameras
     cards: []

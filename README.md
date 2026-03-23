@@ -160,7 +160,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 |------|--------|---------|
 | Room Controls | `cards/room-controls-card/` | v35 |
 | Room Buttons | `cards/room-buttons-card/` | v4 |
-| Camera Layout | `cards/camera-layout-card/` | v1 |
+| Camera Layout | `cards/camera-layout-card/` | v2 |
 | Technology | `cards/technology-card/` | v11 |
 | Bambu Printer | `cards/bambu-printer-card/` | current |
 | Printer Status | `cards/printer-status-card/` | v1 |
@@ -212,6 +212,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 | Date | Summary |
 |------|---------|
 | Mar 2026 | **UniFi Protect event feed card + Security view.** `protect-events-card` — real-time smart detection event feed from UniFi Protect cameras. Subscribes to `state_changed` over websocket; ring buffer holds latest N events per camera; filter pills narrow by type (person / vehicle / animal / package); amber flash animation on new arrivals; async thumbnail fetch via `/api/unifiprotect/thumbnail/{event_id}` ~1.5s after detection; portal popup shows 16:9 thumbnail, 3-column meta strip (camera / type / confidence), clip and live-view actions. Footer shows rolling today-count and active-motion-sensor count. Fully migrated to shared modules (`ha-utils`, `ha-styles`, `ha-popup`). New Security view added to dashboard (2-col: camera layout left / protect-events-card right). |
+| Mar 2026 | **camera-layout-card v2 — dynamic 2×N grid + UniFi Protect entities.** Grid rows now derived automatically from camera count (1–2 → 1 row, 3–4 → 2 rows, 5–6 → 3 rows). Doorbell column narrowed to 26% for better cell aspect ratios at 3 rows. Updated Cameras view entity IDs to UniFi Protect G6 Turret / G6 Entry cameras (`camera.g6_entry`, `camera.driveway`, `camera.back_garden`, `camera.back_yard`, `camera.garage_side_yard`, `camera.utility_side_yard`). |
 | Mar 2026 | **Expanded Tesla + charging cards on Commute view.** `tesla-commute-card` — expanded inline version of tesla-card showing battery, interior/exterior temps, climate stepper, tire pressure grid, and action buttons (lock/trunk/sentry/odometer) all without a popup. `charging-card` — unified Tesla + Wallbox card placed below; active state shows battery progress bar with charge limit tick, live power (Wallbox), session energy (Wallbox), charging speed mi/h (Tesla); idle state shows last session summary. Commute view expanded from 2 to 3 columns. |
 | Mar 2026 | **SEPTA sort fix + Commute view.** SEPTA card v17 — trains now sorted by estimated arrival time (scheduled + delay) across all sensors so the true next-to-arrive train is always shown first. Inbound now reads all sensors not just index 0. SEPTA and traffic cards moved from Home view to new dedicated Commute view (2-col, traffic left / SEPTA right). |
 | Mar 2026 | **Traffic commute card.** `traffic-card` using Waze Travel Time sensors — live travel time, delay vs typical, distance, Waze route name, dynamic Fastest badge across home routes, incident banner when delay exceeds threshold, to-work row dims after noon. Three Waze sensors added to `ha-config/waze-sensors.yaml`. Card added to Home view column 1. |

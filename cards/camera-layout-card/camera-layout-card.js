@@ -1,39 +1,63 @@
 /**
- * camera-layout-card.js
+ * camera-layout-card.js  —  v2
  *
- * Portrait doorbell on the left, 2×2 grid of cameras on the right.
+ * Portrait doorbell on the left, dynamic 2×N grid of cameras on the right.
  * Designed for a 1200×800 wall display — fills the full card width,
  * height is configurable (default 680px).
+ *
+ * Grid rows are derived automatically from the number of cameras configured:
+ *   1–2 cameras → 2×1 (1 row)
+ *   3–4 cameras → 2×2 (2 rows)   ← original behaviour
+ *   5–6 cameras → 2×3 (3 rows)
  *
  * CONFIG:
  * type: custom:camera-layout-card
  * height: 680          # optional, default 680px
  * doorbell:
- *   entity: camera.front_doorbell
+ *   entity: camera.g6_entry
  *   name: Front Door   # optional label
- * cameras:             # up to 4 — empty slots show a placeholder
- *   - entity: camera.driveway_camera
+ * cameras:             # up to 6 — empty trailing slots show a placeholder
+ *   - entity: camera.driveway
  *     name: Driveway
- *   - entity: camera.back_left_camera
- *     name: Back Left
- *   - entity: camera.back_right_camera
- *     name: Back Right
+ *   - entity: camera.back_garden
+ *     name: Back Garden
+ *   - entity: camera.back_yard
+ *     name: Back Yard
+ *   - entity: camera.garage_side_yard
+ *     name: Garage Side
+ *   - entity: camera.utility_side_yard
+ *     name: Utility Side
  */
 
 class CameraLayoutCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this._config    = {};
-    this._hass      = null;
-    this._rendered  = false;
-    this._streams   = {};   // entityId → <ha-camera-stream>
+    this._config   = {};
+    this._hass     = null;
+    this._rendered = false;
   }
 
-  /* ── Config ─────────────────────────────────────────────────── */
+  /* ── Config ──────────────────────────────────────────────────── */
+
+  static getStubConfig() {
+    return {
+      height: 680,
+      doorbell: { entity: 'camera.g6_entry', name: 'Front Door' },
+      cameras: [
+        { entity: 'camera.driveway',         name: 'Driveway'     },
+        { entity: 'camera.back_garden',       name: 'Back Garden'  },
+        { entity: 'camera.back_yard',         name: 'Back Yard'    },
+        { entity: 'camera.garage_side_yard',  name: 'Garage Side'  },
+        { entity: 'camera.utility_side_yard', name: 'Utility Side' },
+      ],
+    };
+  }
 
   setConfig(config) {
-    if (!config.doorbell?.entity) throw new Error('camera-layout-card: doorbell.entity is required');
+    if (!config.doorbell?.entity) {
+      throw new Error('camera-layout-card: doorbell.entity is required');
+    }
     this._config   = config;
     this._rendered = false;
     this._render();
@@ -47,16 +71,21 @@ class CameraLayoutCard extends HTMLElement {
 
   getCardSize() { return 8; }
 
-  /* ── Render ─────────────────────────────────────────────────── */
+  /* ── Render ──────────────────────────────────────────────────── */
 
   _render() {
     if (!this._config.doorbell) return;
-    const height = this._config.height || 680;
-    const gap    = 3;
-    const pad    = 3;
+
+    const height  = this._config.height || 680;
+    const gap     = 3;
+    const pad     = 3;
     const cameras = this._config.cameras || [];
-    // pad cameras array to 4 slots
-    const slots  = [...cameras, null, null, null, null].slice(0, 4);
+
+    // Derive row count from number of cameras — always 2 columns
+    const rows  = Math.max(2, Math.ceil(cameras.length / 2));
+    const slots = cameras.slice();
+    // Pad to fill the grid so empty cells render as placeholders
+    while (slots.length < rows * 2) slots.push(null);
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -78,22 +107,22 @@ class CameraLayoutCard extends HTMLElement {
           background: #08080f;
         }
 
-        /* ── Doorbell column ── */
+        /* ── Doorbell column — portrait, slightly narrower for 3-row grid ── */
         .doorbell-col {
           flex: 0 0 auto;
-          width: 29%;
+          width: 26%;
           position: relative;
           border-radius: 6px;
           overflow: hidden;
           background: #050509;
         }
 
-        /* ── Grid column ── */
+        /* ── Camera grid — fills remaining width ── */
         .grid-col {
           flex: 1;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          grid-template-rows: 1fr 1fr;
+          grid-template-rows: repeat(${rows}, 1fr);
           gap: ${gap}px;
         }
 
@@ -113,22 +142,14 @@ class CameraLayoutCard extends HTMLElement {
           object-fit: cover;
         }
 
-        /* ── Fallback img (snapshot) ── */
-        .cam-img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-        }
-
         /* ── Name label ── */
         .cam-name {
           position: absolute;
           bottom: 0; left: 0; right: 0;
-          padding: 20px 10px 7px;
+          padding: 20px 8px 6px;
           background: linear-gradient(transparent, rgba(0,0,0,.72));
           font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          font-size: 12px;
+          font-size: 11px;
           font-weight: 600;
           color: rgba(255,255,255,.88);
           pointer-events: none;
@@ -148,7 +169,7 @@ class CameraLayoutCard extends HTMLElement {
         }
         .cam-placeholder span {
           font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          font-size: 11px;
+          font-size: 10px;
           font-weight: 700;
           text-transform: uppercase;
           letter-spacing: .08em;
@@ -181,11 +202,13 @@ class CameraLayoutCard extends HTMLElement {
             ${this._cellInner(this._config.doorbell)}
           </div>
 
-          <!-- 2×2 grid right -->
+          <!-- 2×${rows} grid right -->
           <div class="grid-col">
             ${slots.map((cam, i) => `
               <div class="cam-cell" id="cam-cell-${i}">
-                ${cam ? this._cellInner(cam) : `<div class="cam-placeholder"><span>+ Camera</span></div>`}
+                ${cam
+                  ? this._cellInner(cam)
+                  : '<div class="cam-placeholder"><span>+ Camera</span></div>'}
               </div>
             `).join('')}
           </div>
@@ -194,7 +217,7 @@ class CameraLayoutCard extends HTMLElement {
       </ha-card>`;
 
     this._rendered = true;
-    this._attachStreams();
+    this._patchStreams();
   }
 
   /* ── Build cell inner HTML ───────────────────────────────────── */
@@ -203,7 +226,7 @@ class CameraLayoutCard extends HTMLElement {
     const name = cam.name || this._friendlyName(cam.entity);
     return `
       <ha-camera-stream
-        id="stream-${cam.entity.replace(/\./g,'_')}"
+        id="stream-${cam.entity.replace(/\./g, '_')}"
         data-entity="${cam.entity}"
         muted
         playsinline
@@ -211,39 +234,23 @@ class CameraLayoutCard extends HTMLElement {
       <div class="cam-name">${name}</div>`;
   }
 
-  /* ── Attach hass + stateObj to each stream ───────────────────── */
-
-  _attachStreams() {
-    if (!this._hass) return;
-    const sr = this.shadowRoot;
-    sr.querySelectorAll('ha-camera-stream').forEach(el => {
-      const entityId = el.dataset.entity;
-      const state    = this._hass.states[entityId];
-      if (!state) return;
-      el.hass     = this._hass;
-      el.stateObj = state;
-    });
-  }
+  /* ── Keep streams alive on hass updates ─────────────────────── */
 
   _patchStreams() {
     if (!this._hass) return;
-    const sr = this.shadowRoot;
-    sr.querySelectorAll('ha-camera-stream').forEach(el => {
-      const entityId = el.dataset.entity;
-      const state    = this._hass.states[entityId];
+    this.shadowRoot.querySelectorAll('ha-camera-stream').forEach(el => {
+      const state = this._hass.states[el.dataset.entity];
       if (!state) return;
       el.hass     = this._hass;
       el.stateObj = state;
     });
   }
 
-  /* ── Helper ─────────────────────────────────────────────────── */
+  /* ── Helper ──────────────────────────────────────────────────── */
 
   _friendlyName(entityId) {
-    if (this._hass?.states[entityId]) {
-      return this._hass.states[entityId].attributes.friendly_name || entityId;
-    }
-    return entityId.replace('camera.','').replace(/_/g,' ');
+    return this._hass?.states[entityId]?.attributes?.friendly_name
+      || entityId.replace('camera.', '').replace(/_/g, ' ');
   }
 }
 
