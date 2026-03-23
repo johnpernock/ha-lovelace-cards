@@ -176,7 +176,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 
 ## Design reference
 
-See [`docs/style-guide.md`](docs/style-guide.md) for the complete UI principles, color system, component patterns with ASCII mockups, CSS snippets, and do's and don'ts.
+See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color system, component patterns with ASCII mockups, CSS snippets, and do's and don'ts.
 
 ---
 
