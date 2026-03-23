@@ -580,7 +580,7 @@ views:
     path: commute
     icon: mdi:train-car
     type: sections
-    max_columns: 2
+    max_columns: 3
     theme: Amoled+
     sections:
       - type: grid
@@ -616,6 +616,37 @@ views:
               - sensor.paoli_inbound_next_station_2
               - sensor.paoli_inbound_next_station_3
             alert: sensor.paoli_line_alert
+      - type: grid
+        cards:
+          - type: custom:tesla-commute-card
+            name: Magneton
+            tire_warn_psi: 40
+            temp_unit: F
+            entities:
+              battery_level:        sensor.magneton_battery
+              battery_range:        sensor.magneton_range
+              charging_state:       binary_sensor.magneton_charging
+              door_lock:            lock.magneton_doors
+              climate:              climate.magneton_hvac_climate_system
+              trunk:                cover.magneton_trunk
+              sentry_mode:          switch.magneton_sentry_mode
+              odometer:             sensor.magneton_odometer
+              interior_temperature: sensor.magneton_temperature_inside
+              exterior_temperature: sensor.magneton_temperature_outside
+              tire_pressure_fl:     sensor.magneton_tpms_front_left
+              tire_pressure_fr:     sensor.magneton_tpms_front_right
+              tire_pressure_rl:     sensor.magneton_tpms_rear_left
+              tire_pressure_rr:     sensor.magneton_tpms_rear_right
+          - type: custom:charging-card
+            name: Magneton
+            wallbox_prefix: wallbox_beryl_pulsar_plus
+            tesla:
+              battery_level:  sensor.magneton_battery
+              battery_range:  sensor.magneton_range
+              charging_state: binary_sensor.magneton_charging
+              charge_rate:    sensor.magneton_charging_rate
+              time_to_full:   sensor.magneton_time_charge_complete
+              charge_limit:   sensor.magneton_charge_limit
     cards: []
 
   - title: Energy

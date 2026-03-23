@@ -127,6 +127,8 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/ecoflow-card/ecoflow-card.js` | JavaScript Module |
 | `/local/cards/now-playing-card/now-playing-card.js` | JavaScript Module |
 | `/local/cards/traffic-card/traffic-card.js` | JavaScript Module |
+| `/local/cards/tesla-commute-card/tesla-commute-card.js` | JavaScript Module |
+| `/local/cards/charging-card/charging-card.js` | JavaScript Module |
 
 > **Note:** The `shared/` modules do **not** need to be registered. They are imported directly by the card JS files using relative paths.
 
@@ -175,6 +177,8 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Ecoflow | `cards/ecoflow-card/` | v1 |
 | Now Playing | `cards/now-playing-card/` | v1 |
 | Traffic (Commute) | `cards/traffic-card/` | v1 |
+| Tesla Commute | `cards/tesla-commute-card/` | v1 |
+| Charging | `cards/charging-card/` | v1 |
 
 ✦ = fully migrated to shared modules (proof of concept)
 
@@ -188,7 +192,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Lights & Fans | `/lightsfans` | sections | 3 |
 | Cameras | `/cameras` | panel | — |
 | Technology | `/technology` | sections | 3 |
-| Commute | `/commute` | sections | 2 |
+| Commute | `/commute` | sections | 3 |
 | Energy | `/energy` | sections | 3 |
 | 3D Printer | `/3d-printer` | sections | 2 (span) |
 
@@ -204,6 +208,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **Expanded Tesla + charging cards on Commute view.** `tesla-commute-card` — expanded inline version of tesla-card showing battery, interior/exterior temps, climate stepper, tire pressure grid, and action buttons (lock/trunk/sentry/odometer) all without a popup. `charging-card` — unified Tesla + Wallbox card placed below; active state shows battery progress bar with charge limit tick, live power (Wallbox), session energy (Wallbox), charging speed mi/h (Tesla); idle state shows last session summary. Commute view expanded from 2 to 3 columns. |
 | Mar 2026 | **SEPTA sort fix + Commute view.** SEPTA card v17 — trains now sorted by estimated arrival time (scheduled + delay) across all sensors so the true next-to-arrive train is always shown first. Inbound now reads all sensors not just index 0. SEPTA and traffic cards moved from Home view to new dedicated Commute view (2-col, traffic left / SEPTA right). |
 | Mar 2026 | **Traffic commute card.** `traffic-card` using Waze Travel Time sensors — live travel time, delay vs typical, distance, Waze route name, dynamic Fastest badge across home routes, incident banner when delay exceeds threshold, to-work row dims after noon. Three Waze sensors added to `ha-config/waze-sensors.yaml`. Card added to Home view column 1. |
 | Mar 2026 | **Four new cards + Energy view.** `wallbox-card` (Beryl Pulsar Plus — session energy, range, power, current slider, solar mode, lock); `peco-card` (PECO electric + gas billing — usage bar, forecast, cost, typical comparison); `ecoflow-card` (River 2 Pro — battery, power flows, max charge slider, AC/DC toggles); `now-playing-card` (Apple TV / media players — collapses when idle, tap → more-info). New Energy view added to dashboard with all three energy cards. Now-playing card added to Home view above room buttons. |

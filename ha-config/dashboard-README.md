@@ -33,7 +33,7 @@ lovelace:
 | Lights / Fans | `/lightsfans` | sections · 3 col | Room control cards for all rooms — lights, fans, blinds, thermostats |
 | Cameras | `/cameras` | panel | Full-width camera layout — doorbell portrait + 2×2 grid |
 | Technology | `/technology` | sections · 3 col | Network, speed, APs, Unraid health, services, storage, ink, media |
-| Commute | `/commute` | sections · 2 col | Traffic (Waze, left) + SEPTA Paoli/Thorndale line (right) |
+| Commute | `/commute` | sections · 3 col | Traffic (Waze), SEPTA Paoli/Thorndale line, Tesla + charging cards |
 | Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
 | 3D Printer | `/3d-printer` | sections · 2 col | Bambu P1S full status card spanning both columns |
 
@@ -151,3 +151,24 @@ New 6th view at path `/energy` with three cards in a 3-column sections layout:
 | 1 | `wallbox-card` | `wallbox_beryl_pulsar_plus_*` — session energy, range, power, current slider, solar mode, lock |
 | 2 | `peco-card` | `peco_electric_*` + `peco_gas_*` — usage bar, forecast, cost, typical comparison |
 | 3 | `ecoflow-card` | `river_2_pro_*` — battery, power flows, max charge slider, AC/DC toggles |
+
+---
+
+## Commute view — column 3 (Tesla + charging)
+
+The Commute view was expanded from 2 to 3 columns. Column 3 contains two stacked cards:
+
+### `tesla-commute-card`
+Expanded inline Tesla card — all commute-relevant data without opening a popup:
+- Battery % (large), range, charge status
+- Interior + exterior temperature tiles
+- Climate row with inline −/+ stepper and On/Off toggle
+- Tire pressure 2×2 grid — red tile when below `tire_warn_psi` (40 PSI)
+- Action buttons: Lock · Trunk · Sentry · Odometer
+
+### `charging-card` (stacked below)
+Unified Tesla + Wallbox charging card:
+- **Active charging:** pulsing blue banner, battery progress bar with charge limit tick mark, power kW (Wallbox), session energy kWh (Wallbox), charging speed mi/h (Tesla), time to full
+- **Not charging:** dim status, last session summary (energy, range, speed, current battery %)
+
+Both cards share entity IDs with the existing `tesla-card` on the Home view — no new sensors needed.
