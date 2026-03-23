@@ -78,6 +78,7 @@ class EcoflowCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
     .card{border-radius:10px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
+    .card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
     .sbanner{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
     .batt-wrap{display:flex;align-items:center;gap:10px;flex:1}
     .batt-pct{font-size:24px;font-weight:700;letter-spacing:-1px;line-height:1}
@@ -158,6 +159,7 @@ class EcoflowCard extends HTMLElement {
       <style>${this._css()}</style>
       <ha-card>
         <div class="card">
+          <div class="card-hdr">${name}</div>
           <div class="sbanner">
             <div class="batt-wrap">
               <span class="batt-pct" style="color:${battColor}" id="ef-batt">${batt ?? '—'}%</span>
