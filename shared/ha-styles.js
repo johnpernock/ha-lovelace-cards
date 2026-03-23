@@ -7,7 +7,7 @@
  *
  *   _css() {
  *     return `${CSS_RESET}${CSS_POPUP}${CSS_BADGE}
- *       /* card-specific styles here */
+ *       // card-specific styles here
  *     `;
  *   }
  *
