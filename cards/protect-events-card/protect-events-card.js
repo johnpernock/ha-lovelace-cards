@@ -1,4 +1,938 @@
 /**
+ * protect-events-card.js  —  v1 (standalone — shared modules inlined)
+ *
+ * Shared modules (ha-utils, ha-styles, ha-popup) are inlined directly
+ * so this file has no external import dependencies.
+ */
+
+// ── ha-utils.js (inlined) ────────────────────────────────────────────────────
+/**
+ * ha-utils.js
+ * Shared utility functions and constants for all HA Lovelace cards.
+ *
+ * Usage in a card:
+ *   import { COLORS, getState, getAttr, isOn, fmtTime,
+ *            resolveFanSpeeds, HVAC_META, HVAC_ORDER } from '../../shared/ha-utils.js';
+ *
+ * HA resource path: /local/shared/ha-utils.js
+ * (No need to register as a resource — imported directly by card modules)
+ */
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Color palette
+// Single source of truth for all semantic colors across the dashboard.
+// ─────────────────────────────────────────────────────────────────────────────
+const COLORS = {
+  amber:  '#fbbf24',  // Lights on, active
+  blue:   '#60a5fa',  // Fans, info, cool mode
+  purple: '#a78bfa',  // Blinds, calibrating
+  orange: '#fb923c',  // Heat mode, closing
+  green:  '#4ade80',  // OK, closed, complete, on-time
+  red:    '#f87171',  // Error, open, alert, delayed
+  teal:   '#2dd4bf',  // Fan-only HVAC mode
+
+  // RGB string equivalents for use in rgba()
+  rgb: {
+    amber:  '251,191,36',
+    blue:   '96,165,250',
+    purple: '167,139,250',
+    orange: '251,146,60',
+    green:  '74,222,128',
+    red:    '248,113,113',
+    teal:   '45,212,191',
+  },
+};
+
+/** Build a themed background + border + text color set from a color name. */
+function colorTheme(name, bgOpacity = 0.08, borderOpacity = 0.25) {
+  const rgb = COLORS.rgb[name];
+  const hex = COLORS[name];
+  if (!rgb) return { bg: 'transparent', border: 'rgba(255,255,255,0.12)', text: '#fff' };
+  return {
+    bg:     `rgba(${rgb},${bgOpacity})`,
+    border: `rgba(${rgb},${borderOpacity})`,
+    text:   hex,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Entity state helpers
+// All functions take hass as the first argument so they work as pure functions
+// without needing access to `this`.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Returns the full entity state object, or null. */
+function getState(hass, entityId) {
+  if (!hass || !entityId) return null;
+  return hass.states[entityId] || null;
+}
+
+/** Returns the entity's state string, or null. */
+function getVal(hass, entityId) {
+  return getState(hass, entityId)?.state ?? null;
+}
+
+/** Returns an attribute value from an entity, or null. */
+function getAttr(hass, entityId, key) {
+  return getState(hass, entityId)?.attributes?.[key] ?? null;
+}
+
+/** Returns the entity state parsed as a float, or null. */
+function getNum(hass, entityId) {
+  const v = parseFloat(getVal(hass, entityId));
+  return isNaN(v) ? null : v;
+}
+
+/** Returns true if entity state is 'on' or 'true'. */
+function isOn(hass, entityId) {
+  const v = getVal(hass, entityId);
+  return v === 'on' || v === 'true';
+}
+
+/** Returns true if entity state is 'unavailable' or entity doesn't exist. */
+function isUnavailable(hass, entityId) {
+  const e = getState(hass, entityId);
+  return !e || e.state === 'unavailable' || e.state === 'unknown';
+}
+
+/** Returns the entity's friendly_name, falling back to entity ID. */
+function getFriendlyName(hass, entityId) {
+  return getAttr(hass, entityId, 'friendly_name')
+    || entityId.split('.').pop().replace(/_/g, ' ');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Formatters
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Format a duration in hours to a human-readable string.
+ * e.g. 1.5 → "1h 30m", 0.25 → "15m"
+ */
+function fmtTime(hours) {
+  if (hours == null || isNaN(hours)) return null;
+  const m = Math.round(hours * 60);
+  if (m < 1) return '< 1m';
+  const h = Math.floor(m / 60);
+  const mm = m % 60;
+  if (h === 0) return `${mm}m`;
+  if (mm === 0) return `${h}h`;
+  return `${h}h ${mm}m`;
+}
+
+/**
+ * Format a relative time from a past Date/ISO string.
+ * e.g. "just now", "4 min ago", "2 hrs ago"
+ */
+function fmtRelative(dateStr) {
+  if (!dateStr) return null;
+  const d = new Date(dateStr);
+  if (isNaN(d)) return null;
+  const diff = Math.round((Date.now() - d) / 60000);
+  if (diff < 1)   return 'just now';
+  if (diff === 1) return '1 min ago';
+  if (diff < 60)  return `${diff} min ago`;
+  const hrs = Math.round(diff / 60);
+  return hrs === 1 ? '1 hr ago' : `${hrs} hrs ago`;
+}
+
+/**
+ * Round a number and return as string, or '—' if null/NaN.
+ */
+function fmtNum(val) {
+  if (val == null || isNaN(val)) return '—';
+  return String(Math.round(val));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Fan speed helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Resolve the number of speed steps for a fan entity.
+ * Priority: YAML config → percentage_step attribute → speed_count attribute → default 4.
+ * Always pass configSpeeds from YAML (fan.speeds) — Lutron Caseta fans need this.
+ */
+function resolveFanSpeeds(hass, entityId, configSpeeds = null) {
+  if (configSpeeds != null) return configSpeeds;
+  const e = getState(hass, entityId);
+  if (!e) return 4;
+  const step = e.attributes.percentage_step;
+  if (step && step > 0) return Math.round(100 / step);
+  const sc = e.attributes.speed_count;
+  if (sc && sc > 1) return sc;
+  return 4;
+}
+
+/**
+ * Get the current active pip index (0 = off) for a fan.
+ * speeds = total number of steps including off.
+ */
+function getFanPipIndex(hass, entityId, speeds) {
+  const e = getState(hass, entityId);
+  if (!e || e.state === 'off' || e.state === 'unavailable') return 0;
+  const pct = parseFloat(e.attributes.percentage ?? 0);
+  return Math.max(1, Math.min(speeds - 1, Math.round((pct / 100) * (speeds - 1))));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HVAC / climate helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Preferred mode cycle order. */
+const HVAC_ORDER = ['heat_cool', 'auto', 'heat', 'cool', 'fan_only', 'dry', 'off'];
+
+/** Visual metadata per HVAC mode. */
+const HVAC_META = {
+  heat_cool: {
+    label: 'Heat / Cool', split: true,  dotColor: null,
+    border: 'rgba(251,146,60,0.35)', bg: 'rgba(251,146,60,0.07)', text: '#fb923c',
+  },
+  auto: {
+    label: 'Auto',        split: true,  dotColor: null,
+    border: 'rgba(251,146,60,0.35)', bg: 'rgba(251,146,60,0.07)', text: '#fb923c',
+  },
+  heat: {
+    label: 'Heat',        split: false, dotColor: '#fb923c',
+    border: 'rgba(251,146,60,0.35)', bg: 'rgba(251,146,60,0.07)', text: '#fb923c',
+  },
+  cool: {
+    label: 'Cool',        split: false, dotColor: '#60a5fa',
+    border: 'rgba(96,165,250,0.35)',  bg: 'rgba(96,165,250,0.07)',  text: '#60a5fa',
+  },
+  fan_only: {
+    label: 'Fan',         split: false, dotColor: '#2dd4bf',
+    border: 'rgba(45,212,191,0.35)', bg: 'rgba(45,212,191,0.07)', text: '#2dd4bf',
+  },
+  dry: {
+    label: 'Dry',         split: false, dotColor: '#fbbf24',
+    border: 'rgba(251,191,36,0.35)', bg: 'rgba(251,191,36,0.07)', text: '#fbbf24',
+  },
+  off: {
+    label: 'Off',         split: false, dotColor: 'rgba(255,255,255,0.25)',
+    border: 'rgba(255,255,255,0.12)', bg: 'rgba(255,255,255,0.04)', text: 'rgba(255,255,255,0.45)',
+  },
+};
+
+/** Get HVAC meta for a mode key, falling back to 'off'. */
+function getHvacMeta(modeKey) {
+  return HVAC_META[modeKey] || HVAC_META['off'];
+}
+
+/**
+ * Returns the list of supported modes for an entity in preferred display order.
+ * Reads hvac_modes directly from the live entity — never hardcoded.
+ */
+function getSupportedModes(hass, entityId) {
+  const raw = getAttr(hass, entityId, 'hvac_modes') || [];
+  return HVAC_ORDER.filter(m => raw.includes(m));
+}
+
+/**
+ * Returns the next HVAC mode to cycle to.
+ * Returns null if the entity has fewer than 2 modes.
+ */
+function getNextHvacMode(hass, entityId) {
+  const supported = getSupportedModes(hass, entityId);
+  if (supported.length < 2) return null;
+  const current = (getVal(hass, entityId) || '').toLowerCase();
+  const idx = supported.indexOf(current);
+  return supported[(idx + 1) % supported.length];
+}
+
+/** Render the HVAC mode dot HTML (split dot for heat_cool/auto). */
+function hvacDotHtml(meta) {
+  if (meta.split) {
+    return `<div style="width:8px;height:8px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex">
+      <div style="flex:1;background:#fb923c"></div>
+      <div style="flex:1;background:#60a5fa"></div>
+    </div>`;
+  }
+  return `<div style="width:8px;height:8px;border-radius:50%;background:${meta.dotColor};flex-shrink:0"></div>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Cover / blind helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Returns { color, rgb, label, subLabel } theme for a cover entity state.
+ * state: 'open' | 'closed' | 'opening' | 'closing' | 'stopped' | other
+ */
+function getCoverTheme(state) {
+  switch ((state || '').toLowerCase()) {
+    case 'closed':
+      return { color: COLORS.green,  rgb: COLORS.rgb.green,  label: 'Closed',    subLabel: 'Tap to open'  };
+    case 'open':
+      return { color: COLORS.amber,  rgb: COLORS.rgb.amber,  label: 'Open',      subLabel: 'Tap to close' };
+    case 'opening':
+      return { color: COLORS.blue,   rgb: COLORS.rgb.blue,   label: 'Opening…',  subLabel: 'In progress'  };
+    case 'closing':
+      return { color: COLORS.orange, rgb: COLORS.rgb.orange, label: 'Closing…',  subLabel: 'In progress'  };
+    default:
+      return { color: 'rgba(255,255,255,0.35)', rgb: '180,180,180', label: 'Unknown', subLabel: '' };
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Drag slider factory
+// Creates a drag slider on a container element.
+// The container must have CSS: position:relative; touch-action:none.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Attach drag slider behavior to a wrap element.
+ *
+ * @param {HTMLElement} wrap      - The slider container element
+ * @param {number}      initial   - Initial value 0–100
+ * @param {Function}    onDrag    - Called with (value, isFinal) during drag
+ *                                  isFinal=true on mouseup/touchend → make HA call
+ * @param {number}      debounceMs - Debounce for HA calls (default 150ms)
+ * @returns {Function} cleanup - Call to remove all event listeners
+ */
+function attachSlider(wrap, initial, onDrag, debounceMs = 150) {
+  let dragging = false;
+  let debounceTimer = null;
+
+  function pctFromX(clientX) {
+    const rect = wrap.getBoundingClientRect();
+    return Math.round(Math.min(100, Math.max(0, ((clientX - rect.left) / rect.width) * 100)));
+  }
+
+  function update(clientX, isFinal) {
+    const pct = pctFromX(clientX);
+    // Always call immediately for visual update
+    onDrag(pct, false);
+    // Debounce the HA service call
+    if (debounceTimer) clearTimeout(debounceTimer);
+    if (isFinal) {
+      onDrag(pct, true);
+    } else {
+      debounceTimer = setTimeout(() => onDrag(pct, true), debounceMs);
+    }
+  }
+
+  const onMouseDown = e => { dragging = true; update(e.clientX, false); e.preventDefault(); };
+  const onTouchStart = e => { dragging = true; update(e.touches[0].clientX, false); };
+  const onMouseMove = e => { if (dragging) update(e.clientX, false); };
+  const onTouchMove = e => { if (dragging) update(e.touches[0].clientX, false); };
+  const onMouseUp = e => { if (dragging) { dragging = false; update(e.clientX, true); } };
+  const onTouchEnd = e => {
+    if (dragging) {
+      dragging = false;
+      if (e.changedTouches[0]) update(e.changedTouches[0].clientX, true);
+    }
+  };
+
+  wrap.addEventListener('mousedown', onMouseDown);
+  wrap.addEventListener('touchstart', onTouchStart, { passive: true });
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('touchmove', onTouchMove, { passive: true });
+  document.addEventListener('mouseup', onMouseUp);
+  document.addEventListener('touchend', onTouchEnd);
+
+  // Return cleanup function
+  return () => {
+    wrap.removeEventListener('mousedown', onMouseDown);
+    wrap.removeEventListener('touchstart', onTouchStart);
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('touchmove', onTouchMove);
+    document.removeEventListener('mouseup', onMouseUp);
+    document.removeEventListener('touchend', onTouchEnd);
+    if (debounceTimer) clearTimeout(debounceTimer);
+  };
+}
+
+
+// ── ha-styles.js (inlined) ──────────────────────────────────────────────────
+/**
+ * ha-styles.js
+ * Shared CSS string exports for all HA Lovelace cards.
+ *
+ * Usage in a card:
+ *   import { CSS_RESET, CSS_POPUP, CSS_BADGE } from '../../shared/ha-styles.js';
+ *
+ *   _css() {
+ *     return `${CSS_RESET}${CSS_POPUP}${CSS_BADGE}
+ *       // card-specific styles here
+ *     `;
+ *   }
+ *
+ * HA resource path: /local/shared/ha-styles.js
+ * (No need to register as a resource — imported directly by card modules)
+ */
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Base card reset
+// Applied to every card — resets ha-card to transparent and removes shadow/border.
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_RESET = `
+  :host { display: block; }
+  ha-card {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: var(--primary-font-family, -apple-system, BlinkMacSystemFont, sans-serif);
+  }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Popup overlay + sheet
+// Used by any card that portals a popup to document.body.
+// The portal container itself is set inline via JS — these styles cover the
+// overlay backdrop and the popup sheet inside it.
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_POPUP = `
+  .ha-popup-overlay {
+    display: none;
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1;
+    align-items: flex-end;
+    justify-content: center;
+    pointer-events: all;
+  }
+  .ha-popup-overlay.open {
+    display: flex;
+  }
+  .ha-popup-sheet {
+    background: var(--card-background-color, #1e1e2a);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 16px 16px 0 0;
+    border-bottom: none;
+    padding: 20px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+  }
+  @media (min-width: 768px) {
+    .ha-popup-overlay {
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .ha-popup-sheet {
+      max-width: 440px;
+      border-radius: 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+    .ha-popup-handle { display: none !important; }
+  }
+  .ha-popup-handle {
+    width: 36px;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+  .ha-popup-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .ha-popup-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--primary-text-color, #e2e8f0);
+    line-height: 1.2;
+  }
+  .ha-popup-sub {
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 3px;
+    color: rgba(255,255,255,0.45);
+  }
+  .ha-popup-close {
+    background: rgba(255,255,255,0.08);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-text-color, rgba(255,255,255,0.5));
+    font-size: 14px;
+    line-height: 1;
+    font-family: inherit;
+    flex-shrink: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ha-popup-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.09);
+    margin-bottom: 14px;
+  }
+  .ha-popup-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 8px;
+    margin-top: 14px;
+  }
+  .ha-popup-section-label:first-child { margin-top: 0; }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Badge / tag
+// Small inline status chips used across all cards.
+// Apply color via inline style: style="background:...; color:..."
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_BADGE = `
+  .ha-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .ha-badge-green  { background: rgba(74,222,128,0.15);  color: #4ade80; }
+  .ha-badge-red    { background: rgba(248,113,113,0.15); color: #f87171; }
+  .ha-badge-blue   { background: rgba(96,165,250,0.15);  color: #60a5fa; }
+  .ha-badge-amber  { background: rgba(251,191,36,0.15);  color: #fbbf24; }
+  .ha-badge-purple { background: rgba(167,139,250,0.15); color: #a78bfa; }
+  .ha-badge-gray   { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.45); }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Unavailable / offline state
+// Used when an entity is missing or state === 'unavailable'.
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_UNAVAIL = `
+  .ha-unavail {
+    font-size: 12px;
+    color: var(--secondary-text-color, rgba(255,255,255,0.4));
+    text-align: center;
+    padding: 16px 0;
+    opacity: 0.5;
+    font-style: italic;
+  }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Section header + divider
+// Used inside popup sheets and card sections.
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_SECTION = `
+  .ha-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.3);
+    padding: 10px 14px 6px;
+  }
+  .ha-divider {
+    height: 1px;
+    background: rgba(255,255,255,0.07);
+    margin: 8px 0;
+  }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Drag slider
+// Custom brightness / position slider — no <input type="range">.
+// Wrap element needs touch-action: none and data-entity attribute.
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_SLIDER = `
+  .ha-slider-wrap {
+    position: relative;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    touch-action: none;
+    cursor: pointer;
+    user-select: none;
+  }
+  .ha-slider-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 99px;
+    background: rgba(255,255,255,0.10);
+    position: relative;
+    overflow: visible;
+  }
+  .ha-slider-fill {
+    height: 100%;
+    border-radius: 99px;
+    pointer-events: none;
+    transition: width 0.08s;
+  }
+  .ha-slider-thumb {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #fff;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    pointer-events: none;
+    transition: left 0.08s;
+  }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Interactive button tap states
+// Apply .ha-tappable to any element that should react to press.
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_TAPPABLE = `
+  .ha-tappable {
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.1s, filter 0.12s;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+  }
+  .ha-tappable:active {
+    transform: scale(0.96);
+    filter: brightness(0.9);
+  }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Status pill (blinds, garage, covers)
+// Left-accent-bar shape: flat left, rounded right.
+// Color is applied via inline style.
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_PILL = `
+  .ha-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: filter 0.12s;
+  }
+  .ha-pill:active { filter: brightness(0.9); }
+  .ha-pill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .ha-pill-label {
+    font-size: 13px;
+    font-weight: 700;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ha-pill-sub {
+    font-size: 10px;
+    opacity: 0.6;
+    margin-top: 1px;
+  }
+  .ha-pill-chevron {
+    font-size: 16px;
+    opacity: 0.35;
+    flex-shrink: 0;
+  }
+  .ha-pill-bar-bg {
+    height: 3px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .ha-pill-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 0.3s;
+  }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Grid helpers
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_GRIDS = `
+  .ha-grid-2 { display: grid; grid-template-columns: 1fr 1fr;         gap: 8px; }
+  .ha-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr);  gap: 8px; }
+  .ha-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr);  gap: 6px; }
+`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Convenience bundle — most cards need all of the above
+// ─────────────────────────────────────────────────────────────────────────────
+const CSS_ALL = `
+  ${CSS_RESET}
+  ${CSS_POPUP}
+  ${CSS_BADGE}
+  ${CSS_UNAVAIL}
+  ${CSS_SECTION}
+  ${CSS_SLIDER}
+  ${CSS_TAPPABLE}
+  ${CSS_PILL}
+  ${CSS_GRIDS}
+`;
+
+
+// ── ha-popup.js (inlined) ───────────────────────────────────────────────────
+/**
+ * ha-popup.js
+ * Portal popup utility for HA Lovelace cards.
+ *
+ * Popups are appended to document.body to escape HA's CSS transforms that
+ * would clip or scale popups rendered inside shadow DOM.
+ *
+ * Usage:
+ *   import { createPopupPortal, openPopup, closePopup } from '../../shared/ha-popup.js';
+ *
+ *   // In your card's _render() or constructor:
+ *   this._portal = createPopupPortal('my-card-overlay', popupHtml, onClose);
+ *
+ *   // To open:
+ *   openPopup(this._portal);
+ *
+ *   // To close:
+ *   closePopup(this._portal);
+ *
+ *   // To update content without re-creating:
+ *   this._portal.setContent(newHtml);
+ *
+ *   // In disconnectedCallback:
+ *   destroyPopupPortal(this._portal);
+ *
+ * HA resource path: /local/shared/ha-popup.js
+ */
+
+/**
+ * Create a popup portal appended to document.body.
+ *
+ * @param {string}   id         - Unique ID for the overlay element
+ * @param {string}   innerHtml  - Initial popup content HTML
+ * @param {Function} onClose    - Called when popup closes (backdrop tap or ✕ button)
+ * @param {object}   options
+ * @param {string}   options.maxWidth  - Max width of popup sheet. Default '440px'
+ * @param {string}   options.extraCss  - Additional CSS injected into the portal <style>
+ *
+ * @returns {{ el: HTMLElement, overlay: HTMLElement, sheet: HTMLElement,
+ *             open: Function, close: Function, setContent: Function, destroy: Function }}
+ */
+function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
+  const maxWidth = options.maxWidth || '440px';
+  const extraCss = options.extraCss || '';
+
+  // Remove any existing portal with the same ID
+  document.getElementById(id)?.remove();
+
+  const container = document.createElement('div');
+  container.id = id;
+  container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;font-size:16px';
+
+  container.innerHTML = `
+    <style>
+      #${id} .portal-overlay {
+        display: none;
+        position: absolute;
+        inset: 0;
+        background: rgba(0,0,0,0.55);
+        pointer-events: all;
+        align-items: flex-end;
+        justify-content: center;
+        z-index: 1;
+      }
+      #${id} .portal-overlay.open { display: flex; }
+      #${id} .portal-sheet {
+        background: var(--card-background-color, #1e1e2a);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 16px 16px 0 0;
+        border-bottom: none;
+        padding: 20px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 2;
+      }
+      @media (min-width: 768px) {
+        #${id} .portal-overlay {
+          align-items: center;
+          justify-content: center;
+          padding: 24px;
+        }
+        #${id} .portal-sheet {
+          max-width: ${maxWidth};
+          border-radius: 16px;
+          border-bottom: 1px solid rgba(255,255,255,0.12);
+        }
+        #${id} .portal-handle { display: none !important; }
+      }
+      #${id} .portal-handle {
+        width: 36px; height: 4px;
+        background: rgba(255,255,255,0.15);
+        border-radius: 2px;
+        margin: 0 auto 16px;
+      }
+      #${id} .portal-head {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 14px;
+      }
+      #${id} .portal-title {
+        font-size: 17px; font-weight: 700;
+        color: var(--primary-text-color, #e2e8f0);
+        line-height: 1.2;
+      }
+      #${id} .portal-sub {
+        font-size: 11px; font-weight: 600;
+        margin-top: 3px;
+        color: rgba(255,255,255,0.45);
+      }
+      #${id} .portal-close {
+        background: rgba(255,255,255,0.08);
+        border: none; border-radius: 50%;
+        width: 28px; height: 28px;
+        cursor: pointer; display: flex;
+        align-items: center; justify-content: center;
+        color: rgba(255,255,255,0.5);
+        font-size: 14px; line-height: 1;
+        font-family: inherit; flex-shrink: 0;
+        -webkit-tap-highlight-color: transparent;
+      }
+      #${id} .portal-divider {
+        height: 1px;
+        background: rgba(255,255,255,0.09);
+        margin-bottom: 14px;
+      }
+      #${id} .portal-section-label {
+        font-size: 10px; font-weight: 700;
+        text-transform: uppercase; letter-spacing: 0.08em;
+        color: rgba(255,255,255,0.3);
+        margin: 14px 0 8px;
+      }
+      #${id} .portal-section-label:first-child { margin-top: 0; }
+      ${extraCss}
+    </style>
+    <div class="portal-overlay">
+      <div class="portal-sheet">
+        <div class="portal-handle"></div>
+        <div class="portal-content">${innerHtml}</div>
+      </div>
+    </div>`;
+
+  document.body.appendChild(container);
+
+  const overlay = container.querySelector('.portal-overlay');
+  const sheet   = container.querySelector('.portal-sheet');
+  const content = container.querySelector('.portal-content');
+
+  // Backdrop tap closes
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) api.close();
+  });
+
+  // Delegate ✕ button inside content
+  content.addEventListener('click', e => {
+    if (e.target.closest('.portal-close')) api.close();
+  });
+
+  const api = {
+    el:      container,
+    overlay,
+    sheet,
+    content,
+
+    open() {
+      overlay.classList.add('open');
+    },
+
+    close() {
+      overlay.classList.remove('open');
+      if (onClose) onClose();
+    },
+
+    /** Replace the popup content HTML without re-creating the portal. */
+    setContent(html) {
+      content.innerHTML = html;
+    },
+
+    /** Remove the portal element from document.body entirely. */
+    destroy() {
+      container.remove();
+    },
+
+    /** True if the popup is currently open. */
+    get isOpen() {
+      return overlay.classList.contains('open');
+    },
+  };
+
+  return api;
+}
+
+/**
+ * Open a portal returned by createPopupPortal.
+ * Convenience wrapper — equivalent to portal.open().
+ */
+function openPopup(portal) {
+  portal?.open();
+}
+
+/**
+ * Close a portal returned by createPopupPortal.
+ * Convenience wrapper — equivalent to portal.close().
+ */
+function closePopup(portal) {
+  portal?.close();
+}
+
+/**
+ * Destroy a portal — removes it from the DOM entirely.
+ * Call in disconnectedCallback.
+ */
+function destroyPopupPortal(portal) {
+  portal?.destroy();
+}
+
+/**
+ * Build standard popup header HTML.
+ * Includes drag handle, title row with optional sub-label, close button, and divider.
+ *
+ * @param {string} title   - Primary heading
+ * @param {string} sub     - Optional sub-label (color applied via inline style if subColor set)
+ * @param {string} subColor - Optional color for the sub-label text
+ */
+function popupHeaderHtml(title, sub = '', subColor = '') {
+  const subHtml = sub
+    ? `<div class="portal-sub" style="${subColor ? `color:${subColor}` : ''}">${sub}</div>`
+    : '';
+  return `
+    <div class="portal-handle"></div>
+    <div class="portal-head">
+      <div>
+        <div class="portal-title">${title}</div>
+        ${subHtml}
+      </div>
+      <button class="portal-close" aria-label="Close">✕</button>
+    </div>
+    <div class="portal-divider"></div>`;
+}
+
+
+// ── protect-events-card ─────────────────────────────────────────────────────
+/**
  * protect-events-card.js  —  v1
  * Real-time UniFi Protect smart detection event feed for Home Assistant Lovelace.
  *
@@ -40,12 +974,6 @@
  * The event_id attribute on those sensors is used to fetch HA thumbnails.
  */
 
-import { COLORS, colorTheme, fmtRelative, isUnavailable, getFriendlyName }
-  from '../../shared/ha-utils.js?v=2';
-import { CSS_RESET, CSS_TAPPABLE, CSS_BADGE, CSS_UNAVAIL }
-  from '../../shared/ha-styles.js?v=2';
-import { createPopupPortal, openPopup, closePopup, destroyPopupPortal, popupHeaderHtml }
-  from '../../shared/ha-popup.js?v=2';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Detection type metadata
