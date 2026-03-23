@@ -33,6 +33,7 @@ lovelace:
 | Lights / Fans | `/lightsfans` | sections · 3 col | Room control cards for all rooms — lights, fans, blinds, thermostats |
 | Cameras | `/cameras` | panel | Full-width camera layout — doorbell portrait + 2×2 grid |
 | Technology | `/technology` | sections · 3 col | Network, speed, APs, Unraid health, services, storage, ink, media |
+| Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
 | 3D Printer | `/3d-printer` | sections · 2 col | Bambu P1S full status card spanning both columns |
 
 All views use `theme: Amoled+`.
@@ -108,6 +109,13 @@ light: !include ha-config/light-groups.yaml
 
 After adding: **Developer Tools → YAML → Reload Template Entities** and **Reload Groups**.
 
+### New card resources (Energy view + now-playing)
+Register these in **Settings → Dashboards → Resources**:
+- `/local/cards/wallbox-card/wallbox-card.js`
+- `/local/cards/peco-card/peco-card.js`
+- `/local/cards/ecoflow-card/ecoflow-card.js`
+- `/local/cards/now-playing-card/now-playing-card.js`
+
 ### Entities required (theme feature)
 | Entity | Source |
 |--------|--------|
@@ -115,3 +123,30 @@ After adding: **Developer Tools → YAML → Reload Template Entities** and **Re
 | `light.yard_spotlights` | Created by `ha-config/light-groups.yaml` |
 | `light.hue_path_lights` | Existing Hue light group |
 | `switch.yard_light_controller_zone_1` | Existing zone switch |
+
+---
+
+## Additional changes (Energy view + now-playing)
+
+### Home view — now-playing card
+Added `custom:now-playing-card` above the room buttons grid. Shows what's playing on any of the three Apple TVs. Collapses to invisible when all players are idle.
+
+```yaml
+- type: custom:now-playing-card
+  players:
+    - entity: media_player.family_room
+      name: Family Room
+    - entity: media_player.master_bedroom
+      name: Master Bedroom
+    - entity: media_player.office
+      name: Office
+```
+
+### Energy view (new)
+New 6th view at path `/energy` with three cards in a 3-column sections layout:
+
+| Column | Card | Entities |
+|--------|------|----------|
+| 1 | `wallbox-card` | `wallbox_beryl_pulsar_plus_*` — session energy, range, power, current slider, solar mode, lock |
+| 2 | `peco-card` | `peco_electric_*` + `peco_gas_*` — usage bar, forecast, cost, typical comparison |
+| 3 | `ecoflow-card` | `river_2_pro_*` — battery, power flows, max charge slider, AC/DC toggles |

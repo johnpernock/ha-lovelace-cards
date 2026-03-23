@@ -79,6 +79,14 @@ views:
               - entity: binary_sensor.myggbett_door_window_sensor_door_7
                 name: Kitchen Back
                 type: door
+          - type: custom:now-playing-card
+            players:
+              - entity: media_player.family_room
+                name: Family Room
+              - entity: media_player.master_bedroom
+                name: Master Bedroom
+              - entity: media_player.office
+                name: Office
           - type: custom:room-buttons-card
             buttons:
               - entity: light.all_main_lights
@@ -580,6 +588,31 @@ views:
                 entities:
                   sonarr_recent: sensor.sonarr_recent
                   radarr_recent: sensor.radarr_recent
+    cards: []
+
+  - title: Energy
+    path: energy
+    icon: mdi:lightning-bolt
+    type: sections
+    max_columns: 3
+    theme: Amoled+
+    sections:
+      - type: grid
+        cards:
+          - type: custom:wallbox-card
+            prefix: wallbox_beryl_pulsar_plus
+            name: Wallbox Beryl Pulsar Plus
+      - type: grid
+        cards:
+          - type: custom:peco-card
+            electric_prefix: peco_electric
+            gas_prefix: peco_gas
+            name: PECO Electric
+      - type: grid
+        cards:
+          - type: custom:ecoflow-card
+            prefix: river_2_pro
+            name: River 2 Pro
     cards: []
 
   - title: 3D Printer
