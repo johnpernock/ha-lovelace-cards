@@ -14,35 +14,6 @@ views:
             name: Paoli
             unit: °F
             alert_entity: sensor.nws_alerts_alerts
-          - type: custom:septa-paoli-card
-            outbound:
-              - sensor.paoli_outbound_1
-              - sensor.paoli_outbound_2
-              - sensor.paoli_outbound_3
-            inbound:
-              - sensor.paoli_inbound_1
-              - sensor.paoli_inbound_2
-              - sensor.paoli_inbound_3
-            inbound_next_station:
-              - sensor.paoli_inbound_next_station_1
-              - sensor.paoli_inbound_next_station_2
-              - sensor.paoli_inbound_next_station_3
-            alert: sensor.paoli_line_alert
-          - type: custom:traffic-card
-            incident_threshold: 10
-            hide_to_work_after: 12
-            to_work:
-              entity: sensor.commute_to_work
-              label: 1030 Continental Dr
-              route_label: US-202 N
-            home_routes:
-              - entity: sensor.commute_home_via_202
-                label: 21 Beryl Rd
-                route_label: US-202 S
-              - entity: sensor.commute_home_via_rt_30
-                label: 21 Beryl Rd
-                route_label: Route 30 W
-                via_label: via Lancaster Ave
           - type: custom:tesla-card
             name: Model Y
             show_actions: false
@@ -603,6 +574,48 @@ views:
                 entities:
                   sonarr_recent: sensor.sonarr_recent
                   radarr_recent: sensor.radarr_recent
+    cards: []
+
+  - title: Commute
+    path: commute
+    icon: mdi:train-car
+    type: sections
+    max_columns: 2
+    theme: Amoled+
+    sections:
+      - type: grid
+        cards:
+          - type: custom:traffic-card
+            incident_threshold: 10
+            hide_to_work_after: 12
+            to_work:
+              entity: sensor.commute_to_work
+              label: 1030 Continental Dr
+              route_label: US-202 N
+            home_routes:
+              - entity: sensor.commute_home_via_202
+                label: 21 Beryl Rd
+                route_label: US-202 S
+              - entity: sensor.commute_home_via_rt_30
+                label: 21 Beryl Rd
+                route_label: Route 30 W
+                via_label: via Lancaster Ave
+      - type: grid
+        cards:
+          - type: custom:septa-paoli-card
+            outbound:
+              - sensor.paoli_outbound_1
+              - sensor.paoli_outbound_2
+              - sensor.paoli_outbound_3
+            inbound:
+              - sensor.paoli_inbound_1
+              - sensor.paoli_inbound_2
+              - sensor.paoli_inbound_3
+            inbound_next_station:
+              - sensor.paoli_inbound_next_station_1
+              - sensor.paoli_inbound_next_station_2
+              - sensor.paoli_inbound_next_station_3
+            alert: sensor.paoli_line_alert
     cards: []
 
   - title: Energy

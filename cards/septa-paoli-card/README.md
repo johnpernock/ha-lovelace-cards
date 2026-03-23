@@ -120,3 +120,17 @@ alert: sensor.paoli_line_alert
 | v4 | Added upcoming train pills below primary slot |
 | v2 | Added delay coloring (red/green) |
 | v1 | Initial release — single outbound departure |
+
+---
+
+### Sort fix — true next-to-arrive train (v17)
+
+**The bug:** The card previously showed trains in sensor order (outbound_1 first, inbound_1 first). If Train A was scheduled 8:00 but running 20 minutes late, and Train B was scheduled 8:15 on time, the card showed Train A as "next" because its scheduled time was earlier — but Train B arrives first.
+
+**The fix:** All trains across all configured sensors are now sorted by **estimated arrival time** = `scheduled_arrival + delay_minutes` before picking the hero. This is the true physical arrival order at the platform regardless of sensor index or scheduled departure order.
+
+**Inbound fix:** Previously only `inbound[0]` was ever read. Now all inbound sensors are read, sorted by estimated arrival, and the one arriving soonest is shown as the hero. The `inbound_next_station` sensor is matched to whichever sensor won the sort.
+
+| Version | Changes |
+|---------|---------|
+| v17 | Sort fix — `_parseTimeToMins()`, `_delayMins()`, `_estimatedArrivalMins()`, `_sortByEstimatedArrival()` added. All outbound and inbound trains sorted by estimated arrival before hero selection. Next-station sensor matched to winning inbound sensor index. |

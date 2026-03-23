@@ -108,6 +108,45 @@ class SeptaPaoliCard extends HTMLElement {
     return { time: `${newH12}:${String(newM).padStart(2, '0')}${period}`, mins };
   }
 
+  // Convert a time string like "10:22AM" or "10:22 PM" to minutes since midnight.
+  // Used to sort trains by estimated arrival regardless of sensor order.
+  _parseTimeToMins(timeStr) {
+    if (!timeStr || timeStr === '—') return Infinity;
+    const upper = timeStr.toUpperCase().replace(/\s/g, '');
+    const isPM  = upper.includes('PM');
+    const isAM  = upper.includes('AM');
+    const clean = upper.replace('AM','').replace('PM','');
+    const parts = clean.split(':');
+    let h = parseInt(parts[0]);
+    const m = parseInt(parts[1] || '0');
+    if (isNaN(h) || isNaN(m)) return Infinity;
+    if (isPM && h !== 12) h += 12;
+    if (isAM && h === 12) h = 0;
+    return h * 60 + m;
+  }
+
+  // Parse delay string "18 min" / "On time" / "N/A" → integer minutes
+  _delayMins(delayStr) {
+    if (!delayStr || delayStr === 'On time' || delayStr === 'N/A') return 0;
+    const n = parseInt(delayStr.replace(/[^0-9]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+
+  // Estimated arrival time in minutes = scheduled arrival + delay.
+  // This is the true physical arrival order at the platform.
+  _estimatedArrivalMins(data) {
+    return this._parseTimeToMins(data.arrives) + this._delayMins(data.delay);
+  }
+
+  // Sort an array of train data objects by estimated arrival at destination.
+  // Trains that will physically arrive first come first — regardless of their
+  // scheduled departure order or which sensor index they came from.
+  _sortByEstimatedArrival(trains) {
+    return [...trains].sort((a, b) =>
+      this._estimatedArrivalMins(a) - this._estimatedArrivalMins(b)
+    );
+  }
+
   _getTrainData(entityId) {
     const s = this._state(entityId);
     if (!s || s.state === 'unavailable') return null;
@@ -237,14 +276,36 @@ class SeptaPaoliCard extends HTMLElement {
     const now     = new Date();
     const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 
-    const outTrains = outboundSensors.map(id => this._getTrainData(id)).filter(Boolean);
-    const inTrain   = this._getTrainData(inboundSensors[0]);
+    // Gather all trains from all sensors, filter unavailable, then sort by
+    // estimated arrival time (scheduled + delay). This ensures a late train
+    // that was scheduled earlier doesn't block an on-time train that will
+    // physically arrive first.
+    const outTrains = this._sortByEstimatedArrival(
+      outboundSensors.map(id => this._getTrainData(id)).filter(Boolean)
+    );
 
+    // Read ALL inbound sensors (not just [0]) and sort the same way.
+    const allInTrains = this._sortByEstimatedArrival(
+      inboundSensors.map(id => this._getTrainData(id)).filter(Boolean)
+    );
+    const inTrain = allInTrains[0] || null;
+
+    // Next station: find the one matching the hero inbound train by checking
+    // which next-station sensor corresponds to the same sensor index.
+    // After sorting, map back to the original sensor index for next station.
     let nextStation = null;
-    if (nextStationSensors[0]) {
-      const ns = this._state(nextStationSensors[0]);
-      if (ns && ns.state && !['unavailable', 'unknown', '—'].includes(ns.state)) {
-        nextStation = ns.state;
+    if (inTrain && nextStationSensors.length) {
+      // Find which inbound sensor index matched our hero train
+      const heroIdx = inboundSensors.findIndex(id => {
+        const d = this._getTrainData(id);
+        return d && d.train === inTrain.train && d.departs === inTrain.departs;
+      });
+      const nsId = nextStationSensors[heroIdx >= 0 ? heroIdx : 0];
+      if (nsId) {
+        const ns = this._state(nsId);
+        if (ns && ns.state && !['unavailable', 'unknown', '—'].includes(ns.state)) {
+          nextStation = ns.state;
+        }
       }
     }
 
