@@ -138,6 +138,27 @@ class SeptaPaoliCard extends HTMLElement {
     return this._parseTimeToMins(data.arrives) + this._delayMins(data.delay);
   }
 
+  // Current time in minutes since midnight.
+  _nowMins() {
+    const n = new Date();
+    return n.getHours() * 60 + n.getMinutes();
+  }
+
+  // Returns true if this train has already passed and should be removed.
+  //   outbound (useArrival=false): compares estimated departure from Paoli
+  //   inbound  (useArrival=true):  compares estimated arrival  at Paoli
+  // A 2-minute grace window prevents hiding a train you could still sprint for.
+  // Midnight crossover: any train more than 6 hours in the past is stale.
+  _isStale(data, useArrival = false) {
+    const scheduledStr = useArrival ? data.arrives : data.departs;
+    const sched = this._parseTimeToMins(scheduledStr);
+    if (sched === Infinity) return false;
+    const est = sched + this._delayMins(data.delay);
+    const now = this._nowMins();
+    if (now - est > 360) return true;   // >6 hrs ago — always stale
+    return est < now - 2;               // 2-min grace period
+  }
+
   // Sort an array of train data objects by estimated arrival at destination.
   // Trains that will physically arrive first come first — regardless of their
   // scheduled departure order or which sensor index they came from.
@@ -281,12 +302,16 @@ class SeptaPaoliCard extends HTMLElement {
     // that was scheduled earlier doesn't block an on-time train that will
     // physically arrive first.
     const outTrains = this._sortByEstimatedArrival(
-      outboundSensors.map(id => this._getTrainData(id)).filter(Boolean)
+      outboundSensors.map(id => this._getTrainData(id))
+        .filter(Boolean)
+        .filter(t => !this._isStale(t, false))   // remove trains already departed
     );
 
-    // Read ALL inbound sensors (not just [0]) and sort the same way.
+    // Read ALL inbound sensors (not just [0]), filter stale, then sort.
     const allInTrains = this._sortByEstimatedArrival(
-      inboundSensors.map(id => this._getTrainData(id)).filter(Boolean)
+      inboundSensors.map(id => this._getTrainData(id))
+        .filter(Boolean)
+        .filter(t => !this._isStale(t, true))    // remove trains already arrived
     );
     const inTrain = allInTrains[0] || null;
 
@@ -398,6 +423,32 @@ class SeptaPaoliCard extends HTMLElement {
       if (nextStation) footerParts.push(`At ${nextStation}`);
       footerParts.push(`Updated ${timeStr}`);
 
+      // Subsequent inbound arrivals as pills (same pattern as outbound)
+      const laterInTrains = allInTrains.slice(1);
+      let inPillsHtml = '';
+      if (laterInTrains.length > 0) {
+        const dividerColor = isDelayed ? 'rgba(239,68,68,0.2)' : 'rgba(74,222,128,0.15)';
+        const pills = laterInTrains.map(t => {
+          const tDelayed    = t.delay && t.delay !== 'On time' && t.delay !== 'N/A';
+          const tDelayedArr = tDelayed ? this._calcDelayedArrival(t.arrives, t.delay) : null;
+          const tMins       = tDelayed ? parseInt(t.delay.replace(/[^0-9]/g, '')) : 0;
+          const tArrTime    = tDelayedArr ? tDelayedArr.time : t.arrives;
+          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.05)';
+          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.08)';
+          const statusEl    = tDelayed
+            ? `<span class="pill-late">+${tMins}m</span>`
+            : this._checkmark();
+          return `<div class="pill" style="background:${pillBg};border:1px solid ${pillBorder};" data-train='${JSON.stringify({ ...t, extra: t.origin })}' data-type="inbound">
+            <div>
+              <div class="pill-time">${tArrTime}</div>
+              <div class="pill-arr">Dep ${t.departs}</div>
+            </div>
+            ${statusEl}
+          </div>`;
+        }).join('');
+        inPillsHtml = `<div class="pills" style="border-top:1px solid ${dividerColor};">${pills}</div>`;
+      }
+
       heroInHtml = `
         <div class="hero" style="background:${cardBg};border:1px solid ${cardBorder};" data-train='${JSON.stringify({ ...inTrain, extra: nextStation || '—' })}' data-type="inbound">
           <div class="hero-label">Next Arrival ← Center City</div>
@@ -414,6 +465,7 @@ class SeptaPaoliCard extends HTMLElement {
             </div>
           </div>
           <div class="hero-footer">${footerParts.join(' · ')}</div>
+          ${inPillsHtml}
         </div>`;
     } else {
       heroInHtml = `
