@@ -21,8 +21,10 @@ ha-lovelace-cards/
 │   ├── ha-styles.js    — shared CSS string exports (card reset, popup, badges, pills, etc.)
 │   └── ha-popup.js     — portal popup factory (appends to document.body)
 ├── ha-config/
+│   ├── dashboard.yaml                      — complete Lovelace dashboard (all 5 views)
 │   ├── outdoor-lighting-theme-sensor.yaml  — template sensor for holiday theme detection
 │   ├── light-groups.yaml                   — custom light groups (yard_spotlights etc.)
+│   ├── dashboard-README.md                 — dashboard installation + view reference
 │   └── README.md
 ├── docs/
 │   └── style-guide.md  — UI principles, color system, component patterns, mockups
@@ -190,6 +192,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **Dashboard YAML added.** Full `dashboard.yaml` committed to `ha-config/` covering all 5 views (Home, Lights/Fans, Cameras, Technology, 3D Printer). Includes theme changes to Yard room and Yard button. `dashboard-README.md` documents all views, prerequisites, and the two specific changes made. |
 | Mar 2026 | **Outdoor lighting theme indicator.** New `ha-config/` folder with template sensor (`sensor.outdoor_lighting_theme`) covering 13 holidays + Default. New `light.yard_spotlights` light group. `room-controls-card` gains `theme_block:` config — Option B zone indicator with color swatches, gradient bars, and per-area state (All Outdoor, Display Lights, Front Path, Side Path). `room-buttons-card` gains `theme_sensor:` on buttons — holiday color strip + name label, hidden on Default nights. |
 | Mar 2026 | **Repo restructure.** Cards moved to per-card folders. `shared/` modules created (`ha-utils.js`, `ha-styles.js`, `ha-popup.js`). `garage-door-card` fully migrated as proof of concept. Per-card `README.md` docs added. Style guide added. |
 | Mar 2026 | **Major refactor session.** Popup portalling; `_patch()` system; fan speed priority; light color mode detection; left accent bars; blind/garage/door pills; HVAC live mode reading. |

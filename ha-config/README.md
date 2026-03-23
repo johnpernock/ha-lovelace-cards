@@ -86,3 +86,9 @@ After saving: **Developer Tools → YAML → Groups → Reload** (or restart HA)
 | `light.hue_path_lights` | Group — front path pedestals | Light group |
 | `light.all_yard_lights` | Group — all yard lights | Light group |
 | `switch.yard_light_controller_zone_1` | Side path lights zone | Switch (no color) |
+
+---
+
+### `dashboard.yaml`
+
+The complete Lovelace dashboard YAML for all 5 views. Paste into the HA raw config editor or use as a `ui-lovelace.yaml` source. See [`dashboard-README.md`](dashboard-README.md) for full installation instructions and a summary of all views and changes.

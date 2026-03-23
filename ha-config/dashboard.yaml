@@ -1,0 +1,600 @@
+views:
+  - title: Home
+    path: home
+    icon: mdi:home
+    type: sections
+    max_columns: 3
+    theme: Amoled+
+    sections:
+      - type: grid
+        cards:
+          - type: custom:clock-card
+          - type: custom:weather-card-nws
+            entity: weather.paoli
+            name: Paoli
+            unit: °F
+            alert_entity: sensor.nws_alerts_alerts
+          - type: custom:septa-paoli-card
+            outbound:
+              - sensor.paoli_outbound_1
+              - sensor.paoli_outbound_2
+              - sensor.paoli_outbound_3
+            inbound:
+              - sensor.paoli_inbound_1
+              - sensor.paoli_inbound_2
+              - sensor.paoli_inbound_3
+            inbound_next_station:
+              - sensor.paoli_inbound_next_station_1
+              - sensor.paoli_inbound_next_station_2
+              - sensor.paoli_inbound_next_station_3
+            alert: sensor.paoli_line_alert
+          - type: custom:tesla-card
+            name: Model Y
+            show_actions: false
+            temp_unit: F
+            tire_warn_psi: 40
+            entities:
+              battery_level: sensor.magneton_battery
+              battery_range: sensor.magneton_range
+              charging_state: binary_sensor.magneton_charging
+              door_lock: lock.magneton_doors
+              climate: climate.magneton_hvac_climate_system
+              trunk: cover.magneton_trunk
+              charge_rate: sensor.magneton_charging_rate
+              time_to_full_charge: sensor.magneton_time_charge_complete
+              tire_pressure_fl: sensor.magneton_tpms_front_left
+              tire_pressure_fr: sensor.magneton_tpms_front_right
+              tire_pressure_rl: sensor.magneton_tpms_rear_left
+              tire_pressure_rr: sensor.magneton_tpms_rear_right
+              interior_temperature: sensor.magneton_temperature_inside
+              exterior_temperature: sensor.magneton_temperature_outside
+              steering_wheel_heat: switch.magneton_heated_steering
+              seat_heat_driver: select.magneton_heated_seat_left
+              seat_heat_passenger: select.magneton_heated_seat_right
+              charge_port: cover.magneton_charger_door
+              sentry_mode: switch.magneton_sentry_mode
+              odometer: sensor.magneton_odometer
+      - type: grid
+        cards:
+          - type: custom:door-sensor-card
+            doors:
+              - entity: binary_sensor.myggbett_door_window_sensor_door_1
+                name: Office
+                type: door
+              - entity: binary_sensor.myggbett_door_window_sensor_door_2
+                name: Master Bedroom
+                type: door
+              - entity: binary_sensor.myggbett_door_window_sensor_door_3
+                name: Front Door
+                type: front
+              - entity: binary_sensor.myggbett_door_window_sensor_door_4
+                name: Bathroom
+                type: door
+              - entity: binary_sensor.myggbett_door_window_sensor_door_5
+                name: Garage Entry
+                type: door
+              - entity: binary_sensor.myggbett_door_window_sensor_door_6
+                name: Patio Slider
+                type: slider
+              - entity: binary_sensor.myggbett_door_window_sensor_door_7
+                name: Kitchen Back
+                type: door
+          - type: custom:room-buttons-card
+            buttons:
+              - entity: light.all_main_lights
+                name: Main Lights
+                icon: bulb
+              - entity: cover.garage_door
+                name: Garage Door
+                icon: garage
+                tap_action: toggle
+              - entity: light.all_family_room_lights
+                name: Family Room
+                icon: sofa
+              - entity: light.all_solarium_lights
+                name: Solarium
+                icon: home
+              - entity: light.all_kitchen_lights
+                name: Kitchen
+                icon: kitchen
+              - entity: light.all_dining_room_lights
+                name: Dining Room
+                icon: dining
+              - entity: light.all_master_bedroom_lights
+                name: Bedroom
+                icon: bed
+              - entity: light.all_office_lights
+                name: Office
+                icon: desk
+              - entity: light.all_bathroom_lights
+                name: Bathroom
+                icon: bath
+              - entity: switch.basement_lights
+                name: Basement
+                icon: stairs
+              - entity: light.all_garage_lights
+                name: Garage
+                icon: garage
+              # theme_sensor adds holiday color strip + name label to this button.
+              # Hidden on non-holiday nights — no visual change.
+              - entity: light.all_yard_lights
+                name: Yard
+                icon: tree
+                theme_sensor: sensor.outdoor_lighting_theme
+          - type: horizontal-stack
+            cards:
+              - type: custom:thermostat-card
+                entity: climate.main_floor
+                name: Main Floor
+              - type: custom:thermostat-card
+                entity: climate.family_room_2
+                name: Family Rm
+              - type: custom:thermostat-card
+                entity: climate.solarium_mini_split
+                name: Solarium
+          - type: custom:temp-strip-card
+            unit: °F
+            sensors:
+              - entity: sensor.office_temperature
+                abbr: 'Off'
+              - entity: sensor.bedroom_temperature
+                abbr: Bed
+              - entity: climate.main_floor
+                abbr: Din
+              - entity: climate.family_room_2
+                abbr: FR·T
+              - entity: sensor.family_room_temperature
+                abbr: FR·S
+              - entity: climate.solarium_mini_split
+                abbr: Sol
+          - type: custom:printer-status-card
+            printer: p1s_01p09a3a1100648
+      - type: grid
+        cards:
+          - type: custom:calendar-card
+            grid_rows: 10
+            mobile_expand: false
+            calendars:
+              - entity: calendar.united_states_pa
+                color: '#60a5fa'
+              - entity: calendar.fun
+                color: '#4ade80'
+              - entity: calendar.john_work
+                color: '#a78bfa'
+              - entity: calendar.dayforce_traderjoes
+                color: '#fb923c'
+              - entity: calendar.personal
+                color: '#60a5fa'
+            days_ahead: 14
+            max_events: 8
+    cards: []
+
+  - title: Lights / Fans
+    path: lightsfans
+    icon: mdi:lightbulb-group
+    type: sections
+    max_columns: 3
+    theme: Amoled+
+    sections:
+      - type: grid
+        cards:
+          - type: custom:room-controls-card
+            rooms:
+              - id: family_room
+                name: Family Room
+                lights:
+                  entity: light.all_family_room_lights
+                  individuals:
+                    - entity: light.venus_window_lamp
+                      name: Window
+                    - entity: light.family_room_venus_floor
+                      name: Venus Lamp
+                    - entity: light.reading_lamp
+                      name: Reading
+                    - entity: light.wall_shelves
+                      name: Shelves
+                    - entity: light.tv
+                      name: TV Light
+                    - entity: light.bar_globe
+                      name: Globe
+                fans:
+                  - entity: fan.white_series_lightfan_module_2
+                    name: Front Fan
+                    speeds: 4
+                  - entity: fan.white_series_lightfan_module_3
+                    name: Back Fan
+                    speeds: 4
+                blinds:
+                  entity: cover.family_room_blinds
+                  max_position: 87
+                thermostat:
+                  entity: climate.family_room_2
+                  name: Family Rm
+                  sensor: sensor.family_room_temperature
+                  sensor_label: |-
+                    AC
+                    sensor
+          - type: custom:room-controls-card
+            rooms:
+              - id: kitchen
+                name: Kitchen
+                lights:
+                  entity: light.all_kitchen_lights
+                  individuals:
+                    - entity: light.kitchen_spotlights
+                      name: Overhead Spots
+                    - entity: light.kitchen_under_cabinet
+                      name: Undercabinet
+                fans:
+                  - entity: fan.kitchen_ceiling_fan
+                    name: Ceiling Fan
+                    speeds: 3
+                thermostat:
+                  entity: climate.main_floor
+                  name: Main Floor
+          - type: custom:room-controls-card
+            rooms:
+              - id: bathroom
+                name: Bathroom
+                simplified: true
+                lights:
+                  entity: light.all_bathroom_lights
+                  individuals:
+                    - entity: light.bathroom_vanity_lights
+                      name: Vanity
+                    - entity: light.bathroom_shower_lights
+                      name: Shower
+          - type: custom:room-controls-card
+            rooms:
+              - id: yard
+                name: Yard
+                simplified: true
+                # theme_block shows the active outdoor lighting schedule/holiday
+                # above the lights row. Reads from sensor.outdoor_lighting_theme.
+                # See ha-config/outdoor-lighting-theme-sensor.yaml for setup.
+                # light.yard_spotlights group defined in ha-config/light-groups.yaml.
+                theme_block:
+                  sensor: sensor.outdoor_lighting_theme
+                  areas:
+                    - label: All Outdoor
+                      entity: light.all_yard_lights
+                      color_attr: all_outdoor_colors
+                    - label: Display Lights
+                      entity: light.yard_spotlights
+                      color_attr: spotlight_colors
+                      count: 5
+                    - label: Front Path
+                      entity: light.hue_path_lights
+                      color_attr: front_path_colors
+                    - label: Side Path
+                      entity: switch.yard_light_controller_zone_1
+                      type: switch
+                lights:
+                  entity: light.all_yard_lights
+                  individuals:
+                    - entity: light.yard_maple
+                      name: Front Maple
+                    - entity: light.corner_tree
+                      name: Corner Maple
+                    - entity: light.big_tree
+                      name: Front Tree
+                    - entity: light.bay_window_maple
+                      name: Bay Maple 1
+                    - entity: light.backyard_maple
+                      name: Bay Maple 2
+                    - entity: light.hue_impress_outdoor_pedestal_1
+                      name: Path 1
+                    - entity: light.hue_impress_outdoor_pedestal_2
+                      name: Path 2
+      - type: grid
+        cards:
+          - type: custom:room-controls-card
+            rooms:
+              - id: dining_room
+                name: Dining Room
+                lights:
+                  entity: light.all_dining_room_lights
+                  individuals:
+                    - entity: light.dining_room_entry
+                      name: Wall Sconce
+                    - entity: light.office_pagoda
+                      name: Pagoda
+                    - entity: light.dining_room_floor_lamp
+                      name: Floor Lamp
+                    - entity: light.mac_lamp
+                      name: Mac Lamp
+                    - entity: light.dining_room_fan_lights
+                      name: Fan Lights
+                fans:
+                  - entity: fan.white_series_lightfan_module
+                    name: Fan
+                    speeds: 4
+                thermostat:
+                  entity: climate.main_floor
+                  name: Main Floor
+          - type: custom:room-controls-card
+            rooms:
+              - id: master_bedroom
+                name: Master Bedroom
+                lights:
+                  entity: light.all_master_bedroom_lights
+                  individuals:
+                    - entity: light.bed_zan
+                      name: Bed Zan
+                    - entity: light.bed_john
+                      name: Bed John
+                fans:
+                  - entity: fan.master_bedroom_ceiling_fan
+                    name: Ceiling Fan
+                    speeds: 4
+                thermostat:
+                  entity: climate.main_floor
+                  name: Main Floor
+                  sensor: sensor.bedroom_temperature
+                  sensor_label: |-
+                    Room
+                    sensor
+          - type: custom:room-controls-card
+            rooms:
+              - id: garage
+                name: Garage
+                lights:
+                  entity: light.all_garage_lights
+                  individuals:
+                    - entity: light.garage_door_light
+                      name: Door Light
+                    - entity: switch.garage_lights
+                      name: Garage
+                garage:
+                  entity: cover.garage_door
+      - type: grid
+        cards:
+          - type: custom:room-controls-card
+            rooms:
+              - id: office
+                name: Office
+                lights:
+                  entity: light.all_office_lights
+                  individuals:
+                    - entity: light.office_floor
+                      name: Floor Lamp
+                    - entity: light.office_display_case
+                      name: Display Case
+                    - entity: light.desk_lamp
+                      name: Corner
+                    - entity: light.entry_lamp
+                      name: MidMod
+                    - entity: light.office_closet
+                      name: Craft Closet
+                thermostat:
+                  entity: climate.main_floor
+                  name: Main Floor
+                  sensor: sensor.office_temperature
+                  sensor_label: |-
+                    Room
+                    sensor
+          - type: custom:room-controls-card
+            rooms:
+              - id: solarium
+                name: Solarium
+                lights:
+                  entity: light.all_solarium_lights
+                  individuals:
+                    - entity: light.solarium_spot_lights
+                      name: Overhead Spots
+                    - entity: light.petal_globe
+                      name: Petal Globe
+                    - entity: light.solarium_floor_lamp_2
+                      name: Floor Lamp
+                    - entity: light.solarium_globe
+                      name: Globe
+                fans:
+                  - entity: fan.solarium_fan
+                    name: Fan
+                    speeds: 4
+                thermostat:
+                  entity: climate.solarium_mini_split
+                  name: Solarium
+          - type: custom:room-controls-card
+            rooms:
+              - id: basement
+                name: Basement
+                lights:
+                  entity: switch.basement_lights
+                  individuals:
+                    - entity: light.workshop
+                      name: Workshop
+                fans:
+                  - entity: fan.workshop_workbench_fan
+                    name: Workbench Fan
+                    speeds: 3
+                  - entity: fan.workshop_demo_fan
+                    name: Demo Fan
+                    speeds: 3
+    cards: []
+
+  - title: Cameras
+    path: cameras
+    icon: mdi:cctv
+    type: panel
+    theme: Amoled+
+    cards:
+      - type: custom:camera-layout-card
+        height: 680
+        doorbell:
+          entity: camera.front_doorbell
+          name: Front Door
+        cameras:
+          - entity: camera.driveway_camera
+            name: Driveway
+          - entity: camera.back_left_camera
+            name: Back Left
+          - entity: camera.back_right_camera
+            name: Back Right
+
+  - title: Technology
+    path: technology
+    icon: mdi:desktop-classic
+    type: sections
+    max_columns: 3
+    theme: Amoled+
+    sections:
+      - type: grid
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:technology-card
+                section: network
+                entities:
+                  ap_hallway: sensor.office_u7_state
+                  ap_family_room: sensor.family_room_u7_state
+                  clients_main: sensor.sophienet
+                  clients_iot: sensor.sophienet_iot
+                  clients_guest: sensor.sophienet_guest_2
+              - type: custom:technology-card
+                section: speed
+                entities:
+                  speedtest_download: sensor.speedtest_download
+                  speedtest_upload: sensor.speedtest_upload
+              - type: custom:technology-card
+                section: access_points
+                access_points:
+                  - name: Hallway
+                    entity: sensor.office_u7_state
+                    clients_entity: sensor.office_u7_clients
+                    bands: 2.4 / 5 / 6 GHz
+                  - name: Family Room
+                    entity: sensor.family_room_u7_state
+                    clients_entity: sensor.family_room_u7_clients
+                    bands: 2.4 / 5 / 6 GHz
+              - type: custom:technology-card
+                section: immich
+                entities:
+                  immich_status: switch.unraid_immich
+                  immich_photos: sensor.immich_photos_count
+                  immich_videos: sensor.immich_videos_count
+                  immich_disk_available: sensor.immich_disk_available
+                  immich_disk_size: sensor.immich_disk_size
+      - type: grid
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:technology-card
+                section: server_health
+                entities:
+                  cpu_usage: sensor.unraid_cpu_utilization
+                  cpu_temp: sensor.unraid_cpu_temperature
+                  ram_usage: sensor.unraid_ram_usage
+                  array_state: sensor.unraid_array_state
+                disk_temps:
+                  - name: Parity
+                    entity: sensor.unraid_parity_temperature
+                  - name: Disk 1
+                    entity: sensor.unraid_disk1_temperature
+                  - name: Disk 2
+                    entity: sensor.unraid_disk2_temperature
+                  - name: Disk 3
+                    entity: sensor.unraid_disk3_temperature
+                  - name: Disk 4
+                    entity: sensor.unraid_disk4_temperature
+                  - name: Disk 5
+                    entity: sensor.unraid_disk5_temperature
+                  - name: Cache
+                    entity: sensor.unraid_cache_temperature
+              - type: custom:technology-card
+                section: services
+                services:
+                  - name: Sonarr
+                    entity: switch.unraid_sonarr
+                  - name: Radarr
+                    entity: switch.unraid_radarr
+                  - name: Jellyfin
+                    entity: switch.unraid_jellyfin
+                  - name: Immich
+                    entity: switch.unraid_immich
+                  - name: Seer
+                    entity: switch.unraid_seerr
+                  - name: Syncthing
+                    entity: switch.unraid_syncthing
+                  - name: Jackett
+                    entity: switch.unraid_jackett
+                  - name: Gitea
+                    entity: switch.unraid_gitea
+                  - name: KitchenOwl
+                    entity: switch.unraid_kitchenowl
+                  - name: Profilarr
+                    entity: switch.unraid_profilarr
+                  - name: Home Assistant
+                    entity: switch.unraid_homeassistant
+                  - name: Homarr
+                    entity: switch.unraid_homarr
+                  - name: iCloudPD
+                    entity: switch.unraid_icloudpd
+              - type: custom:technology-card
+                section: storage
+                storage_drives:
+                  - name: Array
+                    entity: sensor.unraid_array_usage
+                    used: 18.8 TB
+                    free: 11.2 TB
+                  - name: Cache
+                    entity: sensor.unraid_cache_usage
+                parity_entity: sensor.unraid_parity_check
+                parity_progress_entity: sensor.unraid_parity_check_progress
+                parity_speed_entity: sensor.unraid_parity_check_speed
+      - type: grid
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: custom:technology-card
+                section: controls
+                restart_buttons:
+                  - name: Hallway AP
+                    subtitle: U7 Pro
+                    entity: button.office_u7_restart
+                    confirm_message: >
+                      Restart the Hallway access point? Nearby devices will
+                      briefly lose WiFi.
+                  - name: Family Room AP
+                    subtitle: U7 Pro
+                    entity: button.family_room_u7_restart
+                    confirm_message: >
+                      Restart the Family Room access point? Nearby devices will
+                      briefly lose WiFi.
+                  - name: Router
+                    subtitle: Dream Machine
+                    entity: button.beryl_dream_machine_restart
+                    danger: true
+                    confirm_message: >
+                      Restart the main router? ALL devices will lose internet
+                      for 1-2 minutes.
+              - type: custom:technology-card
+                section: ink
+                entities:
+                  ink_black: sensor.epson_et_5170_series_black_ink
+                  ink_cyan: sensor.epson_et_5170_series_cyan_ink
+                  ink_magenta: sensor.epson_et_5170_series_magenta_ink
+                  ink_yellow: sensor.epson_et_5170_series_yellow_ink
+              - type: custom:technology-card
+                section: recently_added
+                entities:
+                  sonarr_recent: sensor.sonarr_recent
+                  radarr_recent: sensor.radarr_recent
+    cards: []
+
+  - title: 3D Printer
+    path: 3d-printer
+    icon: mdi:printer-3d
+    type: sections
+    max_columns: 2
+    theme: Amoled+
+    sections:
+      - type: grid
+        column_span: 2
+        cards:
+          - type: custom:bambu-printer-card
+            printer: p1s_01p09a3a1100648
+            grid_options:
+              columns: 24
+              rows: auto
+    cards: []
