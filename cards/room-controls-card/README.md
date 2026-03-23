@@ -164,3 +164,51 @@ doors:
 | v4 | Added fan pips with signal-bar design |
 | v2 | Added lights row with master toggle and brightness bar |
 | v1 | Initial release |
+
+---
+
+### `theme_block` object
+
+Optional. Adds a holiday/schedule indicator block above the lights row. Reads from a `sensor.outdoor_lighting_theme` template sensor (see `ha-config/outdoor-lighting-theme-sensor.yaml`).
+
+When the sensor state is `Default` the block shows "🌙 Default Schedule / Warm white". When a holiday is active it shows the holiday name, emoji, accent color, and a row per configured area with color swatches, a gradient fill bar, and on/off/brightness state.
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `sensor` | string | ✅ | Entity ID of the outdoor lighting theme sensor |
+| `areas` | list | ✅ | List of area rows to show inside the block |
+
+#### `theme_block.areas` item
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `label` | string | ✅ | Display label for the area row (e.g. `All Outdoor`) |
+| `entity` | string | ✅ | Entity ID used to read current on/off/brightness state |
+| `color_attr` | string | ✅ | Attribute name on the sensor that holds this area's color array (e.g. `all_outdoor_colors`, `spotlight_colors`, `front_path_colors`) |
+| `type` | string | ❌ | Set to `switch` for switch entities — disables color swatches, shows On/Off only |
+| `count` | number | ❌ | If set, the "On" state label shows e.g. `5 on` instead of just `On`. Useful for light groups |
+
+**Example config:**
+
+```yaml
+theme_block:
+  sensor: sensor.outdoor_lighting_theme
+  areas:
+    - label: All Outdoor
+      entity: light.all_yard_lights
+      color_attr: all_outdoor_colors
+    - label: Display Lights
+      entity: light.yard_spotlights
+      color_attr: spotlight_colors
+      count: 5
+    - label: Front Path
+      entity: light.hue_path_lights
+      color_attr: front_path_colors
+    - label: Side Path
+      entity: switch.yard_light_controller_zone_1
+      type: switch
+```
+
+| Version | Changes |
+|---------|---------|
+| v35 | `theme_block:` added — holiday theme indicator with per-area color swatches, gradient bars, and state labels. `_buildThemeBlock()` and `_patchThemeBlock()` added. Fully patched on every hass update without re-render. |

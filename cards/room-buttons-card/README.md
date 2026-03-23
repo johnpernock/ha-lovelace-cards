@@ -120,3 +120,31 @@ buttons:
 | v3 | Fixed fan popup speed resolution — now uses `_fanResolvedSpeeds()` helper instead of hardcoded value; matches `room-controls-card` priority logic |
 | v2 | Added `cover_group` popup type with `max_position` support; added `tap_action: toggle` for direct cover control |
 | v1 | Initial release — 2-column grid, `stat` / `toggle` / `fan` popup types |
+
+---
+
+### `theme_sensor` parameter (button-level)
+
+Optional. When set on a button, reads `sensor.outdoor_lighting_theme` and adds two holiday indicators to the button:
+
+- **Color strip** — 3px gradient bar across the bottom of the button showing the holiday's color palette
+- **Theme name** — small label below the state text showing the emoji and holiday name
+
+Both are hidden when the sensor state is `Default` — the button looks completely normal on non-holiday nights.
+
+| Key | Type | Required | Description |
+|-----|------|----------|-------------|
+| `theme_sensor` | string | ❌ | Entity ID of the outdoor lighting theme sensor. Enables the color strip and theme name label on this button. |
+
+**Example:**
+
+```yaml
+- entity: light.all_yard_lights
+  name: Yard
+  icon: tree
+  theme_sensor: sensor.outdoor_lighting_theme
+```
+
+| Version | Changes |
+|---------|---------|
+| v4 | `theme_sensor` parameter added — holiday color strip and theme name label on any button |

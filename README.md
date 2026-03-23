@@ -20,6 +20,10 @@ ha-lovelace-cards/
 │   ├── ha-utils.js     — entity helpers, color constants, HVAC meta, fan speed, drag slider
 │   ├── ha-styles.js    — shared CSS string exports (card reset, popup, badges, pills, etc.)
 │   └── ha-popup.js     — portal popup factory (appends to document.body)
+├── ha-config/
+│   ├── outdoor-lighting-theme-sensor.yaml  — template sensor for holiday theme detection
+│   ├── light-groups.yaml                   — custom light groups (yard_spotlights etc.)
+│   └── README.md
 ├── docs/
 │   └── style-guide.md  — UI principles, color system, component patterns, mockups
 └── README.md
@@ -93,6 +97,8 @@ Copy the entire repo to `/config/www/` on your HA instance. The resulting paths 
 ... etc
 ```
 
+For the `ha-config/` files, copy them to `/config/ha-config/` (alongside `configuration.yaml`) and add the includes described in [`ha-config/README.md`](ha-config/README.md).
+
 ### 2. Register each card as a resource
 
 Go to **Settings → Dashboards → Resources → Add resource** for each card:
@@ -142,8 +148,8 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 
 | Card | Folder | Version |
 |------|--------|---------|
-| Room Controls | `cards/room-controls-card/` | v34 |
-| Room Buttons | `cards/room-buttons-card/` | v3 |
+| Room Controls | `cards/room-controls-card/` | v35 |
+| Room Buttons | `cards/room-buttons-card/` | v4 |
 | Camera Layout | `cards/camera-layout-card/` | v1 |
 | Technology | `cards/technology-card/` | v11 |
 | Bambu Printer | `cards/bambu-printer-card/` | current |
@@ -184,6 +190,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **Outdoor lighting theme indicator.** New `ha-config/` folder with template sensor (`sensor.outdoor_lighting_theme`) covering 13 holidays + Default. New `light.yard_spotlights` light group. `room-controls-card` gains `theme_block:` config — Option B zone indicator with color swatches, gradient bars, and per-area state (All Outdoor, Display Lights, Front Path, Side Path). `room-buttons-card` gains `theme_sensor:` on buttons — holiday color strip + name label, hidden on Default nights. |
 | Mar 2026 | **Repo restructure.** Cards moved to per-card folders. `shared/` modules created (`ha-utils.js`, `ha-styles.js`, `ha-popup.js`). `garage-door-card` fully migrated as proof of concept. Per-card `README.md` docs added. Style guide added. |
 | Mar 2026 | **Major refactor session.** Popup portalling; `_patch()` system; fan speed priority; light color mode detection; left accent bars; blind/garage/door pills; HVAC live mode reading. |
 | Earlier 2026 | Tesla popup sections; technology-card expansion; calendar map thumbnails; septa popup; thermostat live modes. |
