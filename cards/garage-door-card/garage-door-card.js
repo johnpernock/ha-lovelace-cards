@@ -20,7 +20,7 @@
  */
 
 import { COLORS, getVal, isUnavailable } from '../../shared/ha-utils.js';
-import { CSS_RESET, CSS_TAPPABLE, CSS_UNAVAIL } from '../../shared/ha-styles.js';
+import { CSS_RESET, CSS_TAPPABLE, CSS_UNAVAIL } from '../../shared/ha-styles.js?v=2';
 
 function getTheme(state) {
   switch (state) {

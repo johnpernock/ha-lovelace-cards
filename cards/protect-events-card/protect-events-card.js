@@ -41,11 +41,11 @@
  */
 
 import { COLORS, colorTheme, fmtRelative, isUnavailable, getFriendlyName }
-  from '../../shared/ha-utils.js';
+  from '../../shared/ha-utils.js?v=2';
 import { CSS_RESET, CSS_TAPPABLE, CSS_BADGE, CSS_UNAVAIL }
-  from '../../shared/ha-styles.js';
+  from '../../shared/ha-styles.js?v=2';
 import { createPopupPortal, openPopup, closePopup, destroyPopupPortal, popupHeaderHtml }
-  from '../../shared/ha-popup.js';
+  from '../../shared/ha-popup.js?v=2';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Detection type metadata
