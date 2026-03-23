@@ -97,7 +97,7 @@ theme_block:
 Before loading this dashboard, ensure the following are set up in HA:
 
 ### Card resources
-All 15 custom card JS files registered under **Settings → Dashboards → Resources**. See root `README.md` for the full resource URL list.
+All 22 custom card JS files registered under **Settings → Dashboards → Resources**. See root `README.md` for the full resource URL list.
 
 ### HA config includes
 Both files in `ha-config/` must be active:

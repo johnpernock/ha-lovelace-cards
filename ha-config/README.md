@@ -91,7 +91,7 @@ After saving: **Developer Tools → YAML → Groups → Reload** (or restart HA)
 
 ### `dashboard.yaml`
 
-The complete Lovelace dashboard YAML for all 5 views. Paste into the HA raw config editor or use as a `ui-lovelace.yaml` source. See [`dashboard-README.md`](dashboard-README.md) for full installation instructions and a summary of all views and changes.
+The complete Lovelace dashboard YAML for all 7 views (Home, Lights/Fans, Cameras, Technology, Commute, Energy, 3D Printer). Paste into the HA raw config editor or use as a `ui-lovelace.yaml` source. See [`dashboard-README.md`](dashboard-README.md) for full installation instructions and a summary of all views and changes.
 
 ---
 
