@@ -306,6 +306,9 @@ class RoomControlsCard extends HTMLElement {
     const masterOn = room.lights ? this._isOn(room.lights.entity) : false;
     let body = '';
 
+    /* theme block — outdoor lighting holiday indicator */
+    body += this._buildThemeBlock(room);
+
     /* lights */
     if (room.lights) {
       const cfg   = room.lights;
@@ -728,8 +731,112 @@ class RoomControlsCard extends HTMLElement {
     .strack{height:5px;border-radius:99px;background:rgba(255,255,255,.08);position:relative;overflow:visible}
     .sfill{height:100%;border-radius:99px;background:#fbbf24;transition:width .1s;pointer-events:none}
     .sinput{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;height:18px;margin-top:-6px}
+    .theme-block{border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:9px 11px;margin-bottom:6px}
+    .theme-block-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+    .theme-block-name{font-size:13px;font-weight:700}
+    .theme-block-sub{font-size:10px;color:rgba(255,255,255,.35);margin-left:auto;white-space:nowrap}
+    .theme-area{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+    .theme-area:last-child{margin-bottom:0}
+    .theme-area-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);width:84px;flex-shrink:0}
+    .theme-area-swatches{display:flex;gap:3px;flex-shrink:0;width:54px}
+    .theme-area-swatch{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .theme-area-bar{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
+    .theme-area-fill{height:100%;border-radius:99px;transition:width .3s,background .3s}
+    .theme-area-state{font-size:10px;font-weight:700;width:34px;text-align:right;flex-shrink:0}
     /* popup CSS lives in portal style block */
   `; }
+
+  /* ── Theme block — outdoor lighting holiday indicator ─────────────────── */
+
+  _themeAreaState(area) {
+    const isSwitch = area.type === 'switch';
+    const on = area.entity
+      ? (isSwitch
+          ? this._hass?.states[area.entity]?.state === 'on'
+          : this._isOn(area.entity))
+      : false;
+    const bri = isSwitch ? null : this._brightness(area.entity);
+    if (!on) return { label:'Off',  color:'rgba(255,255,255,.25)', pct:0   };
+    if (isSwitch) return { label:'On',  color:'#4ade80',             pct:100 };
+    if (bri != null && bri < 30)
+              return { label:bri+'%', color:'#fbbf24',             pct:bri };
+    const label = area.count ? area.count+' on' : 'On';
+    return { label, color:'#4ade80', pct: bri ?? 100 };
+  }
+
+  _buildThemeBlock(room) {
+    if (!room.theme_block) return '';
+    const cfg    = room.theme_block;
+    const sensor = this._hass?.states[cfg.sensor];
+    const theme  = sensor?.state?.trim() || 'Default';
+    const attrs  = sensor?.attributes || {};
+    const isHol  = attrs.is_holiday === true || theme !== 'Default';
+    const accent = attrs.accent || 'rgba(255,255,255,.55)';
+    const emoji  = attrs.emoji  || '🌙';
+    const sub    = isHol ? 'Holiday theme active' : 'Warm white';
+
+    const areasHtml = (cfg.areas || []).map((area, ai) => {
+      const colors   = attrs[area.color_attr] || ['#ffcf7d'];
+      const isSwitch = area.type === 'switch';
+      const st       = this._themeAreaState(area);
+      const gradient = colors.length > 1
+        ? `linear-gradient(to right,${colors.join(',')})`
+        : colors[0] || '#ffcf7d';
+      const swatchHtml = isSwitch ? '' :
+        colors.slice(0,6).map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
+      return `<div class="theme-area">
+        <div class="theme-area-label">${area.label}</div>
+        <div class="theme-area-swatches" id="tasw-${room.id}-${ai}">${swatchHtml}</div>
+        <div class="theme-area-bar"><div class="theme-area-fill" id="tafill-${room.id}-${ai}"
+          style="width:${st.pct}%;background:${st.pct > 0 ? gradient : 'transparent'}"></div></div>
+        <div class="theme-area-state" id="tast-${room.id}-${ai}" style="color:${st.color}">${st.label}</div>
+      </div>`;
+    }).join('');
+
+    return `<div class="theme-block" id="tblock-${room.id}">
+      <div class="theme-block-hdr">
+        <span style="font-size:14px;line-height:1">${emoji}</span>
+        <div class="theme-block-name" id="tname-${room.id}" style="color:${accent}">${theme}</div>
+        <div class="theme-block-sub" id="tsub-${room.id}">${sub}</div>
+      </div>
+      ${areasHtml}
+    </div>`;
+  }
+
+  _patchThemeBlock(room, sr) {
+    const cfg    = room.theme_block;
+    const sensor = this._hass?.states[cfg.sensor];
+    if (!sensor) return;
+    const theme  = sensor.state?.trim() || 'Default';
+    const attrs  = sensor.attributes || {};
+    const isHol  = attrs.is_holiday === true || theme !== 'Default';
+    const accent = attrs.accent || 'rgba(255,255,255,.55)';
+    const emoji  = attrs.emoji  || '🌙';
+
+    const nameEl = sr.getElementById(`tname-${room.id}`);
+    const subEl  = sr.getElementById(`tsub-${room.id}`);
+    if (nameEl) { nameEl.textContent = theme; nameEl.style.color = accent; }
+    if (subEl)  subEl.textContent = isHol ? 'Holiday theme active' : 'Warm white';
+
+    (cfg.areas || []).forEach((area, ai) => {
+      const colors   = attrs[area.color_attr] || ['#ffcf7d'];
+      const isSwitch = area.type === 'switch';
+      const st       = this._themeAreaState(area);
+      const gradient = colors.length > 1
+        ? `linear-gradient(to right,${colors.join(',')})`
+        : colors[0] || '#ffcf7d';
+
+      const fill  = sr.getElementById(`tafill-${room.id}-${ai}`);
+      const stEl  = sr.getElementById(`tast-${room.id}-${ai}`);
+      const swEl  = sr.getElementById(`tasw-${room.id}-${ai}`);
+      if (fill)  { fill.style.width = st.pct+'%'; fill.style.background = st.pct > 0 ? gradient : 'transparent'; }
+      if (stEl)  { stEl.textContent = st.label; stEl.style.color = st.color; }
+      if (swEl && !isSwitch) {
+        swEl.innerHTML = colors.slice(0,6)
+          .map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
+      }
+    });
+  }
 
   /* ── Patch — update values without destroying DOM ─────────────────── */
 
@@ -895,6 +1002,9 @@ class RoomControlsCard extends HTMLElement {
           }
         });
       }
+
+      // theme block
+      if (room.theme_block) this._patchThemeBlock(room, sr);
     });
   }
 

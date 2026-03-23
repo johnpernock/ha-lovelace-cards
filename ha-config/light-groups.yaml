@@ -1,0 +1,22 @@
+# light-groups.yaml
+#
+# Custom light groups for the outdoor lighting system.
+#
+# ── INSTALLATION ──────────────────────────────────────────────────────────────
+# In configuration.yaml:
+#
+#   light: !include ha-config/light-groups.yaml
+#
+# Or paste into an existing light: block.
+# After saving: Developer Tools → YAML → Groups → Reload (or restart HA)
+# ──────────────────────────────────────────────────────────────────────────────
+
+- platform: group
+  name: "Yard Spotlights"
+  unique_id: yard_spotlights_group
+  entities:
+    - light.yard_maple
+    - light.corner_tree
+    - light.big_tree
+    - light.bay_window_maple
+    - light.backyard_maple

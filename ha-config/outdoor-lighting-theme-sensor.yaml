@@ -1,0 +1,153 @@
+# outdoor-lighting-theme-sensor.yaml
+#
+# Template sensor for outdoor lighting holiday theme detection.
+# Returns the current theme name as state, plus per-area color arrays as attributes.
+#
+# ── INSTALLATION ──────────────────────────────────────────────────────────────
+# In configuration.yaml, add or merge into your template: block:
+#
+#   template: !include ha-config/outdoor-lighting-theme-sensor.yaml
+#
+# Or paste the contents directly into an existing template: block.
+# After saving: Developer Tools → YAML → Template Entities → Reload
+# ──────────────────────────────────────────────────────────────────────────────
+
+- sensor:
+    - name: "Outdoor Lighting Theme"
+      unique_id: outdoor_lighting_theme
+
+      # ── State: current theme name ──────────────────────────────────────────
+      state: >
+        {% set m = now().month %}
+        {% set d = now().day %}
+
+        {# Easter — Anonymous Gregorian algorithm #}
+        {% set y = now().year %}
+        {% set a = y % 19 %}
+        {% set b = y // 100 %}
+        {% set c = y % 100 %}
+        {% set dv = b // 4 %}
+        {% set e = b % 4 %}
+        {% set f = (b + 8) // 25 %}
+        {% set g = (b - f + 1) // 3 %}
+        {% set h = (19*a + b - dv - g + 15) % 30 %}
+        {% set i = c // 4 %}
+        {% set k = c % 4 %}
+        {% set lv = (32 + 2*e + 2*i - h - k) % 7 %}
+        {% set mv = (a + 11*h + 22*lv) // 451 %}
+        {% set easter_m = (h + lv - 7*mv + 114) // 31 %}
+        {% set easter_d = ((h + lv - 7*mv + 114) % 31) + 1 %}
+
+        {% if   m == 1  and d == 1  %} New Year's Day
+        {% elif m == 2  and d == 14 %} Valentine's Day
+        {% elif m == 3  and d == 17 %} St. Patrick's Day
+        {% elif m == easter_m and d == easter_d %} Easter
+        {% elif m == 5  and now().weekday() == 0 and (now().day + 7) > 31 %} Memorial Day
+        {% elif m == 6  and d == 19 %} Juneteenth
+        {% elif m == 6  and d != 19 %} Pride Month
+        {% elif m == 7  and d == 4  %} Independence Day
+        {% elif m == 10 and d == 31 %} Halloween
+        {% elif m == 11 and d == 11 %} Veterans Day
+        {% elif m == 11 and now().weekday() == 3 and ((now().day - 1) // 7) == 3 %} Thanksgiving
+        {% elif m == 12 and d == 25 %} Christmas
+        {% elif m == 12 and d == 31 %} New Year's Eve
+        {% else %} Default
+        {% endif %}
+
+      attributes:
+
+        emoji: >
+          {% set e = {
+            "New Year's Day":    "🥂",
+            "New Year's Eve":    "🥂",
+            "Valentine's Day":   "❤️",
+            "St. Patrick's Day": "☘️",
+            "Easter":            "🐣",
+            "Memorial Day":      "🎖️",
+            "Juneteenth":        "✊",
+            "Pride Month":       "🏳️‍🌈",
+            "Independence Day":  "🎆",
+            "Halloween":         "🎃",
+            "Veterans Day":      "🎖️",
+            "Thanksgiving":      "🦃",
+            "Christmas":         "🎄"
+          } %}
+          {{ e.get(this.state, "🌙") }}
+
+        is_holiday: >
+          {{ this.state != "Default" }}
+
+        accent: >
+          {% set a = {
+            "New Year's Day":    "#ffc832",
+            "New Year's Eve":    "#ffc832",
+            "Valentine's Day":   "#ff3364",
+            "St. Patrick's Day": "#4ade80",
+            "Easter":            "#a78bfa",
+            "Memorial Day":      "#f87171",
+            "Juneteenth":        "#f87171",
+            "Pride Month":       "#f472b6",
+            "Independence Day":  "#60a5fa",
+            "Halloween":         "#fb923c",
+            "Veterans Day":      "rgba(255,255,255,0.75)",
+            "Thanksgiving":      "#fbbf24",
+            "Christmas":         "#f87171"
+          } %}
+          {{ a.get(this.state, "rgba(255,255,255,0.55)") }}
+
+        # Main palette — used for the home button color strip
+        all_outdoor_colors: >
+          {% set c = {
+            "New Year's Day":    ["#ffc832"],
+            "New Year's Eve":    ["#ffc832"],
+            "Valentine's Day":   ["#ff1450"],
+            "St. Patrick's Day": ["#00b400"],
+            "Easter":            ["#b464ff"],
+            "Memorial Day":      ["#dc0000", "#ffffff"],
+            "Juneteenth":        ["#dc1414"],
+            "Pride Month":       ["#ff0000", "#ff8c00", "#ffdc00", "#00c800", "#0050ff", "#9400d3"],
+            "Independence Day":  ["#dc0000", "#ffffff", "#0032ff"],
+            "Halloween":         ["#ff4b00"],
+            "Veterans Day":      ["#ffffff"],
+            "Thanksgiving":      ["#dc6400"],
+            "Christmas":         ["#dc0000", "#00b400"]
+          } %}
+          {{ c.get(this.state, ["#ffcf7d"]) }}
+
+        # 5 entries — yard_maple, corner_tree, big_tree, bay_window_maple, backyard_maple
+        spotlight_colors: >
+          {% set c = {
+            "New Year's Day":    ["#ffc832","#ffc832","#ffc832","#ffc832","#ffc832"],
+            "New Year's Eve":    ["#ffc832","#ffc832","#ffc832","#ffc832","#ffc832"],
+            "Valentine's Day":   ["#ff1450","#ff1450","#ff1450","#ff1450","#ff1450"],
+            "St. Patrick's Day": ["#00b400","#00b400","#00b400","#00b400","#00b400"],
+            "Easter":            ["#b464ff","#b464ff","#b464ff","#b464ff","#b464ff"],
+            "Memorial Day":      ["#dc0000","#ffffff","#dc0000","#ffffff","#dc0000"],
+            "Juneteenth":        ["#dc1414","#dc1414","#dc1414","#dc1414","#dc1414"],
+            "Pride Month":       ["#ff0000","#ff8c00","#ffdc00","#00c800","#00b482"],
+            "Independence Day":  ["#dc0000","#ffffff","#0032ff","#dc0000","#ffffff"],
+            "Halloween":         ["#ff4b00","#ff4b00","#ff4b00","#ff4b00","#ff4b00"],
+            "Veterans Day":      ["#ffffff","#ffffff","#ffffff","#ffffff","#ffffff"],
+            "Thanksgiving":      ["#dc6400","#dc6400","#dc6400","#dc6400","#dc6400"],
+            "Christmas":         ["#dc0000","#00b400","#dc0000","#00b400","#dc0000"]
+          } %}
+          {{ c.get(this.state, ["#ffcf7d","#ffcf7d","#ffcf7d","#ffcf7d","#ffcf7d"]) }}
+
+        # 2 entries — hue_impress_outdoor_pedestal_1, hue_impress_outdoor_pedestal_2
+        front_path_colors: >
+          {% set c = {
+            "New Year's Day":    ["#ffc832","#ffc832"],
+            "New Year's Eve":    ["#ffc832","#ffc832"],
+            "Valentine's Day":   ["#ff1450","#ff1450"],
+            "St. Patrick's Day": ["#00b400","#00b400"],
+            "Easter":            ["#b464ff","#b464ff"],
+            "Memorial Day":      ["#ffffff","#dc0000"],
+            "Juneteenth":        ["#dc1414","#dc1414"],
+            "Pride Month":       ["#0050ff","#9400d3"],
+            "Independence Day":  ["#0032ff","#dc0000"],
+            "Halloween":         ["#ff4b00","#ff4b00"],
+            "Veterans Day":      ["#ffffff","#ffffff"],
+            "Thanksgiving":      ["#dc6400","#dc6400"],
+            "Christmas":         ["#00b400","#dc0000"]
+          } %}
+          {{ c.get(this.state, ["#ffcf7d","#ffcf7d"]) }}

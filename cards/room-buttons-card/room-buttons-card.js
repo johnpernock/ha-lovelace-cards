@@ -797,6 +797,23 @@ class RoomButtonsCard extends HTMLElement {
         ? `<div class="prog-indeterminate" style="background:${t.iconColor}"></div>`
         : '';
 
+      // Theme strip — shown when button has theme_sensor configured
+      let themeStripHtml = '', themeNameHtml = '';
+      if (btn.theme_sensor) {
+        const sensor  = this._entityState(btn.theme_sensor);
+        const theme   = sensor?.state?.trim() || 'Default';
+        const attrs   = sensor?.attributes || {};
+        const colors  = attrs.all_outdoor_colors || [];
+        const emoji   = attrs.emoji || '';
+        const isHol   = attrs.is_holiday === true || theme !== 'Default';
+        const accent  = attrs.accent || 'rgba(255,255,255,.5)';
+        if (isHol && colors.length) {
+          const segs = colors.map(c => `<div style="flex:1;background:${c}"></div>`).join('');
+          themeStripHtml = `<div class="btn-theme-strip">${segs}</div>`;
+          themeNameHtml  = `<div class="btn-theme-name" style="color:${accent}">${emoji} ${theme}</div>`;
+        }
+      }
+
       return `<button class="room-btn ${t.canAct ? 'can-act' : 'btn-disabled'}"
           id="rbtn-${i}" style="background:${t.bg};border-color:${t.border}"
           data-idx="${i}" ${t.canAct ? '' : 'disabled'}>
@@ -804,8 +821,10 @@ class RoomButtonsCard extends HTMLElement {
         <div class="btn-text">
           <div class="btn-name"  style="color:${t.nameColor}">${name}</div>
           <div class="btn-state" style="color:${t.stateColor}">${t.stateLabel}</div>
+          ${themeNameHtml}
         </div>
         ${progressHtml}
+        ${themeStripHtml}
       </button>`;
     }).join('');
 
@@ -863,6 +882,17 @@ class RoomButtonsCard extends HTMLElement {
           white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
         }
         .btn-state { font-size: 11px; font-weight: 500; margin-top: 2px; opacity: 0.8; }
+        .btn-theme-name {
+          font-size: 9px; font-weight: 700;
+          text-transform: uppercase; letter-spacing: 0.05em;
+          margin-top: 3px; line-height: 1;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .btn-theme-strip {
+          position: absolute; bottom: 0; left: 0; right: 0;
+          height: 3px; display: flex; overflow: hidden;
+          border-radius: 0 0 10px 10px;
+        }
 
         .hold-bar {
           position: absolute; bottom: 0; left: 0;
