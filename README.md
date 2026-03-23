@@ -129,6 +129,7 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/traffic-card/traffic-card.js` | JavaScript Module |
 | `/local/cards/tesla-commute-card/tesla-commute-card.js` | JavaScript Module |
 | `/local/cards/charging-card/charging-card.js` | JavaScript Module |
+| `/local/cards/protect-events-card/protect-events-card.js` | JavaScript Module |
 
 > **Note:** The `shared/` modules do **not** need to be registered. They are imported directly by the card JS files using relative paths.
 
@@ -179,6 +180,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Traffic (Commute) | `cards/traffic-card/` | v1 |
 | Tesla Commute | `cards/tesla-commute-card/` | v1 |
 | Charging | `cards/charging-card/` | v1 |
+| Protect Events ✦ | `cards/protect-events-card/` | v1 |
 
 ✦ = fully migrated to shared modules (proof of concept)
 
@@ -195,6 +197,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Commute | `/commute` | sections | 3 |
 | Energy | `/energy` | sections | 3 |
 | 3D Printer | `/3d-printer` | sections | 2 (span) |
+| Security | `/security` | sections | 2 |
 
 ---
 
@@ -208,6 +211,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **UniFi Protect event feed card + Security view.** `protect-events-card` — real-time smart detection event feed from UniFi Protect cameras. Subscribes to `state_changed` over websocket; ring buffer holds latest N events per camera; filter pills narrow by type (person / vehicle / animal / package); amber flash animation on new arrivals; async thumbnail fetch via `/api/unifiprotect/thumbnail/{event_id}` ~1.5s after detection; portal popup shows 16:9 thumbnail, 3-column meta strip (camera / type / confidence), clip and live-view actions. Footer shows rolling today-count and active-motion-sensor count. Fully migrated to shared modules (`ha-utils`, `ha-styles`, `ha-popup`). New Security view added to dashboard (2-col: camera layout left / protect-events-card right). |
 | Mar 2026 | **Expanded Tesla + charging cards on Commute view.** `tesla-commute-card` — expanded inline version of tesla-card showing battery, interior/exterior temps, climate stepper, tire pressure grid, and action buttons (lock/trunk/sentry/odometer) all without a popup. `charging-card` — unified Tesla + Wallbox card placed below; active state shows battery progress bar with charge limit tick, live power (Wallbox), session energy (Wallbox), charging speed mi/h (Tesla); idle state shows last session summary. Commute view expanded from 2 to 3 columns. |
 | Mar 2026 | **SEPTA sort fix + Commute view.** SEPTA card v17 — trains now sorted by estimated arrival time (scheduled + delay) across all sensors so the true next-to-arrive train is always shown first. Inbound now reads all sensors not just index 0. SEPTA and traffic cards moved from Home view to new dedicated Commute view (2-col, traffic left / SEPTA right). |
 | Mar 2026 | **Traffic commute card.** `traffic-card` using Waze Travel Time sensors — live travel time, delay vs typical, distance, Waze route name, dynamic Fastest badge across home routes, incident banner when delay exceeds threshold, to-work row dims after noon. Three Waze sensors added to `ha-config/waze-sensors.yaml`. Card added to Home view column 1. |
