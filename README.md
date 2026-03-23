@@ -182,13 +182,15 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 
 ## Views
 
-| View | Layout | Columns |
-|------|--------|---------|
-| Home | sections | 3 |
-| Lights & Fans | sections | 3 |
-| Cameras | panel | — |
-| Technology | sections | 3 |
-| 3D Printer | sections | 2 (span) |
+| View | Path | Layout | Columns |
+|------|------|--------|---------|
+| Home | `/home` | sections | 3 |
+| Lights & Fans | `/lightsfans` | sections | 3 |
+| Cameras | `/cameras` | panel | — |
+| Technology | `/technology` | sections | 3 |
+| Commute | `/commute` | sections | 2 |
+| Energy | `/energy` | sections | 3 |
+| 3D Printer | `/3d-printer` | sections | 2 (span) |
 
 ---
 

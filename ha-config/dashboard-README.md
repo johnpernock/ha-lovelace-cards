@@ -29,10 +29,11 @@ lovelace:
 
 | View | Path | Layout | Description |
 |------|------|--------|-------------|
-| Home | `/home` | sections · 3 col | Clock, weather, SEPTA, Tesla, door sensors, room buttons, thermostats, temp strip, printer status, calendar |
+| Home | `/home` | sections · 3 col | Clock, weather, now-playing, Tesla, door sensors, room buttons, thermostats, temp strip, printer status, calendar |
 | Lights / Fans | `/lightsfans` | sections · 3 col | Room control cards for all rooms — lights, fans, blinds, thermostats |
 | Cameras | `/cameras` | panel | Full-width camera layout — doorbell portrait + 2×2 grid |
 | Technology | `/technology` | sections · 3 col | Network, speed, APs, Unraid health, services, storage, ink, media |
+| Commute | `/commute` | sections · 2 col | Traffic (Waze, left) + SEPTA Paoli/Thorndale line (right) |
 | Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
 | 3D Printer | `/3d-printer` | sections · 2 col | Bambu P1S full status card spanning both columns |
 
