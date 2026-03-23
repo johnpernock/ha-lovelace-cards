@@ -192,7 +192,7 @@ class TeslaCommuteCard extends HTMLElement {
       const clr  = v == null ? 'rgba(255,255,255,.3)' : bad ? '#f87171' : '#4ade80';
       return `<div class="tire-tile${bad ? ' warn' : ''}">
         <span class="tire-pos${bad ? ' warn' : ''}">${t.pos}</span>
-        <div><span class="tire-val" style="color:${clr}" id="tc-${t.key}">${v != null ? v : '—'}</span><span class="tire-unit">PSI</span></div>
+        <div><span class="tire-val" style="color:${clr}" id="tc-${t.key}">${v != null ? Math.round(v) : '—'}</span><span class="tire-unit">PSI</span></div>
       </div>`;
     }).join('');
     return `
@@ -398,7 +398,7 @@ class TeslaCommuteCard extends HTMLElement {
       const v   = this._num(k);
       const bad = v != null && v < warn;
       const e   = el(`tc-${k}`);
-      if (e) { e.textContent = v != null ? v : '—'; e.style.color = v == null ? 'rgba(255,255,255,.3)' : bad ? '#f87171' : '#4ade80'; }
+      if (e) { e.textContent = v != null ? Math.round(v) : '—'; e.style.color = v == null ? 'rgba(255,255,255,.3)' : bad ? '#f87171' : '#4ade80'; }
     });
   }
 
