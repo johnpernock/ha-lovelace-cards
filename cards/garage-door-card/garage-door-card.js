@@ -82,9 +82,10 @@ class GarageDoorCard extends HTMLElement {
         ${CSS_RESET}
         ${CSS_TAPPABLE}
         ${CSS_UNAVAIL}
-        ha-card { padding: 12px 16px 14px; }
+        ha-card { padding: 0; }
+        .card { border-radius:10px; border:1px solid rgba(255,255,255,.10); overflow:hidden; }
         .action-btn {
-          width:100%; border-radius:12px; padding:20px 8px 14px; border:none;
+          width:100%; border-radius:0; padding:20px 8px 14px; border:none;
           display:flex; flex-direction:column; align-items:center; gap:10px;
         }
         .action-btn.disabled { cursor:default; }
@@ -101,6 +102,7 @@ class GarageDoorCard extends HTMLElement {
         }
       </style>
       <ha-card>
+        <div class="card">
         ${unavail
           ? `<div class="ha-unavail">unavailable</div>`
           : `<button class="action-btn ha-tappable ${theme.canToggle ? '' : 'disabled'}" id="gd-btn"
@@ -112,6 +114,7 @@ class GarageDoorCard extends HTMLElement {
              ${!theme.canToggle ? `<div class="prog-wrap"><div class="prog-bar" style="background:${theme.iconColor}"></div></div>` : ''}
            </button>`
         }
+        </div>
       </ha-card>`;
 
     this.shadowRoot.getElementById('gd-btn')

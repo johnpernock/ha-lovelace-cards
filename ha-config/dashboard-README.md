@@ -36,7 +36,7 @@ lovelace:
 | Commute | `/commute` | sections · 3 col | Col 1: traffic-card (expanded) + leave-by-card. Col 2: SEPTA Paoli/Thorndale (expanded). Col 3: Tesla Commute + Charging |
 | Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
 | 3D Printer | `/3d-printer` | sections · 2 col | Bambu P1S full status card spanning both columns |
-| Security | `/security` | sections · 2 col | Col 1: camera-layout-card (all 6 UniFi Protect cameras). Col 2: protect-events-card (live detection feed) |
+
 
 All views use `theme: Amoled+`.
 
