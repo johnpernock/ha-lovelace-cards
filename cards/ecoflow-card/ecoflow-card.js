@@ -88,6 +88,8 @@ class EcoflowCard extends HTMLElement {
     .batt-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:3px}
     .status-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;flex-shrink:0}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:7px}
+    .ha-tap{-webkit-tap-highlight-color:transparent;transition:transform .1s,filter .12s;cursor:pointer;user-select:none}
+    .ha-tap:active{transform:scale(0.96);filter:brightness(0.9)}
     .power-row{display:flex;align-items:center;gap:10px;padding:5px 0}
     .pw-ico{width:18px;height:18px;flex-shrink:0}
     .pw-ico svg{width:100%;height:100%}

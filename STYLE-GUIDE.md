@@ -605,3 +605,38 @@ _render() {
   // ... compact render continues
 }
 ```
+
+---
+
+## Known inconsistencies and resolutions
+
+This section tracks design decisions that are intentionally inconsistent across cards and explains why.
+
+### `.wrap` vs `.card` as outer container name
+
+Some cards use `.wrap` (now-playing, protect-events, leave-by, printer-status) and others use `.card` (bambu, peco, wallbox, ecoflow, charging, traffic, septa) as the class name for the visible bordered container inside `ha-card`. Both are correct — the important rule is that `ha-card` itself must always be `transparent`, `box-shadow: none`, `border: none`, and the visual border lives on the inner container. New cards should prefer `.wrap` for consistency with the shared module pattern.
+
+### Tap states — not all cards have them
+
+Cards with purely informational rows (temp-strip, clock, weather inline) intentionally omit `:active` scale/brightness since there is nothing to tap. Cards with interactive rows (room-controls, tesla, protect-events, door-sensor) must include the tap pattern on every tappable element:
+
+```css
+.my-tappable {
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.1s, filter 0.12s;
+  cursor: pointer;
+  user-select: none;
+}
+.my-tappable:active {
+  transform: scale(0.96);
+  filter: brightness(0.9);
+}
+```
+
+### `data-room` on toggle elements
+
+All interactive elements that rely on the click handler reading `el.dataset.room` must have `data-room` explicitly set. The `_togHtml()` helper in `room-controls-card` derives the room ID from the element ID — do not rely on event bubbling to supply room context.
+
+### Outer container background
+
+The outer `.card` or `.wrap` container must not have a colored background. Background opacity should only be used on **inner** elements (rows, stat boxes, hero blocks). `rgba(color, 0.04–0.10)` tints are permitted on inner sections but not on the card shell itself.

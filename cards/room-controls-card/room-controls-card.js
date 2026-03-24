@@ -300,7 +300,8 @@ class RoomControlsCard extends HTMLElement {
     const bg  = on?'background:rgba(251,191,36,.25);border-color:rgba(251,191,36,.5)':'background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)';
     const tl  = on?(w-tw-tt)+'px':tt+'px';
     const tbg = on?'#fbbf24':'rgba(255,255,255,.3)';
-    return `<div class="tog" style="${bg};width:${w}px;height:${h}px" id="${elId}" data-action="${action}"><div class="tog-thumb" style="top:${tt}px;width:${tw}px;height:${tw}px;left:${tl};background:${tbg}"></div></div>`;
+    const roomId = elId.replace(/^rtog-/,'').replace(/^pp-ltog-/,'');
+    return `<div class="tog" style="${bg};width:${w}px;height:${h}px" id="${elId}" data-action="${action}" data-room="${roomId}"><div class="tog-thumb" style="top:${tt}px;width:${tw}px;height:${tw}px;left:${tl};background:${tbg}"></div></div>`;
   }
 
   /* ── Room builder ─────────────────────────────────────────────────── */
