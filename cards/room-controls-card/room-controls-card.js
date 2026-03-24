@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v69
+ * room-controls-card.js  —  v70
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -592,15 +592,19 @@ class RoomControlsCard extends HTMLElement {
       const lname = l.name||this._attr(l.entity,'friendly_name')||l.entity.split('.').pop().replace(/_/g,' ');
       return `<div class="pp-light${lon?' pp-light-on':''}" id="ppl-${room.id}-${li}">
         <div class="pp-lrow">
-          <span class="pp-lname${lon?' lit':''}">${lname}</span>
-          ${!isSw?`<div class="lm-slider-wrap" id="ppls-wrap-${room.id}-${li}" data-room="${room.id}" data-li="${li}" data-action="popup-brightness-drag" data-entity="${l.entity}" style="touch-action:none">
-            <div class="lm-track"><div class="lm-fill" id="ppls-${room.id}-${li}" style="width:${lSliderPct}%"></div></div>
-            <div class="lm-thumb" id="pplthumb-${room.id}-${li}" style="left:${lSliderPct}%"></div>
-          </div>`:`<div style="flex:1"></div>`}
-          <span class="lm-pct" id="ppp-${room.id}-${li}">${lon?(isSw?'On':lpct+'%'):'Off'}</span>
-          ${hasCols?`<div class="pp-lchev" data-action="popup-light-exp" data-room="${room.id}" data-li="${li}">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="ppla-${room.id}-${li}"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>`:''}
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <span class="pp-lname${lon?' lit':''}">${lname}</span>
+            ${hasCols?`<div class="pp-lchev" data-action="popup-light-exp" data-room="${room.id}" data-li="${li}">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="ppla-${room.id}-${li}"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>`:''}
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${!isSw?`<div class="lm-slider-wrap" id="ppls-wrap-${room.id}-${li}" data-room="${room.id}" data-li="${li}" data-action="popup-brightness-drag" data-entity="${l.entity}" style="touch-action:none">
+              <div class="lm-track"><div class="lm-fill" id="ppls-${room.id}-${li}" style="width:${lSliderPct}%"></div></div>
+              <div class="lm-thumb" id="pplthumb-${room.id}-${li}" style="left:${Math.max(4,Math.min(lSliderPct,96))}%"></div>
+            </div>`:`<div style="flex:1"></div>`}
+            <span class="lm-pct" id="ppp-${room.id}-${li}">${lon?(isSw?'On':lpct+'%'):''}</span>
+          </div>
         </div>
         ${hasCols?`<div class="pp-color-sec hidden" id="ppcs-${room.id}-${li}">
           ${this._supportsCT(l.entity)?`<div class="pp-clbl">Color temperature</div>
@@ -1151,11 +1155,11 @@ class RoomControlsCard extends HTMLElement {
         .pp-mchev{width:44px;height:44px;border-radius:4px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
         .pp-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
         .pp-lights{padding:2px 14px 6px;display:flex;flex-direction:column;gap:4px}
-        .pp-light{border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);overflow:hidden}
-        .pp-light-on{background:rgba(251,191,36,.04);border-color:rgba(251,191,36,.18)}
-        .pp-lrow{display:flex;align-items:center;gap:8px;padding:12px 11px}
-        .pp-lname{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0;width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .pp-lname.lit{color:rgba(255,255,255,.85)}
+        .pp-light{border-radius:7px;overflow:hidden}
+        .pp-light-on{}
+        .pp-lrow{display:flex;flex-direction:column;gap:4px;padding:8px 11px 6px}
+        .pp-lname{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .pp-lname.lit{color:rgba(255,255,255,.6)}
         .pp-ltrack{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
         .pp-lfill{height:100%;border-radius:99px;background:#fbbf24;transition:width .1s}
         .pp-lpct{font-size:9px;font-weight:700;color:rgba(251,191,36,.75);width:30px;text-align:right;flex-shrink:0}

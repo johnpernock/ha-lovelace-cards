@@ -147,6 +147,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v70 | Individual lights in popup: removed border/background; name now uppercase label above slider row; slider thumb min 4%; pct empty when off; expand chevron moved to name row right |
 | v69 | Popup sheet header: added top padding (was 0); title 16px→17px white bold matching dashboard style |
 | v68 | Fixed: All Lights expand chevron was missing data-room attribute so rid was undefined and the expand block never toggled |
 | v67 | Color/CT expand now checks master group entity first — HA light groups report their own supported_color_modes so the expand arrow appears even when some individuals are plain dimmers or switches |
