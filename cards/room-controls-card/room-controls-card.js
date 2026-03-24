@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v53
+ * room-controls-card.js  —  v54
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -697,8 +697,8 @@ class RoomControlsCard extends HTMLElement {
     .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1px solid rgba(255,255,255,.05)}
     .rlbl{font-size:15px;font-weight:700;color:var(--primary-text-color)}
     .rbody{padding:6px 10px 10px;display:flex;flex-direction:column;gap:5px}
-    .tog{position:relative;border-radius:8px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
-    .tog-thumb{position:absolute;border-radius:4px;transition:left .15s,background .15s}
+    .tog{position:relative;border-radius:99px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
+    .tog-thumb{position:absolute;border-radius:50%;transition:left .15s,background .15s}
     .light-row{display:flex;align-items:center;gap:8px;padding:7px 0;user-select:none;transition:opacity .2s}
     .lm-lbl{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0}
     .lm-lbl.lit{color:rgba(255,255,255,.8)}
