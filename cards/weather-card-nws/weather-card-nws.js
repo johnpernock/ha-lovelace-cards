@@ -356,7 +356,7 @@ class WeatherCardUnified extends HTMLElement {
       : `<div class="no-fc">Loading…</div>`;
 
     const tapCursor  = tapAction !== 'none' ? 'cursor:pointer' : '';
-    const tapHint    = tapAction !== 'none' ? `<div class="tap-hint">Tap for detailed forecast</div>` : '';
+    const tapHint    = '';  // hint label removed
 
     this.shadowRoot.innerHTML = `
       <style>

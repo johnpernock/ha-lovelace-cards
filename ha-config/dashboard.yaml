@@ -14,7 +14,6 @@ views:
             name: Paoli
             unit: °F
             alert_entity: sensor.nws_alerts_alerts
-            tap_action: none
           - type: custom:septa-paoli-card
             outbound:
               - sensor.paoli_outbound_1
