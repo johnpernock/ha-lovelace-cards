@@ -147,6 +147,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v70 | v70 | Popup improvements: expand chevrons bare (no box); off individual lights dimmed to 65% opacity; pct hidden when off; subtitle "X of Y on" → "X / Y"; sheet max-width 500→440px |
 | v70 | Individual lights in popup: removed border/background; name now uppercase label above slider row; slider thumb min 4%; pct empty when off; expand chevron moved to name row right |
 | v69 | Popup sheet header: added top padding (was 0); title 16px→17px white bold matching dashboard style |
 | v68 | Fixed: All Lights expand chevron was missing data-room attribute so rid was undefined and the expand block never toggled |

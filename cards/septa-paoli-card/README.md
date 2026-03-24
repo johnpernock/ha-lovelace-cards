@@ -111,6 +111,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v24 | v24 | Popup max-width normalized to 440px |
 | v23 | v23 | Popup: fixed once:true tap-outside listener; body scroll lock on open/close; overscroll-behavior:contain on popup element |
 | v22 | v22 | Card header: 10px uppercase → 17px white bold (both compact and expanded style blocks) |
 | v21 | Added `show_next_trains: true` config option — when enabled, compact mode shows up to 3 subsequent trains as pills below the hero row for both outbound and inbound. Default false (hero only). |

@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v23
+ * septa-paoli-card.js  —  v24
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -756,7 +756,7 @@ class SeptaPaoliCard extends HTMLElement {
             padding: 24px;
           }
           #sp-popup {
-            max-width: 420px;
+            max-width: 440px;
             border-radius: 16px;
             border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.12));
           }
@@ -904,7 +904,7 @@ class SeptaPaoliCard extends HTMLElement {
       #sp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;box-sizing:border-box;align-items:flex-end;justify-content:center}
       #sp-popup{background:var(--card-background-color,#1e1e1e);border:1px solid rgba(255,255,255,.12);border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
       #sp-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 16px}
-      @media(min-width:768px){#sp-overlay{align-items:center;justify-content:center;padding:24px}#sp-popup{max-width:420px;border-radius:16px;border-bottom:1px solid rgba(255,255,255,.12)}#sp-handle{display:none}}
+      @media(min-width:768px){#sp-overlay{align-items:center;justify-content:center;padding:24px}#sp-popup{max-width: 440px;border-radius:16px;border-bottom:1px solid rgba(255,255,255,.12)}#sp-handle{display:none}}
     `;
   }
 

@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js  —  v5
+ * weather-card-nws.js  —  v6
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -435,7 +435,7 @@ class WeatherCardUnified extends HTMLElement {
         @media (min-width: 768px) {
           #wc-overlay { align-items: center; justify-content: center; padding: 24px; }
           #wc-popup {
-            max-width: 460px; border-radius: 16px;
+            max-width: 440px; border-radius: 16px;
             border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.12));
           }
           #wc-handle { display: none !important; }

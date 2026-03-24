@@ -165,13 +165,13 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Technology | `cards/technology-card/` | v13 |
 | Bambu Printer | `cards/bambu-printer-card/` | — |
 | Printer Status | `cards/printer-status-card/` | v1 |
-| Weather (NWS) | `cards/weather-card-nws/` | v5 |
+| Weather (NWS) | `cards/weather-card-nws/` | v6 |
 | Clock | `cards/clock-card/` | v3 |
 | Temp Strip | `cards/temp-strip-card/` | v3 |
-| Door Sensors | `cards/door-sensor-card/` | v7 |
-| SEPTA Paoli | `cards/septa-paoli-card/` | v23 |
+| Door Sensors | `cards/door-sensor-card/` | v8 |
+| SEPTA Paoli | `cards/septa-paoli-card/` | v24 |
 | Thermostat | `cards/thermostat-card/` | v5 |
-| Tesla | `cards/tesla-card/` | v10 |
+| Tesla | `cards/tesla-card/` | v11 |
 | Calendar | `cards/calendar-card/` | v4 |
 | Garage Door ✦ | `cards/garage-door-card/` | v4 |
 | Wallbox | `cards/wallbox-card/` | v3 |
@@ -233,6 +233,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **Popup consistency pass.** `room-controls-card` v70: expand chevrons bare (no box background); off individual light rows dimmed to 65% opacity; brightness % hidden when off; subtitle "X of Y on" → "X / Y"; sheet max-width 440px. All popup cards normalized to 440px max-width: `septa-paoli-card` v24, `tesla-card` v11, `weather-card-nws` v6, `door-sensor-card` v8. |
 | Mar 2026 | **Popup fixes — scroll lock + bottom sheet consistency across all cards.** `septa-paoli-card` v23, `tesla-card` v10, `weather-card-nws` v5, `door-sensor-card` v7, `room-controls-card` v66: all popups now lock body scroll on open and restore on close. Fixed `once:true` tap-outside listeners that could stop working after hass updates. Added `overscroll-behavior:contain` and `touch-action:pan-y` on popup elements so popup scrolls independently. All popups are bottom sheets on mobile (≤768px) and centered modals on desktop. |
 | Mar 2026 | **Room card polish + responsive camera.** `room-controls-card` v57–v63: thermostat grey backgrounds removed (transparent); +/− buttons transparent; slider thumb min position 4% (no edge overlap); thermostat block auto-hides when entity missing from HA; all lights slider no longer dims when off; yard area buttons dim at 50% opacity when off. `camera-layout-card` v4: responsive stacking breakpoint raised 480px → 700px. |
 | Mar 2026 | **Dashboard-wide header redesign + fan pip dots.** `room-controls-card` v57: room card background removed (transparent + stronger border); room name 17px white bold; single-fan rooms hide the redundant name label; speed pip buttons now show N dots matching the speed (1 dot, 2 dots, 3 dots, 4 dots in 2×2 grid). Header style applied to all dashboard cards: `technology-card` v13, `ecoflow-card` v3, `now-playing-card` v3, `leave-by-card` v3, `wallbox-card` v3, `peco-card` v3, `charging-card` v2, `traffic-card` v6, `septa-paoli-card` v22 — all card name labels updated to 17px white bold. |
