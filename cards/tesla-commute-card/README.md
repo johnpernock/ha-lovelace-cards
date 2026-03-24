@@ -97,6 +97,6 @@ entities:
 | Version | Changes |
 |---------|---------|
 | v4 | Fixed ReferenceError: ents is not defined in _patch() — climate mode now reads from this._config.entities?.climate instead of undefined local variable |
+| v3 | Climate temp display shows empty string when off instead of "Off" text — avoids showing "Off" twice alongside mode badge |
 | v2 | Climate badge now shows HVAC mode name (Heating / Cooling / Auto / Fan / Dry / Off) instead of On / Off. Tire pressures rounded to integer PSI. |
 | v1 | Initial release |
-| v2 | Climate badge now shows HVAC mode name (Heating/Cooling/Auto/Fan/Dry/Off) instead of On/Off — reads as state indicator not a control |
