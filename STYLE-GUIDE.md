@@ -180,6 +180,22 @@ Tapping any pip calls `fan.set_percentage` via `data-idx` / `data-speeds` attrib
 
 ---
 
+### Speed dot pattern (current)
+
+Fan speed buttons now show N dots matching the speed level:
+- Speed 0 (Off): "Off" text label
+- Speed 1: 1 dot
+- Speed 2: 2 dots in a row
+- Speed 3: 3 dots in a row
+- Speed 4: 4 dots in a 2×2 grid
+
+```css
+.fpip-dots-row { display: flex; gap: 4px; align-items: center; justify-content: center; }
+.fpip-dots-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+```
+
+Active dots use `#2dd4bf` (teal), inactive use `rgba(255,255,255,.2)`.
+
 ## Door pill pattern
 
 Door sensor pills sit inline in the room header, flush beside the room name.
@@ -451,6 +467,34 @@ Used in `room-controls-card` thermostat row and `thermostat-card`.
 ```
 
 ---
+
+## Room card structure
+
+Room control cards (Lights & Fans view) use a transparent shell — no background fill, border only:
+
+```css
+.room {
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12);  /* matches technology-card */
+  overflow: hidden;
+  /* NO background */
+}
+```
+
+This creates visual separation without adding grey fill on top of the page background. Contrast this with energy/commute cards which use `border:1px solid rgba(255,255,255,.10)` — same pattern, slightly lighter for less visual weight.
+
+Room name headers use 17px white bold:
+
+```css
+.rlbl {
+  font-size: 17px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: -.2px;
+}
+```
+
+This matches the card name style used in `tesla-commute-card`, `peco-card`, `wallbox-card`, etc. All dashboard card name labels should use this pattern.
 
 ## Card structure template
 
