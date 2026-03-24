@@ -242,7 +242,6 @@ views:
                 fans:
                   - entity: fan.kitchen_ceiling_fan
                     name: Ceiling Fan
-                    speeds: 4
                 thermostat:
                   entity: climate.main_floor
                   name: Main Floor
@@ -340,7 +339,6 @@ views:
                 fans:
                   - entity: fan.master_bedroom_ceiling_fan
                     name: Ceiling Fan
-                    speeds: 4
                 thermostat:
                   entity: climate.main_floor
                   name: Main Floor
@@ -405,7 +403,6 @@ views:
                 fans:
                   - entity: fan.solarium_fan
                     name: Fan
-                    speeds: 4
                 thermostat:
                   entity: climate.solarium_mini_split
                   name: Solarium
@@ -421,10 +418,8 @@ views:
                 fans:
                   - entity: fan.workshop_workbench_fan
                     name: Workbench Fan
-                    speeds: 4
                   - entity: fan.workshop_demo_fan
                     name: Demo Fan
-                    speeds: 4
     cards: []
 
   - title: Cameras
