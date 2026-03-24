@@ -116,5 +116,6 @@ cameras:
 
 | Version | Changes |
 |---------|---------|
+| v3 | Responsive layout: `flex-wrap` on layout container; doorbell and grid columns have `min-width` so they reflow naturally. Below 480px: doorbell stacks above cameras, grid rows auto-size. `min-height` replaces fixed `height` to allow natural stacking |
 | v2 | Dynamic grid rows — auto-derived from camera count (supports 1–6 cameras / 1–3 rows). Doorbell column narrowed to 26% for better cell aspect ratios in 3-row layout. `getStubConfig()` updated to UniFi Protect entity IDs. |
 | v1 | Initial release — hardcoded doorbell + 2×2 grid with `ha-camera-stream`. `_patchStreams()` on hass updates keeps streams alive. |
