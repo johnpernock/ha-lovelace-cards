@@ -169,7 +169,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Clock | `cards/clock-card/` | v3 |
 | Temp Strip | `cards/temp-strip-card/` | v3 |
 | Door Sensors | `cards/door-sensor-card/` | v5 |
-| SEPTA Paoli | `cards/septa-paoli-card/` | v18 |
+| SEPTA Paoli | `cards/septa-paoli-card/` | v19 |
 | Thermostat | `cards/thermostat-card/` | v4 |
 | Tesla | `cards/tesla-card/` | v9 |
 | Calendar | `cards/calendar-card/` | v4 |
