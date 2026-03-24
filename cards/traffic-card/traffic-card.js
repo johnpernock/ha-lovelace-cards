@@ -285,7 +285,7 @@ class TrafficCard extends HTMLElement {
       </div>`;
     };
 
-    const toWorkRow = _heroRow(toWorkData, cfg.to_work, 'Live travel time', dimToWork);
+    const toWorkRow = _heroRow(toWorkData, cfg.to_work, 'Live travel time', false);
 
     const heroHome  = homeRoutes[bestHomeIdx];
     const heroHomeRow = _heroRow(heroHome.data, heroHome.cfg, 'Fastest route', false);
@@ -373,7 +373,7 @@ class TrafficCard extends HTMLElement {
     const toWorkTile = this._tileHtml(
       cfg.to_work, toWorkData,
       false,       // no "fastest" badge for single route
-      dimToWork,   // dim after noon
+      false,       // never dim
       true,        // primary size
     );
 
