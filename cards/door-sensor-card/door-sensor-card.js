@@ -1,5 +1,5 @@
 /**
- * door-sensor-card.js  —  v5
+ * door-sensor-card.js  —  v6
  * Compact door/window sensor summary banner for Home Assistant Lovelace.
  * Shows open count + which doors are open. Green when all clear.
  * Tap the banner to open a 3-column icon grid popup.

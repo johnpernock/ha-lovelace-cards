@@ -147,6 +147,11 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v44 | Light/fan layout fixes: individual light buttons span full card width (padding on container, no side margin); All Lights label removed from slider row; individual light tiles font 11→12px, gap 6→8px, padding 9→10px for easier mobile reading |
+| v43 | Fan name moved above buttons as small uppercase label; buttons now span full row width |
+| v42 | Fan pips replaced with dot tap buttons — teal dot when active, "Off" text on pip 0, full-width flex layout, name above. Individual light toggle grid added below master bar (3-col amber dots, live-patched). Thermostat controls right-aligned: mode badge left, adj buttons pushed right with margin-left:auto. Popup drawers: opening one closes all others. |
+| v41 | CT (white temp) presets also switched to 2-column grid |
+| v40 | Color presets 2-column grid everywhere (all-lights and per-light popup) |
 | v39 | Header sensor pill: bare blue temp reading shown when `thermostat.sensor` is configured |
 | v38 | Header sensor pill added — `thermostat.sensor` value appears in header (with text label, superseded by v39) |
 | v37 | Header thermostat pill: compact `● cur° → set°` pill in room header with mode dot. Inline thermostat shrunk (34px adj buttons, 24px cur temp) for mobile. |

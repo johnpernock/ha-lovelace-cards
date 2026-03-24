@@ -31,7 +31,7 @@ lovelace:
 |------|------|--------|-------------|
 | Home | `/home` | sections · 3 col | Clock, weather, now-playing (HomePods + Apple TVs), Tesla, door sensors, room buttons, thermostats, temp strip, printer status, calendar |
 | Lights / Fans | `/lightsfans` | sections · 3 col | Room control cards for all rooms — lights, fans, blinds, thermostats |
-| Cameras | `/cameras` | panel | Full-width camera layout — G6 Entry doorbell portrait + 2×3 grid of 5 G6 Turrets |
+| Cameras | `/cameras` | sections · 2 col | Col 1: camera-layout-card (G6 Entry doorbell + 5 G6 Turrets). Col 2: protect-events-card (live UniFi Protect event feed) |
 | Technology | `/technology` | sections · 3 col | Network, speed, APs, Unraid health, services, storage, ink, media |
 | Commute | `/commute` | sections · 3 col | Col 1: traffic-card (expanded) + leave-by-card. Col 2: SEPTA Paoli/Thorndale (expanded). Col 3: Tesla Commute + Charging |
 | Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
