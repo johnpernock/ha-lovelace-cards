@@ -562,7 +562,7 @@ class RoomControlsCard extends HTMLElement {
       </div>
       <div class="pp-master-exp hidden" id="ppme-${room.id}">
         ${(anyCT?`<div class="pp-clbl">Color temperature — all lights</div>
-          <div class="pp-presets">${this._presetRow(this._ctPresets().filter(p=>p.kelvin>=minK&&p.kelvin<=maxK),ctPfx)}</div>`:'')}
+          ${this._presetRow(this._ctPresets().filter(p=>p.kelvin>=minK&&p.kelvin<=maxK),ctPfx,true)}`:'')}
         ${(anyColor?`<div class="pp-clbl">Color — all lights</div>
           ${this._presetRow(this._colorPresets(),ccPfx,true)}`:'')}
       </div>
@@ -589,7 +589,7 @@ class RoomControlsCard extends HTMLElement {
         </div>
         ${hasCols?`<div class="pp-color-sec hidden" id="ppcs-${room.id}-${li}">
           ${this._supportsCT(l.entity)?`<div class="pp-clbl">Color temperature</div>
-          <div class="pp-presets">${this._presetRow(this._ctPresets().filter(p=>{const r=this._ctRange(l.entity);return p.kelvin>=r.min&&p.kelvin<=r.max;}),'pct:'+room.id+':'+li)}</div>`:''}
+          ${this._presetRow(this._ctPresets().filter(p=>{const r=this._ctRange(l.entity);return p.kelvin>=r.min&&p.kelvin<=r.max;}),'pct:'+room.id+':'+li,true)}`:''}
           ${this._supportsColor(l.entity)?`<div class="pp-clbl">Color</div>
           ${this._presetRow(this._colorPresets(),'pcc:'+room.id+':'+li,true)}`:''}
         </div>`:''}
