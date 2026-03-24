@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v57
+ * room-controls-card.js  —  v59
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -357,6 +357,7 @@ class RoomControlsCard extends HTMLElement {
 
     /* fans */
     if (room.fans?.length) {
+      body += `<div class="sec-hdr">Fans</div>`;
       body += `<div class="fan-section">`;
       room.fans.forEach((f,fi) => {
         const sp = this._fanSpeeds(f.entity, f.speeds ?? null);
@@ -364,8 +365,7 @@ class RoomControlsCard extends HTMLElement {
         let pips  = '';
         for(let i=0;i<sp;i++) pips+=`<div class="fpip${idx===i?' fpip-on':''}" data-room="${room.id}" data-fi="${fi}" data-idx="${i}" data-speeds="${sp}">${this._signal(i,sp,idx===i)}</div>`;
         const fanName = f.name || this._attr(f.entity,'friendly_name') || f.entity.split('.').pop().replace(/_/g,' ');
-        const showNm = room.fans.length > 1;
-        body += `<div class="fan-flat">${showNm?`<div class="fan-nm-row"><span class="fan-nm">${fanName}</span></div>`:''}<div class="fpips">${pips}</div></div>`;
+        body += `<div class="fan-flat"><div class="fan-nm-row"><span class="fan-nm">${fanName}</span></div><div class="fpips">${pips}</div></div>`;
       });
       body += `</div>`;
     }
