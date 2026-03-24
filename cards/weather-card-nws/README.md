@@ -58,4 +58,5 @@ tap_action: popup
 | Version | Changes |
 |---------|---------|
 | v2 | Added hourly forecast subscription and 12-hour scroll strip in popup; added `alert_entity` banner support |
+| v3 | Removed "Tap for detailed forecast" hint label from card — tap still works. Touch/mobile audit: added `-webkit-tap-highlight-color:transparent`. |
 | v1 | Initial release — current conditions, 7-day strip, twice-daily popup |

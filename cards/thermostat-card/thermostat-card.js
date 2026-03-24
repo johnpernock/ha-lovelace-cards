@@ -1,5 +1,5 @@
 /**
- * thermostat-card.js
+ * thermostat-card.js  —  v5
  * Compact Home Assistant Lovelace thermostat card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────

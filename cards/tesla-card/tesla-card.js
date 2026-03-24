@@ -1,5 +1,5 @@
 /**
- * tesla-card.js
+ * tesla-card.js  —  v9
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────

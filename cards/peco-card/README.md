@@ -56,3 +56,4 @@ name: PECO Electric
 | Version | Changes |
 |---------|---------|
 | v1 | Initial release |
+| v2 | Removed amber tinted background from outer `.card` container — style guide prohibits colored backgrounds on the card shell |

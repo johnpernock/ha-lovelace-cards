@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js
+ * weather-card-nws.js  —  v3
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────

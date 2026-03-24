@@ -162,27 +162,27 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Room Controls | `cards/room-controls-card/` | v39 |
 | Room Buttons | `cards/room-buttons-card/` | v4 |
 | Camera Layout | `cards/camera-layout-card/` | v2 |
-| Technology | `cards/technology-card/` | v11 |
+| Technology | `cards/technology-card/` | v12 |
 | Bambu Printer | `cards/bambu-printer-card/` | current |
 | Printer Status | `cards/printer-status-card/` | v1 |
-| Weather (NWS) | `cards/weather-card-nws/` | v2 |
+| Weather (NWS) | `cards/weather-card-nws/` | v3 |
 | Clock | `cards/clock-card/` | v3 |
 | Temp Strip | `cards/temp-strip-card/` | v3 |
 | Door Sensors | `cards/door-sensor-card/` | v5 |
-| SEPTA Paoli | `cards/septa-paoli-card/` | v19 |
-| Thermostat | `cards/thermostat-card/` | v4 |
+| SEPTA Paoli | `cards/septa-paoli-card/` | v20 |
+| Thermostat | `cards/thermostat-card/` | v5 |
 | Tesla | `cards/tesla-card/` | v9 |
 | Calendar | `cards/calendar-card/` | v4 |
-| Garage Door ✦ | `cards/garage-door-card/` | v3 |
-| Wallbox | `cards/wallbox-card/` | v1 |
-| PECO Energy | `cards/peco-card/` | v1 |
-| Ecoflow | `cards/ecoflow-card/` | v1 |
-| Now Playing | `cards/now-playing-card/` | v1 |
-| Traffic (Commute) | `cards/traffic-card/` | v2 |
+| Garage Door ✦ | `cards/garage-door-card/` | v4 |
+| Wallbox | `cards/wallbox-card/` | v2 |
+| PECO Energy | `cards/peco-card/` | v2 |
+| Ecoflow | `cards/ecoflow-card/` | v2 |
+| Now Playing | `cards/now-playing-card/` | v2 |
+| Traffic (Commute) | `cards/traffic-card/` | v5 |
 | Tesla Commute | `cards/tesla-commute-card/` | v2 |
 | Charging | `cards/charging-card/` | v1 |
 | Protect Events ✦ | `cards/protect-events-card/` | v1 |
-| Leave By ✦ | `cards/leave-by-card/` | v1 |
+| Leave By ✦ | `cards/leave-by-card/` | v2 |
 
 ✦ = fully migrated to shared modules (ha-utils, ha-styles, ha-popup)
 
@@ -203,6 +203,26 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 
 ---
 
+## Deployment
+
+The repo includes `deploy.sh` — a script that pulls the latest from git and copies all card JS files to `/config/www/cards/`.
+
+```bash
+# One-time: clone the repo on your HA server
+cd /config
+git clone https://YOUR_USER:YOUR_PAT@github.com/johnpernock/ha-lovelace-cards.git
+
+# Every subsequent deploy
+bash /config/ha-lovelace-cards/deploy.sh
+
+# Deploy a single card only
+bash /config/ha-lovelace-cards/deploy.sh septa-paoli-card
+```
+
+After running: hard refresh your browser. Resource version bumps are optional since a hard refresh bypasses the cache.
+
+---
+
 ## Design reference
 
 See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color system, component patterns with ASCII mockups, CSS snippets, and do's and don'ts.
@@ -214,6 +234,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 | Date | Summary |
 |------|---------|
 | Mar 2026 | **UniFi Protect event feed card + Security view.** `protect-events-card` — real-time smart detection event feed from UniFi Protect cameras. Subscribes to `state_changed` over websocket; ring buffer holds latest N events per camera; filter pills narrow by type (person / vehicle / animal / package); amber flash animation on new arrivals; async thumbnail fetch via `/api/unifiprotect/thumbnail/{event_id}` ~1.5s after detection; portal popup shows 16:9 thumbnail, 3-column meta strip (camera / type / confidence), clip and live-view actions. Footer shows rolling today-count and active-motion-sensor count. Fully migrated to shared modules (`ha-utils`, `ha-styles`, `ha-popup`). New Security view added to dashboard (2-col: camera layout left / protect-events-card right). |
+| Mar 2026 | **Touch/mobile audit across all cards.** Added `-webkit-tap-highlight-color:transparent` and `user-select:none` to all interactive elements in: `wallbox-card`, `septa-paoli-card`, `technology-card`, `traffic-card`, `garage-door-card`, `weather-card-nws`, `leave-by-card`, `now-playing-card`, `thermostat-card`. All interactive rows verified to have adequate touch target size (44px+ effective height). Added `deploy.sh` deployment script. |
 | Mar 2026 | **Lights & Fans view fixes + design audit.** `room-controls-card` v35–v39: fan pip off-by-1 fixed (speeds now includes off pip); room toggle `data-room` bug fixed; thermostat header pills (mode dot + cur°→set°, blue sensor pill); compact inline thermostat (smaller adj buttons for mobile); `peco-card` outer container background removed; `ecoflow-card` tap states added. `tesla-commute-card` v2: climate badge shows HVAC mode name (Heating/Cooling/Auto) instead of On/Off. `STYLE-GUIDE.md` updated with expanded row pattern, header pill spec, known inconsistencies. `dashboard-README.md` updated with fan speed table. |
 | Mar 2026 | **Expanded commute view + leave-by-card.** `traffic-card` v2 — `expanded: true` mode replaces flat tiles with hero/sub rows matching the train card style; to-work hero row, home routes as hero + sub rows. `septa-paoli-card` v18 — `expanded: true` mode replaces pills with full train rows (hero row for next train, sub rows for subsequent); card header with station badge; section labels; train number + service type meta. New `leave-by-card` — computes when you need to leave to catch each outbound train based on live Waze drive time; urgency colour coding (red/amber/green); stale train filtering; 30s refresh. `dashboard.yaml` commute view updated: traffic + leave-by stacked in col 1, SEPTA expanded in col 2. |
 | Mar 2026 | **camera-layout-card v2 — dynamic 2×N grid + UniFi Protect entities.** Grid rows now derived automatically from camera count (1–2 → 1 row, 3–4 → 2 rows, 5–6 → 3 rows). Doorbell column narrowed to 26% for better cell aspect ratios at 3 rows. Updated Cameras view entity IDs to UniFi Protect G6 Turret / G6 Entry cameras (`camera.g6_entry`, `camera.driveway`, `camera.back_garden`, `camera.back_yard`, `camera.garage_side_yard`, `camera.utility_side_yard`). |

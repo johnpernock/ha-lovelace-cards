@@ -91,25 +91,40 @@ After saving: **Developer Tools → YAML → Groups → Reload** (or restart HA)
 
 ### `dashboard.yaml`
 
-The complete Lovelace dashboard YAML for all 7 views (Home, Lights/Fans, Cameras, Technology, Commute, Energy, 3D Printer). Paste into the HA raw config editor or use as a `ui-lovelace.yaml` source. See [`dashboard-README.md`](dashboard-README.md) for full installation instructions and a summary of all views and changes.
+The complete Lovelace dashboard YAML for all 8 views (Home, Lights/Fans, Cameras, Technology, Commute, Energy, 3D Printer, Security). Paste into the HA raw config editor or use as a `ui-lovelace.yaml` source. See [`dashboard-README.md`](dashboard-README.md) for full installation instructions and a summary of all views and changes.
 
 ---
 
-### `waze-sensors.yaml`
+### `waze-sensors.yaml` ⚠️ Deprecated
 
-Three Waze Travel Time sensors for the `traffic-card`:
+This file is kept for reference only. Waze Travel Time sensors are now configured through the HA UI integration, not via `configuration.yaml`.
 
-| Sensor entity | Route | Direction |
-|---|---|---|
-| `sensor.commute_to_work` | US-202 N | 21 Beryl Rd → 1030 Continental Dr |
-| `sensor.commute_home_via_202` | US-202 S | 1030 Continental Dr → 21 Beryl Rd |
-| `sensor.commute_home_via_rt_30` | Route 30 W (avoid_highways) | 1030 Continental Dr → 21 Beryl Rd |
+**Current setup:** Go to **Settings → Integrations → Add Integration → Waze Travel Time** and add each sensor manually. The sensor entity IDs created are:
+
+| Sensor entity | Direction |
+|---|---|
+| `sensor.commute_to_work` | 21 Beryl Rd → 1030 Continental Dr |
+| `sensor.commute_home_via_202` | 1030 Continental Dr → 21 Beryl Rd |
+| `sensor.commute_home_via_rt_30` | 1030 Continental Dr → 21 Beryl Rd |
+
+Do **not** add `sensor: !include ha-config/waze-sensors.yaml` to `configuration.yaml` — this will cause a HA startup error.
+
+---
+
+### `templates/` folder
+
+Template sensors and binary sensors split into two files, merged via `!include_dir_merge_list`:
+
+| File | Contents |
+|------|----------|
+| `outdoor-lighting-theme-sensor.yaml` | Holiday theme sensor (`sensor.outdoor_lighting_theme`) |
+| `sensors.yaml` | Any Door Open binary sensor, Bubble Card Modules sensor, Paoli Inbound Next Station 1–3 sensors |
 
 **Installation:**
 
 ```yaml
 # configuration.yaml
-sensor: !include ha-config/waze-sensors.yaml
+template: !include_dir_merge_list ha-config/templates
 ```
 
-After saving: **Developer Tools → YAML → Reload** (or restart HA). Allow ~5 minutes for first readings.
+To add new template sensors in future: create a new `.yaml` file in `ha-config/templates/` — no changes to `configuration.yaml` needed.

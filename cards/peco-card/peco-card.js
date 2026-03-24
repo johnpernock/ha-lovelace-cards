@@ -1,5 +1,5 @@
 /**
- * peco-card.js
+ * peco-card.js  —  v2
  * PECO / Opower utility energy card for Home Assistant Lovelace.
  *
  * CONFIG:

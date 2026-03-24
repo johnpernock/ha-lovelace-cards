@@ -1,5 +1,5 @@
 /**
- * technology-card.js  v2
+ * technology-card.js  —  v12
  *
  * One card, one section. Use multiple instances in a masonry view.
  *

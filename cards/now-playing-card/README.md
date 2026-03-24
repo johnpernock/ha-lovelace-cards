@@ -52,3 +52,4 @@ players:
 | Version | Changes |
 |---------|---------|
 | v1 | Initial release. Collapses when idle, tap → more-info, TV show episode formatting |
+| v2 | Touch/mobile audit: added `user-select:none` to tappable elements |

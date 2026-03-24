@@ -1,5 +1,5 @@
 /**
- * printer-status-card.js
+ * printer-status-card.js  —  v1
  * Compact printer status for home view.
  */
 

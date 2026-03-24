@@ -112,6 +112,10 @@ alert: sensor.paoli_line_alert
 | Version | Changes |
 |---------|---------|
 | v16 | Popup portalled to `document.body`; improved delay color logic |
+| v20 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` and `user-select:none` to hero, pill (compact), and expanded train rows |
+| v19 | Fixed class body closed prematurely — expanded mode methods were outside the class, causing SyntaxError |
+| v18 | Expanded mode (`expanded: true`): full train rows replacing pills, hero + sub row structure, section labels, station badge in header, train number + service meta |
+| v17 | SEPTA sort fix — trains sorted by estimated arrival time (scheduled + delay) across all sensors |
 | v14 | Added `inbound_next_station` support — current station shown in inbound card and popup |
 | v12 | Added `alert` banner support |
 | v10 | Added train detail popup on tap |

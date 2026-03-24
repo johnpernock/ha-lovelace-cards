@@ -10,7 +10,7 @@
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
  * 1. Copy cards/garage-door-card/ and shared/ to /config/www/
  * 2. HA → Settings → Dashboards → Resources → Add:
- *      URL:  /local/cards/garage-door-card/garage-door-card.js
+ *      URL:  /local/cards/garage-door-card/garage-door-card.js  —  v4
  *      Type: JavaScript Module
  *
  * ── CONFIG ────────────────────────────────────────────────────────────────────

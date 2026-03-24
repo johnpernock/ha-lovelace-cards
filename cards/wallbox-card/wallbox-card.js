@@ -1,5 +1,5 @@
 /**
- * wallbox-card.js
+ * wallbox-card.js  —  v2
  * Wallbox EV charger status card for Home Assistant Lovelace.
  *
  * CONFIG:

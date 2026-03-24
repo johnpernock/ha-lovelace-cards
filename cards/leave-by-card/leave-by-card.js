@@ -7,7 +7,7 @@
  * is colour-coded: red = leave now, amber = leave soon, green = comfortable.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy to /config/www/cards/leave-by-card/leave-by-card.js
+ * 1. Copy to /config/www/cards/leave-by-card/leave-by-card.js  —  v2
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/cards/leave-by-card/leave-by-card.js
  *      Type: JavaScript Module

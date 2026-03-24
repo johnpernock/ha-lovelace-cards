@@ -190,6 +190,7 @@ entities:
 | Version | Changes |
 |---------|---------|
 | v11 | Added `immich` section; added `recently_added` section |
+| v12 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to `.rbtn` interactive buttons |
 | v10 | Added `now_playing` section (Sonarr/Radarr) |
 | v9 | Added parity check status to `storage` section |
 | v8 | Added `access_points` section with restart buttons |

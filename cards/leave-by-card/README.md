@@ -56,3 +56,4 @@ outbound:
 | Version | Changes |
 |---------|---------|
 | v1 | Initial release. Stale train filtering, 30s refresh, urgency colour coding, midnight crossover handling. |
+| v2 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to `lb-row` |
