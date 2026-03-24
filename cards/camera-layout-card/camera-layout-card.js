@@ -1,5 +1,5 @@
 /**
- * camera-layout-card.js  —  v3
+ * camera-layout-card.js  —  v4
  *
  * Portrait doorbell on the left, dynamic 2×N grid of cameras on the right.
  * Designed for a 1200×800 wall display — fills the full card width,
@@ -103,7 +103,7 @@ class CameraLayoutCard extends HTMLElement {
           flex-wrap: wrap;
           gap: ${gap}px;
           padding: ${pad}px;
-          min-height: ${height}px;
+          min-height: min(${height}px, 100vw);
           box-sizing: border-box;
           background: #08080f;
         }
@@ -130,9 +130,9 @@ class CameraLayoutCard extends HTMLElement {
         }
 
         /* ── Narrow screens: stack doorbell above cameras ── */
-        @media (max-width: 480px) {
+        @media (max-width: 700px) {
           .layout { flex-direction: column; min-height: unset; }
-          .doorbell-col { width: 100%; height: 220px; }
+          .doorbell-col { width: 100%; height: 200px; }
           .grid-col { min-width: unset; grid-template-rows: auto; }
         }
 

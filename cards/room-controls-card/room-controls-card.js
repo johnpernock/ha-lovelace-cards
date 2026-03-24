@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v62
+ * room-controls-card.js  —  v63
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -848,10 +848,10 @@ class RoomControlsCard extends HTMLElement {
       const swatchHtml = isSwitch ? '' :
         colors.slice(0,6).map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
       const isOn = st.pct > 0;
-      const btnBg  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.05)';
-      const btnBc  = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.10)';
-      const lblClr = isOn ? st.color : 'rgba(255,255,255,.3)';
-      return `<div class="theme-area" id="tarea-${room.id}-${ai}" style="background:${btnBg};border:1px solid ${btnBc}">
+      const btnBg  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.02)';
+      const btnBc  = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.06)';
+      const lblClr = isOn ? st.color : 'rgba(255,255,255,.2)';
+      return `<div class="theme-area" id="tarea-${room.id}-${ai}" style="background:${btnBg};border:1px solid ${btnBc};${isOn?'':'opacity:.5'}">
         <div class="theme-area-swatches" id="tasw-${room.id}-${ai}">${swatchHtml}</div>
         <div class="theme-area-label" id="tast-${room.id}-${ai}" style="color:${lblClr}">${area.label}</div>
       </div>`;
@@ -895,8 +895,9 @@ class RoomControlsCard extends HTMLElement {
       const swEl  = sr.getElementById(`tasw-${room.id}-${ai}`);
       const isOn  = st.pct > 0;
       if (btnEl) {
-        btnEl.style.background  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.05)';
-        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.10)';
+        btnEl.style.background  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.02)';
+        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.06)';
+        btnEl.style.opacity     = isOn ? '' : '0.5';
       }
       if (stEl)  { stEl.textContent = area.label; stEl.style.color = isOn ? st.color : 'rgba(255,255,255,.3)'; }
       if (swEl && !isSwitch) {
