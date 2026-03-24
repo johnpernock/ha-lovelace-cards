@@ -147,6 +147,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v69 | Popup sheet header: added top padding (was 0); title 16px→17px white bold matching dashboard style |
 | v68 | Fixed: All Lights expand chevron was missing data-room attribute so rid was undefined and the expand block never toggled |
 | v67 | Color/CT expand now checks master group entity first — HA light groups report their own supported_color_modes so the expand arrow appears even when some individuals are plain dimmers or switches |
 | v66 | v66 | Overlays: body scroll lock added to _openOverlay and _closeOverlay |

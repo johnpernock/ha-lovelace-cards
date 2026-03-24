@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v68
+ * room-controls-card.js  —  v69
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -1138,8 +1138,8 @@ class RoomControlsCard extends HTMLElement {
         .rcc-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.15);margin:12px auto 8px}
         @media(min-width:768px){.rcc-handle{display:none}}
         *{box-sizing:border-box;margin:0;padding:0;color:inherit}
-        .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:0 16px 10px;border-bottom:1px solid rgba(255,255,255,.07)}
-        .sheet-title{font-size:16px;font-weight:700;color:#e2e8f0}
+        .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
+        .sheet-title{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
         .sheet-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px}
         .sheet-close{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);cursor:pointer;color:rgba(255,255,255,.6);font-size:20px;display:flex;align-items:center;justify-content:center;user-select:none;border:none;flex-shrink:0}
         .hidden{display:none!important}
