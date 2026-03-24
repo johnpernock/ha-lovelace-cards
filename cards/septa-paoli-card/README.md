@@ -111,6 +111,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v22 | v22 | Card header: 10px uppercase → 17px white bold (both compact and expanded style blocks) |
 | v21 | Added `show_next_trains: true` config option — when enabled, compact mode shows up to 3 subsequent trains as pills below the hero row for both outbound and inbound. Default false (hero only). |
 | v20 | Touch audit: added `-webkit-tap-highlight-color:transparent` and `user-select:none` to hero, pill (compact), exp-train-row and exp-train-sub (expanded) |
 | v19 | Fixed class body closed prematurely — expanded mode methods were outside class, causing SyntaxError |

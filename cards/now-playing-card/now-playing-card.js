@@ -1,5 +1,5 @@
 /**
- * now-playing-card.js  —  v2
+ * now-playing-card.js  —  v3
  * Compact now-playing widget for Home Assistant Lovelace.
  * Shows active media players. Collapses to nothing when all are idle.
  *
@@ -125,7 +125,7 @@ class NowPlayingCard extends HTMLElement {
         ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
         *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
         .wrap{border-radius:10px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
-        .card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07)}
+        .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.07)}
         .active-row{display:flex;align-items:center;gap:12px;padding:11px 14px;transition:filter .1s}
         .active-row:active{filter:brightness(.85)}
         .media-art{width:44px;height:44px;border-radius:7px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center}

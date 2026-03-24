@@ -159,30 +159,30 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 
 | Card | Folder | Version |
 |------|--------|---------|
-| Room Controls | `cards/room-controls-card/` | v56 |
+| Room Controls | `cards/room-controls-card/` | v57 |
 | Room Buttons | `cards/room-buttons-card/` | v4 |
 | Camera Layout | `cards/camera-layout-card/` | v3 |
-| Technology | `cards/technology-card/` | v12 |
+| Technology | `cards/technology-card/` | v13 |
 | Bambu Printer | `cards/bambu-printer-card/` | — |
 | Printer Status | `cards/printer-status-card/` | v1 |
 | Weather (NWS) | `cards/weather-card-nws/` | v4 |
 | Clock | `cards/clock-card/` | v3 |
 | Temp Strip | `cards/temp-strip-card/` | v3 |
 | Door Sensors | `cards/door-sensor-card/` | v6 |
-| SEPTA Paoli | `cards/septa-paoli-card/` | v21 |
+| SEPTA Paoli | `cards/septa-paoli-card/` | v22 |
 | Thermostat | `cards/thermostat-card/` | v5 |
 | Tesla | `cards/tesla-card/` | v9 |
 | Calendar | `cards/calendar-card/` | v4 |
 | Garage Door ✦ | `cards/garage-door-card/` | v4 |
-| Wallbox | `cards/wallbox-card/` | v2 |
-| PECO Energy | `cards/peco-card/` | v2 |
-| Ecoflow | `cards/ecoflow-card/` | v2 |
-| Now Playing | `cards/now-playing-card/` | v2 |
-| Traffic (Commute) | `cards/traffic-card/` | v5 |
+| Wallbox | `cards/wallbox-card/` | v3 |
+| PECO Energy | `cards/peco-card/` | v3 |
+| Ecoflow | `cards/ecoflow-card/` | v3 |
+| Now Playing | `cards/now-playing-card/` | v3 |
+| Traffic (Commute) | `cards/traffic-card/` | v6 |
 | Tesla Commute | `cards/tesla-commute-card/` | v4 |
-| Charging | `cards/charging-card/` | v1 |
+| Charging | `cards/charging-card/` | v2 |
 | Protect Events ✦ | `cards/protect-events-card/` | v1 |
-| Leave By ✦ | `cards/leave-by-card/` | v2 |
+| Leave By ✦ | `cards/leave-by-card/` | v3 |
 
 ✦ = fully migrated to shared modules (ha-utils, ha-styles, ha-popup)
 
@@ -233,6 +233,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **Dashboard-wide header redesign + fan pip dots.** `room-controls-card` v57: room card background removed (transparent + stronger border); room name 17px white bold; single-fan rooms hide the redundant name label; speed pip buttons now show N dots matching the speed (1 dot, 2 dots, 3 dots, 4 dots in 2×2 grid). Header style applied to all dashboard cards: `technology-card` v13, `ecoflow-card` v3, `now-playing-card` v3, `leave-by-card` v3, `wallbox-card` v3, `peco-card` v3, `charging-card` v2, `traffic-card` v6, `septa-paoli-card` v22 — all card name labels updated to 17px white bold. |
 | Mar 2026 | **SEPTA compact mode extra trains.** `septa-paoli-card` v21: new `show_next_trains: true` config param — when enabled, compact mode shows up to 3 subsequent trains as pills below the hero row for both outbound and inbound. Default false so existing Home view usage is unchanged. |
 | Mar 2026 | **UniFi Protect event feed card + Security view.** `protect-events-card` — real-time smart detection event feed from UniFi Protect cameras. Subscribes to `state_changed` over websocket; ring buffer holds latest N events per camera; filter pills narrow by type (person / vehicle / animal / package); amber flash animation on new arrivals; async thumbnail fetch via `/api/unifiprotect/thumbnail/{event_id}` ~1.5s after detection; portal popup shows 16:9 thumbnail, 3-column meta strip (camera / type / confidence), clip and live-view actions. Footer shows rolling today-count and active-motion-sensor count. Fully migrated to shared modules (`ha-utils`, `ha-styles`, `ha-popup`). New Security view added to dashboard (2-col: camera layout left / protect-events-card right). |
 | Mar 2026 | **Touch/mobile audit across all cards.** Added `-webkit-tap-highlight-color:transparent` and `user-select:none` to all interactive elements in: `wallbox-card`, `septa-paoli-card`, `technology-card`, `traffic-card`, `garage-door-card`, `weather-card-nws`, `leave-by-card`, `now-playing-card`, `thermostat-card`. All interactive rows verified to have adequate touch target size (44px+ effective height). Added `deploy.sh` deployment script. |

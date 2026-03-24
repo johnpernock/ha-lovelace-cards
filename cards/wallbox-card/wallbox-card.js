@@ -1,5 +1,5 @@
 /**
- * wallbox-card.js  —  v2
+ * wallbox-card.js  —  v3
  * Wallbox EV charger status card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -102,7 +102,7 @@ class WallboxCard extends HTMLElement {
     .card{border-radius:10px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
     .sbanner{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
     .sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-    .slabel{font-size:15px;font-weight:700;line-height:1}
+    .slabel{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;line-height:1}
     .ssub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}

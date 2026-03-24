@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v21
+ * septa-paoli-card.js  —  v22
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -686,7 +686,7 @@ class SeptaPaoliCard extends HTMLElement {
 
         /* ── Expanded row mode ── */
         .exp-wrap{border-radius:10px;border:1px solid rgba(255,255,255,.10);overflow:hidden}
-        .exp-card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+        .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
         .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
         .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
         .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -875,7 +875,7 @@ class SeptaPaoliCard extends HTMLElement {
       ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0;font-family:var(--primary-font-family,sans-serif)}
       *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
       .exp-wrap{border-radius:10px;border:1px solid rgba(255,255,255,.10);overflow:hidden}
-      .exp-card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+      .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
       .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
       .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
       .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}

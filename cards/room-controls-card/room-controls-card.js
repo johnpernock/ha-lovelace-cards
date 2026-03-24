@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v56
+ * room-controls-card.js  —  v57
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -286,7 +286,12 @@ class RoomControlsCard extends HTMLElement {
 
   _signal(level,max,active) {
     if (!level) return `<div class="fpip-dot-off">Off</div>`;
-    return `<div class="fpip-dot${active?' fpip-dot-on':''}" ></div>`;
+    const c = active ? 'fpip-dot fpip-dot-on' : 'fpip-dot';
+    if (level <= 3) {
+      return `<div class="fpip-dots-row">${Array(level).fill(`<div class="${c}"></div>`).join('')}</div>`;
+    }
+    // 4+ dots: 2x2 grid
+    return `<div class="fpip-dots-grid">${Array(level > 4 ? 4 : level).fill(`<div class="${c}"></div>`).join('')}</div>`;
   }
 
   /* ── Toggle helper ────────────────────────────────────────────────── */
@@ -359,7 +364,8 @@ class RoomControlsCard extends HTMLElement {
         let pips  = '';
         for(let i=0;i<sp;i++) pips+=`<div class="fpip${idx===i?' fpip-on':''}" data-room="${room.id}" data-fi="${fi}" data-idx="${i}" data-speeds="${sp}">${this._signal(i,sp,idx===i)}</div>`;
         const fanName = f.name || this._attr(f.entity,'friendly_name') || f.entity.split('.').pop().replace(/_/g,' ');
-        body += `<div class="fan-flat"><div class="fan-nm-row"><span class="fan-nm">${fanName}</span></div><div class="fpips">${pips}</div></div>`;
+        const showNm = room.fans.length > 1;
+        body += `<div class="fan-flat">${showNm?`<div class="fan-nm-row"><span class="fan-nm">${fanName}</span></div>`:''}<div class="fpips">${pips}</div></div>`;
       });
       body += `</div>`;
     }
@@ -689,11 +695,11 @@ class RoomControlsCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     .grid{display:grid;gap:8px;padding:8px}
     @media(max-width:767px){.grid{grid-template-columns:1fr!important}}
-    .room{border-radius:10px;background:rgba(255,255,255,.03);overflow:hidden}
+    .room{border-radius:10px;border:1px solid rgba(255,255,255,.12);overflow:hidden}
     .door-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;margin-left:7px;flex-shrink:0}
     .door-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
     .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1px solid rgba(255,255,255,.05)}
-    .rlbl{font-size:15px;font-weight:700;color:var(--primary-text-color)}
+    .rlbl{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .rbody{padding:6px 10px 10px;display:flex;flex-direction:column;gap:5px}
     .tog{position:relative;border-radius:99px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
     .tog-thumb{position:absolute;border-radius:50%;transition:left .15s,background .15s}
@@ -724,9 +730,11 @@ class RoomControlsCard extends HTMLElement {
     .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
     .fpip:active{transform:scale(.9)}
     .fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
-    .fpip-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2)}
+    .fpip-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2)}
     .fpip-dot-on{background:#2dd4bf}
     .fpip-dot-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
+    .fpip-dots-row{display:flex;gap:4px;align-items:center;justify-content:center}
+    .fpip-dots-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center;justify-items:center}
     .bpip-pos{flex:0 0 auto;width:68px}
     .blind-pill{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;user-select:none;transition:filter .1s;margin:2px 0}
     .blind-pill:active{filter:brightness(.85)}

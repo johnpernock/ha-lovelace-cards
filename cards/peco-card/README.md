@@ -55,6 +55,7 @@ name: PECO Electric
 
 | Version | Changes |
 |---------|---------|
+| v3 | v3 | Card name label: 15px amber → 17px white bold |
 | v2 | Outer `.card` container background removed — style guide prohibits colored card shell backgrounds |
 | v1 | Initial release |
 | v2 | Removed amber tinted background from outer `.card` container — style guide prohibits colored backgrounds on the card shell |

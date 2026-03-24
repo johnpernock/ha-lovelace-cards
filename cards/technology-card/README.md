@@ -189,6 +189,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v13 | v13 | Card section headers: font-size 10px uppercase → 17px white bold, matching dashboard-wide header style |
 | v12 | Touch audit: added `-webkit-tap-highlight-color:transparent` to `.rbtn` |
 | v11 | Added `immich` section; added `recently_added` section |
 | v12 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to `.rbtn` interactive buttons |

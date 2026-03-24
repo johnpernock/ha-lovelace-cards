@@ -55,6 +55,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v3 | v3 | Card header: font-size 10px uppercase → 17px white bold |
 | v2 | Touch audit: added `-webkit-tap-highlight-color:transparent` to `.lb-row` |
 | v1 | Initial release. Stale train filtering, 30s refresh, urgency colour coding, midnight crossover handling. |
 | v2 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to `lb-row` |

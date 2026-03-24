@@ -147,6 +147,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v57 | v57 | No card background (transparent, border rgba(.12)); room name 17px white; single fan hides name label; speed pip dots match speed count — 1/2/3 dots in a row, 4 dots in 2×2 grid |
 | v56 | Popup master block matches inline view: toggle and count text removed, slider spans full width with thumb capped at 96%, left accent bar replaced with subtle full border, "All Lights" sec-hdr label added above slider |
 | v55 | Cache bust — no code changes |
 | v54 | Toggle pill-shaped: border-radius changed from 8px to 99px; thumb border-radius changed from 4px to 50% (circular) |

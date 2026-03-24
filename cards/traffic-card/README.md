@@ -112,6 +112,7 @@ Each `sensor.waze_travel_time_*` entity exposes these attributes the card reads:
 
 | Version | Changes |
 |---------|---------|
+| v6 | v6 | Card header title: 10px uppercase → 17px white bold |
 | v5 | Touch audit: added `-webkit-tap-highlight-color:transparent` to expanded row classes |
 | v4 | To-work row dimming after noon removed — always shows at full brightness |
 | v3 | hass guard added to `_renderExpanded()` to fix blank times on initial render |
