@@ -98,7 +98,7 @@ views:
               - entity: light.all_main_lights
                 name: Main Lights
                 icon: bulb
-              - entity: cover.garage_door
+              - entity: cover.garage_door_door
                 name: Garage Door
                 icon: garage
                 tap_action: toggle
@@ -358,7 +358,7 @@ views:
                     - entity: switch.garage_lights
                       name: Garage
                 garage:
-                  entity: cover.garage_door
+                  entity: cover.garage_door_door
       - type: grid
         cards:
           - type: custom:room-controls-card
