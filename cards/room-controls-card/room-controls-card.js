@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v60
+ * room-controls-card.js  —  v61
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -402,7 +402,7 @@ class RoomControlsCard extends HTMLElement {
     }
 
     /* thermostat */
-    if (room.thermostat) {
+    if (room.thermostat && this._state(room.thermostat.entity)) {
       const cfg=room.thermostat, eid=cfg.entity;
       const mode=this._hvacMode(eid), meta=this._hvacMeta(mode);
       const cur=this._tempVal(eid), set=this._targetTemp(eid), isOff=mode==='off';
@@ -472,7 +472,7 @@ class RoomControlsCard extends HTMLElement {
 
     // Header pills: mode dot + thermostat cur°→set°, and sensor temp if separate
     let tempPill = '';
-    if (room.thermostat) {
+    if (room.thermostat && this._state(room.thermostat.entity)) {
       const _eid   = room.thermostat.entity;
       const _cur   = this._tempVal(_eid);
       const _set   = this._targetTemp(_eid);
@@ -972,7 +972,7 @@ class RoomControlsCard extends HTMLElement {
         if (hcount) hcount.textContent = `${cnt} of ${tot}`;
       }
       // thermostat setpoint labels
-      if (room.thermostat) {
+      if (room.thermostat && this._state(room.thermostat.entity)) {
         const eid = room.thermostat.entity;
         const set = this._targetTemp(eid);
         const mode = this._hvacMode(eid);
