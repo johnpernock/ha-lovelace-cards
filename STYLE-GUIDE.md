@@ -152,20 +152,31 @@ Used for blinds, garage doors, and similar binary/ternary position states. All p
 
 ## Fan pip pattern
 
-Fan speed is shown as a row of signal-bar pips. Off is a special state (✕ or flat line). Each pip grows taller as the speed increases. The active pip is highlighted with the speed color; inactive pips are dim.
+Fan speed controls use a row of full-width tap buttons — one per speed step including Off. The fan name sits above as a small uppercase label so buttons span the full card width.
 
 ```
-Fan Name      ✕  ▁  ▃  ▅  ▇
-              off  1  2  3  4
+CEILING FAN
+┌──────┬──────┬──────┬──────┐
+│ Off  │  ●   │  ●   │  ●   │  ← pip 0=Off, 1–3=speed dots
+└──────┴──────┴──────┴──────┘
+              ↑ active pip — teal (#2dd4bf)
 ```
 
-**Active at speed 2:**
-```
-Front Fan     ✕  ▁  ▐  ░  ░
-                    ↑ active (blue)
+```css
+.fpips { display: flex; gap: 4px; flex: 1; }
+.fpip  { flex: 1; height: 44px; border-radius: 7px;
+         background: rgba(255,255,255,.05);
+         border: 1px solid rgba(255,255,255,.09); }
+.fpip-on { background: rgba(45,212,191,.15);
+           border-color: rgba(45,212,191,.4); }
 ```
 
-Pips are `data-idx` driven — tapping any pip calls `fan.set_percentage` with the corresponding percentage.
+Inner content per pip:
+- **Pip 0 (Off)**: text `"Off"` — `font-size:9px; color:rgba(255,255,255,.25)`
+- **Pips 1–N**: 9×9px circle dot — inactive `rgba(255,255,255,.2)`, active `#2dd4bf`
+
+Tapping any pip calls `fan.set_percentage` via `data-idx` / `data-speeds` attributes.
+`speeds` in config = total pip count **including** the Off pip (e.g. `speeds:5` → Off + 4 speed steps).
 
 ---
 

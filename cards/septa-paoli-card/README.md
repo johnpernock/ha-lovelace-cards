@@ -112,7 +112,6 @@ alert: sensor.paoli_line_alert
 | Version | Changes |
 |---------|---------|
 | v21 | Added `show_next_trains: true` config option — when enabled, compact mode shows up to 3 subsequent trains as pills below the hero row for both outbound and inbound. Default false (hero only). |
-| v21 | Compact mode: subsequent train pills removed — only next outbound and next inbound shown for quick-glance home view |
 | v20 | Touch audit: added `-webkit-tap-highlight-color:transparent` and `user-select:none` to hero, pill (compact), exp-train-row and exp-train-sub (expanded) |
 | v19 | Fixed class body closed prematurely — expanded mode methods were outside class, causing SyntaxError |
 | v18 | `expanded: true` mode — hero/sub row layout, card header with station badge, section labels, train number + service type meta. Compact mode unchanged. |
