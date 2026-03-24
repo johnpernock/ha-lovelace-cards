@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v63
+ * room-controls-card.js  —  v64
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -357,7 +357,6 @@ class RoomControlsCard extends HTMLElement {
 
     /* fans */
     if (room.fans?.length) {
-      body += `<div class="sec-hdr">Fans</div>`;
       body += `<div class="fan-section">`;
       room.fans.forEach((f,fi) => {
         const sp = this._fanSpeeds(f.entity, f.speeds ?? null);
