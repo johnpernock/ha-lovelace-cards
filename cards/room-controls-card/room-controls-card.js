@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v66
+ * room-controls-card.js  —  v67
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -552,10 +552,16 @@ class RoomControlsCard extends HTMLElement {
     const sliderPct = on ? avg : 0;
     const ents = (cfg.individuals||[{entity:cfg.entity}]).map(l=>l.entity);
     const lightEnts = ents.filter(e=>!e.startsWith('switch.'));
-    const hasColors = lightEnts.some(e=>this._supportsCT(e)||this._supportsColor(e));
-    const anyCT=lightEnts.some(e=>this._supportsCT(e)), anyColor=lightEnts.some(e=>this._supportsColor(e));
-    const minK=anyCT?Math.max(...lightEnts.map(e=>this._ctRange(e).min)):2000;
-    const maxK=anyCT?Math.min(...lightEnts.map(e=>this._ctRange(e).max)):6500;
+    // Also check the master group entity itself — HA groups report their own
+    // supported_color_modes even when some individuals are plain dimmers/switches
+    const masterSupCT    = this._supportsCT(cfg.entity);
+    const masterSupColor = this._supportsColor(cfg.entity);
+    const hasColors = masterSupCT || masterSupColor || lightEnts.some(e=>this._supportsCT(e)||this._supportsColor(e));
+    const anyCT    = masterSupCT    || lightEnts.some(e=>this._supportsCT(e));
+    const anyColor = masterSupColor || lightEnts.some(e=>this._supportsColor(e));
+    const ctEnts   = [cfg.entity, ...lightEnts].filter(e=>this._supportsCT(e));
+    const minK = ctEnts.length ? Math.max(...ctEnts.map(e=>this._ctRange(e).min)) : 2000;
+    const maxK = ctEnts.length ? Math.min(...ctEnts.map(e=>this._ctRange(e).max)) : 6500;
     const ctPfx='pct-all:'+room.id, ccPfx='pcc-all:'+room.id;
 
     const masterBlock=`<div class="sec-hdr" style="padding:10px 14px 4px">All Lights</div><div class="pp-master">

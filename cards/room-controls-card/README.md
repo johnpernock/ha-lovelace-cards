@@ -147,6 +147,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v67 | Color/CT expand now checks master group entity first — HA light groups report their own supported_color_modes so the expand arrow appears even when some individuals are plain dimmers or switches |
 | v66 | v66 | Overlays: body scroll lock added to _openOverlay and _closeOverlay |
 | v65 | Added "Blinds" and "Garage" sec-hdr labels above those sections |
 | v64 | Removed "Fans" section header — fan name labels above each pip row are sufficient |
