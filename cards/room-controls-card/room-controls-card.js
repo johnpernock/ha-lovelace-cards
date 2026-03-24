@@ -786,12 +786,12 @@ class RoomControlsCard extends HTMLElement {
     .strack{height:5px;border-radius:99px;background:rgba(255,255,255,.08);position:relative;overflow:visible}
     .sfill{height:100%;border-radius:99px;background:#fbbf24;transition:width .1s;pointer-events:none}
     .sinput{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;height:18px;margin-top:-6px}
-    .theme-block{border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:9px 11px;margin-bottom:6px}
+    .theme-block{margin-bottom:4px}
     .theme-block-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
     .theme-block-name{font-size:13px;font-weight:700}
     .theme-block-sub{font-size:10px;color:rgba(255,255,255,.35);margin-left:auto;white-space:nowrap}
-    .theme-areas{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:4px}
-    .theme-area{border-radius:7px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:background .1s,border-color .1s;min-height:54px;justify-content:center}
+    .theme-areas{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+    .theme-area{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:background .1s,border-color .1s;min-height:58px;justify-content:center}
     .theme-area:active{transform:scale(.94)}
     .theme-area-label{font-size:10px;font-weight:700;text-align:center;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 2px}
     .theme-area-swatches{display:flex;gap:3px;justify-content:center}
@@ -838,8 +838,8 @@ class RoomControlsCard extends HTMLElement {
       const swatchHtml = isSwitch ? '' :
         colors.slice(0,6).map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
       const isOn = st.pct > 0;
-      const btnBg  = isOn ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.03)';
-      const btnBc  = isOn ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.07)';
+      const btnBg  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.05)';
+      const btnBc  = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.10)';
       const lblClr = isOn ? st.color : 'rgba(255,255,255,.3)';
       return `<div class="theme-area" id="tarea-${room.id}-${ai}" style="background:${btnBg};border:1px solid ${btnBc}">
         <div class="theme-area-swatches" id="tasw-${room.id}-${ai}">${swatchHtml}</div>
@@ -885,8 +885,8 @@ class RoomControlsCard extends HTMLElement {
       const swEl  = sr.getElementById(`tasw-${room.id}-${ai}`);
       const isOn  = st.pct > 0;
       if (btnEl) {
-        btnEl.style.background  = isOn ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.03)';
-        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.07)';
+        btnEl.style.background  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.05)';
+        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.10)';
       }
       if (stEl)  { stEl.textContent = area.label; stEl.style.color = isOn ? st.color : 'rgba(255,255,255,.3)'; }
       if (swEl && !isSwitch) {
