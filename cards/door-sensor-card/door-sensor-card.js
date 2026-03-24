@@ -107,11 +107,7 @@ class DoorSensorCard extends HTMLElement {
     this._popupOpen = true;
     overlay.style.display = 'flex';
     this._renderPopup();
-    setTimeout(() => {
-      overlay.addEventListener('click', e => {
-        if (e.target === overlay) this._closePopup();
-      }, { once: true });
-    }, 50);
+    // overlay tap-outside is wired in _render() permanently
   }
 
   _closePopup() {
@@ -340,11 +336,16 @@ class DoorSensorCard extends HTMLElement {
     this.shadowRoot.getElementById('ds-banner')
       ?.addEventListener('click', () => this._openPopup());
 
-    // Restore popup after re-render
+    // Restore popup after re-render and always wire overlay tap-outside
+    const overlay2 = this.shadowRoot.getElementById('ds-overlay');
+    if (overlay2) {
+      overlay2.addEventListener('click', e => {
+        if (e.target === overlay2) this._closePopup();
+      });
+    }
     if (this._popupOpen) {
-      const overlay = this.shadowRoot.getElementById('ds-overlay');
-      if (overlay) {
-        overlay.style.display = 'flex';
+      if (overlay2) {
+        overlay2.style.display = 'flex';
         this._renderPopup();
       }
     }

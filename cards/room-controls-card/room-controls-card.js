@@ -285,12 +285,8 @@ class RoomControlsCard extends HTMLElement {
   _ico(name,c,w,h) { return RoomControlsCard._svg(RoomControlsCard.ICONS[name]||'',c,w,h); }
 
   _signal(level,max,active) {
-    const c=active?'#60a5fa':'rgba(255,255,255,.18)', ic=active?'rgba(96,165,250,.1)':'rgba(255,255,255,.04)';
-    if (!level) return `<svg width="20" height="20" viewBox="0 0 14 14"><line x1="3" y1="3" x2="11" y2="11" stroke="${active?'#60a5fa':'rgba(255,255,255,.22)'}" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="3" x2="3" y2="11" stroke="${active?'#60a5fa':'rgba(255,255,255,.22)'}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-    const bw=2.2,gap=1,tw=max*(bw+gap)-gap,sx=(14-tw)/2;
-    let bars='';
-    for(let i=0;i<max;i++){const bh=3+(i/(max-1||1))*7,x=sx+i*(bw+gap),y=13-bh;bars+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw}" height="${bh.toFixed(1)}" rx=".7" fill="${level>i?c:ic}"/>`;}
-    return `<svg width="20" height="20" viewBox="0 0 14 14">${bars}</svg>`;
+    if (!level) return `<div class="fpip-dot-off">Off</div>`;
+    return `<div class="fpip-dot${active?' fpip-dot-on':''}" ></div>`;
   }
 
   /* ── Toggle helper ────────────────────────────────────────────────── */
@@ -338,6 +334,20 @@ class RoomControlsCard extends HTMLElement {
           <span class="lm-pct" id="lpct-${room.id}">${on?avg+'%':''}</span>
           <div class="lm-btn">${this._ico('chev','rgba(255,255,255,.4)',14,14)}</div>
         </div>`;
+        // Individual light toggle grid
+        if (cfg.individuals?.length) {
+          const btns = cfg.individuals.map(l => {
+            const lon = this._isOn(l.entity);
+            const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
+            const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.08)';
+            const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
+            const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.35)';
+            const nm  = l.name || this._attr(l.entity,'friendly_name') || l.entity.split('.').pop();
+            const eid = l.entity.replace(/[^a-z0-9]/g,'_');
+            return `<div class="itog" id="itog-${room.id}-${eid}" data-room="${room.id}" data-action="indiv-tog" data-entity="${l.entity}" style="background:${bg};border:1px solid ${bc}"><div class="itog-dot" style="background:${dc}"></div><div class="itog-lbl" style="color:${lc}">${nm}</div></div>`;
+          }).join('');
+          body += `<div class="itog-grid" id="itog-grid-${room.id}">${btns}</div>`;
+        }
       }
     }
 
@@ -398,16 +408,15 @@ class RoomControlsCard extends HTMLElement {
         if (sv!=null) sensor=`<div class="t-pill"><div class="t-pill-val">${sv}°</div><div class="t-pill-lbl">${sl}</div></div>`;
       }
       body += `<div class="tstat-block tstat-${isOff?'off':mode.replace('_','-')}" id="tblock-${room.id}">
-        <div class="tstat-top" data-room="${room.id}" data-action="tstat-popup">
+        <div class="tstat-top" data-room="${room.id}" data-action="tstat-popup" style="justify-content:space-between">
           <div class="tcur${isOff?' tcur-off':''}">${cur!=null?cur+'°':'—'}</div>
           ${sensor}
-          <div class="tdiv"></div>
           <div class="hvac-btn" style="background:${meta.bg};border-color:${meta.bc}" data-room="${room.id}" data-action="hvac-cycle">
             ${dot}<span class="hvac-lbl" style="color:${meta.tc}" id="hvac-lbl-${room.id}">${meta.label}</span>
           </div>
-          <div class="tadj${isOff?' tadj-off':''}" data-room="${room.id}" data-action="temp-dn">−</div>
+          <div style="display:flex;align-items:center;gap:5px;margin-left:auto"><div class="tadj${isOff?' tadj-off':''}" data-room="${room.id}" data-action="temp-dn">−</div>
           <div class="tsetval${isOff?' tsetval-off':''}" id="tset-${room.id}">${isOff?'—':(set!=null?set+'°':'—')}</div>
-          <div class="tadj${isOff?' tadj-off':''}" data-room="${room.id}" data-action="temp-up">+</div>
+          <div class="tadj${isOff?' tadj-off':''}" data-room="${room.id}" data-action="temp-up">+</div></div>
         </div>
       </div>`;
     }
@@ -705,16 +714,24 @@ class RoomControlsCard extends HTMLElement {
     .lm-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
     .lm-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);width:28px;text-align:right;flex-shrink:0}
     .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+    .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 10px 2px}
+    .itog{border-radius:7px;padding:7px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:44px;justify-content:center;transition:background .1s,border-color .1s}
+    .itog:active{transform:scale(.94)}
+    .itog-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .itog-lbl{font-size:9px;font-weight:700;text-align:center;line-height:1.2}
     .light-row-simple{cursor:pointer}
     .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:6px;font-weight:400}
     .rhead-chev{cursor:pointer}
     .fan-section{display:flex;flex-direction:column;gap:4px}
     .fan-flat{display:flex;align-items:center;gap:8px}
     .fan-nm{font-size:12px;color:rgba(255,255,255,.5);width:72px;flex-shrink:0}
-    .fpips{display:flex;gap:3px;flex:1}
-    .fpip{flex:1;height:36px;border-radius:5px;background:rgba(255,255,255,.05);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .12s;user-select:none}
+    .fpips{display:flex;gap:4px;flex:1}
+    .fpip{width:36px;height:36px;flex-shrink:0;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
     .fpip:active{transform:scale(.9)}
-    .fpip-on{background:rgba(96,165,250,.15);border-color:rgba(96,165,250,.4)}
+    .fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
+    .fpip-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2)}
+    .fpip-dot-on{background:#2dd4bf}
+    .fpip-dot-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
     .bpip-pos{flex:0 0 auto;width:68px}
     .blind-pill{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:0 8px 8px 0;cursor:pointer;user-select:none;transition:filter .1s}
     .blind-pill:active{filter:brightness(.85)}
@@ -925,6 +942,20 @@ class RoomControlsCard extends HTMLElement {
         // lm-lbl lit class
         const lbl = sr.querySelector(`#lrow-${room.id} .lm-lbl`);
         if (lbl) lbl.className = `lm-lbl${on?' lit':''}`;
+        // individual light toggle buttons
+        const itogGrid = sr.getElementById(`itog-grid-${room.id}`);
+        if (itogGrid && room.lights?.individuals) {
+          room.lights.individuals.forEach(l => {
+            const lon = this._isOn(l.entity);
+            const btn = itogGrid.querySelector(`[data-entity="${l.entity}"]`);
+            if (!btn) return;
+            btn.style.background = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
+            btn.style.borderColor = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.08)';
+            const dot2=btn.querySelector('.itog-dot'), lbl2=btn.querySelector('.itog-lbl');
+            if (dot2) dot2.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
+            if (lbl2) lbl2.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.35)';
+          });
+        }
         // simplified header count
         if (!this._simplifiedMeta) this._simplifiedMeta = {};
         this._simplifiedMeta[room.id] = { on, cnt, tot };
@@ -1222,11 +1253,19 @@ class RoomControlsCard extends HTMLElement {
         }
         if (action==='popup-master-expand') {
           const exp=oc.querySelector(`#ppme-${rid}`), arr=oc.querySelector(`#ppmc-a-${rid}`);
-          if(exp){ const h=exp.classList.toggle('hidden'); if(arr) arr.style.transform=h?'':'rotate(180deg)'; } return;
+          if(exp){
+            const opening=exp.classList.contains('hidden');
+            if(opening){oc.querySelectorAll('.pp-master-exp:not(.hidden)').forEach(d=>d.classList.add('hidden'));oc.querySelectorAll('.pp-color-sec:not(.hidden)').forEach(d=>d.classList.add('hidden'));oc.querySelectorAll('[id^="ppmc-a-"],[id^="ppla-"]').forEach(a=>a.style.transform='');}
+            exp.classList.toggle('hidden'); if(arr) arr.style.transform=opening?'rotate(180deg)':'';
+          } return;
         }
         if (action==='popup-light-exp') {
           const li=el.dataset.li, cs=oc.querySelector(`#ppcs-${rid}-${li}`), ar=oc.querySelector(`#ppla-${rid}-${li}`);
-          if(cs){ const h=cs.classList.toggle('hidden'); if(ar) ar.style.transform=h?'':'rotate(180deg)'; } return;
+          if(cs){
+            const opening2=cs.classList.contains('hidden');
+            if(opening2){oc.querySelectorAll('.pp-color-sec:not(.hidden)').forEach(d=>d.classList.add('hidden'));oc.querySelectorAll('[id^="ppla-"]').forEach(a=>a.style.transform='');}
+            cs.classList.toggle('hidden'); if(ar) ar.style.transform=opening2?'rotate(180deg)':'';
+          } return;
         }
         if (action?.includes(':')) {
           const [type,...parts]=action.split(':');
@@ -1332,6 +1371,7 @@ class RoomControlsCard extends HTMLElement {
         case 'blind-open':          if(room?.blinds) this._setCoverPos(room.blinds.entity, room.blinds.max_position||100); break;
         case 'blind-close':         if(room?.blinds) this._setCoverState(room.blinds.entity,false); break;
         case 'blind-popup':         this._openOverlay(`bp-${rid}`); break;
+        case 'indiv-tog': { const eid=el.dataset.entity; if(eid) this._toggleLight(eid); break; }
         case 'garage-open':         if(room?.garage) this._setCoverState(room.garage.entity,true);  break;
         case 'garage-close':        if(room?.garage) this._setCoverState(room.garage.entity,false); break;
 
@@ -1350,14 +1390,16 @@ class RoomControlsCard extends HTMLElement {
         case 'popup-master-expand': {
           const exp=sr.getElementById(`ppme-${rid}`), arr=sr.getElementById(`ppmc-a-${rid}`);
           if(!exp) break;
-          const h=exp.classList.toggle('hidden');
-          if(arr) arr.style.transform=h?'':'rotate(180deg)'; break;
+          const opening=exp.classList.contains('hidden');
+          if(opening){sr.querySelectorAll('.pp-master-exp:not(.hidden)').forEach(d=>d.classList.add('hidden'));sr.querySelectorAll('.pp-color-sec:not(.hidden)').forEach(d=>d.classList.add('hidden'));sr.querySelectorAll('[id^="ppmc-a-"],[id^="ppla-"]').forEach(a=>a.style.transform='');}
+          exp.classList.toggle('hidden'); if(arr) arr.style.transform=opening?'rotate(180deg)':''; break;
         }
         case 'popup-light-exp': {
           const li=el.dataset.li, cs=sr.getElementById(`ppcs-${rid}-${li}`), ar=sr.getElementById(`ppla-${rid}-${li}`);
           if(!cs) break;
-          const h=cs.classList.toggle('hidden');
-          if(ar) ar.style.transform=h?'':'rotate(180deg)'; break;
+          const opening2=cs.classList.contains('hidden');
+          if(opening2){sr.querySelectorAll('.pp-color-sec:not(.hidden)').forEach(d=>d.classList.add('hidden'));sr.querySelectorAll('[id^="ppla-"]').forEach(a=>a.style.transform='');}
+          cs.classList.toggle('hidden'); if(ar) ar.style.transform=opening2?'rotate(180deg)':''; break;
         }
       }
 
