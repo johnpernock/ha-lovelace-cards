@@ -459,10 +459,31 @@ class RoomControlsCard extends HTMLElement {
       </div>`;
     }).join('');
 
+    // Thermostat header pill — cur° → set°
+    let tempPill = '';
+    if (room.thermostat) {
+      const _eid = room.thermostat.entity;
+      const _cur = this._tempVal(_eid);
+      const _set = this._targetTemp(_eid);
+      const _mode = this._hvacMode(_eid);
+      const _isOff = _mode === 'off';
+      const _clr = _isOff ? 'rgba(255,255,255,.12)' : 'rgba(251,146,60,.18)';
+      const _bc  = _isOff ? 'rgba(255,255,255,.08)' : 'rgba(251,146,60,.3)';
+      if (_cur != null) {
+        const _setHtml = (!_isOff && _set != null)
+          ? `<span class="rtp-arr">→</span><span class="rtp-set">${_set}°</span>`
+          : '';
+        tempPill = `<div class="rhead-temp-pill" style="background:${_clr};border:1px solid ${_bc}">
+          <span class="rtp-cur">${_cur}°</span>${_setHtml}
+        </div>`;
+      }
+    }
+
     return `<div class="room" id="room-${room.id}">
       <div class="rhead${smMeta?' rhead-simple':''}">
         <span class="rlbl">${room.name}</span>
         ${doorPills}
+        ${tempPill}
         ${smCount}
         <div style="display:flex;align-items:center;gap:6px;margin-left:auto">
           ${smChev}
@@ -700,17 +721,17 @@ class RoomControlsCard extends HTMLElement {
     .tstat-fan-only{border-left:3px solid rgba(20,184,166,.5);background:rgba(20,184,166,.04)}
     .tstat-dry{border-left:3px solid rgba(251,191,36,.5);background:rgba(251,191,36,.04)}
     .tstat-off{border-left:3px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03)}
-    .tstat-top{display:flex;align-items:center;gap:8px;padding:10px 12px;cursor:pointer;user-select:none}
+    .tstat-top{display:flex;align-items:center;gap:6px;padding:8px 10px;cursor:pointer;user-select:none}
     .tstat-top:active{filter:brightness(.88)}
-    .tcur{font-size:34px;font-weight:700;color:var(--primary-text-color);letter-spacing:-1.5px;line-height:1}
+    .tcur{font-size:24px;font-weight:700;color:var(--primary-text-color);letter-spacing:-1px;line-height:1}
     .tcur-off{color:rgba(255,255,255,.4)}
-    .tdiv{width:1px;height:36px;background:rgba(255,255,255,.1);flex-shrink:0}
+    .tdiv{width:1px;height:28px;background:rgba(255,255,255,.1);flex-shrink:0}
     .tsetblock{flex:1;display:flex;flex-direction:column;align-items:center}
-    .tsetctrl{display:flex;align-items:center;gap:5px}
-    .tadj{width:44px;height:44px;flex-shrink:0;border-radius:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:var(--primary-text-color);font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
+    .tsetctrl{display:flex;align-items:center;gap:4px}
+    .tadj{width:34px;height:34px;flex-shrink:0;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:var(--primary-text-color);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
     .tadj:active{background:rgba(255,255,255,.18)}
     .tadj-off{opacity:.3;pointer-events:none}
-    .tsetval{font-size:22px;font-weight:700;color:#fb923c;min-width:44px;text-align:center}
+    .tsetval{font-size:18px;font-weight:700;color:#fb923c;min-width:36px;text-align:center}
     .tsetval-off{color:rgba(255,255,255,.3)}
     .t-pill{display:flex;align-items:center;gap:4px;padding:5px 9px;border-radius:7px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.18);margin-left:3px;flex-shrink:0}
     .t-pill-val{font-size:18px;font-weight:700;color:#60a5fa;line-height:1}
@@ -718,6 +739,10 @@ class RoomControlsCard extends HTMLElement {
     .hvac-btn{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;border:0.5px solid;cursor:pointer;transition:transform .1s;user-select:none}
     .hvac-btn:active{transform:scale(.95)}
     .hvac-lbl{font-size:11px;font-weight:700}
+    .rhead-temp-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;flex-shrink:0;margin-left:6px}
+    .rhead-temp-pill .rtp-cur{color:var(--primary-text-color)}
+    .rhead-temp-pill .rtp-arr{color:rgba(255,255,255,.25);margin:0 1px}
+    .rhead-temp-pill .rtp-set{color:#fb923c}
     .mode-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
     .mode-dot-split{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:linear-gradient(90deg,#fb923c 50%,#60a5fa 50%)}
     .sensor-row{border-radius:8px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.03);padding:10px 12px;display:flex;align-items:center;gap:10px}

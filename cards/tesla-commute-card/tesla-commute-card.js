@@ -241,6 +241,11 @@ class TeslaCommuteCard extends HTMLElement {
            <button class="temp-btn" id="tc-temp-up">+</button>
          </div>`
       : `<div class="temp-display" style="color:rgba(255,255,255,.3)" id="tc-temp-val">Off</div>`;
+    const climateMode = this._hass?.states[ents.climate]?.state || 'off';
+    const climateModeLabel = {
+      heat: 'Heating', cool: 'Cooling', heat_cool: 'Auto',
+      auto: 'Auto', fan_only: 'Fan', dry: 'Dry', off: 'Off'
+    }[climateMode] || climateMode;
     const onBadgeStyle = climateOn
       ? `background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)`
       : `background:rgba(255,255,255,.07);color:rgba(255,255,255,.3)`;
@@ -327,7 +332,7 @@ class TeslaCommuteCard extends HTMLElement {
             <div class="climate-lbl" style="color:${climateLblClr}">Climate</div>
             <div class="climate-controls">
               ${tempStepHtml}
-              <div class="on-badge" id="tc-on-badge" style="${onBadgeStyle}">${climateOn ? 'On' : 'Off'}</div>
+              <div class="on-badge" id="tc-on-badge" style="${onBadgeStyle}">${climateModeLabel}</div>
             </div>
           </div>` : ''}
 
@@ -373,8 +378,10 @@ class TeslaCommuteCard extends HTMLElement {
 
     // climate
     if (el('tc-temp-val'))   el('tc-temp-val').textContent   = climateOn && tgtTemp != null ? `${Math.round(tgtTemp)}°${unit}` : 'Off';
+    const _climateMode = this._hass?.states[ents.climate]?.state || 'off';
+    const _climateModeLabel = {heat:'Heating',cool:'Cooling',heat_cool:'Auto',auto:'Auto',fan_only:'Fan',dry:'Dry',off:'Off'}[_climateMode] || _climateMode;
     if (el('tc-on-badge'))   {
-      el('tc-on-badge').textContent   = climateOn ? 'On' : 'Off';
+      el('tc-on-badge').textContent   = _climateModeLabel;
       el('tc-on-badge').style.cssText = climateOn
         ? 'background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3);font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px'
         : 'background:rgba(255,255,255,.07);color:rgba(255,255,255,.3);font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px';
