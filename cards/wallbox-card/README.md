@@ -56,5 +56,6 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v2 | Touch audit: added `-webkit-tap-highlight-color:transparent` to `.ctrl-row` and `.mode-opt` |
 | v1 | Initial release |
 | v2 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to ctrl-row and mode-opt buttons |

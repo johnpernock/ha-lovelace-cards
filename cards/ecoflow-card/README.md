@@ -59,5 +59,6 @@ name: River 2 Pro
 
 | Version | Changes |
 |---------|---------|
+| v2 | Tap states added (.ha-tap class with scale/brightness :active). Outer container background removed. |
 | v1 | Initial release |
 | v2 | Added `.ha-tap` class with `scale(0.96)/brightness(0.9)` `:active` states on interactive rows. Touch/mobile audit. |

@@ -292,17 +292,58 @@ width: 28px; height: 28px;
 
 ## Interaction states
 
-### Tap / press
-All interactive elements use:
+### Touch / mobile requirements
+
+Every interactive element in every card must have ALL of the following — no exceptions:
+
 ```css
-transition: transform 0.1s, filter 0.12s;
--webkit-tap-highlight-color: transparent;
+-webkit-tap-highlight-color: transparent;  /* removes blue flash on iOS/Android */
+user-select: none;                          /* prevents text selection on long press */
+cursor: pointer;                            /* shows pointer on desktop */
+transition: transform 0.1s, filter 0.12s;  /* smooth active feedback */
 ```
-On `:active`:
+
+On `:active` (finger down):
 ```css
 transform: scale(0.96);
 filter: brightness(0.9);
 ```
+
+### Minimum touch target size
+
+Interactive rows, buttons, and pills must have an effective touch height of at least 44px. Achieve this with padding rather than fixed height so content can still flex:
+
+```css
+/* Row with 10-12px vertical padding + ~20px content = 44px+ */
+padding: 10px 14px;
+
+/* Small buttons: explicit min dimensions */
+min-width: 44px;
+min-height: 44px;
+```
+
+### Drag sliders
+
+Sliders (brightness, current) require both mouse and touch event handling:
+```js
+el.addEventListener('mousedown', handler);
+el.addEventListener('touchstart', handler, { passive: true });
+document.addEventListener('mousemove', moveHandler);
+document.addEventListener('touchmove', moveHandler, { passive: true });
+document.addEventListener('mouseup', upHandler);
+document.addEventListener('touchend', upHandler);
+```
+Also set `touch-action: none` on the track element to prevent scroll interference.
+
+### Tap / press summary
+
+| Property | Value | Purpose |
+|----------|-------|---------|
+| `-webkit-tap-highlight-color` | `transparent` | No blue flash on mobile |
+| `user-select` | `none` | No text selection on long press |
+| `transition` | `transform .1s, filter .12s` | Smooth press feedback |
+| `:active transform` | `scale(0.96)` | Visual press confirmation |
+| `:active filter` | `brightness(0.9)` | Darkens on press |
 
 ### Disabled state
 Moving/transitioning states (garage door opening, etc.) set `pointer-events: none` or `disabled` attribute on the button. Visual opacity drops to `0.5–0.6`.

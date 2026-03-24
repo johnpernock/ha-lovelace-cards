@@ -189,6 +189,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v12 | Touch audit: added `-webkit-tap-highlight-color:transparent` to `.rbtn` |
 | v11 | Added `immich` section; added `recently_added` section |
 | v12 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to `.rbtn` interactive buttons |
 | v10 | Added `now_playing` section (Sonarr/Radarr) |

@@ -117,6 +117,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v4 | Theme sensor: holiday color strip + name label added to room buttons |
 | v3 | Fixed fan popup speed resolution — now uses `_fanResolvedSpeeds()` helper instead of hardcoded value; matches `room-controls-card` priority logic |
 | v2 | Added `cover_group` popup type with `max_position` support; added `tap_action: toggle` for direct cover control |
 | v1 | Initial release — 2-column grid, `stat` / `toggle` / `fan` popup types |

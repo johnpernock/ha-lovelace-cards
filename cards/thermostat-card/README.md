@@ -66,6 +66,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v5 | Touch audit: added `user-select:none` to tappable elements |
 | v4 | Mode cycling now reads live `hvac_modes` attribute — no longer cycles to unsupported modes |
 | v5 | Touch/mobile audit: added `user-select:none` to tappable elements |
 | v3 | Fixed +/− buttons losing their event listeners after HA state push — moved to stable DOM with `_patch()` pattern |

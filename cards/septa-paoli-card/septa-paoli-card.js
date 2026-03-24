@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v19
+ * septa-paoli-card.js  —  v20
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────

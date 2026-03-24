@@ -55,5 +55,6 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v2 | Touch audit: added `-webkit-tap-highlight-color:transparent` to `.lb-row` |
 | v1 | Initial release. Stale train filtering, 30s refresh, urgency colour coding, midnight crossover handling. |
 | v2 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to `lb-row` |

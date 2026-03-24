@@ -96,5 +96,6 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v2 | Climate badge now shows HVAC mode name (Heating / Cooling / Auto / Fan / Dry / Off) instead of On / Off. Tire pressures rounded to integer PSI. |
 | v1 | Initial release |
 | v2 | Climate badge now shows HVAC mode name (Heating/Cooling/Auto/Fan/Dry/Off) instead of On/Off — reads as state indicator not a control |

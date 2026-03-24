@@ -163,9 +163,9 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Room Buttons | `cards/room-buttons-card/` | v4 |
 | Camera Layout | `cards/camera-layout-card/` | v2 |
 | Technology | `cards/technology-card/` | v12 |
-| Bambu Printer | `cards/bambu-printer-card/` | current |
+| Bambu Printer | `cards/bambu-printer-card/` | — |
 | Printer Status | `cards/printer-status-card/` | v1 |
-| Weather (NWS) | `cards/weather-card-nws/` | v3 |
+| Weather (NWS) | `cards/weather-card-nws/` | v4 |
 | Clock | `cards/clock-card/` | v3 |
 | Temp Strip | `cards/temp-strip-card/` | v3 |
 | Door Sensors | `cards/door-sensor-card/` | v5 |

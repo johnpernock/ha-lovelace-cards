@@ -112,6 +112,10 @@ Each `sensor.waze_travel_time_*` entity exposes these attributes the card reads:
 
 | Version | Changes |
 |---------|---------|
+| v5 | Touch audit: added `-webkit-tap-highlight-color:transparent` to expanded row classes |
+| v4 | To-work row dimming after noon removed — always shows at full brightness |
+| v3 | hass guard added to `_renderExpanded()` to fix blank times on initial render |
+| v2 | `expanded: true` mode — hero/sub row layout matching train card style; colours match delay state |
 | v1 | Initial release — live Waze data, incident banner, Fastest badge, to-work dimming, last updated timestamp |
 | v5 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to expanded row elements |
 | v4 | Fixed blank times in expanded mode — `_renderExpanded()` missing `!this._hass` guard caused render before hass assigned |

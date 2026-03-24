@@ -111,6 +111,9 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v20 | Touch audit: added `-webkit-tap-highlight-color:transparent` and `user-select:none` to hero, pill (compact), exp-train-row and exp-train-sub (expanded) |
+| v19 | Fixed class body closed prematurely — expanded mode methods were outside class, causing SyntaxError |
+| v18 | `expanded: true` mode — hero/sub row layout, card header with station badge, section labels, train number + service type meta. Compact mode unchanged. |
 | v16 | Popup portalled to `document.body`; improved delay color logic |
 | v20 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` and `user-select:none` to hero, pill (compact), and expanded train rows |
 | v19 | Fixed class body closed prematurely — expanded mode methods were outside the class, causing SyntaxError |
