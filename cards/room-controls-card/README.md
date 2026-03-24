@@ -147,6 +147,10 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v56 | Popup master block matches inline view: toggle and count text removed, slider spans full width with thumb capped at 96%, left accent bar replaced with subtle full border, "All Lights" sec-hdr label added above slider |
+| v55 | Cache bust — no code changes |
+| v54 | Toggle pill-shaped: border-radius changed from 8px to 99px; thumb border-radius changed from 4px to 50% (circular) |
+| v53 | All Lights slider: border and background removed — sits flat with no container styling; padding reduced to vertical only |
 | v52 | Left accent bar removed from All Lights slider — replaced with subtle full border; border-radius changed to 8px all round |
 | v51 | Added "Lights" and "Thermostat" section headers (small uppercase labels) above each section for clarity |
 | v50 | Slider thumb capped at 96% left — no longer overlaps popup chevron at full brightness. Switch entities filtered from color/CT support check so rooms with mixed light+switch entities correctly show color expand |

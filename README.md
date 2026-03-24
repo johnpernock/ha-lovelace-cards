@@ -159,7 +159,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 
 | Card | Folder | Version |
 |------|--------|---------|
-| Room Controls | `cards/room-controls-card/` | v44 |
+| Room Controls | `cards/room-controls-card/` | v56 |
 | Room Buttons | `cards/room-buttons-card/` | v4 |
 | Camera Layout | `cards/camera-layout-card/` | v3 |
 | Technology | `cards/technology-card/` | v12 |
@@ -179,7 +179,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Ecoflow | `cards/ecoflow-card/` | v2 |
 | Now Playing | `cards/now-playing-card/` | v2 |
 | Traffic (Commute) | `cards/traffic-card/` | v5 |
-| Tesla Commute | `cards/tesla-commute-card/` | v2 |
+| Tesla Commute | `cards/tesla-commute-card/` | v3 |
 | Charging | `cards/charging-card/` | v1 |
 | Protect Events ✦ | `cards/protect-events-card/` | v1 |
 | Leave By ✦ | `cards/leave-by-card/` | v2 |
@@ -235,6 +235,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 |------|---------|
 | Mar 2026 | **UniFi Protect event feed card + Security view.** `protect-events-card` — real-time smart detection event feed from UniFi Protect cameras. Subscribes to `state_changed` over websocket; ring buffer holds latest N events per camera; filter pills narrow by type (person / vehicle / animal / package); amber flash animation on new arrivals; async thumbnail fetch via `/api/unifiprotect/thumbnail/{event_id}` ~1.5s after detection; portal popup shows 16:9 thumbnail, 3-column meta strip (camera / type / confidence), clip and live-view actions. Footer shows rolling today-count and active-motion-sensor count. Fully migrated to shared modules (`ha-utils`, `ha-styles`, `ha-popup`). New Security view added to dashboard (2-col: camera layout left / protect-events-card right). |
 | Mar 2026 | **Touch/mobile audit across all cards.** Added `-webkit-tap-highlight-color:transparent` and `user-select:none` to all interactive elements in: `wallbox-card`, `septa-paoli-card`, `technology-card`, `traffic-card`, `garage-door-card`, `weather-card-nws`, `leave-by-card`, `now-playing-card`, `thermostat-card`. All interactive rows verified to have adequate touch target size (44px+ effective height). Added `deploy.sh` deployment script. |
+| Mar 2026 | **Lights & Fans polish + popup consistency.** `room-controls-card` v53–v56: all lights slider border/background removed (flat, no container); toggle pill-shaped (border-radius:99px, circular thumb); popup master block matches inline — toggle and count text removed, full-width slider, sec-hdr label, subtle border replaces left bar. `camera-layout-card` v3: responsive layout with flex-wrap — doorbell stacks above cameras below 480px. Dashboard: `simplified:true` removed from bathroom and yard rooms; Security view view-order updated. |
 | Mar 2026 | **Lights & Fans redesign + bug fixes.** `room-controls-card` v42–v44: fan pips replaced with dot tap buttons (teal, full-width, name above); individual light toggle grid added below master bar (3-col, amber when on, live patch); thermostat controls right-aligned (mode badge left, +/− pushed right); popup drawers close others on open; light slider text label removed; tile font and spacing enlarged for mobile. `door-sensor-card` v6: tap-outside-to-close fixed — overlay listener now wired in `_render()` permanently so it survives hass re-renders. |
 | Mar 2026 | **Bug fixes: fan pips, light toggles, thermostat, security view merge. + design audit.** `room-controls-card` v35–v39: fan pip off-by-1 fixed (speeds now includes off pip); room toggle `data-room` bug fixed; thermostat header pills (mode dot + cur°→set°, blue sensor pill); compact inline thermostat (smaller adj buttons for mobile); `peco-card` outer container background removed; `ecoflow-card` tap states added. `tesla-commute-card` v2: climate badge shows HVAC mode name (Heating/Cooling/Auto) instead of On/Off. `STYLE-GUIDE.md` updated with expanded row pattern, header pill spec, known inconsistencies. `dashboard-README.md` updated with fan speed table. |
 | Mar 2026 | **Expanded commute view + leave-by-card.** `traffic-card` v2 — `expanded: true` mode replaces flat tiles with hero/sub rows matching the train card style; to-work hero row, home routes as hero + sub rows. `septa-paoli-card` v18 — `expanded: true` mode replaces pills with full train rows (hero row for next train, sub rows for subsequent); card header with station badge; section labels; train number + service type meta. New `leave-by-card` — computes when you need to leave to catch each outbound train based on live Waze drive time; urgency colour coding (red/amber/green); stale train filtering; 30s refresh. `dashboard.yaml` commute view updated: traffic + leave-by stacked in col 1, SEPTA expanded in col 2. |

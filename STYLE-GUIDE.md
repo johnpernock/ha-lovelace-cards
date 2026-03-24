@@ -290,6 +290,28 @@ width: 28px; height: 28px;
 
 ---
 
+## Toggle switch pattern
+
+Room on/off toggles use a pill shape with a circular thumb:
+
+```css
+.tog {
+  border-radius: 99px;        /* fully pill-shaped */
+  border: 1px solid;
+  transition: background .15s, border-color .15s;
+}
+.tog-thumb {
+  border-radius: 50%;         /* circular thumb */
+  transition: left .15s, background .15s;
+}
+```
+
+State colors:
+- **On**: `background: rgba(251,191,36,.25)`, `border-color: rgba(251,191,36,.5)`, thumb `#fbbf24`
+- **Off**: `background: rgba(255,255,255,.06)`, `border-color: rgba(255,255,255,.12)`, thumb `rgba(255,255,255,.3)`
+
+Sizes: `lg` = 44×30px, thumb 20×20px, offset 5px. `sm` = 36×24px, thumb 16×16px, offset 4px.
+
 ## Interaction states
 
 ### Touch / mobile requirements
