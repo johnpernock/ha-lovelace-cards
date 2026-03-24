@@ -152,7 +152,7 @@ class TechnologyCard extends HTMLElement {
     .ink-pct{font-size:12px;font-weight:700;color:#e2e8f0}
     .ink-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase}
     .ink-warn{font-size:9px;font-weight:700;color:#fbbf24}
-    .rbtn{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);cursor:pointer;user-select:none;transition:background .12s}
+    .rbtn{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);cursor:pointer;user-select:none;transition:background .12s;-webkit-tap-highlight-color:transparent}
     .rbtn:active{background:rgba(255,255,255,.09)}
     .rbtn-left{display:flex;align-items:center;gap:9px}
     .rbtn-icon{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}

@@ -532,6 +532,8 @@ class SeptaPaoliCard extends HTMLElement {
           cursor: pointer;
           transition: opacity 0.1s;
           overflow: hidden;
+          -webkit-tap-highlight-color: transparent;
+          user-select: none;
         }
         .hero:active { opacity: 0.85; }
 
@@ -621,6 +623,8 @@ class SeptaPaoliCard extends HTMLElement {
           flex: 1;
           cursor: pointer;
           transition: opacity 0.1s;
+          -webkit-tap-highlight-color: transparent;
+          user-select: none;
         }
         .pill:active { opacity: 0.8; }
 
@@ -684,9 +688,9 @@ class SeptaPaoliCard extends HTMLElement {
         .exp-card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
         .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
         .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
-        .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s}
+        .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
         .exp-train-row:active{opacity:.85}
-        .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s}
+        .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
         .exp-train-sub:active{opacity:.85}
         .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
         .exp-time-hero{font-size:26px;font-weight:600;letter-spacing:-1px;line-height:1}
@@ -873,9 +877,9 @@ class SeptaPaoliCard extends HTMLElement {
       .exp-card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
       .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
       .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
-      .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s}
+      .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
       .exp-train-row:active{opacity:.85}
-      .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s}
+      .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
       .exp-train-sub:active{opacity:.85}
       .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
       .exp-time-hero{font-size:26px;font-weight:600;letter-spacing:-1px;line-height:1}

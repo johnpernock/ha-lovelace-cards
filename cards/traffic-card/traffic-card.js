@@ -157,9 +157,9 @@ class TrafficCard extends HTMLElement {
 
     /* ── expanded row mode ── */
     .sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
-    .exp-hero-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .exp-hero-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
     .exp-hero-row.dimmed{opacity:.38}
-    .exp-sub-row{margin:4px 10px 8px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .exp-sub-row{margin:4px 10px 8px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
     .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
     .exp-row-route{font-size:15px;font-weight:600;line-height:1.2}
     .exp-row-via{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}

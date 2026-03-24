@@ -91,7 +91,7 @@ class NowPlayingCard extends HTMLElement {
       const name    = p.name || p.entity.split('.').pop().replace(/_/g,' ');
       const border  = i > 0 ? 'border-top:1px solid rgba(255,255,255,.06);' : '';
 
-      return `<div class="active-row" id="np-${p.entity.replace(/\./g,'_')}" data-entity="${p.entity}" style="${border}cursor:pointer;-webkit-tap-highlight-color:transparent">
+      return `<div class="active-row" id="np-${p.entity.replace(/\./g,'_')}" data-entity="${p.entity}" style="${border}cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none">
         <div class="media-art">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
             ${playing

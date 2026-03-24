@@ -119,7 +119,7 @@ class WallboxCard extends HTMLElement {
     .bar-ends{display:flex;justify-content:space-between;margin-top:2px}
     .bar-end{font-size:9px;color:rgba(255,255,255,.2)}
     .divider{height:1px;background:rgba(255,255,255,.07)}
-    .ctrl-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid rgba(255,255,255,.06);cursor:pointer;user-select:none;transition:filter .1s}
+    .ctrl-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid rgba(255,255,255,.06);cursor:pointer;user-select:none;transition:filter .1s;-webkit-tap-highlight-color:transparent}
     .ctrl-row:active{filter:brightness(.85)}
     .ctrl-ico{width:18px;height:18px;flex-shrink:0}
     .ctrl-ico svg{width:100%;height:100%}
@@ -129,7 +129,7 @@ class WallboxCard extends HTMLElement {
     .mode-ico{width:16px;height:16px;flex-shrink:0}
     .mode-ico svg{width:100%;height:100%}
     .mode-lbl{font-size:11px;color:rgba(255,255,255,.3);flex:1}
-    .mode-opt{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);cursor:pointer;transition:background .15s,color .15s,border-color .15s;user-select:none}
+    .mode-opt{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);cursor:pointer;transition:background .15s,color .15s,border-color .15s;user-select:none;-webkit-tap-highlight-color:transparent}
     .mode-opt:active{filter:brightness(.85)}
     .mode-opt.active{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.3);color:#4ade80}
     .mode-opt.active-eco{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.3);color:#60a5fa}

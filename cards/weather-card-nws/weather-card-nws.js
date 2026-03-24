@@ -355,7 +355,7 @@ class WeatherCardUnified extends HTMLElement {
         }).join('')
       : `<div class="no-fc">Loading…</div>`;
 
-    const tapCursor  = tapAction !== 'none' ? 'cursor:pointer' : '';
+    const tapCursor  = tapAction !== 'none' ? '-webkit-tap-highlight-color:transparent;cursor:pointer' : '';
     const tapHint    = '';  // hint label removed
 
     this.shadowRoot.innerHTML = `

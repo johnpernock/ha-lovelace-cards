@@ -199,7 +199,7 @@ class LeaveByCard extends HTMLElement {
         .card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
         .hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(96,165,250,.5)}
         .drive-note{font-size:11px;color:rgba(255,255,255,.3);padding:8px 14px 4px}
-        .lb-row{margin:4px 10px;border-radius:8px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+        .lb-row{margin:4px 10px;border-radius:8px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
         .lb-row:last-child{margin-bottom:10px}
         .lb-left{min-width:0}
         .lb-dep-arr{font-size:12px;font-weight:600;color:rgba(255,255,255,.6)}
