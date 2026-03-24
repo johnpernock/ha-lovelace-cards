@@ -240,7 +240,7 @@ class TeslaCommuteCard extends HTMLElement {
            <div class="temp-display" style="color:#f97316" id="tc-temp-val">${Math.round(tgtTemp)}°${unit}</div>
            <button class="temp-btn" id="tc-temp-up">+</button>
          </div>`
-      : `<div class="temp-display" style="color:rgba(255,255,255,.3)" id="tc-temp-val">Off</div>`;
+      : `<div class="temp-display" style="color:rgba(255,255,255,.3)" id="tc-temp-val"></div>`;
     const climateMode = this._hass?.states[ents.climate]?.state || 'off';
     const climateModeLabel = {
       heat: 'Heating', cool: 'Cooling', heat_cool: 'Auto',
@@ -377,7 +377,7 @@ class TeslaCommuteCard extends HTMLElement {
     if (el('tc-ext-temp'))    el('tc-ext-temp').textContent   = extTemp != null ? Math.round(extTemp) : '—';
 
     // climate
-    if (el('tc-temp-val'))   el('tc-temp-val').textContent   = climateOn && tgtTemp != null ? `${Math.round(tgtTemp)}°${unit}` : 'Off';
+    if (el('tc-temp-val'))   el('tc-temp-val').textContent   = climateOn && tgtTemp != null ? `${Math.round(tgtTemp)}°${unit}` : '';
     const _climateMode = this._hass?.states[ents.climate]?.state || 'off';
     const _climateModeLabel = {heat:'Heating',cool:'Cooling',heat_cool:'Auto',auto:'Auto',fan_only:'Fan',dry:'Dry',off:'Off'}[_climateMode] || _climateMode;
     if (el('tc-on-badge'))   {

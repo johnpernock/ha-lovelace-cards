@@ -325,7 +325,7 @@ class RoomControlsCard extends HTMLElement {
         this._simplifiedMeta[room.id] = { on, cnt, tot };
       } else {
         const sliderPct = on ? avg : 0;
-        body += `<div class="light-row" id="lrow-${room.id}">
+        body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:6px${on?'':';opacity:.4'}">
           <div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
             <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
             <div class="lm-thumb" id="lthumb-${room.id}" style="left:${sliderPct}%"></div>
@@ -403,7 +403,7 @@ class RoomControlsCard extends HTMLElement {
       let sensor='';
       if (cfg.sensor) {
         const sv=this._tempVal(cfg.sensor), sl=(cfg.sensor_label||'Room\nsensor').replace('\n','<br>');
-        if (sv!=null) sensor=`<div class="t-pill"><div class="t-pill-val">${sv}°</div><div class="t-pill-lbl">${sl}</div></div>`;
+        if (sv!=null) sensor=`<div class="t-pill"><div class="t-pill-val">${sv}°</div></div>`;
       }
       body += `<div class="tstat-block tstat-${isOff?'off':mode.replace('_','-')}" id="tblock-${room.id}">
         <div class="tstat-top" data-room="${room.id}" data-action="tstat-popup" style="justify-content:space-between">
@@ -637,9 +637,9 @@ class RoomControlsCard extends HTMLElement {
     const presets=this._suppModes(eid,'preset_modes').filter(p=>!['none','None'].includes(p));
     const modeButtons=this._buildModeButtons(room.id,eid,{hvacModes,fanModes,swingModes,presets,hasFan:fanModes.length>0,hasSwing:swingModes.length>0,hasPreset:presets.length>0});
     let sensor='';
-    if (cfg.sensor){const sv=this._tempVal(cfg.sensor),sl=(cfg.sensor_label||'Room\nsensor').replace('\n','<br>');if(sv!=null)sensor=`<div class="t-pill"><div class="t-pill-val">${sv}°</div><div class="t-pill-lbl">${sl}</div></div>`;}
+    if (cfg.sensor){const sv=this._tempVal(cfg.sensor),sl=(cfg.sensor_label||'Room\nsensor').replace('\n','<br>');if(sv!=null)sensor=`<div class="t-pill"><div class="t-pill-val">${sv}°</div></div>`;}
 
-    const tblock=`<div class="tstat-block tstat-${isOff?'off':mode.replace('_','-')}" style="margin:12px 16px 0">
+    const tblock=`<div class="tstat-block tstat-${isOff?'off':mode.replace('_','-')}" style="margin:12px 0 0">
       <div class="tstat-top" style="cursor:default">
         <div class="tcur${isOff?' tcur-off':''}">${cur!=null?cur+'°':'—'}</div>
         <div class="tdiv"></div>
@@ -697,10 +697,10 @@ class RoomControlsCard extends HTMLElement {
     .door-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
     .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1px solid rgba(255,255,255,.05)}
     .rlbl{font-size:15px;font-weight:700;color:var(--primary-text-color)}
-    .rbody{padding:6px 12px 10px;display:flex;flex-direction:column;gap:5px}
+    .rbody{padding:6px 10px 10px;display:flex;flex-direction:column;gap:5px}
     .tog{position:relative;border-radius:8px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
     .tog-thumb{position:absolute;border-radius:4px;transition:left .15s,background .15s}
-    .light-row{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:0 8px 8px 0;background:rgba(251,191,36,.05);border-left:3px solid #fbbf24;user-select:none}
+    .light-row{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:0 8px 8px 0;background:rgba(251,191,36,.05);border-left:3px solid #fbbf24;user-select:none;transition:opacity .2s}
     .lm-lbl{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0}
     .lm-lbl.lit{color:rgba(255,255,255,.8)}
     .lm-sub{font-size:10px;color:rgba(255,255,255,.3);font-weight:400;margin-left:4px}
@@ -710,11 +710,11 @@ class RoomControlsCard extends HTMLElement {
     .lm-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
     .lm-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);width:28px;text-align:right;flex-shrink:0}
     .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
-    .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 2px;padding:0 10px}
+    .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 2px;}
     .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s}
     .itog:active{transform:scale(.94)}
     .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-    .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3}
+    .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
     .light-row-simple{cursor:pointer}
     .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:6px;font-weight:400}
     .rhead-chev{cursor:pointer}
@@ -920,6 +920,9 @@ class RoomControlsCard extends HTMLElement {
     this._config.rooms.forEach(room => {
       // lights toggle + slider + room toggle visual
       const masterOn = room.lights ? this._isOn(room.lights.entity) : false;
+      // dim light row when off
+      const lrowEl = sr.getElementById(`lrow-${room.id}`);
+      if (lrowEl) lrowEl.style.opacity = masterOn ? '' : '0.4';
       // update room toggle thumb
       this._patchTog(sr, `rtog-${room.id}`, masterOn);
 
