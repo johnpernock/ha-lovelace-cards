@@ -214,10 +214,10 @@ views:
                 fans:
                   - entity: fan.white_series_lightfan_module_2
                     name: Front Fan
-                    speeds: 4
+                    speeds: 3
                   - entity: fan.white_series_lightfan_module_3
                     name: Back Fan
-                    speeds: 4
+                    speeds: 3
                 blinds:
                   entity: cover.family_room_blinds
                   max_position: 87
@@ -242,7 +242,7 @@ views:
                 fans:
                   - entity: fan.kitchen_ceiling_fan
                     name: Ceiling Fan
-                    speeds: 3
+                    speeds: 4
                 thermostat:
                   entity: climate.main_floor
                   name: Main Floor
@@ -421,10 +421,10 @@ views:
                 fans:
                   - entity: fan.workshop_workbench_fan
                     name: Workbench Fan
-                    speeds: 3
+                    speeds: 4
                   - entity: fan.workshop_demo_fan
                     name: Demo Fan
-                    speeds: 3
+                    speeds: 4
     cards: []
 
   - title: Cameras
