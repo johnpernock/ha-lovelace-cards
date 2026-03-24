@@ -206,6 +206,7 @@ class TrafficCard extends HTMLElement {
 
   // ── Expanded row render ───────────────────────────────────────────────────
   _renderExpanded() {
+    if (!this._hass) return;
     const cfg       = this._config;
     const threshold = cfg.incident_threshold || 10;
     const hour      = new Date().getHours();
