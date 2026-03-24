@@ -147,6 +147,13 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v51 | Added "Lights" and "Thermostat" section headers (small uppercase labels) above each section for clarity |
+| v50 | Slider thumb capped at 96% left — no longer overlaps popup chevron at full brightness. Switch entities filtered from color/CT support check so rooms with mixed light+switch entities correctly show color expand |
+| v49 | Theme area buttons: removed wrapper padding/border/background — buttons fill full card width via rbody padding; inactive button bg raised to .05 opacity for visibility |
+| v48 | Theme block redesigned: slider bar rows replaced with 4-column tap button grid. Color dots above label, subtle border when area is on |
+| v47 | Light row left padding increased 9→14px — slider now has breathing room from accent bar |
+| v46 | Sensor temp pill removed from inline thermostat body (still in header pill). light-row left padding adjusted for flush border-left. Removed duplicate `let sensor` declaration |
+| v45 | rbody horizontal padding 0→10px; blind-pill and garage-status side margins removed; light-row margin-top added; itog-lbl ellipsis; climate temp display empty when off |
 | v44 | Light/fan layout fixes: individual light buttons span full card width (padding on container, no side margin); All Lights label removed from slider row; individual light tiles font 11→12px, gap 6→8px, padding 9→10px for easier mobile reading |
 | v43 | Fan name moved above buttons as small uppercase label; buttons now span full row width |
 | v42 | Fan pips replaced with dot tap buttons — teal dot when active, "Off" text on pip 0, full-width flex layout, name above. Individual light toggle grid added below master bar (3-col amber dots, live-patched). Thermostat controls right-aligned: mode badge left, adj buttons pushed right with margin-left:auto. Popup drawers: opening one closes all others. |

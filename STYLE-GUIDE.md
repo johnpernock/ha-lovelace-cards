@@ -477,6 +477,26 @@ customElements.define('my-card', MyCard);
 
 ## Section header pattern
 
+Small uppercase labels used to delineate sections within a card body (e.g. "Lights", "Fans", "Thermostat" inside room-controls-card):
+
+```css
+.sec-hdr {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.28);
+  padding: 8px 0 2px;
+}
+```
+
+Rules:
+- Always uppercase via CSS, never in the source string
+- `letter-spacing: .08em` minimum — these are small so need extra tracking
+- Color no brighter than `rgba(255,255,255,.30)` — purely organisational, not data
+- Top padding `8px` to separate from the element above; bottom `2px` to sit close to what it labels
+- No border, no background — purely typographic
+
 Used inside popup sheets and card sections to label a group of controls.
 
 ```

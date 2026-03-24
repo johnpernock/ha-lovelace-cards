@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v44
+ * room-controls-card.js  —  v51
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -325,7 +325,8 @@ class RoomControlsCard extends HTMLElement {
         this._simplifiedMeta[room.id] = { on, cnt, tot };
       } else {
         const sliderPct = on ? avg : 0;
-        body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:6px${on?'':';opacity:.4'}">
+        body += `<div class="sec-hdr">Lights</div>`;
+        body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:2px${on?'':';opacity:.4'}">
           <div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
             <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
             <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.min(sliderPct,96)}%"></div>
@@ -401,6 +402,7 @@ class RoomControlsCard extends HTMLElement {
       const cur=this._tempVal(eid), set=this._targetTemp(eid), isOff=mode==='off';
       const dot=meta.split?`<div class="mode-dot-split"></div>`:`<div class="mode-dot" style="background:${meta.dot}"></div>`;
       let sensor='';
+      body += `<div class="sec-hdr">Thermostat</div>`;
       body += `<div class="tstat-block tstat-${isOff?'off':mode.replace('_','-')}" id="tblock-${room.id}">
         <div class="tstat-top" data-room="${room.id}" data-action="tstat-popup" style="justify-content:space-between">
           <div class="tcur${isOff?' tcur-off':''}">${cur!=null?cur+'°':'—'}</div>
@@ -719,6 +721,7 @@ class RoomControlsCard extends HTMLElement {
     .fan-flat{display:flex;flex-direction:column;gap:4px}
     .fan-nm-row{padding:0 2px}
     .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
+    .sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28);padding:8px 0 2px}
     .fpips{display:flex;gap:4px;flex:1}
     .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
     .fpip:active{transform:scale(.9)}
