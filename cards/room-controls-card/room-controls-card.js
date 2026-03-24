@@ -292,7 +292,7 @@ class RoomControlsCard extends HTMLElement {
   /* ── Toggle helper ────────────────────────────────────────────────── */
 
   _togHtml(on, elId, action, size) {
-    const w=size==='sm'?28:36, h=size==='sm'?20:26, tw=size==='sm'?14:18, tt=size==='sm'?3:4;
+    const w=size==='sm'?36:44, h=size==='sm'?24:30, tw=size==='sm'?16:20, tt=size==='sm'?4:5;
     const bg  = on?'background:rgba(251,191,36,.25);border-color:rgba(251,191,36,.5)':'background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)';
     const tl  = on?(w-tw-tt)+'px':tt+'px';
     const tbg = on?'#fbbf24':'rgba(255,255,255,.3)';
@@ -359,7 +359,7 @@ class RoomControlsCard extends HTMLElement {
         let pips  = '';
         for(let i=0;i<sp;i++) pips+=`<div class="fpip${idx===i?' fpip-on':''}" data-room="${room.id}" data-fi="${fi}" data-idx="${i}" data-speeds="${sp}">${this._signal(i,sp,idx===i)}</div>`;
         const fanName = f.name || this._attr(f.entity,'friendly_name') || f.entity.split('.').pop().replace(/_/g,' ');
-        body += `<div class="fan-flat"><span class="fan-nm">${fanName}</span><div class="fpips">${pips}</div></div>`;
+        body += `<div class="fan-flat"><div class="fan-nm-row"><span class="fan-nm">${fanName}</span></div><div class="fpips">${pips}</div></div>`;
       });
       body += `</div>`;
     }
@@ -494,9 +494,7 @@ class RoomControlsCard extends HTMLElement {
       if (room.thermostat.sensor) {
         const _sv = this._tempVal(room.thermostat.sensor);
         if (_sv != null) {
-          tempPill += `<div class="rhead-temp-pill" style="background:rgba(96,165,250,.10);border:1px solid rgba(96,165,250,.22)">
-            <div style="width:6px;height:6px;border-radius:50%;background:#60a5fa;flex-shrink:0"></div><span style="color:#60a5fa;font-weight:700">${_sv}°</span>
-          </div>`;
+          tempPill += `<div class="rhead-temp-pill" style="background:rgba(96,165,250,.10);border:1px solid rgba(96,165,250,.22)"><span style="color:#60a5fa;font-weight:700">${_sv}°</span></div>`;
         }
       }
     }
@@ -722,8 +720,9 @@ class RoomControlsCard extends HTMLElement {
     .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:6px;font-weight:400}
     .rhead-chev{cursor:pointer}
     .fan-section{display:flex;flex-direction:column;gap:4px}
-    .fan-flat{display:flex;align-items:center;gap:8px}
-    .fan-nm{font-size:12px;color:rgba(255,255,255,.5);width:72px;flex-shrink:0}
+    .fan-flat{display:flex;flex-direction:column;gap:4px}
+    .fan-nm-row{padding:0 2px}
+    .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
     .fpips{display:flex;gap:4px;flex:1}
     .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
     .fpip:active{transform:scale(.9)}
@@ -732,7 +731,7 @@ class RoomControlsCard extends HTMLElement {
     .fpip-dot-on{background:#2dd4bf}
     .fpip-dot-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
     .bpip-pos{flex:0 0 auto;width:68px}
-    .blind-pill{display:flex;align-items:center;gap:8px;padding:9px 11px;border-radius:0 8px 8px 0;cursor:pointer;user-select:none;transition:filter .1s}
+    .blind-pill{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;user-select:none;transition:filter .1s;margin:2px 10px}
     .blind-pill:active{filter:brightness(.85)}
     .blind-pill-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
     .blind-pill-lbl{font-size:14px;font-weight:700}
@@ -740,7 +739,7 @@ class RoomControlsCard extends HTMLElement {
     .blind-pill-track{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin:0 2px}
     .blind-pill-fill{height:100%;border-radius:99px;transition:width .3s}
     .blind-pill-pct{font-size:12px;font-weight:700;flex-shrink:0;width:30px;text-align:right}
-    .garage-status{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:0 8px 8px 0;cursor:pointer;user-select:none;transition:filter .1s}
+    .garage-status{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;user-select:none;transition:filter .1s;margin:2px 10px}
     .garage-status:active{filter:brightness(.85)}
     .garage-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
     .garage-lbl{font-size:14px;font-weight:700}
