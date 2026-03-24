@@ -1,5 +1,4 @@
-views:
-  - title: Home
+views:  - title: Home
     path: home
     icon: mdi:home
     type: sections
@@ -182,7 +181,6 @@ views:
             days_ahead: 14
             max_events: 8
     cards: []
-
   - title: Lights / Fans
     path: lightsfans
     icon: mdi:lightbulb-group
@@ -421,12 +419,11 @@ views:
                   - entity: fan.workshop_demo_fan
                     name: Demo Fan
     cards: []
-
-  - title: Cameras
-    path: cameras
+  - title: Security
+    path: security
     icon: mdi:cctv
     type: sections
-    max_columns: 2
+    max_columns: 3
     theme: Amoled+
     sections:
       - type: grid
@@ -447,6 +444,10 @@ views:
                 name: Garage Side
               - entity: camera.utility_side_yard
                 name: Utility Side
+            grid_options:
+              columns: 24
+              rows: auto
+        column_span: 2
       - type: grid
         cards:
           - type: custom:protect-events-card
@@ -460,9 +461,88 @@ views:
               - camera.utility_side_yard
             max_events: 8
             show_motion: false
-            cameras_view: /cameras
+            cameras_view: /security
     cards: []
-
+  - title: Commute
+    path: commute
+    icon: mdi:train-car
+    type: sections
+    max_columns: 3
+    theme: Amoled+
+    sections:
+      - type: grid
+        cards:
+          - type: custom:traffic-card
+            expanded: true
+            incident_threshold: 10
+            hide_to_work_after: 12
+            to_work:
+              entity: sensor.commute_to_work
+              label: 1030 Continental Dr
+              route_label: US-202 N
+            home_routes:
+              - entity: sensor.commute_home_via_202
+                label: 21 Beryl Rd
+                route_label: Home Route 1
+              - entity: sensor.commute_home_via_rt_30
+                label: 21 Beryl Rd
+                route_label: Home Route 2
+          - type: custom:leave-by-card
+            waze_entity: sensor.commute_to_work
+            station: Paoli Station
+            outbound:
+              - sensor.paoli_outbound_1
+              - sensor.paoli_outbound_2
+              - sensor.paoli_outbound_3
+      - type: grid
+        cards:
+          - type: custom:septa-paoli-card
+            expanded: true
+            outbound:
+              - sensor.paoli_outbound_1
+              - sensor.paoli_outbound_2
+              - sensor.paoli_outbound_3
+            inbound:
+              - sensor.paoli_inbound_1
+              - sensor.paoli_inbound_2
+              - sensor.paoli_inbound_3
+            inbound_next_station:
+              - sensor.paoli_inbound_next_station_1
+              - sensor.paoli_inbound_next_station_2
+              - sensor.paoli_inbound_next_station_3
+            alert: sensor.paoli_line_alert
+      - type: grid
+        cards:
+          - type: custom:tesla-commute-card
+            name: Magneton
+            tire_warn_psi: 40
+            temp_unit: F
+            entities:
+              battery_level:        sensor.magneton_battery
+              battery_range:        sensor.magneton_range
+              charging_state:       binary_sensor.magneton_charging
+              door_lock:            lock.magneton_doors
+              climate:              climate.magneton_hvac_climate_system
+              trunk:                cover.magneton_trunk
+              sentry_mode:          switch.magneton_sentry_mode
+              odometer:             sensor.magneton_odometer
+              interior_temperature: sensor.magneton_temperature_inside
+              exterior_temperature: sensor.magneton_temperature_outside
+              tire_pressure_fl:     sensor.magneton_tpms_front_left
+              tire_pressure_fr:     sensor.magneton_tpms_front_right
+              tire_pressure_rl:     sensor.magneton_tpms_rear_left
+              tire_pressure_rr:     sensor.magneton_tpms_rear_right
+          - type: custom:charging-card
+            name: Magneton
+            wallbox_prefix: wallbox_beryl_pulsar_plus
+            tesla:
+              battery_level:  sensor.magneton_battery
+              battery_range:  sensor.magneton_range
+              charging_state: binary_sensor.magneton_charging
+              charge_rate:    sensor.magneton_charging_rate
+              time_to_full:   sensor.magneton_time_charge_complete
+              charge_limit:   sensor.magneton_charge_limit
+    cards: []
   - title: Technology
     path: technology
     icon: mdi:desktop-classic
@@ -612,87 +692,23 @@ views:
                   sonarr_recent: sensor.sonarr_recent
                   radarr_recent: sensor.radarr_recent
     cards: []
-
-  - title: Commute
-    path: commute
-    icon: mdi:train-car
+  - title: 3D Printer
+    path: 3d-printer
+    icon: mdi:printer-3d
     type: sections
-    max_columns: 3
+    max_columns: 2
     theme: Amoled+
     sections:
       - type: grid
+        column_span: 2
         cards:
-          - type: custom:traffic-card
-            expanded: true
-            incident_threshold: 10
-            hide_to_work_after: 12
-            to_work:
-              entity: sensor.commute_to_work
-              label: 1030 Continental Dr
-              route_label: US-202 N
-            home_routes:
-              - entity: sensor.commute_home_via_202
-                label: 21 Beryl Rd
-                route_label: Home Route 1
-              - entity: sensor.commute_home_via_rt_30
-                label: 21 Beryl Rd
-                route_label: Home Route 2
-          - type: custom:leave-by-card
-            waze_entity: sensor.commute_to_work
-            station: Paoli Station
-            outbound:
-              - sensor.paoli_outbound_1
-              - sensor.paoli_outbound_2
-              - sensor.paoli_outbound_3
-      - type: grid
-        cards:
-          - type: custom:septa-paoli-card
-            expanded: true
-            outbound:
-              - sensor.paoli_outbound_1
-              - sensor.paoli_outbound_2
-              - sensor.paoli_outbound_3
-            inbound:
-              - sensor.paoli_inbound_1
-              - sensor.paoli_inbound_2
-              - sensor.paoli_inbound_3
-            inbound_next_station:
-              - sensor.paoli_inbound_next_station_1
-              - sensor.paoli_inbound_next_station_2
-              - sensor.paoli_inbound_next_station_3
-            alert: sensor.paoli_line_alert
-      - type: grid
-        cards:
-          - type: custom:tesla-commute-card
-            name: Magneton
-            tire_warn_psi: 40
-            temp_unit: F
-            entities:
-              battery_level:        sensor.magneton_battery
-              battery_range:        sensor.magneton_range
-              charging_state:       binary_sensor.magneton_charging
-              door_lock:            lock.magneton_doors
-              climate:              climate.magneton_hvac_climate_system
-              trunk:                cover.magneton_trunk
-              sentry_mode:          switch.magneton_sentry_mode
-              odometer:             sensor.magneton_odometer
-              interior_temperature: sensor.magneton_temperature_inside
-              exterior_temperature: sensor.magneton_temperature_outside
-              tire_pressure_fl:     sensor.magneton_tpms_front_left
-              tire_pressure_fr:     sensor.magneton_tpms_front_right
-              tire_pressure_rl:     sensor.magneton_tpms_rear_left
-              tire_pressure_rr:     sensor.magneton_tpms_rear_right
-          - type: custom:charging-card
-            name: Magneton
-            wallbox_prefix: wallbox_beryl_pulsar_plus
-            tesla:
-              battery_level:  sensor.magneton_battery
-              battery_range:  sensor.magneton_range
-              charging_state: binary_sensor.magneton_charging
-              charge_rate:    sensor.magneton_charging_rate
-              time_to_full:   sensor.magneton_time_charge_complete
-              charge_limit:   sensor.magneton_charge_limit
+          - type: custom:bambu-printer-card
+            printer: p1s_01p09a3a1100648
+            grid_options:
+              columns: 24
+              rows: auto
     cards: []
+
 
   - title: Energy
     path: energy
@@ -718,22 +734,3 @@ views:
             prefix: river_2_pro
             name: River 2 Pro
     cards: []
-
-  - title: 3D Printer
-    path: 3d-printer
-    icon: mdi:printer-3d
-    type: sections
-    max_columns: 2
-    theme: Amoled+
-    sections:
-      - type: grid
-        column_span: 2
-        cards:
-          - type: custom:bambu-printer-card
-            printer: p1s_01p09a3a1100648
-            grid_options:
-              columns: 24
-              rows: auto
-    cards: []
-
-

@@ -194,7 +194,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 |------|------|--------|---------|
 | Home | `/home` | sections | 3 |
 | Lights & Fans | `/lightsfans` | sections | 3 |
-| Cameras | `/cameras` | panel | — |
+| Security | `/security` | panel | — |
 | Technology | `/technology` | sections | 3 |
 | Commute | `/commute` | sections | 3 |
 | Energy | `/energy` | sections | 3 |

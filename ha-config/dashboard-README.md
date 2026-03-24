@@ -31,7 +31,7 @@ lovelace:
 |------|------|--------|-------------|
 | Home | `/home` | sections · 3 col | Clock, weather, now-playing (HomePods + Apple TVs), Tesla, door sensors, room buttons, thermostats, temp strip, printer status, calendar |
 | Lights / Fans | `/lightsfans` | sections · 3 col | Room control cards for all rooms — lights, fans, blinds, thermostats |
-| Cameras | `/cameras` | sections · 2 col | Col 1: camera-layout-card (G6 Entry doorbell + 5 G6 Turrets). Col 2: protect-events-card (live UniFi Protect event feed) |
+| Security | `/security` | sections · 3 col | Col 1–2 (span): camera-layout-card (G6 Entry doorbell + 5 G6 Turrets, grid_options 24 col). Col 3: protect-events-card (live UniFi Protect event feed) |
 | Technology | `/technology` | sections · 3 col | Network, speed, APs, Unraid health, services, storage, ink, media |
 | Commute | `/commute` | sections · 3 col | Col 1: traffic-card (expanded) + leave-by-card. Col 2: SEPTA Paoli/Thorndale (expanded). Col 3: Tesla Commute + Charging |
 | Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
@@ -111,7 +111,7 @@ All other fans (kitchen, solarium, bedroom, office, workshop) omit `speeds:` and
 | Column | Card | Notes |
 |--------|------|-------|
 | 1 | `camera-layout-card` | G6 Entry doorbell (portrait left) + 5 G6 Turrets in 2×3 grid. Height 640px to fit sections layout. |
-| 2 | `protect-events-card` | Live UniFi Protect detection event feed. All 6 cameras configured. `cameras_view: /cameras` wires the "All →" footer link. |
+| 2 | `protect-events-card` | Live UniFi Protect detection event feed. All 6 cameras configured. `cameras_view: /security` wires the "All →" footer link. |
 
 The camera layout card in the Security view uses `height: 640` (vs `680` in the panel Cameras view) because the sections layout adds some chrome. Both views use the same entity IDs.
 
