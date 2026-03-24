@@ -292,7 +292,7 @@ class RoomControlsCard extends HTMLElement {
   /* ── Toggle helper ────────────────────────────────────────────────── */
 
   _togHtml(on, elId, action, size) {
-    const w=size==='sm'?32:42, h=size==='sm'?17:22, tw=size==='sm'?11:14, tt=size==='sm'?2:3;
+    const w=size==='sm'?28:36, h=size==='sm'?20:26, tw=size==='sm'?14:18, tt=size==='sm'?3:4;
     const bg  = on?'background:rgba(251,191,36,.25);border-color:rgba(251,191,36,.5)':'background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.12)';
     const tl  = on?(w-tw-tt)+'px':tt+'px';
     const tbg = on?'#fbbf24':'rgba(255,255,255,.3)';
@@ -326,12 +326,11 @@ class RoomControlsCard extends HTMLElement {
       } else {
         const sliderPct = on ? avg : 0;
         body += `<div class="light-row" id="lrow-${room.id}">
-          <span class="lm-lbl${on?' lit':''}">All Lights <span class="lm-sub">${cnt} of ${tot}</span></span>
+          <span class="lm-lbl${on?' lit':''}">All Lights</span>
           <div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
             <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
             <div class="lm-thumb" id="lthumb-${room.id}" style="left:${sliderPct}%"></div>
           </div>
-          <span class="lm-pct" id="lpct-${room.id}">${on?avg+'%':''}</span>
           <div class="lm-btn">${this._ico('chev','rgba(255,255,255,.4)',14,14)}</div>
         </div>`;
         // Individual light toggle grid
@@ -495,8 +494,8 @@ class RoomControlsCard extends HTMLElement {
       if (room.thermostat.sensor) {
         const _sv = this._tempVal(room.thermostat.sensor);
         if (_sv != null) {
-          tempPill += `<div class="rhead-temp-pill" style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.18)">
-            <span style="color:#60a5fa;font-weight:700">${_sv}°</span>
+          tempPill += `<div class="rhead-temp-pill" style="background:rgba(96,165,250,.10);border:1px solid rgba(96,165,250,.22)">
+            <div style="width:6px;height:6px;border-radius:50%;background:#60a5fa;flex-shrink:0"></div><span style="color:#60a5fa;font-weight:700">${_sv}°</span>
           </div>`;
         }
       }
@@ -702,8 +701,8 @@ class RoomControlsCard extends HTMLElement {
     .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1px solid rgba(255,255,255,.05)}
     .rlbl{font-size:15px;font-weight:700;color:var(--primary-text-color)}
     .rbody{padding:6px 12px 10px;display:flex;flex-direction:column;gap:5px}
-    .tog{position:relative;border-radius:99px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
-    .tog-thumb{position:absolute;border-radius:50%;transition:left .15s,background .15s}
+    .tog{position:relative;border-radius:8px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
+    .tog-thumb{position:absolute;border-radius:4px;transition:left .15s,background .15s}
     .light-row{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:0 8px 8px 0;background:rgba(251,191,36,.05);border-left:3px solid #fbbf24;user-select:none}
     .lm-lbl{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0}
     .lm-lbl.lit{color:rgba(255,255,255,.8)}
@@ -715,10 +714,10 @@ class RoomControlsCard extends HTMLElement {
     .lm-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);width:28px;text-align:right;flex-shrink:0}
     .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
     .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 10px 2px}
-    .itog{border-radius:7px;padding:7px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:44px;justify-content:center;transition:background .1s,border-color .1s}
+    .itog{border-radius:7px;padding:9px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:52px;justify-content:center;transition:background .1s,border-color .1s}
     .itog:active{transform:scale(.94)}
-    .itog-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-    .itog-lbl{font-size:9px;font-weight:700;text-align:center;line-height:1.2}
+    .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .itog-lbl{font-size:11px;font-weight:700;text-align:center;line-height:1.2}
     .light-row-simple{cursor:pointer}
     .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:6px;font-weight:400}
     .rhead-chev{cursor:pointer}
@@ -726,7 +725,7 @@ class RoomControlsCard extends HTMLElement {
     .fan-flat{display:flex;align-items:center;gap:8px}
     .fan-nm{font-size:12px;color:rgba(255,255,255,.5);width:72px;flex-shrink:0}
     .fpips{display:flex;gap:4px;flex:1}
-    .fpip{width:36px;height:36px;flex-shrink:0;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
+    .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
     .fpip:active{transform:scale(.9)}
     .fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
     .fpip-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.2)}
@@ -1166,7 +1165,7 @@ class RoomControlsCard extends HTMLElement {
         .lm-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
         .lm-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}
         .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .2s}
-        .tog{position:relative;border-radius:99px;cursor:pointer;flex-shrink:0;border:1px solid;user-select:none}
+        .tog{position:relative;border-radius:8px;cursor:pointer;flex-shrink:0;border:1px solid;user-select:none}
         .tog-thumb{position:absolute;border-radius:50%;transition:left .15s,background .15s}
         .mode-btns{display:grid;gap:5px;padding:4px 0}
         .mode-btn{border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;border:0.5px solid;transition:transform .1s;user-select:none}
