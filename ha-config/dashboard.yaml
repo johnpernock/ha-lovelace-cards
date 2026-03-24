@@ -14,6 +14,21 @@ views:
             name: Paoli
             unit: °F
             alert_entity: sensor.nws_alerts_alerts
+            tap_action: none
+          - type: custom:septa-paoli-card
+            outbound:
+              - sensor.paoli_outbound_1
+              - sensor.paoli_outbound_2
+              - sensor.paoli_outbound_3
+            inbound:
+              - sensor.paoli_inbound_1
+              - sensor.paoli_inbound_2
+              - sensor.paoli_inbound_3
+            inbound_next_station:
+              - sensor.paoli_inbound_next_station_1
+              - sensor.paoli_inbound_next_station_2
+              - sensor.paoli_inbound_next_station_3
+            alert: sensor.paoli_line_alert
           - type: custom:tesla-card
             name: Model Y
             show_actions: false
