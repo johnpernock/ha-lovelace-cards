@@ -23,6 +23,7 @@
  *   - sensor.paoli_inbound_next_station_2
  *   - sensor.paoli_inbound_next_station_3
  * alert: sensor.paoli_line_alert
+ * show_next_trains: true    # optional — show up to 3 subsequent trains as pills (compact mode only, default false)
  */
 
 class SeptaPaoliCard extends HTMLElement {
