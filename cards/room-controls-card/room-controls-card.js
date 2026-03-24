@@ -639,7 +639,7 @@ class RoomControlsCard extends HTMLElement {
     let sensor='';
     if (cfg.sensor){const sv=this._tempVal(cfg.sensor),sl=(cfg.sensor_label||'Room\nsensor').replace('\n','<br>');if(sv!=null)sensor=`<div class="t-pill"><div class="t-pill-val">${sv}°</div></div>`;}
 
-    const tblock=`<div class="tstat-block tstat-${isOff?'off':mode.replace('_','-')}" style="margin:12px 0 0">
+    const tblock=`<div class="tstat-block tstat-${isOff?'off':mode.replace('_','-')}" >
       <div class="tstat-top" style="cursor:default">
         <div class="tcur${isOff?' tcur-off':''}">${cur!=null?cur+'°':'—'}</div>
         <div class="tdiv"></div>
@@ -730,7 +730,7 @@ class RoomControlsCard extends HTMLElement {
     .fpip-dot-on{background:#2dd4bf}
     .fpip-dot-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
     .bpip-pos{flex:0 0 auto;width:68px}
-    .blind-pill{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;user-select:none;transition:filter .1s;margin:2px 10px}
+    .blind-pill{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;cursor:pointer;user-select:none;transition:filter .1s;margin:2px 0}
     .blind-pill:active{filter:brightness(.85)}
     .blind-pill-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
     .blind-pill-lbl{font-size:14px;font-weight:700}
@@ -738,7 +738,7 @@ class RoomControlsCard extends HTMLElement {
     .blind-pill-track{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin:0 2px}
     .blind-pill-fill{height:100%;border-radius:99px;transition:width .3s}
     .blind-pill-pct{font-size:12px;font-weight:700;flex-shrink:0;width:30px;text-align:right}
-    .garage-status{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;user-select:none;transition:filter .1s;margin:2px 10px}
+    .garage-status{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;user-select:none;transition:filter .1s;margin:2px 0}
     .garage-status:active{filter:brightness(.85)}
     .garage-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
     .garage-lbl{font-size:14px;font-weight:700}
