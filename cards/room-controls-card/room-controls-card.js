@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v61
+ * room-controls-card.js  —  v62
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -331,7 +331,7 @@ class RoomControlsCard extends HTMLElement {
       } else {
         const sliderPct = on ? avg : 0;
         body += `<div class="sec-hdr">Lights</div>`;
-        body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:2px${on?'':';opacity:.4'}">
+        body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:2px">
           <div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
             <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
             <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%"></div>
@@ -931,7 +931,7 @@ class RoomControlsCard extends HTMLElement {
       const masterOn = room.lights ? this._isOn(room.lights.entity) : false;
       // dim light row when off
       const lrowEl = sr.getElementById(`lrow-${room.id}`);
-      if (lrowEl) lrowEl.style.opacity = masterOn ? '' : '0.4';
+      
       // update room toggle thumb
       this._patchTog(sr, `rtog-${room.id}`, masterOn);
 
