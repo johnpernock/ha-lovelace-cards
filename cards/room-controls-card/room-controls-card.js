@@ -326,7 +326,6 @@ class RoomControlsCard extends HTMLElement {
       } else {
         const sliderPct = on ? avg : 0;
         body += `<div class="light-row" id="lrow-${room.id}">
-          <span class="lm-lbl${on?' lit':''}">All Lights</span>
           <div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
             <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
             <div class="lm-thumb" id="lthumb-${room.id}" style="left:${sliderPct}%"></div>
@@ -711,11 +710,11 @@ class RoomControlsCard extends HTMLElement {
     .lm-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
     .lm-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);width:28px;text-align:right;flex-shrink:0}
     .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
-    .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 10px 2px}
-    .itog{border-radius:7px;padding:9px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:52px;justify-content:center;transition:background .1s,border-color .1s}
+    .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 2px;padding:0 10px}
+    .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s}
     .itog:active{transform:scale(.94)}
     .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-    .itog-lbl{font-size:11px;font-weight:700;text-align:center;line-height:1.2}
+    .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3}
     .light-row-simple{cursor:pointer}
     .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:6px;font-weight:400}
     .rhead-chev{cursor:pointer}
