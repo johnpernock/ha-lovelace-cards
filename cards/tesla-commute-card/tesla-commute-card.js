@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v3
+ * tesla-commute-card.js  —  v4
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -378,7 +378,7 @@ class TeslaCommuteCard extends HTMLElement {
 
     // climate
     if (el('tc-temp-val'))   el('tc-temp-val').textContent   = climateOn && tgtTemp != null ? `${Math.round(tgtTemp)}°${unit}` : '';
-    const _climateMode = this._hass?.states[ents.climate]?.state || 'off';
+    const _climateMode = this._hass?.states[this._config.entities?.climate]?.state || 'off';
     const _climateModeLabel = {heat:'Heating',cool:'Cooling',heat_cool:'Auto',auto:'Auto',fan_only:'Fan',dry:'Dry',off:'Off'}[_climateMode] || _climateMode;
     if (el('tc-on-badge'))   {
       el('tc-on-badge').textContent   = _climateModeLabel;

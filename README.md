@@ -179,7 +179,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Ecoflow | `cards/ecoflow-card/` | v2 |
 | Now Playing | `cards/now-playing-card/` | v2 |
 | Traffic (Commute) | `cards/traffic-card/` | v5 |
-| Tesla Commute | `cards/tesla-commute-card/` | v3 |
+| Tesla Commute | `cards/tesla-commute-card/` | v4 |
 | Charging | `cards/charging-card/` | v1 |
 | Protect Events ✦ | `cards/protect-events-card/` | v1 |
 | Leave By ✦ | `cards/leave-by-card/` | v2 |
