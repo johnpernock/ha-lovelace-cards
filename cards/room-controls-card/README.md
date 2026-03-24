@@ -148,7 +148,12 @@ doors:
 | Version | Changes |
 |---------|---------|
 | v63 | Theme area buttons dim when off: opacity 0.5, lower background and border opacity |
-| v57 | v57 | No card background (transparent, border rgba(.12)); room name 17px white; single fan hides name label; speed pip dots match speed count — 1/2/3 dots in a row, 4 dots in 2×2 grid |
+| v62 | All Lights slider no longer dims when off — opacity removed from initial render and patch cycle |
+| v61 | Thermostat block auto-hides when entity does not exist in HA states — no config change needed |
+| v60 | Thermostat block: removed grey backgrounds from tstat-block base and tstat-off state. +/− adj buttons background transparent (border only). Slider thumb minimum position capped at 4% |
+| v59 | Reverted fan section: always show "Fans" sec-hdr + each fan name label |
+| v58 | Reverted to always show Fans header with individual fan name labels |
+| v57 | No card background (transparent, border rgba(.12)); room name 17px white bold (17px, letter-spacing); speed pip buttons show N dots matching speed — 1/2/3 dots in a row, 4 dots in 2×2 grid |
 | v56 | Popup master block matches inline view: toggle and count text removed, slider spans full width with thumb capped at 96%, left accent bar replaced with subtle full border, "All Lights" sec-hdr label added above slider |
 | v55 | Cache bust — no code changes |
 | v54 | Toggle pill-shaped: border-radius changed from 8px to 99px; thumb border-radius changed from 4px to 50% (circular) |
