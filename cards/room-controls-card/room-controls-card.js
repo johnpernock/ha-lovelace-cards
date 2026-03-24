@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v67
+ * room-controls-card.js  —  v68
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -571,7 +571,7 @@ class RoomControlsCard extends HTMLElement {
           <div class="lm-thumb" id="pp-mthumb-${room.id}" style="left:${Math.min(sliderPct,96)}%"></div>
         </div>
         <span class="lm-pct" id="pp-mpct-${room.id}">${on?avg+'%':''}</span>
-        ${hasColors?`<div class="pp-mchev" data-action="popup-master-expand" id="ppmc-${room.id}">
+        ${hasColors?`<div class="pp-mchev" data-action="popup-master-expand" data-room="${room.id}" id="ppmc-${room.id}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="ppmc-a-${room.id}"><polyline points="6 9 12 15 18 9"/></svg>
         </div>`:''}
       </div>
