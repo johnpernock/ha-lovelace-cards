@@ -459,32 +459,35 @@ class RoomControlsCard extends HTMLElement {
       </div>`;
     }).join('');
 
-    // Thermostat header pill — cur° → set°
+    // Header pills: mode dot + thermostat cur°→set°, and sensor temp if separate
     let tempPill = '';
     if (room.thermostat) {
-      const _eid  = room.thermostat.entity;
-      const _cur  = this._tempVal(_eid);
-      const _set  = this._targetTemp(_eid);
-      const _mode = this._hvacMode(_eid);
+      const _eid   = room.thermostat.entity;
+      const _cur   = this._tempVal(_eid);
+      const _set   = this._targetTemp(_eid);
+      const _mode  = this._hvacMode(_eid);
+      const _meta  = this._hvacMeta(_mode);
       const _isOff = _mode === 'off';
-      const _clr  = _isOff ? 'rgba(255,255,255,.12)' : 'rgba(251,146,60,.18)';
-      const _bc   = _isOff ? 'rgba(255,255,255,.08)' : 'rgba(251,146,60,.3)';
+      // Mode dot — reuse existing dot pattern
+      const _dot = _meta.split
+        ? `<div style="width:7px;height:7px;border-radius:50%;background:linear-gradient(90deg,#fb923c 50%,#60a5fa 50%);flex-shrink:0"></div>`
+        : `<div style="width:7px;height:7px;border-radius:50%;background:${_isOff ? 'rgba(255,255,255,.2)' : _meta.dot};flex-shrink:0"></div>`;
+      const _clr = _isOff ? 'rgba(255,255,255,.10)' : 'rgba(251,146,60,.15)';
+      const _bc  = _isOff ? 'rgba(255,255,255,.07)' : 'rgba(251,146,60,.25)';
       if (_cur != null) {
         const _setHtml = (!_isOff && _set != null)
           ? `<span class="rtp-arr">→</span><span class="rtp-set">${_set}°</span>`
           : '';
         tempPill = `<div class="rhead-temp-pill" style="background:${_clr};border:1px solid ${_bc}">
-          <span class="rtp-cur">${_cur}°</span>${_setHtml}
+          ${_dot}<span class="rtp-cur">${_cur}°</span>${_setHtml}
         </div>`;
       }
-      // Room sensor pill — separate reading (e.g. bedroom sensor vs thermostat)
+      // Sensor pill — only if a separate sensor entity is configured
       if (room.thermostat.sensor) {
-        const _sv  = this._tempVal(room.thermostat.sensor);
-        const _lbl = (room.thermostat.sensor_label || 'Room').replace(/\n/g,' ');
+        const _sv = this._tempVal(room.thermostat.sensor);
         if (_sv != null) {
-          tempPill += `<div class="rhead-temp-pill" style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2)">
+          tempPill += `<div class="rhead-temp-pill" style="background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.18)">
             <span style="color:#60a5fa;font-weight:700">${_sv}°</span>
-            <span style="color:rgba(96,165,250,.5);font-size:9px;margin-left:2px">${_lbl}</span>
           </div>`;
         }
       }
