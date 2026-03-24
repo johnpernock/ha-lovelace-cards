@@ -790,14 +790,12 @@ class RoomControlsCard extends HTMLElement {
     .theme-block-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
     .theme-block-name{font-size:13px;font-weight:700}
     .theme-block-sub{font-size:10px;color:rgba(255,255,255,.35);margin-left:auto;white-space:nowrap}
-    .theme-area{display:flex;align-items:center;gap:8px;margin-bottom:4px}
-    .theme-area:last-child{margin-bottom:0}
-    .theme-area-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);width:84px;flex-shrink:0}
-    .theme-area-swatches{display:flex;gap:3px;flex-shrink:0;width:54px}
+    .theme-areas{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-top:4px}
+    .theme-area{border-radius:7px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;transition:background .1s,border-color .1s;min-height:54px;justify-content:center}
+    .theme-area:active{transform:scale(.94)}
+    .theme-area-label{font-size:10px;font-weight:700;text-align:center;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 2px}
+    .theme-area-swatches{display:flex;gap:3px;justify-content:center}
     .theme-area-swatch{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-    .theme-area-bar{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.06);overflow:hidden}
-    .theme-area-fill{height:100%;border-radius:99px;transition:width .3s,background .3s}
-    .theme-area-state{font-size:10px;font-weight:700;width:34px;text-align:right;flex-shrink:0}
     /* popup CSS lives in portal style block */
   `; }
 
@@ -839,12 +837,13 @@ class RoomControlsCard extends HTMLElement {
         : colors[0] || '#ffcf7d';
       const swatchHtml = isSwitch ? '' :
         colors.slice(0,6).map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
-      return `<div class="theme-area">
-        <div class="theme-area-label">${area.label}</div>
+      const isOn = st.pct > 0;
+      const btnBg  = isOn ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.03)';
+      const btnBc  = isOn ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.07)';
+      const lblClr = isOn ? st.color : 'rgba(255,255,255,.3)';
+      return `<div class="theme-area" id="tarea-${room.id}-${ai}" style="background:${btnBg};border:1px solid ${btnBc}">
         <div class="theme-area-swatches" id="tasw-${room.id}-${ai}">${swatchHtml}</div>
-        <div class="theme-area-bar"><div class="theme-area-fill" id="tafill-${room.id}-${ai}"
-          style="width:${st.pct}%;background:${st.pct > 0 ? gradient : 'transparent'}"></div></div>
-        <div class="theme-area-state" id="tast-${room.id}-${ai}" style="color:${st.color}">${st.label}</div>
+        <div class="theme-area-label" id="tast-${room.id}-${ai}" style="color:${lblClr}">${area.label}</div>
       </div>`;
     }).join('');
 
@@ -854,7 +853,7 @@ class RoomControlsCard extends HTMLElement {
         <div class="theme-block-name" id="tname-${room.id}" style="color:${accent}">${theme}</div>
         <div class="theme-block-sub" id="tsub-${room.id}">${sub}</div>
       </div>
-      ${areasHtml}
+      <div class="theme-areas">${areasHtml}</div>
     </div>`;
   }
 
@@ -881,11 +880,15 @@ class RoomControlsCard extends HTMLElement {
         ? `linear-gradient(to right,${colors.join(',')})`
         : colors[0] || '#ffcf7d';
 
-      const fill  = sr.getElementById(`tafill-${room.id}-${ai}`);
+      const btnEl = sr.getElementById(`tarea-${room.id}-${ai}`);
       const stEl  = sr.getElementById(`tast-${room.id}-${ai}`);
       const swEl  = sr.getElementById(`tasw-${room.id}-${ai}`);
-      if (fill)  { fill.style.width = st.pct+'%'; fill.style.background = st.pct > 0 ? gradient : 'transparent'; }
-      if (stEl)  { stEl.textContent = st.label; stEl.style.color = st.color; }
+      const isOn  = st.pct > 0;
+      if (btnEl) {
+        btnEl.style.background  = isOn ? 'rgba(255,255,255,.06)' : 'rgba(255,255,255,.03)';
+        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.15)' : 'rgba(255,255,255,.07)';
+      }
+      if (stEl)  { stEl.textContent = area.label; stEl.style.color = isOn ? st.color : 'rgba(255,255,255,.3)'; }
       if (swEl && !isSwitch) {
         swEl.innerHTML = colors.slice(0,6)
           .map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
