@@ -523,8 +523,10 @@ class RoomControlsCard extends HTMLElement {
     </div>`;
   }
 
-  _presetRow(list, prefix) {
-    return list.map((p,i)=>`<div class="pp-preset" data-action="${prefix}" data-idx="${i}"><div class="pp-dot" style="background:${p.color}"></div><div class="pp-dot-lbl">${p.label}</div></div>`).join('');
+  _presetRow(list, prefix, grid=false) {
+    return (grid ? `<div class="pp-presets-grid">` : `<div class="pp-presets">`) +
+      list.map((p,i)=>`<div class="pp-preset" data-action="${prefix}" data-idx="${i}"><div class="pp-dot" style="background:${p.color}"></div><div class="pp-dot-lbl">${p.label}</div></div>`).join('') +
+    `</div>`;
   }
 
   _buildLightsPopup(room) {
@@ -562,7 +564,7 @@ class RoomControlsCard extends HTMLElement {
         ${(anyCT?`<div class="pp-clbl">Color temperature — all lights</div>
           <div class="pp-presets">${this._presetRow(this._ctPresets().filter(p=>p.kelvin>=minK&&p.kelvin<=maxK),ctPfx)}</div>`:'')}
         ${(anyColor?`<div class="pp-clbl">Color — all lights</div>
-          <div class="pp-presets">${this._presetRow(this._colorPresets(),ccPfx)}</div>`:'')}
+          ${this._presetRow(this._colorPresets(),ccPfx,true)}`:'')}
       </div>
     </div>`;
 
@@ -589,7 +591,7 @@ class RoomControlsCard extends HTMLElement {
           ${this._supportsCT(l.entity)?`<div class="pp-clbl">Color temperature</div>
           <div class="pp-presets">${this._presetRow(this._ctPresets().filter(p=>{const r=this._ctRange(l.entity);return p.kelvin>=r.min&&p.kelvin<=r.max;}),'pct:'+room.id+':'+li)}</div>`:''}
           ${this._supportsColor(l.entity)?`<div class="pp-clbl">Color</div>
-          <div class="pp-presets">${this._presetRow(this._colorPresets(),'pcc:'+room.id+':'+li)}</div>`:''}
+          ${this._presetRow(this._colorPresets(),'pcc:'+room.id+':'+li,true)}`:''}
         </div>`:''}
       </div>`;
     }).join('');
@@ -1115,7 +1117,9 @@ class RoomControlsCard extends HTMLElement {
         .pp-color-sec{padding:7px 11px 9px;border-top:1px solid rgba(255,255,255,.06)}
         .pp-clbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.25);margin-bottom:6px;margin-top:3px}
         .pp-presets{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
-        .pp-preset{flex:1;min-width:0;height:60px;border-radius:7px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 4px;transition:all .12s;user-select:none}
+        .pp-presets-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px}
+        .pp-preset{flex:1;min-width:0;height:60px;border-radius:7px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 4px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .pp-presets-grid .pp-preset{height:54px;flex:unset}
         .pp-preset:active{transform:scale(.92)}
         .pp-preset-sel{border-width:1.5px}
         .pp-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
