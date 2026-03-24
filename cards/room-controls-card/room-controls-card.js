@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v55
+ * room-controls-card.js  —  v56
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -551,13 +551,11 @@ class RoomControlsCard extends HTMLElement {
     const maxK=anyCT?Math.min(...lightEnts.map(e=>this._ctRange(e).max)):6500;
     const ctPfx='pct-all:'+room.id, ccPfx='pcc-all:'+room.id;
 
-    const masterBlock=`<div class="pp-master">
+    const masterBlock=`<div class="sec-hdr" style="padding:10px 14px 4px">All Lights</div><div class="pp-master">
       <div class="pp-mrow">
-        ${mtog}
-        <span class="pp-mlbl">All Lights <span class="pp-msub">${cnt} of ${tot}</span></span>
         <div class="lm-slider-wrap" id="pp-mslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
           <div class="lm-track"><div class="lm-fill" id="pp-mfill-${room.id}" style="width:${sliderPct}%"></div></div>
-          <div class="lm-thumb" id="pp-mthumb-${room.id}" style="left:${sliderPct}%"></div>
+          <div class="lm-thumb" id="pp-mthumb-${room.id}" style="left:${Math.min(sliderPct,96)}%"></div>
         </div>
         <span class="lm-pct" id="pp-mpct-${room.id}">${on?avg+'%':''}</span>
         ${hasColors?`<div class="pp-mchev" data-action="popup-master-expand" id="ppmc-${room.id}">
@@ -1129,7 +1127,7 @@ class RoomControlsCard extends HTMLElement {
         .sheet-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px}
         .sheet-close{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);cursor:pointer;color:rgba(255,255,255,.6);font-size:20px;display:flex;align-items:center;justify-content:center;user-select:none;border:none;flex-shrink:0}
         .hidden{display:none!important}
-        .pp-master{margin:10px 14px 6px;border-radius:0 8px 8px 0;background:rgba(251,191,36,.06);border-left:3px solid #fbbf24;overflow:hidden}
+        .pp-master{margin:10px 14px 6px;border-radius:8px;background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.12);overflow:hidden}
         .pp-mrow{display:flex;align-items:center;gap:8px;padding:10px 12px}
         .pp-minfo{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
         .pp-mlbl{font-size:14px;font-weight:700;color:rgba(255,255,255,.8);flex-shrink:0}
