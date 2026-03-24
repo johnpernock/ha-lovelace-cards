@@ -247,7 +247,6 @@ views:  - title: Home
             rooms:
               - id: bathroom
                 name: Bathroom
-                simplified: true
                 lights:
                   entity: light.all_bathroom_lights
                   individuals:
@@ -259,7 +258,6 @@ views:  - title: Home
             rooms:
               - id: yard
                 name: Yard
-                simplified: true
                 # theme_block shows the active outdoor lighting schedule/holiday
                 # above the lights row. Reads from sensor.outdoor_lighting_theme.
                 # See ha-config/outdoor-lighting-theme-sensor.yaml for setup.
