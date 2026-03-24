@@ -696,7 +696,7 @@ class RoomControlsCard extends HTMLElement {
     .rbody{padding:6px 10px 10px;display:flex;flex-direction:column;gap:5px}
     .tog{position:relative;border-radius:8px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
     .tog-thumb{position:absolute;border-radius:4px;transition:left .15s,background .15s}
-    .light-row{display:flex;align-items:center;gap:8px;padding:7px 10px 7px 9px;border-radius:0 8px 8px 0;background:rgba(251,191,36,.05);border-left:3px solid #fbbf24;user-select:none;transition:opacity .2s}
+    .light-row{display:flex;align-items:center;gap:8px;padding:7px 10px 7px 14px;border-radius:0 8px 8px 0;background:rgba(251,191,36,.05);border-left:3px solid #fbbf24;user-select:none;transition:opacity .2s}
     .lm-lbl{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0}
     .lm-lbl.lit{color:rgba(255,255,255,.8)}
     .lm-sub{font-size:10px;color:rgba(255,255,255,.3);font-weight:400;margin-left:4px}
