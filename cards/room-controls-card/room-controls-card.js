@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v70
+ * room-controls-card.js  —  v71
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -1154,11 +1154,12 @@ class RoomControlsCard extends HTMLElement {
         .pp-msub{font-size:11px;color:rgba(255,255,255,.35);font-weight:400;margin-left:4px}
         .pp-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
         .pp-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
-        .pp-lights{padding:2px 14px 6px;display:flex;flex-direction:column;gap:4px}
+        .pp-lights{padding:2px 0 6px;display:flex;flex-direction:column}
         .pp-light{border-radius:7px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);overflow:hidden;opacity:.65}
         .pp-light-on{background:rgba(251,191,36,.04);border-color:rgba(251,191,36,.18);opacity:1}
         .pp-lrow{display:flex;flex-direction:column;gap:4px;padding:8px 11px 6px}
-        .pp-lname{font-size:11px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .pp-ldot{width:9px;height:9px;border-radius:50%;flex-shrink:0;transition:background .15s}
+        .pp-lname{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0;width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .pp-lname.lit{color:rgba(255,255,255,.6)}
         .pp-ltrack{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
         .pp-lfill{height:100%;border-radius:99px;background:#fbbf24;transition:width .1s}
