@@ -214,10 +214,10 @@ views:
                 fans:
                   - entity: fan.white_series_lightfan_module_2
                     name: Front Fan
-                    speeds: 3
+                    speeds: 4
                   - entity: fan.white_series_lightfan_module_3
                     name: Back Fan
-                    speeds: 3
+                    speeds: 4
                 blinds:
                   entity: cover.family_room_blinds
                   max_position: 87
@@ -321,7 +321,7 @@ views:
                 fans:
                   - entity: fan.white_series_lightfan_module
                     name: Fan
-                    speeds: 4
+                    speeds: 5
                 thermostat:
                   entity: climate.main_floor
                   name: Main Floor

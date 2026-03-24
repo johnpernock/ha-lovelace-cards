@@ -123,17 +123,20 @@ class RoomControlsCard extends HTMLElement {
     return Math.round(on.map(l => this._brightness(l.entity)??100).reduce((a,b)=>a+b,0)/on.length);
   }
   _fanSpeeds(entity, configSpeeds) {
-    // If explicitly set in YAML, trust it
+    // If explicitly set in YAML, trust it.
+    // NOTE: speeds = total pip count including off (pip 0).
+    // e.g. speeds:5 → off + 4 speed steps, speeds:4 → off + 3 steps.
     if (configSpeeds != null) return configSpeeds;
     const s = this._state(entity);
-    if (!s) return 4;
-    // percentage_step is the most reliable signal (e.g. 25 = 4 speeds, 33 = 3 speeds)
+    if (!s) return 5;
+    // percentage_step gives the number of speed steps (e.g. 25 → 4 steps).
+    // Add 1 for the off pip.
     const step = s.attributes.percentage_step;
-    if (step && step > 0) return Math.round(100 / step);
-    // fall back to speed_count attribute
+    if (step && step > 0) return Math.round(100 / step) + 1;
+    // fall back to speed_count attribute (also add 1 for off)
     const sc = s.attributes.speed_count;
-    if (sc && sc > 1) return sc;
-    return 4;
+    if (sc && sc > 1) return sc + 1;
+    return 5;
   }
 
   _fanIdx(id, speeds) {
