@@ -57,6 +57,7 @@ tap_action: popup
 
 | Version | Changes |
 |---------|---------|
+| v5 | v5 | Popup: fixed once:true tap-outside listener; body scroll lock on open/close; overscroll-behavior:contain |
 | v4 | Touch audit: added `-webkit-tap-highlight-color:transparent` to tap area |
 | v3 | Tap hint label ("Tap for detailed forecast") removed — tap still works, label was visual clutter |
 | v2 | Added hourly forecast subscription and 12-hour scroll strip in popup; added `alert_entity` banner support |

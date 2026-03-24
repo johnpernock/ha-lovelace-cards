@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js  —  v4
+ * weather-card-nws.js  —  v5
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -189,18 +189,18 @@ class WeatherCardUnified extends HTMLElement {
     if (!overlay) return;
     this._popupOpen = true;
     overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
     this._renderPopup();
-    setTimeout(() => {
-      overlay.addEventListener('click', e => {
-        if (e.target === overlay) this._closePopup();
-      }, { once: true });
-    }, 50);
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) this._closePopup();
+    });
   }
 
   _closePopup() {
     this._popupOpen = false;
     const overlay = this.shadowRoot.getElementById('wc-overlay');
     if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
   }
 
   _renderPopup() {
@@ -422,6 +422,8 @@ class WeatherCardUnified extends HTMLElement {
           width: 100%;
           max-height: 82vh;
           overflow-y: auto;
+          overscroll-behavior: contain;
+          touch-action: pan-y;
           box-sizing: border-box;
           scrollbar-width: thin;
           scrollbar-color: rgba(255,255,255,0.1) transparent;

@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v65
+ * room-controls-card.js  —  v66
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -1228,8 +1228,8 @@ class RoomControlsCard extends HTMLElement {
   /* ── Listeners ────────────────────────────────────────────────────── */
 
   _getOverlay(id)   { return this._overlayContainer?.querySelector(`#${id}`) || this.shadowRoot.getElementById(id); }
-  _openOverlay(id)  { const e=this._getOverlay(id); if(e){ e.classList.add('open'); e.classList.remove('hidden'); } }
-  _closeOverlay(id) { const e=this._getOverlay(id); if(e){ e.classList.remove('open'); e.classList.add('hidden'); } }
+  _openOverlay(id)  { const e=this._getOverlay(id); if(e){ e.classList.add('open'); e.classList.remove('hidden'); document.body.style.overflow='hidden'; } }
+  _closeOverlay(id) { const e=this._getOverlay(id); if(e){ e.classList.remove('open'); e.classList.add('hidden'); document.body.style.overflow=''; } }
 
   _listen() {
     const sr = this.shadowRoot;

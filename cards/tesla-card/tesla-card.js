@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v9
+ * tesla-card.js  —  v10
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -552,16 +552,15 @@ class TeslaCard extends HTMLElement {
     `;
 
     overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
     this._popupOpen = true;
 
     popup.querySelector('#tc-close')?.addEventListener('click', () => this._closePopup());
     // Delay attaching the outside-click listener so the tap that opened the
     // popup doesn't immediately bubble up and close it again
-    setTimeout(() => {
-      overlay.addEventListener('click', e => {
-        if (e.target === overlay) this._closePopup();
-      }, { once: true });
-    }, 50);
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) this._closePopup();
+    });
 
     // Lock toggle
     popup.querySelector('#pop-lock')?.addEventListener('click', () => {
@@ -626,6 +625,7 @@ class TeslaCard extends HTMLElement {
     this._popupOpen = false;
     const overlay = this.shadowRoot.getElementById('tc-overlay');
     if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
   }
 
   // ── Render ───────────────────────────────────────────────────────────────────

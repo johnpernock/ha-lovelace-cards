@@ -147,6 +147,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v66 | v66 | Overlays: body scroll lock added to _openOverlay and _closeOverlay |
 | v65 | Added "Blinds" and "Garage" sec-hdr labels above those sections |
 | v64 | Removed "Fans" section header — fan name labels above each pip row are sufficient |
 | v63 | Theme area buttons dim when off: opacity 0.5, lower background and border opacity |

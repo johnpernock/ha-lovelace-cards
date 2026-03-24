@@ -68,6 +68,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v7 | v7 | Popup: body scroll lock on open/close; overscroll-behavior:contain on popup element |
 | v6 | Tap-outside-to-close fixed — overlay listener now wired permanently in `_render()` instead of `once:true` in `_openPopup()`; survives hass re-renders reliably |
 | v5 | Popup now re-renders correctly after full card re-render; popup state preserved across hass updates |
 | v4 | Open doors sort to top in popup; name auto-shortening for 3-column grid |
