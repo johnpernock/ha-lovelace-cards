@@ -523,3 +523,85 @@ gap: 6px;
 | Show `—` for unavailable sensor values | Show `null`, `undefined`, or empty string |
 | Use `rgba` backgrounds at `.04–.10` opacity | Use solid color backgrounds |
 | `touch-action: none` on drag elements | Let browser scroll hijack drag sliders |
+
+---
+
+## Expanded row pattern
+
+Used by `traffic-card` and `septa-paoli-card` when `expanded: true`. Replaces compact pills/tiles with full-height rows that share a consistent structure across both cards — traffic routes and train departures look visually unified on the commute view.
+
+### Row hierarchy
+
+Two row types — hero (primary item) and sub (subsequent items):
+
+```
+Hero row  — 12px padding, coloured background/border matching delay state
+Sub row   — 9px padding, neutral rgba(.03) background
+
+┌──────────────────────────────────────────────┐
+│ NEXT DEPARTURE                               │
+│ 8:30 PM                  ARRIVES 30TH ST    │   ← hero row (green bg)
+│ Train 9327 · Direct      9:16 PM   [On Time]│
+└──────────────────────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│ 9:41 PM                  ARRIVES 30TH ST    │   ← sub row (neutral)
+│ Train 9329 · Local       10:48 PM  [+18m]   │
+└──────────────────────────────────────────────┘
+```
+
+### Row colour rules
+
+Row background and border colour follows the same semantic scheme as the existing hero block pattern — green for on-time, red for delayed:
+
+| State | Background | Border |
+|-------|-----------|--------|
+| On time (hero) | `rgba(74,222,128,.07)` | `rgba(74,222,128,.25)` |
+| Delayed (hero) | `rgba(239,68,68,.08)` | `rgba(239,68,68,.35)` |
+| On time (sub) | `rgba(255,255,255,.03)` | `rgba(255,255,255,.07)` |
+| Delayed (sub) | `rgba(239,68,68,.06)` | `rgba(239,68,68,.2)` |
+
+### Typography
+
+| Element | Size | Weight | Color |
+|---------|------|--------|-------|
+| Section label (eyebrow) | 9px | 700 | `rgba(255,255,255,.3)` uppercase |
+| Hero time | 26px | 600 | White or delay color |
+| Hero AM/PM suffix | 13px | 500 | `rgba(255,255,255,.35)` |
+| Sub time | 18px | 600 | `rgba(255,255,255,.75)` or delay tint |
+| Sub AM/PM suffix | 10px | 500 | `rgba(255,255,255,.3)` |
+| Meta line (train/route) | 10px | 400 | `rgba(255,255,255,.3)` |
+| Arrival label (eyebrow) | 9px | 700 | `rgba(255,255,255,.3)` uppercase |
+| Arrival time (hero) | 14px | 600 | White or `#f87171` if delayed |
+| Arrival time (sub) | 13px | 600 | White or `#f87171` if delayed |
+| Badge | 10px | 700 | Semantic color, uppercase, 5px radius |
+
+### Row dividers
+
+Between sub rows: `height: 1px; background: rgba(255,255,255,.05); margin: 0 10px`
+
+Between sections (outbound/inbound): `height: 1px; background: rgba(255,255,255,.07); margin: 8px 14px 0`
+
+### `expanded` parameter convention
+
+All cards that support both compact and expanded layouts use a single `expanded: boolean` YAML parameter defaulting to `false`. The compact render path is always preserved — `expanded: true` is an additive mode, never a replacement of the original card.
+
+```yaml
+# Compact (default) — home view, sidebar use
+type: custom:septa-paoli-card
+outbound: [...]
+
+# Expanded — commute view, full-column use
+type: custom:septa-paoli-card
+expanded: true
+outbound: [...]
+```
+
+New cards that need both modes should follow this same pattern. The expanded render should be triggered at the top of `_render()` before any other logic:
+
+```js
+_render() {
+  if (!this._config.entity) return;
+  if (this._config.expanded) { this._renderExpanded(); return; }
+  // ... compact render continues
+}
+```

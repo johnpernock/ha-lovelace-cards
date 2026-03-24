@@ -29,13 +29,14 @@ lovelace:
 
 | View | Path | Layout | Description |
 |------|------|--------|-------------|
-| Home | `/home` | sections · 3 col | Clock, weather, now-playing, Tesla, door sensors, room buttons, thermostats, temp strip, printer status, calendar |
+| Home | `/home` | sections · 3 col | Clock, weather, now-playing (HomePods + Apple TVs), Tesla, door sensors, room buttons, thermostats, temp strip, printer status, calendar |
 | Lights / Fans | `/lightsfans` | sections · 3 col | Room control cards for all rooms — lights, fans, blinds, thermostats |
-| Cameras | `/cameras` | panel | Full-width camera layout — doorbell portrait + 2×2 grid |
+| Cameras | `/cameras` | panel | Full-width camera layout — G6 Entry doorbell portrait + 2×3 grid of 5 G6 Turrets |
 | Technology | `/technology` | sections · 3 col | Network, speed, APs, Unraid health, services, storage, ink, media |
-| Commute | `/commute` | sections · 3 col | Traffic (Waze), SEPTA Paoli/Thorndale line, Tesla + charging cards |
+| Commute | `/commute` | sections · 3 col | Col 1: traffic-card (expanded) + leave-by-card. Col 2: SEPTA Paoli/Thorndale (expanded). Col 3: Tesla Commute + Charging |
 | Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
 | 3D Printer | `/3d-printer` | sections · 2 col | Bambu P1S full status card spanning both columns |
+| Security | `/security` | sections · 2 col | Col 1: camera-layout-card (all 6 UniFi Protect cameras). Col 2: protect-events-card (live detection feed) |
 
 All views use `theme: Amoled+`.
 
@@ -89,6 +90,17 @@ theme_block:
       entity: switch.yard_light_controller_zone_1
       type: switch
 ```
+
+---
+
+## Security view — 2 columns
+
+| Column | Card | Notes |
+|--------|------|-------|
+| 1 | `camera-layout-card` | G6 Entry doorbell (portrait left) + 5 G6 Turrets in 2×3 grid. Height 640px to fit sections layout. |
+| 2 | `protect-events-card` | Live UniFi Protect detection event feed. All 6 cameras configured. `cameras_view: /cameras` wires the "All →" footer link. |
+
+The camera layout card in the Security view uses `height: 640` (vs `680` in the panel Cameras view) because the sections layout adds some chrome. Both views use the same entity IDs.
 
 ---
 
@@ -154,9 +166,15 @@ New 6th view at path `/energy` with three cards in a 3-column sections layout:
 
 ---
 
-## Commute view — column 3 (Tesla + charging)
+## Commute view — 3 columns
 
-The Commute view was expanded from 2 to 3 columns. Column 3 contains two stacked cards:
+| Column | Cards | Notes |
+|--------|-------|-------|
+| 1 | `traffic-card` (expanded) + `leave-by-card` | Traffic rows with delay colouring; leave-by computes departure time per train from Waze drive time |
+| 2 | `septa-paoli-card` (expanded) | Hero + sub rows per train, 3 outbound + 3 inbound |
+| 3 | `tesla-commute-card` + `charging-card` | Inline Tesla status + unified charging summary |
+
+### Column 3 — Tesla + charging
 
 ### `tesla-commute-card`
 Expanded inline Tesla card — all commute-relevant data without opening a popup:

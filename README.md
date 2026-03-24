@@ -21,7 +21,7 @@ ha-lovelace-cards/
 │   ├── ha-styles.js    — shared CSS string exports (card reset, popup, badges, pills, etc.)
 │   └── ha-popup.js     — portal popup factory (appends to document.body)
 ├── ha-config/
-│   ├── dashboard.yaml                      — complete Lovelace dashboard (all 5 views)
+│   ├── dashboard.yaml                      — complete Lovelace dashboard (all 8 views)
 │   ├── outdoor-lighting-theme-sensor.yaml  — template sensor for holiday theme detection
 │   ├── light-groups.yaml                   — custom light groups (yard_spotlights etc.)
 │   ├── dashboard-README.md                 — dashboard installation + view reference
@@ -184,7 +184,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Protect Events ✦ | `cards/protect-events-card/` | v1 |
 | Leave By ✦ | `cards/leave-by-card/` | v1 |
 
-✦ = fully migrated to shared modules (proof of concept)
+✦ = fully migrated to shared modules (ha-utils, ha-styles, ha-popup)
 
 ---
 
