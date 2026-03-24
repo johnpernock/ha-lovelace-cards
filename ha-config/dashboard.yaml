@@ -620,16 +620,10 @@ views:
             home_routes:
               - entity: sensor.commute_home_via_202
                 label: 21 Beryl Rd
-                route_label: US-202 S
+                route_label: Home Route 1
               - entity: sensor.commute_home_via_rt_30
                 label: 21 Beryl Rd
-                route_label: Route 30 W
-              - entity: sensor.commute_home_via_morehall
-                label: 21 Beryl Rd
-                route_label: via Morehall Rd
-              - entity: sensor.commute_home_via_valley_rd
-                label: 21 Beryl Rd
-                route_label: via Valley Rd
+                route_label: Home Route 2
           - type: custom:leave-by-card
             waze_entity: sensor.commute_to_work
             station: Paoli Station
