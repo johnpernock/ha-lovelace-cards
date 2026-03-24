@@ -182,7 +182,7 @@ class TrafficCard extends HTMLElement {
       </div>`;
     }
     const t    = this._delayTheme(data.delay, this._config.incident_threshold);
-    const name = data.route || cfg.route_label || cfg.label;
+    const name = cfg.route_label || cfg.label || data.route;
     const via  = cfg.via_label || '';
     return `<div class="tile${isDimmed ? ' dimmed' : ''}">
       <div class="tile-left">
@@ -251,8 +251,8 @@ class TrafficCard extends HTMLElement {
         <div class="exp-row-right"><div class="exp-time-xl" style="color:rgba(255,255,255,.25)">—</div></div>
       </div>`;
       const t    = this._delayTheme(data.delay, threshold);
-      const name = data.route || cfg_route.route_label || cfg_route.label;
-      const via  = cfg_route.via_label || cfg_route.label || '';
+      const name = cfg_route.route_label || cfg_route.label || data.route;
+      const via  = cfg_route.via_label || '';
       return `<div class="exp-hero-row${isDimmed?' dimmed':''}" style="background:rgba(${t.rgb},.07);border:1px solid rgba(${t.rgb},.25)">
         <div>
           <div class="exp-row-lbl">${label}</div>
@@ -270,7 +270,7 @@ class TrafficCard extends HTMLElement {
     const _subRow = (data, cfg_route, isBest) => {
       if (!data) return '';
       const t    = this._delayTheme(data.delay, threshold);
-      const name = data.route || cfg_route.route_label || cfg_route.label;
+      const name = cfg_route.route_label || cfg_route.label || data.route;
       const via  = cfg_route.via_label || '';
       return `<div class="exp-row-div"></div>
       <div class="exp-sub-row" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07)">
