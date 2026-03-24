@@ -791,7 +791,6 @@ class SeptaPaoliCard extends HTMLElement {
       this._openPopup(this._activePopup.data, this._activePopup.type);
     }
   }
-}
 
   // ── Expanded row HTML helpers ─────────────────────────────────────────────
 
@@ -930,4 +929,6 @@ class SeptaPaoliCard extends HTMLElement {
   }
 
 
+
+}
 customElements.define('septa-paoli-card', SeptaPaoliCard);
