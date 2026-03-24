@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v59
+ * room-controls-card.js  —  v60
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -334,7 +334,7 @@ class RoomControlsCard extends HTMLElement {
         body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:2px${on?'':';opacity:.4'}">
           <div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
             <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
-            <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.min(sliderPct,96)}%"></div>
+            <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%"></div>
           </div>
           <div class="lm-btn">${this._ico('chev','rgba(255,255,255,.4)',14,14)}</div>
         </div>`;
@@ -750,13 +750,13 @@ class RoomControlsCard extends HTMLElement {
     .garage-lbl{font-size:14px;font-weight:700}
     .garage-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:1px}
     .bpip-pos span{color:rgba(139,92,246,.7)}
-    .tstat-block{border-radius:0 8px 8px 0;overflow:hidden;background:rgba(255,255,255,.03)}
+    .tstat-block{border-radius:0 8px 8px 0;overflow:hidden}
     .tstat-heat{border-left:3px solid rgba(251,146,60,.5);background:rgba(251,146,60,.05)}
     .tstat-cool{border-left:3px solid rgba(96,165,250,.5);background:rgba(96,165,250,.05)}
     .tstat-heat-cool,.tstat-auto{border-left:3px solid rgba(139,92,246,.5);background:rgba(139,92,246,.04)}
     .tstat-fan-only{border-left:3px solid rgba(20,184,166,.5);background:rgba(20,184,166,.04)}
     .tstat-dry{border-left:3px solid rgba(251,191,36,.5);background:rgba(251,191,36,.04)}
-    .tstat-off{border-left:3px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03)}
+    .tstat-off{border-left:3px solid rgba(255,255,255,.12)}
     .tstat-top{display:flex;align-items:center;gap:6px;padding:8px 10px;cursor:pointer;user-select:none}
     .tstat-top:active{filter:brightness(.88)}
     .tcur{font-size:24px;font-weight:700;color:var(--primary-text-color);letter-spacing:-1px;line-height:1}
@@ -764,7 +764,7 @@ class RoomControlsCard extends HTMLElement {
     .tdiv{width:1px;height:28px;background:rgba(255,255,255,.1);flex-shrink:0}
     .tsetblock{flex:1;display:flex;flex-direction:column;align-items:center}
     .tsetctrl{display:flex;align-items:center;gap:4px}
-    .tadj{width:34px;height:34px;flex-shrink:0;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:var(--primary-text-color);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
+    .tadj{width:34px;height:34px;flex-shrink:0;border-radius:7px;background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--primary-text-color);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
     .tadj:active{background:rgba(255,255,255,.18)}
     .tadj-off{opacity:.3;pointer-events:none}
     .tsetval{font-size:18px;font-weight:700;color:#fb923c;min-width:36px;text-align:center}
@@ -946,7 +946,7 @@ class RoomControlsCard extends HTMLElement {
         const thumb = sr.getElementById(`lthumb-${room.id}`);
         const pct   = sr.getElementById(`lpct-${room.id}`);
         if (fill)  fill.style.width  = (on?avg:0)+'%';
-        if (thumb) thumb.style.left  = (on?avg:0)+'%';
+        if (thumb) thumb.style.left  = Math.max(4,Math.min(on?avg:0,96))+'%';
         if (pct)   pct.textContent   = on?avg+'%':'';
         // lm-lbl lit class
         const lbl = sr.querySelector(`#lrow-${room.id} .lm-lbl`);
@@ -1188,13 +1188,13 @@ class RoomControlsCard extends HTMLElement {
         .mode-txt-swing{color:#60a5fa}
         .mode-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
         .mode-dot-split{width:10px;height:10px;border-radius:50%;flex-shrink:0;background:linear-gradient(90deg,#fb923c 50%,#60a5fa 50%)}
-        .tstat-block{border-radius:0 8px 8px 0;overflow:hidden;background:rgba(255,255,255,.03)}
+        .tstat-block{border-radius:0 8px 8px 0;overflow:hidden}
         .tstat-heat{border-left:3px solid rgba(251,146,60,.5);background:rgba(251,146,60,.05)}
         .tstat-cool{border-left:3px solid rgba(96,165,250,.5);background:rgba(96,165,250,.05)}
         .tstat-heat-cool,.tstat-auto{border-left:3px solid rgba(139,92,246,.5);background:rgba(139,92,246,.04)}
         .tstat-fan-only{border-left:3px solid rgba(20,184,166,.5);background:rgba(20,184,166,.04)}
         .tstat-dry{border-left:3px solid rgba(251,191,36,.5);background:rgba(251,191,36,.04)}
-        .tstat-off{border-left:3px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03)}
+        .tstat-off{border-left:3px solid rgba(255,255,255,.12)}
         .tstat-top{display:flex;align-items:center;gap:8px;padding:10px 12px}
         .tcur{font-size:34px;font-weight:700;color:#e2e8f0;letter-spacing:-1.5px;line-height:1}
         .tcur-off{color:rgba(255,255,255,.4)}
@@ -1202,7 +1202,7 @@ class RoomControlsCard extends HTMLElement {
         .tsetblock{flex:1;display:flex;flex-direction:column;align-items:center}
         .tsetlbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.25);margin-bottom:4px}
         .tsetctrl{display:flex;align-items:center;gap:5px}
-        .tadj{width:44px;height:44px;flex-shrink:0;border-radius:8px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#e2e8f0;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
+        .tadj{width:44px;height:44px;flex-shrink:0;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,.12);color:#e2e8f0;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
         .tadj:active{background:rgba(255,255,255,.18)}
         .tadj-off{opacity:.3;pointer-events:none}
         .tsetval{font-size:22px;font-weight:700;color:#fb923c;min-width:44px;text-align:center}
