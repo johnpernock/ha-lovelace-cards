@@ -328,7 +328,7 @@ class RoomControlsCard extends HTMLElement {
         body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:6px${on?'':';opacity:.4'}">
           <div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
             <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
-            <div class="lm-thumb" id="lthumb-${room.id}" style="left:${sliderPct}%"></div>
+            <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.min(sliderPct,96)}%"></div>
           </div>
           <div class="lm-btn">${this._ico('chev','rgba(255,255,255,.4)',14,14)}</div>
         </div>`;
@@ -542,10 +542,11 @@ class RoomControlsCard extends HTMLElement {
 
     const sliderPct = on ? avg : 0;
     const ents = (cfg.individuals||[{entity:cfg.entity}]).map(l=>l.entity);
-    const hasColors = ents.some(e=>this._supportsCT(e)||this._supportsColor(e));
-    const anyCT=ents.some(e=>this._supportsCT(e)), anyColor=ents.some(e=>this._supportsColor(e));
-    const minK=anyCT?Math.max(...ents.map(e=>this._ctRange(e).min)):2000;
-    const maxK=anyCT?Math.min(...ents.map(e=>this._ctRange(e).max)):6500;
+    const lightEnts = ents.filter(e=>!e.startsWith('switch.'));
+    const hasColors = lightEnts.some(e=>this._supportsCT(e)||this._supportsColor(e));
+    const anyCT=lightEnts.some(e=>this._supportsCT(e)), anyColor=lightEnts.some(e=>this._supportsColor(e));
+    const minK=anyCT?Math.max(...lightEnts.map(e=>this._ctRange(e).min)):2000;
+    const maxK=anyCT?Math.min(...lightEnts.map(e=>this._ctRange(e).max)):6500;
     const ctPfx='pct-all:'+room.id, ccPfx='pcc-all:'+room.id;
 
     const masterBlock=`<div class="pp-master">
@@ -700,7 +701,7 @@ class RoomControlsCard extends HTMLElement {
     .lm-lbl{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0}
     .lm-lbl.lit{color:rgba(255,255,255,.8)}
     .lm-sub{font-size:10px;color:rgba(255,255,255,.3);font-weight:400;margin-left:4px}
-    .lm-slider-wrap{flex:1;height:32px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0;padding-right:8px}
+    .lm-slider-wrap{flex:1;height:32px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0;padding-right:12px;overflow:visible}
     .lm-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
     .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
     .lm-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
