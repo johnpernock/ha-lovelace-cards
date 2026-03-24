@@ -1,5 +1,5 @@
 /**
- * camera-layout-card.js  —  v4
+ * camera-layout-card.js  —  v5
  *
  * Portrait doorbell on the left, dynamic 2×N grid of cameras on the right.
  * Designed for a 1200×800 wall display — fills the full card width,
@@ -186,6 +186,32 @@ class CameraLayoutCard extends HTMLElement {
           color: rgba(255,255,255,.12);
         }
 
+        /* ── Loading placeholder (shown until stream connects) ── */
+        .cam-loading {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: #0a0a12;
+          border-radius: 6px;
+          z-index: 0;
+          pointer-events: none;
+        }
+        .cam-loading-lbl {
+          font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          font-size: 10px;
+          font-weight: 600;
+          color: rgba(255,255,255,.2);
+          text-align: center;
+        }
+        ha-camera-stream {
+          position: relative;
+          z-index: 1;
+        }
+
         /* ── Scan line texture ── */
         .cam-cell::before,
         .doorbell-col::before {
@@ -235,6 +261,12 @@ class CameraLayoutCard extends HTMLElement {
   _cellInner(cam) {
     const name = cam.name || this._friendlyName(cam.entity);
     return `
+      <div class="cam-loading" id="loading-${cam.entity.replace(/\./g, '_')}">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+        </svg>
+        <span class="cam-loading-lbl">${name}</span>
+      </div>
       <ha-camera-stream
         id="stream-${cam.entity.replace(/\./g, '_')}"
         data-entity="${cam.entity}"

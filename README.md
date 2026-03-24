@@ -161,7 +161,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 |------|--------|---------|
 | Room Controls | `cards/room-controls-card/` | v65 |
 | Room Buttons | `cards/room-buttons-card/` | v4 |
-| Camera Layout | `cards/camera-layout-card/` | v4 |
+| Camera Layout | `cards/camera-layout-card/` | v5 |
 | Technology | `cards/technology-card/` | v13 |
 | Bambu Printer | `cards/bambu-printer-card/` | — |
 | Printer Status | `cards/printer-status-card/` | v1 |
