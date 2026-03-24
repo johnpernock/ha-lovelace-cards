@@ -29,6 +29,10 @@ Each room renders a header (name + door pills) followed by whatever rows are con
 | Sensor | `sensor:` defined and no thermostat |
 | Garage | `garage:` defined |
 
+The room **header** always shows the room name, door pills (if configured), and the on/off toggle. When a thermostat is configured, the header also shows compact **temperature pills** to the right of any door pills:
+- **Thermostat pill** — mode dot (colour matches HVAC mode) + current temp + setpoint (e.g. `● 68° → 70°`). Neutral/dim when off, orange-tinted when active.
+- **Sensor pill** — bare sensor reading in blue (e.g. `68°`). Only shown when `thermostat.sensor` is configured, giving a separate room temp reading alongside the thermostat.
+
 ### Simplified rooms
 
 `simplified: true` collapses the lights row to a count badge in the header (e.g. "3 / 5 on") with a chevron. Tapping the header opens the full lights popup. Good for bathrooms and utility rooms where you just need a quick on/off overview.
@@ -37,11 +41,11 @@ Each room renders a header (name + door pills) followed by whatever rows are con
 
 Priority order:
 1. YAML `speeds:` — always wins if you set it
-2. `percentage_step` entity attribute (`100 ÷ step = count`) — most reliable for Lutron Caseta
-3. `speed_count` entity attribute
-4. Default: 4
+2. `percentage_step` entity attribute — speed steps = `round(100 ÷ step)`, total pips = steps + 1 (off)
+3. `speed_count` entity attribute — total pips = count + 1 (off)
+4. Default: 5 (off + 4 speeds)
 
-Always set `speeds:` explicitly for Lutron Caseta fans — their `speed_count` attribute reports an incorrect value.
+`speeds:` in YAML is the **total pip count including off** — e.g. `speeds: 5` gives off + 4 speed pips. Most fans with a reliable `percentage_step` do not need `speeds:` set at all. Only white-series preset-mode fans need it hardcoded.
 
 ### Light color modes
 
@@ -104,8 +108,8 @@ CT presets are filtered to the bulb's `min_color_temp_kelvin` / `max_color_temp_
 |-----------|----------|---------|-------------|
 | `entity` | ✅ | — | Climate entity |
 | `name` | ❌ | friendly_name | Label on the mode button |
-| `sensor` | ❌ | — | Separate temperature sensor to show as a pill (useful for split systems) |
-| `sensor_label` | ❌ | — | Two-line label under the sensor pill (use `\n` to split lines) |
+| `sensor` | ❌ | — | Separate temperature sensor — shows as a plain blue temp pill in the room header. Only show if different from the thermostat entity (e.g. a room sensor vs a split-system thermostat). |
+| `sensor_label` | ❌ | — | Label for the sensor (used in the inline thermostat block, not in the header pill). |
 
 ### Sensor object
 
@@ -143,6 +147,11 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v39 | Header sensor pill: bare blue temp reading shown when `thermostat.sensor` is configured |
+| v38 | Header sensor pill added — `thermostat.sensor` value appears in header (with text label, superseded by v39) |
+| v37 | Header thermostat pill: compact `● cur° → set°` pill in room header with mode dot. Inline thermostat shrunk (34px adj buttons, 24px cur temp) for mobile. |
+| v36 | Fixed room-toggle not firing — `_togHtml` now sets `data-room` attribute derived from element ID |
+| v35 | Fan pip count off by 1 — `_fanSpeeds()` now returns `round(100/step) + 1` to include off pip. Dashboard speeds configs updated. |
 | v34 | Popup portalling to `document.body` — fixes clipped/scaled popups on HA dashboards with CSS transforms |
 | v33 | `set hass` now calls `_patch()` instead of `_render()` — fixes +/− temp buttons and fan pips stopping after first hass update |
 | v32 | Fixed fan pip click not registering — `closest('[data-action]')` returned null for pip divs; added explicit `closest('.fpip')` check |

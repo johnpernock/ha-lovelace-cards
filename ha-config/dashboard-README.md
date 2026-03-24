@@ -93,6 +93,19 @@ theme_block:
 
 ---
 
+## Fan speed configuration
+
+Fan speeds in the dashboard are now mostly dynamic — the card reads `percentage_step` from the entity attribute and calculates pip count automatically (`round(100 ÷ step) + 1` to include the off pip). Only white-series preset-mode fans need `speeds:` hardcoded:
+
+| Fan | Config | Reason |
+|-----|--------|--------|
+| `fan.white_series_lightfan_module` (dining) | `speeds: 5` | Unavailable state, no percentage_step |
+| `fan.white_series_lightfan_module_2/3` (family) | `speeds: 4` | preset_mode based, step=33.33 (3 speeds + off) |
+
+All other fans (kitchen, solarium, bedroom, office, workshop) omit `speeds:` and resolve dynamically.
+
+---
+
 ## Security view — 2 columns
 
 | Column | Card | Notes |

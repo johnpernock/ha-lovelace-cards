@@ -640,3 +640,44 @@ All interactive elements that rely on the click handler reading `el.dataset.room
 ### Outer container background
 
 The outer `.card` or `.wrap` container must not have a colored background. Background opacity should only be used on **inner** elements (rows, stat boxes, hero blocks). `rgba(color, 0.04–0.10)` tints are permitted on inner sections but not on the card shell itself.
+
+---
+
+## Room header pills
+
+Room headers in `room-controls-card` support two types of compact pills displayed between door pills and the on/off toggle. Pills are text-free or number-only — no labels in the header.
+
+### Thermostat pill
+
+Shows mode dot + current temp + setpoint when a thermostat is configured:
+
+```
+● 68° → 70°
+```
+
+- **Mode dot** (7px circle): orange=heat, blue=cool, split orange/blue=heat_cool, purple=auto, teal=fan, amber=dry, neutral=off
+- **Current temp**: primary text color
+- **Arrow + setpoint**: `rgba(255,255,255,.25)` arrow, `#fb923c` setpoint
+- **Pill background**: `rgba(251,146,60,.15)` when active, `rgba(255,255,255,.10)` when off
+- **Border**: `rgba(251,146,60,.25)` when active, `rgba(255,255,255,.07)` when off
+
+### Sensor pill
+
+Shows a bare temp reading in blue when `thermostat.sensor` is configured (room sensor separate from thermostat entity):
+
+```
+68°
+```
+
+- Color: `#60a5fa`
+- Background: `rgba(96,165,250,.08)`
+- Border: `rgba(96,165,250,.18)`
+- No label text — number only
+
+### When each pill appears
+
+| Config | Thermostat pill | Sensor pill |
+|--------|----------------|-------------|
+| `thermostat:` only | ✅ | — |
+| `thermostat:` + `sensor:` | ✅ | ✅ |
+| No thermostat | — | — |
