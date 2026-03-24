@@ -154,6 +154,23 @@ class TrafficCard extends HTMLElement {
 
     /* unavailable */
     .unavail{font-size:11px;color:rgba(255,255,255,.25);font-style:italic;padding:10px 14px}
+
+    /* ── expanded row mode ── */
+    .sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
+    .exp-hero-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .exp-hero-row.dimmed{opacity:.38}
+    .exp-sub-row{margin:4px 10px 8px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
+    .exp-row-route{font-size:15px;font-weight:600;line-height:1.2}
+    .exp-row-via{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
+    .exp-row-right{text-align:right;flex-shrink:0}
+    .exp-arr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);margin-bottom:2px}
+    .exp-time-xl{font-size:24px;font-weight:700;letter-spacing:-.5px;line-height:1}
+    .exp-time-sm{font-size:20px;font-weight:600;letter-spacing:-.3px;line-height:1}
+    .exp-min{font-size:11px;font-weight:500;color:rgba(255,255,255,.35);margin-left:2px}
+    .exp-badge{font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:5px;display:inline-block}
+    .exp-row-div{height:1px;background:rgba(255,255,255,.05);margin:0 10px}
+    .exp-sec-div{height:1px;background:rgba(255,255,255,.07);margin:8px 14px 0}
   `; }
 
   // ── Route tile HTML ───────────────────────────────────────────────────────
@@ -186,9 +203,120 @@ class TrafficCard extends HTMLElement {
     </div>`;
   }
 
+
+  // ── Expanded row render ───────────────────────────────────────────────────
+  _renderExpanded() {
+    const cfg       = this._config;
+    const threshold = cfg.incident_threshold || 10;
+    const hour      = new Date().getHours();
+    const dimToWork = hour >= (cfg.hide_to_work_after ?? 12);
+
+    const toWorkData = this._routeData(cfg.to_work.entity, cfg.to_work.route_label);
+    const homeRoutes = (cfg.home_routes || []).map(r => ({
+      cfg: r,
+      data: this._routeData(r.entity, r.route_label),
+      routeLabel: r.route_label || r.label,
+    }));
+
+    let bestHomeIdx = 0;
+    homeRoutes.forEach((r, i) => {
+      if (r.data && homeRoutes[bestHomeIdx].data &&
+          r.data.current < homeRoutes[bestHomeIdx].data.current) bestHomeIdx = i;
+    });
+
+    const homeIncident  = this._detectIncident(homeRoutes, threshold);
+    const toWorkIncident = toWorkData && toWorkData.delay >= threshold
+      ? { route: toWorkData.route || cfg.to_work.route_label, delay: toWorkData.delay } : null;
+
+    const allUpdated = [toWorkData?.updated, ...homeRoutes.map(r => r.data?.updated)]
+      .filter(Boolean).sort().pop();
+    const updStr = this._fmtUpdated(allUpdated);
+
+    let incidentHtml = '';
+    const worstIncident = homeIncident || toWorkIncident;
+    if (worstIncident) {
+      incidentHtml = `<div class="incident">
+        <div class="inc-dot"></div>
+        <div>
+          <div class="inc-title">Heavy traffic — ${worstIncident.route}</div>
+          <div class="inc-sub">+${worstIncident.delay} min above normal</div>
+        </div>
+      </div>`;
+    }
+
+    const _heroRow = (data, cfg_route, label, isDimmed) => {
+      if (!data) return `<div class="exp-hero-row" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)">
+        <div><div class="exp-row-lbl">${label}</div><div class="exp-row-route" style="color:rgba(255,255,255,.35)">${cfg_route.route_label||''}</div></div>
+        <div class="exp-row-right"><div class="exp-time-xl" style="color:rgba(255,255,255,.25)">—</div></div>
+      </div>`;
+      const t    = this._delayTheme(data.delay, threshold);
+      const name = data.route || cfg_route.route_label || cfg_route.label;
+      const via  = cfg_route.via_label || cfg_route.label || '';
+      return `<div class="exp-hero-row${isDimmed?' dimmed':''}" style="background:rgba(${t.rgb},.07);border:1px solid rgba(${t.rgb},.25)">
+        <div>
+          <div class="exp-row-lbl">${label}</div>
+          <div class="exp-row-route" style="color:${t.color}">${name}</div>
+          ${via ? `<div class="exp-row-via">${via}</div>` : ''}
+        </div>
+        <div class="exp-row-right">
+          <div class="exp-arr-lbl">Travel time</div>
+          <div class="exp-time-xl" style="color:${t.color}">${data.current}<span class="exp-min">min</span></div>
+          <div class="exp-badge" style="background:rgba(${t.rgb},.12);color:${t.color};border:1px solid rgba(${t.rgb},.3)">${t.label}</div>
+        </div>
+      </div>`;
+    };
+
+    const _subRow = (data, cfg_route, isBest) => {
+      if (!data) return '';
+      const t    = this._delayTheme(data.delay, threshold);
+      const name = data.route || cfg_route.route_label || cfg_route.label;
+      const via  = cfg_route.via_label || '';
+      return `<div class="exp-row-div"></div>
+      <div class="exp-sub-row" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07)">
+        <div>
+          <div class="exp-row-route" style="font-size:13px;color:rgba(255,255,255,.6)">${name}</div>
+          ${via ? `<div class="exp-row-via">${via}</div>` : ''}
+        </div>
+        <div class="exp-row-right">
+          <div class="exp-time-sm" style="color:rgba(255,255,255,.6)">${data.current}<span class="exp-min">min</span></div>
+          <div class="exp-badge" style="background:rgba(${t.rgb},.10);color:${t.color};border:1px solid rgba(${t.rgb},.25)">${isBest ? 'Fastest' : t.label}</div>
+        </div>
+      </div>`;
+    };
+
+    const toWorkRow = _heroRow(toWorkData, cfg.to_work, 'Live travel time', dimToWork);
+
+    const heroHome  = homeRoutes[bestHomeIdx];
+    const heroHomeRow = _heroRow(heroHome.data, heroHome.cfg, 'Fastest route', false);
+    const otherHomeRows = homeRoutes
+      .filter((_, i) => i !== bestHomeIdx)
+      .map(r => _subRow(r.data, r.cfg, false))
+      .join('');
+
+    this.shadowRoot.innerHTML = `
+      <style>${this._css()}</style>
+      <ha-card>
+        <div class="card">
+          <div class="card-hdr">
+            <div class="card-hdr-title">Commute</div>
+            ${updStr ? `<div class="updated">Updated ${updStr}</div>` : ''}
+          </div>
+          <div class="divider"></div>
+          ${incidentHtml}
+          <div class="sec-lbl">→ To work · ${cfg.to_work.label || ''}</div>
+          ${toWorkRow}
+          <div class="exp-sec-div"></div>
+          <div class="sec-lbl">← Home · ${cfg.home_routes[0]?.label || ''}</div>
+          ${heroHomeRow}
+          ${otherHomeRows}
+        </div>
+      </ha-card>`;
+  }
+
   // ── Render ────────────────────────────────────────────────────────────────
   _render() {
     if (!this._config.to_work) return;
+    if (this._config.expanded) { this._renderExpanded(); return; }
 
     const cfg       = this._config;
     const threshold = cfg.incident_threshold || 10;

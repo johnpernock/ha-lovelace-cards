@@ -334,6 +334,29 @@ class SeptaPaoliCard extends HTMLElement {
       }
     }
 
+    // ── Expanded mode ────────────────────────────────────────────────────────
+    if (this._config.expanded) {
+      const alertFooterHtmlExp = alertMsg
+        ? `<div class="no-alert" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.45);border-radius:9px;padding:9px 13px;font-size:12px;font-weight:500;color:#fca5a5;margin:8px 10px 10px">${alertMsg}</div>`
+        : `<div class="no-alert"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>No active service alerts</span></div>`;
+      this.shadowRoot.innerHTML = `
+        <style>${this._buildExpandedStyle()}</style>
+        <ha-card>
+          ${this._renderExpanded(outTrains, allInTrains, nextStation, alertFooterHtmlExp)}
+        </ha-card>
+        <div id="sp-overlay"><div id="sp-popup"></div></div>`;
+      this.shadowRoot.querySelectorAll('[data-train]').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const data = JSON.parse(el.dataset.train);
+          const type = el.dataset.type;
+          this._openPopup(data, type);
+        });
+      });
+      if (this._activePopup) this._openPopup(this._activePopup.data, this._activePopup.type);
+      return;
+    }
+
     // ── Outbound hero ─────────────────────────────────────────────────────────
     const heroOut = outTrains[0];
     let heroOutHtml = '';
@@ -656,6 +679,32 @@ class SeptaPaoliCard extends HTMLElement {
           color: rgba(255,255,255,0.35);
         }
 
+        /* ── Expanded row mode ── */
+        .exp-wrap{border-radius:10px;border:1px solid rgba(255,255,255,.10);overflow:hidden}
+        .exp-card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+        .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
+        .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
+        .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s}
+        .exp-train-row:active{opacity:.85}
+        .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s}
+        .exp-train-sub:active{opacity:.85}
+        .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
+        .exp-time-hero{font-size:26px;font-weight:600;letter-spacing:-1px;line-height:1}
+        .exp-ap{font-size:13px;font-weight:500;color:rgba(255,255,255,.35);margin-left:1px}
+        .exp-time-sub{font-size:18px;font-weight:600;letter-spacing:-.5px;line-height:1}
+        .exp-ap-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.3);margin-left:1px}
+        .exp-row-meta{font-size:10px;color:rgba(255,255,255,.3);margin-top:4px}
+        .exp-row-right{text-align:right;flex-shrink:0}
+        .exp-arr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);margin-bottom:2px}
+        .exp-arr-hero{font-size:14px;font-weight:600}
+        .exp-arr-sub{font-size:13px;font-weight:600}
+        .exp-badge{font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:5px;display:inline-block}
+        .exp-row-div{height:1px;background:rgba(255,255,255,.05);margin:0 10px}
+        .exp-sec-div{height:1px;background:rgba(255,255,255,.07);margin:8px 14px 0}
+        .exp-train-footer{font-size:11px;color:rgba(255,255,255,.3);margin-top:5px}
+        .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.06)}
+        .exp-no-service{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:10px 14px}
+
         /* ── Popup — mobile: bottom sheet, desktop ≥768px: centered modal ── */
         #sp-overlay {
           display: none;
@@ -743,5 +792,142 @@ class SeptaPaoliCard extends HTMLElement {
     }
   }
 }
+
+  // ── Expanded row HTML helpers ─────────────────────────────────────────────
+
+  _expTrainRow(train, type, isHero, nextStation) {
+    const isDelayed = train.delay && train.delay !== 'On time' && train.delay !== 'N/A';
+    const delayed   = isDelayed ? this._calcDelayedArrival(train.arrives, train.delay) : null;
+    const delayMins = isDelayed ? parseInt(train.delay.replace(/[^0-9]/g, '')) : 0;
+    const cardBg     = isDelayed ? 'rgba(239,68,68,.08)' : 'rgba(74,222,128,.07)';
+    const cardBorder = isDelayed ? 'rgba(239,68,68,.35)' : 'rgba(74,222,128,.25)';
+    const clr        = isDelayed ? '#fca5a5' : '#4ade80';
+    const clrStrong  = isDelayed ? '#f87171' : 'white';
+    const badgeBg    = isDelayed ? 'rgba(239,68,68,.2)'  : 'rgba(74,222,128,.15)';
+    const badgeBdr   = isDelayed ? 'rgba(239,68,68,.5)'  : 'rgba(74,222,128,.35)';
+    const badgeTxt   = isDelayed ? `${delayMins}m late`  : 'On Time';
+    const service    = train.isdirect === 'true' ? 'Direct' : 'Local';
+    const trainNum   = train.train && train.train !== '—' ? `Train ${train.train} · ` : '';
+
+    if (type === 'outbound') {
+      const arrTime = delayed ? delayed.time : train.arrives;
+      const arrLbl  = isDelayed ? 'Est. arrives 30th St' : 'Arrives 30th St';
+      const timeClr = isHero ? (isDelayed ? '#fca5a5' : 'white') : (isDelayed ? 'rgba(252,165,165,.8)' : 'rgba(255,255,255,.75)');
+      const rowCls  = isHero ? 'exp-train-row' : 'exp-train-sub';
+      const timeCls = isHero ? 'exp-time-hero' : 'exp-time-sub';
+      const apCls   = isHero ? 'exp-ap' : 'exp-ap-sub';
+      const arrCls  = isHero ? 'exp-arr-hero' : 'exp-arr-sub';
+      const bg      = isHero ? cardBg : (isDelayed ? 'rgba(239,68,68,.06)' : 'rgba(255,255,255,.03)');
+      const bdr     = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.2)' : 'rgba(255,255,255,.07)');
+      const parts   = train.departs.toUpperCase().replace(/\s/g,'');
+      const depNum  = parts.replace('AM','').replace('PM','');
+      const depAp   = parts.includes('PM') ? 'PM' : 'AM';
+      return `<div class="${rowCls}" style="background:${bg};border:1px solid ${bdr}" data-train='${JSON.stringify({...train,extra:train.origin})}' data-type="outbound">
+        <div>
+          ${isHero ? `<div class="exp-row-lbl">Next departure</div>` : ''}
+          <div class="${timeCls}" style="color:${timeClr}">${depNum}<span class="${apCls}">${depAp}</span></div>
+          <div class="exp-row-meta">${trainNum}${service}</div>
+        </div>
+        <div class="exp-row-right">
+          <div class="exp-arr-lbl">${arrLbl}</div>
+          <div class="${arrCls}" style="color:${isDelayed ? '#f87171' : 'white'}">${arrTime}</div>
+          <div class="exp-badge" style="background:${badgeBg};color:${clr};border:1px solid ${badgeBdr}">${badgeTxt}</div>
+        </div>
+      </div>`;
+    } else {
+      // inbound
+      const arrTime = delayed ? delayed.time : train.arrives;
+      const arrParts = arrTime.toUpperCase().replace(/\s/g,'');
+      const arrNum   = arrParts.replace('AM','').replace('PM','');
+      const arrAp    = arrParts.includes('PM') ? 'PM' : 'AM';
+      const arrLbl   = isDelayed ? 'Est. arrival at Paoli' : 'Arrives at Paoli';
+      const rowCls   = isHero ? 'exp-train-row' : 'exp-train-sub';
+      const timeCls  = isHero ? 'exp-time-hero' : 'exp-time-sub';
+      const apCls    = isHero ? 'exp-ap' : 'exp-ap-sub';
+      const arrCls   = isHero ? 'exp-arr-hero' : 'exp-arr-sub';
+      const bg       = isHero ? cardBg : (isDelayed ? 'rgba(239,68,68,.06)' : 'rgba(255,255,255,.03)');
+      const bdr      = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.2)' : 'rgba(255,255,255,.07)');
+      const timeClr  = isHero ? (isDelayed ? '#fca5a5' : 'white') : (isDelayed ? 'rgba(252,165,165,.8)' : 'rgba(255,255,255,.75)');
+      const footer   = isHero && nextStation ? `<div class="exp-train-footer">At ${nextStation}</div>` : '';
+      return `<div class="${rowCls}" style="background:${bg};border:1px solid ${bdr}" data-train='${JSON.stringify({...train,extra:nextStation||'—'})}' data-type="inbound">
+        <div>
+          ${isHero ? `<div class="exp-row-lbl">Next arrival at Paoli</div>` : ''}
+          <div class="${timeCls}" style="color:${timeClr}">${arrNum}<span class="${apCls}">${arrAp}</span></div>
+          <div class="exp-row-meta">${trainNum}${service}</div>
+          ${footer}
+        </div>
+        <div class="exp-row-right">
+          <div class="exp-arr-lbl">Departs 30th St</div>
+          <div class="${arrCls}" style="color:${isDelayed ? '#f87171' : 'white'}">${train.departs}</div>
+          <div class="exp-badge" style="background:${badgeBg};color:${clr};border:1px solid ${badgeBdr}">${badgeTxt}</div>
+        </div>
+      </div>`;
+    }
+  }
+
+  _buildExpandedStyle() {
+    return `
+      :host{display:block}
+      ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0;font-family:var(--primary-font-family,sans-serif)}
+      *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
+      .exp-wrap{border-radius:10px;border:1px solid rgba(255,255,255,.10);overflow:hidden}
+      .exp-card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:9px 14px 6px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+      .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
+      .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
+      .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s}
+      .exp-train-row:active{opacity:.85}
+      .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s}
+      .exp-train-sub:active{opacity:.85}
+      .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
+      .exp-time-hero{font-size:26px;font-weight:600;letter-spacing:-1px;line-height:1}
+      .exp-ap{font-size:13px;font-weight:500;color:rgba(255,255,255,.35);margin-left:1px}
+      .exp-time-sub{font-size:18px;font-weight:600;letter-spacing:-.5px;line-height:1}
+      .exp-ap-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.3);margin-left:1px}
+      .exp-row-meta{font-size:10px;color:rgba(255,255,255,.3);margin-top:4px}
+      .exp-row-right{text-align:right;flex-shrink:0}
+      .exp-arr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);margin-bottom:2px}
+      .exp-arr-hero{font-size:14px;font-weight:600}
+      .exp-arr-sub{font-size:13px;font-weight:600}
+      .exp-badge{font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:5px;display:inline-block}
+      .exp-row-div{height:1px;background:rgba(255,255,255,.05);margin:0 10px}
+      .exp-sec-div{height:1px;background:rgba(255,255,255,.07);margin:8px 14px 0}
+      .exp-train-footer{font-size:11px;color:rgba(255,255,255,.3);margin-top:5px}
+      .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.06)}
+      .exp-no-service{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:10px 14px}
+      .no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.06)}
+      #sp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;box-sizing:border-box;align-items:flex-end;justify-content:center}
+      #sp-popup{background:var(--card-background-color,#1e1e1e);border:1px solid rgba(255,255,255,.12);border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
+      #sp-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 16px}
+      @media(min-width:768px){#sp-overlay{align-items:center;justify-content:center;padding:24px}#sp-popup{max-width:420px;border-radius:16px;border-bottom:1px solid rgba(255,255,255,.12)}#sp-handle{display:none}}
+    `;
+  }
+
+
+  _renderExpanded(outTrains, allInTrains, nextStation, alertFooterHtml) {
+    const outRows = outTrains.map((t, i) =>
+      (i > 0 ? '<div class="exp-row-div"></div>' : '') + this._expTrainRow(t, 'outbound', i === 0, null)
+    ).join('') || `<div class="exp-no-service">No outbound trains</div>`;
+
+    const inRows = allInTrains.map((t, i) =>
+      (i > 0 ? '<div class="exp-row-div"></div>' : '') + this._expTrainRow(t, 'inbound', i === 0, i === 0 ? nextStation : null)
+    ).join('') || `<div class="exp-no-service">No inbound trains</div>`;
+
+    const alertExpHtml = alertFooterHtml.replace('class="no-alert"', 'class="exp-no-alert"');
+
+    return `
+      <div class="exp-wrap">
+        <div class="exp-card-hdr">
+          Paoli / Thorndale
+          <div class="exp-card-hdr-right">Paoli Station</div>
+        </div>
+        <div class="exp-sec-lbl">Outbound → Center City</div>
+        ${outRows}
+        <div class="exp-sec-div"></div>
+        <div class="exp-sec-lbl">Inbound ← Center City</div>
+        ${inRows}
+        ${alertExpHtml}
+      </div>`;
+  }
+
 
 customElements.define('septa-paoli-card', SeptaPaoliCard);

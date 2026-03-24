@@ -596,6 +596,7 @@ views:
       - type: grid
         cards:
           - type: custom:traffic-card
+            expanded: true
             incident_threshold: 10
             hide_to_work_after: 12
             to_work:
@@ -610,9 +611,17 @@ views:
                 label: 21 Beryl Rd
                 route_label: Route 30 W
                 via_label: via Lancaster Ave
+          - type: custom:leave-by-card
+            waze_entity: sensor.commute_to_work
+            station: Paoli Station
+            outbound:
+              - sensor.paoli_outbound_1
+              - sensor.paoli_outbound_2
+              - sensor.paoli_outbound_3
       - type: grid
         cards:
           - type: custom:septa-paoli-card
+            expanded: true
             outbound:
               - sensor.paoli_outbound_1
               - sensor.paoli_outbound_2
