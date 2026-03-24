@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v64
+ * room-controls-card.js  —  v65
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -370,6 +370,7 @@ class RoomControlsCard extends HTMLElement {
     }
 
     /* blinds — status pill */
+    if (room.blinds) body += `<div class="sec-hdr">Blinds</div>`;
     if (room.blinds) {
       const max  = room.blinds.max_position || 100;
       const cs   = this._coverState(room.blinds.entity);
@@ -430,6 +431,7 @@ class RoomControlsCard extends HTMLElement {
     }
 
     /* garage */
+    if (room.garage) body += `<div class="sec-hdr">Garage</div>`;
     if (room.garage) {
       const cs  = this._coverState(room.garage.entity);
       const io  = cs === 'open', ic = cs === 'closed';

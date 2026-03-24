@@ -159,7 +159,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 
 | Card | Folder | Version |
 |------|--------|---------|
-| Room Controls | `cards/room-controls-card/` | v64 |
+| Room Controls | `cards/room-controls-card/` | v65 |
 | Room Buttons | `cards/room-buttons-card/` | v4 |
 | Camera Layout | `cards/camera-layout-card/` | v4 |
 | Technology | `cards/technology-card/` | v13 |

@@ -147,6 +147,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v65 | Added "Blinds" and "Garage" sec-hdr labels above those sections |
 | v64 | Removed "Fans" section header — fan name labels above each pip row are sufficient |
 | v63 | Theme area buttons dim when off: opacity 0.5, lower background and border opacity |
 | v62 | All Lights slider no longer dims when off — opacity removed from initial render and patch cycle |
