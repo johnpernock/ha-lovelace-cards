@@ -344,7 +344,7 @@ class ClockCard extends HTMLElement {
           background: transparent !important;
           box-shadow: none !important;
           border: none !important;
-          padding: 18px 20px;
+          padding: 18px 14px;
           box-sizing: border-box;
         }
 

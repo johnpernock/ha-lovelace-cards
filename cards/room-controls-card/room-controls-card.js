@@ -717,7 +717,7 @@ class RoomControlsCard extends HTMLElement {
   _css() { return `
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
-    .grid{display:grid;gap:8px;padding:8px}
+    .grid{display:grid;gap:8px;padding:8px 14px}
     @media(max-width:767px){.grid{grid-template-columns:1fr!important}}
     .room{border-radius:10px;border:1px solid rgba(255,255,255,.12);overflow:hidden}
     .door-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;margin-left:7px;flex-shrink:0}

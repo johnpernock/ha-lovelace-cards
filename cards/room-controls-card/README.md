@@ -147,6 +147,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v74 | Padding consistency pass — grid side padding normalized to 14px |
 | v72 | Fixed pp-lrow flex-direction was column — changed to row so dot/name/slider/pct/chevron all sit on one horizontal line; dot size 9→11px |
 | v71 | Individual light rows in popup: borders/backgrounds removed; dot indicator (amber=on, grey=off) added left of name; flat single row with divider lines; slider and chevron inline |
 | v72 | Fixed pp-lrow flex-direction was column — changed to row so dot/name/slider/pct/chevron all sit on one horizontal line; dot size 9→11px |

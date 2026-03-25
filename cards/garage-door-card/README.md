@@ -43,6 +43,7 @@ name: Garage
 
 | Version | Changes |
 |---------|---------|
+| v5 | Padding consistency pass — horizontal padding normalized to 14px |
 | v4 | Touch audit: added `-webkit-tap-highlight-color:transparent` to tappable element |
 | v3 | Updated entity ID to `cover.garage_door_door` |
 | v2 | Improved icon set — unique SVG for each state (closed panels, open void, up/down arrows); matched Tesla card button design language |

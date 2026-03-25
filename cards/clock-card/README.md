@@ -58,6 +58,7 @@ today_color: '#60a5fa'
 
 | Version | Changes |
 |---------|---------|
+| v4 | Padding consistency pass — horizontal padding normalized to 14px |
 | v3 | Added calendar popup with month navigation and event dots; added next-event strip |
 | v2 | Added `today_color` option; seconds display refined |
 | v1 | Initial release — clock and date display only |

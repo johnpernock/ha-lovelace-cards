@@ -82,7 +82,7 @@ class GarageDoorCard extends HTMLElement {
         ${CSS_RESET}
         ${CSS_TAPPABLE}
         ${CSS_UNAVAIL}
-        ha-card { padding: 0; }
+        ha-card { padding: 0 14px; }
         .card { border-radius:10px; border:1px solid rgba(255,255,255,.10); overflow:hidden; }
         .action-btn {
           width:100%; border-radius:0; padding:20px 8px 14px; border:none;

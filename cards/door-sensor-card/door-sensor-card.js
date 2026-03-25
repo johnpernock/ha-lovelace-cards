@@ -214,7 +214,7 @@ class DoorSensorCard extends HTMLElement {
           background: transparent !important;
           box-shadow: none !important;
           border: none !important;
-          padding: 0;
+          padding: 0 14px;
           box-sizing: border-box;
           font-family: var(--primary-font-family, sans-serif);
         }
