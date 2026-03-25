@@ -1093,31 +1093,35 @@ class RoomButtonsCard extends HTMLElement {
     });
 
     // ── Preset clicks (color/CT swatches) ────────────────────────────────────
+    // Prefix encoding: 'rbpct-all' = CT all lights, 'rbpcc-all' = color all lights,
+    // 'rbpct-N' = CT for individual light N, 'rbpcc-N' = color for light N.
     popup.querySelectorAll('[data-rb-preset]').forEach(el => {
       el.addEventListener('click', e => {
         e.stopPropagation();
-        const prefix = el.dataset.rbPreset;
-        const idx    = parseInt(el.dataset.idx);
-        const lcfg   = btn.lights;
+        const prefix    = el.dataset.rbPreset;
+        const idx       = parseInt(el.dataset.idx);
+        const lcfg      = btn.lights;
         const masterEnt = lcfg?.entity || btn.entity;
         const indiv     = lcfg?.individuals || [];
+        // All-lights presets: apply to master group + every individual
+        const allEnts   = [masterEnt, ...indiv.map(l => l.entity)];
 
         if (prefix === 'rbpct-all') {
           const p = this._ctPresets()[idx];
-          if (!p) return;
-          [[masterEnt], ...indiv.map(l => [l.entity])].forEach(([eid]) => this._setColorTemp(eid, p.kelvin));
+          if (p) allEnts.forEach(eid => this._setColorTemp(eid, p.kelvin));
         } else if (prefix === 'rbpcc-all') {
           const p = this._colorPresets()[idx];
-          if (!p) return;
-          [[masterEnt], ...indiv.map(l => [l.entity])].forEach(([eid]) => this._setColor(eid, p.rgb));
+          if (p) allEnts.forEach(eid => this._setColor(eid, p.rgb));
         } else if (prefix.startsWith('rbpct-')) {
-          const li = parseInt(prefix.split('-')[1]);
-          const p  = this._ctPresets()[idx];
+          // Individual light color temp — suffix is the indiv array index
+          const li  = parseInt(prefix.split('-')[1]);
+          const p   = this._ctPresets()[idx];
           const eid = indiv[li]?.entity;
           if (p && eid) this._setColorTemp(eid, p.kelvin);
         } else if (prefix.startsWith('rbpcc-')) {
-          const li = parseInt(prefix.split('-')[1]);
-          const p  = this._colorPresets()[idx];
+          // Individual light RGB color
+          const li  = parseInt(prefix.split('-')[1]);
+          const p   = this._colorPresets()[idx];
           const eid = indiv[li]?.entity;
           if (p && eid) this._setColor(eid, p.rgb);
         }
