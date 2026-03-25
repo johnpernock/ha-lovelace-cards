@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v79 | Fix: itog off-state dot `rgba(255,255,255,.45)`, border `0.28`, label `0.65`, bg `0` — all visible on OLED black; _patch path updated to match |
 | v78 | Switch master entities now render tap-to-toggle row instead of brightness slider on both inline and popup views; `mode: toggle\|slider` override on individuals; CSS `.lm-sw-row` added |
 | v77 | Version header corrected — JS was at v76 but resources required v77 due to prior deploy |
 | v76 | Version header corrected — JS was at v75 but resources required v76 due to prior deploy |
@@ -328,6 +329,7 @@ buttons:
 | Version | Changes |
 |---------|---------|
 | v18 | Popup border opacity boosted (rgba 0.12→0.25) for better visibility on OLED/Amoled themes |
+| v18 | Fix: itog off-state dot `rgba(255,255,255,.45)`, border `0.28`, label `0.65`, bg `0` — visible on OLED; optimistic update path matched |
 | v17 | Added `greenhouse` icon to icon set; Solarium button updated from `home` fallback to `greenhouse` |
 | v16 | Yard popup: `theme_block` with area grid (matching lightfan view); `theme_block` config supported on any home button. Basement popup: fans added. `_themeAreaState` helper ported from room-controls-card |
 | v15 | Fix: fan speed detection aligned with room-controls-card — `_fanResolvedSpeeds` now adds +1 for Off pip, `_fanCurrentStep` uses `Math.round((pct/100)*(speeds-1))` matching room-controls exactly; `_fanSpeedPercentages` removed |

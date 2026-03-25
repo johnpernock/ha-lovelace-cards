@@ -653,10 +653,10 @@ class RoomButtonsCard extends HTMLElement {
     if (indiv.length) {
       const btns = indiv.map(l => {
         const lon = this._isOn(l.entity);
-        const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
-        const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.08)';
-        const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
-        const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.35)';
+        const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
+        const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
+        const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.45)';
+        const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
         const nm  = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
         const eid = l.entity.replace(/[^a-z0-9]/g, '_');
         return `<div class="itog" id="rbitog-${eid}" data-action="rb-indiv-tog" data-entity="${l.entity}" style="background:${bg};border:1px solid ${bc}"><div class="itog-dot" style="background:${dc}"></div><div class="itog-lbl" style="color:${lc}">${nm}</div></div>`;
@@ -1097,12 +1097,12 @@ class RoomButtonsCard extends HTMLElement {
         this._call(domain === 'switch' ? 'switch' : 'light', svc, { entity_id: eid }, null);
         // Optimistic visual update
         const lon   = !isOn;
-        el.style.background   = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
-        el.style.borderColor  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.08)';
+        el.style.background   = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
+        el.style.borderColor  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
         const dot = el.querySelector('.itog-dot');
         const lbl = el.querySelector('.itog-lbl');
-        if (dot) dot.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
-        if (lbl) lbl.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.35)';
+        if (dot) dot.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.45)';
+        if (lbl) lbl.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
       });
     });
 

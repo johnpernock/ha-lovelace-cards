@@ -319,6 +319,7 @@ views:
             days_ahead: 14
             max_events: 8
     cards: []
+    theme: Amoled+
   - title: Lights / Fans
     path: lightsfans
     icon: mdi:lightbulb-group
@@ -555,6 +556,7 @@ views:
                   - entity: fan.workshop_demo_fan
                     name: Demo Fan
     cards: []
+    theme: Amoled+
   - type: panel
     path: security
     title: Security
@@ -579,6 +581,7 @@ views:
         grid_options:
           columns: 24
           rows: auto
+    theme: Amoled+
   - title: Commute
     path: commute
     icon: mdi:train-car
@@ -657,6 +660,7 @@ views:
               time_to_full: sensor.magneton_time_charge_complete
               charge_limit: sensor.magneton_charge_limit
     cards: []
+    theme: Amoled+
   - title: Technology
     path: technology
     icon: mdi:desktop-classic
@@ -805,6 +809,7 @@ views:
                   sonarr_recent: sensor.sonarr_recent
                   radarr_recent: sensor.radarr_recent
     cards: []
+    theme: Amoled+
   - title: 3D Printer
     path: 3d-printer
     icon: mdi:printer-3d
@@ -820,6 +825,7 @@ views:
               columns: 24
               rows: auto
     cards: []
+    theme: Amoled+
   - title: Energy
     path: energy
     icon: mdi:lightning-bolt
@@ -843,3 +849,4 @@ views:
             prefix: river_2_pro
             name: River 2 Pro
     cards: []
+    theme: Amoled+

@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v78
+ * room-controls-card.js  —  v79
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -366,10 +366,10 @@ class RoomControlsCard extends HTMLElement {
         if (cfg.individuals?.length) {
           const btns = cfg.individuals.map(l => {
             const lon = this._isOn(l.entity);
-            const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
-            const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.22)';
-            const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
-            const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.6)';
+            const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
+            const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
+            const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.45)';
+            const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
             const nm  = l.name || this._attr(l.entity,'friendly_name') || l.entity.split('.').pop();
             const eid = l.entity.replace(/[^a-z0-9]/g,'_');
             return `<div class="itog" id="itog-${room.id}-${eid}" data-room="${room.id}" data-action="indiv-tog" data-entity="${l.entity}" style="background:${bg};border:1px solid ${bc}"><div class="itog-dot" style="background:${dc}"></div><div class="itog-lbl" style="color:${lc}">${nm}</div></div>`;
@@ -1000,11 +1000,11 @@ class RoomControlsCard extends HTMLElement {
             const lon = this._isOn(l.entity);
             const btn = itogGrid.querySelector(`[data-entity="${l.entity}"]`);
             if (!btn) return;
-            btn.style.background = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
-            btn.style.borderColor = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.08)';
+            btn.style.background = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
+            btn.style.borderColor = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
             const dot2=btn.querySelector('.itog-dot'), lbl2=btn.querySelector('.itog-lbl');
-            if (dot2) dot2.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
-            if (lbl2) lbl2.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.35)';
+            if (dot2) dot2.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.45)';
+            if (lbl2) lbl2.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
           });
         }
         // simplified header count
