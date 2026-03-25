@@ -1,21 +1,12 @@
 wallpanel:
   enabled: true
   hide_toolbar: false
-  hide_toolbar_action_icons: false
-  hide_sidebar: false
-  fullscreen: false
-  # ── Screensaver disabled ───────────────────────────────────────────────────
+  hide_toolbar_action_icons: true
+  hide_sidebar: true
+  fullscreen: true
   idle_time: 0
-  # ── Browser Mod integration ────────────────────────────────────────────────
-  # Setup steps:
-  # 1. Install Browser Mod via HACS
-  # 2. Open the wall display browser → HA sidebar → Browser Mod
-  # 3. Set Browser ID to: dining-room-display  (before hitting Register)
-  # 4. Toggle Register on, clear cache (Ctrl+F5 or hard refresh)
-  # 5. In Browser Mod settings for this browser, enable "Lock user" so it
-  #    never prompts for login again
   profiles:
-    device.dining_room_display:
+    device.browser_mod_ad445bc6_d2c1ddb9:
       enabled: true
       idle_time: 0
 views:
