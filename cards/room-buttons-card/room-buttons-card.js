@@ -730,8 +730,8 @@ class RoomButtonsCard extends HTMLElement {
         const swatchHtml = isSwitch ? '' :
           colors.slice(0, 6).map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
         const isOn  = st.pct > 0;
-        const btnBg = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.02)';
-        const btnBc = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.06)';
+        const btnBg = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,0)';
+        const btnBc = isOn ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.22)';
         const lblClr = isOn ? st.color : 'rgba(255,255,255,.2)';
         return `<div class="theme-area" style="background:${btnBg};border:1px solid ${btnBc};${isOn ? '' : 'opacity:.5'}">
           <div class="theme-area-swatches">${swatchHtml}</div>
@@ -1588,12 +1588,12 @@ class RoomButtonsCard extends HTMLElement {
         .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
         .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
         /* ── Color expand panels ── */
-        .rb-color-sec{padding:7px 0 4px;border-top:1px solid rgba(255,255,255,.06)}
+        .rb-color-sec{padding:7px 0 4px;border-top:1px solid rgba(255,255,255,.22)}
         .rb-color-sec.hidden{display:none}
         .rb-clbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.5);margin-bottom:6px;margin-top:3px}
         .rb-presets{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
         .rb-presets-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px}
-        .rb-preset{flex:1;min-width:0;height:54px;border-radius:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 3px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .rb-preset{flex:1;min-width:0;height:54px;border-radius:7px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,0);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 3px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
         .rb-presets-grid .rb-preset{flex:unset}
         .rb-preset:active{transform:scale(.92)}
         .rb-preset-sel{border-width:1.5px}
@@ -1610,7 +1610,7 @@ class RoomButtonsCard extends HTMLElement {
         .fan-nm-row{padding:0 2px}
         .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
         .fpips{display:flex;gap:4px}
-        .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.22);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.28);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
         .fpip:active{transform:scale(.9)}
         .fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
         .fpip-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2)}
@@ -1631,7 +1631,7 @@ class RoomButtonsCard extends HTMLElement {
         .theme-area-swatch{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 
         /* ── Theme block — simple swatch bar (legacy theme_sensor fallback) ── */
-        .rb-theme-block{margin-bottom:12px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+        .rb-theme-block{margin-bottom:12px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,0)}
         .rb-theme-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
         .rb-theme-name{font-size:13px;font-weight:700;flex:1;min-width:0}
         .rb-theme-sub{font-size:10px;color:rgba(255,255,255,.3)}

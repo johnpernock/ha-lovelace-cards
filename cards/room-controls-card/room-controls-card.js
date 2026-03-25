@@ -315,7 +315,7 @@ class RoomControlsCard extends HTMLElement {
 
   _togHtml(on, elId, action, size) {
     const w=size==='sm'?36:44, h=size==='sm'?24:30, tw=size==='sm'?16:20, tt=size==='sm'?4:5;
-    const bg  = on?'background:rgba(251,191,36,.25);border-color:rgba(251,191,36,.5)':'background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.28)';
+    const bg  = on?'background:rgba(251,191,36,.25);border-color:rgba(251,191,36,.5)':'background:rgba(255,255,255,0);border-color:rgba(255,255,255,.28)';
     const tl  = on?(w-tw-tt)+'px':tt+'px';
     const tbg = on?'#fbbf24':'rgba(255,255,255,.3)';
     const roomId = elId.replace(/^rtog-/,'').replace(/^pp-ltog-/,'');
@@ -509,7 +509,7 @@ class RoomControlsCard extends HTMLElement {
         ? `<div style="width:7px;height:7px;border-radius:50%;background:linear-gradient(90deg,#fb923c 50%,#60a5fa 50%);flex-shrink:0"></div>`
         : `<div style="width:7px;height:7px;border-radius:50%;background:${_isOff ? 'rgba(255,255,255,.2)' : _meta.dot};flex-shrink:0"></div>`;
       const _clr = _isOff ? 'rgba(255,255,255,.10)' : 'rgba(251,146,60,.15)';
-      const _bc  = _isOff ? 'rgba(255,255,255,.07)' : 'rgba(251,146,60,.25)';
+      const _bc  = _isOff ? 'rgba(255,255,255,.22)' : 'rgba(251,146,60,.25)';
       if (_cur != null) {
         const _setHtml = (!_isOff && _set != null)
           ? `<span class="rtp-arr">→</span><span class="rtp-set">${_set}°</span>`
@@ -753,7 +753,7 @@ class RoomControlsCard extends HTMLElement {
     .lm-sw-row{flex:1;display:flex;align-items:center;gap:8px;padding:0 4px;min-width:0;user-select:none}
     .lm-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
     .lm-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
-    .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
+    .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
     .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 2px;}
     .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s}
     .itog:active{transform:scale(.94)}
@@ -768,7 +768,7 @@ class RoomControlsCard extends HTMLElement {
     .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
     .sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);padding:8px 0 2px}
     .fpips{display:flex;gap:4px;flex:1}
-    .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.22);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
+    .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.28);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
     .fpip:active{transform:scale(.9)}
     .fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
     .fpip-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.45)}
@@ -889,10 +889,10 @@ class RoomControlsCard extends HTMLElement {
       const swatchHtml = isSwitch ? '' :
         colors.slice(0,6).map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
       const isOn = st.pct > 0;
-      const btnBg  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.02)';
-      const btnBc  = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.06)';
+      const btnBg  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,0)';
+      const btnBc  = isOn ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.22)';
       const lblClr = isOn ? st.color : 'rgba(255,255,255,.5)';
-      return `<div class="theme-area" id="tarea-${room.id}-${ai}" style="background:${btnBg};border:1px solid ${btnBc};${isOn?'':'opacity:.5'}">
+      return `<div class="theme-area" id="tarea-${room.id}-${ai}" style="background:${btnBg};border:1px solid ${btnBc};${isOn?'':'opacity:.6'}">
         <div class="theme-area-swatches" id="tasw-${room.id}-${ai}">${swatchHtml}</div>
         <div class="theme-area-label" id="tast-${room.id}-${ai}" style="color:${lblClr}">${area.label}</div>
       </div>`;
@@ -936,9 +936,9 @@ class RoomControlsCard extends HTMLElement {
       const swEl  = sr.getElementById(`tasw-${room.id}-${ai}`);
       const isOn  = st.pct > 0;
       if (btnEl) {
-        btnEl.style.background  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.02)';
-        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.06)';
-        btnEl.style.opacity     = isOn ? '' : '0.5';
+        btnEl.style.background  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,0)';
+        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.22)';
+        btnEl.style.opacity     = isOn ? '' : '0.6';
       }
       if (stEl)  { stEl.textContent = area.label; stEl.style.color = isOn ? st.color : 'rgba(255,255,255,.3)'; }
       if (swEl && !isSwitch) {
@@ -960,9 +960,9 @@ class RoomControlsCard extends HTMLElement {
       tog.style.borderColor = 'rgba(251,191,36,.5)';
       if (thumb) { thumb.style.left = (w-tw-tt)+'px'; thumb.style.background = '#fbbf24'; }
     } else {
-      tog.style.background = 'rgba(255,255,255,.06)';
-      tog.style.borderColor = 'rgba(255,255,255,.12)';
-      if (thumb) { thumb.style.left = tt+'px'; thumb.style.background = 'rgba(255,255,255,.3)'; }
+      tog.style.background = 'rgba(255,255,255,0)';
+      tog.style.borderColor = 'rgba(255,255,255,.28)';
+      if (thumb) { thumb.style.left = tt+'px'; thumb.style.background = 'rgba(255,255,255,.45)'; }
     }
   }
 
