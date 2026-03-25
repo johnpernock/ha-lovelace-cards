@@ -1085,6 +1085,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v35 | Fix: restore border:none!important on compact ha-card — HA default was showing through |
 | v34 | UX: remove outer ha-card border on compact/expanded views; remove pills border-top divider (pills have own borders); add 6px padding-top to pills section |
 | v34 | UX: remove outer border from compact view (pills have own borders); remove middle divider between Outbound/Inbound |
 | v33 | Fix: ha-card now has 1.5px .40 border in both compact and expanded views; hero-neutral bg .04→0, border .30→.40 |
