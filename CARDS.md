@@ -323,6 +323,8 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v9 | Fix: duplicate `_buildPopupContent` method removed — second definition was silently overwriting the first, causing `lights:` and `fans:` popup buttons to show empty popups |
+| v8 | Fix: `hasPopup` check now includes `lights` and `fans` keys so custom popup opens correctly for those buttons |
 | v7 | `_patch()` added — button active states, colors, and theme strips update in-place; popup master slider refreshes on hass updates |
 | v6 | New `lights` and `fans` button params — popup now shows master + individual brightness sliders (exact match to lights/fans view) and full-width fan pip dot buttons. Stats moved to bottom. `popup_entities` still works for legacy `toggle` and `cover_group` entries. |
 | v5 | Padding consistency pass — horizontal padding normalized to 14px |
