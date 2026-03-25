@@ -402,7 +402,7 @@ class SeptaPaoliCard extends HTMLElement {
           </div>`;
         }).join('');
 
-        pillsHtml = `<div class="pills" style="border-top:1.5px solid ${dividerColor};">${pills}</div>`;
+        pillsHtml = `<div class="pills" style="padding-top:6px;">${pills}</div>`;
       }
 
       heroOutHtml = `
@@ -472,7 +472,7 @@ class SeptaPaoliCard extends HTMLElement {
             ${statusEl}
           </div>`;
         }).join('');
-        inPillsHtml = `<div class="pills" style="border-top:1.5px solid ${dividerColor};">${pills}</div>`;
+        inPillsHtml = `<div class="pills" style="padding-top:6px;">${pills}</div>`;
       }
 
       heroInHtml = `
@@ -892,7 +892,7 @@ class SeptaPaoliCard extends HTMLElement {
   _buildExpandedStyle() {
     return `
       :host{display:block}
-      ha-card{background:transparent!important;box-shadow:none!important;border:1.5px solid rgba(255,255,255,.40)!important;border-radius:12px;padding:0;font-family:var(--primary-font-family,sans-serif)}
+      ha-card{background:transparent!important;box-shadow:none!important;padding:0;font-family:var(--primary-font-family,sans-serif)}
       *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
       .exp-wrap{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
       .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:space-between}

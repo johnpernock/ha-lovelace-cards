@@ -117,10 +117,10 @@ class TrafficCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
     .card{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
-    .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28)}
+    .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.40)}
     .card-hdr-title{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .updated{font-size:9px;color:rgba(255,255,255,.2)}
-    .divider{height:1px;background:rgba(255,255,255,.07)}
+    .divider{display:none}
 
     /* incident banner */
     .incident{display:flex;align-items:flex-start;gap:9px;padding:8px 14px;background:rgba(248,113,113,.07);border-bottom:1px solid rgba(248,113,113,.15)}

@@ -1085,6 +1085,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v34 | UX: remove outer ha-card border on compact/expanded views; remove pills border-top divider (pills have own borders); add 6px padding-top to pills section |
 | v34 | UX: remove outer border from compact view (pills have own borders); remove middle divider between Outbound/Inbound |
 | v33 | Fix: ha-card now has 1.5px .40 border in both compact and expanded views; hero-neutral bg .04→0, border .30→.40 |
 | v32 | Fix: all inline 1px→1.5px; card/pill/badge/row borders boosted (.25-.35→.55-.65); expanded view row bg→0, bdr .07→.30; slider now gray when off |
@@ -1162,6 +1163,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v18 | Fix: card-hdr border .28→.40; .divider hidden (card-hdr border handles separation) |
 | v18 | Fix: .card-hdr missing border-bottom — added 1.5px rgba(.28) |
 | v17 | UX: removed .dimmed opacity — rows show at full opacity, distinction comes from color not fading |
 | v16 | Fix: delay/On Time badge borders 1px→1.5px; row/section dividers 1px→2px .18/.22 |
@@ -1221,6 +1223,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v11 | UX: card-hdr border .28→.40; more space between header and pills (drive-note padding, row margin 6→8px) |
 | v11 | Fix: row margin/padding +2px; chip borders 1px→1.5px; row bdr colors boosted; 1px→1.5px on rows |
 | v10 | UX: removed opacity:.65 on on-time rows — all rows same opacity, on-time shown via green color |
 | v9 | Fix: on-time row border 1px .2→1.5px .45 |
@@ -1448,6 +1451,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v12 | Fix: .hdr border-bottom .28→.40 — more visible header divider |
 | v12 | Fix: .hdr missing border-bottom — added 1.5px rgba(.28) |
 | v11 | Fix: climate/lock badge borders 1px .3→1.5px .5 |
 | v10 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -1616,6 +1620,7 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v10 | Fix: sbanner header divider always white .40 (removed dynamic color override); boost .35→.40 |
 | v10 | Fix: sbanner inline border-bottom-color .2→.45; CSS fallback .28→.35 |
 | v9 | Fix: sbanner dynamic border-bottom-color .2→.45 |
 | v8 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
