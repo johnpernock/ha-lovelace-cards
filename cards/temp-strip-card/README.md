@@ -60,6 +60,7 @@ sensors:
 
 | Version | Changes |
 |---------|---------|
+| v4 | Padding consistency pass — horizontal padding normalized to 14px |
 | v3 | Added `climate.*` domain support — reads `current_temperature` attribute |
 | v2 | Added `unit` config option; separator lines between cells |
 | v1 | Initial release |

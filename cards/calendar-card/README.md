@@ -95,6 +95,7 @@ google_maps_api_key: YOUR_KEY_HERE
 
 | Version | Changes |
 |---------|---------|
+| v5 | Padding consistency pass — horizontal padding normalized to 14px |
 | v4 | Added event detail popup with location, static map thumbnail, description; graceful fallback when no API key or no location |
 | v3 | Added `show_past_events`, `mobile_expand`, `show_legend` options; pulsing today accent; globally-next event bold highlight |
 | v2 | Multi-calendar support with per-calendar dot colors; countdown badges (today/tmrw/+Nd) |

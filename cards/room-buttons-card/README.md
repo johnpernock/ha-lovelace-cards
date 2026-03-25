@@ -117,6 +117,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v5 | Padding consistency pass — horizontal padding normalized to 14px |
 | v4 | Theme sensor: holiday color strip + name label added to room buttons |
 | v3 | Fixed fan popup speed resolution — now uses `_fanResolvedSpeeds()` helper instead of hardcoded value; matches `room-controls-card` priority logic |
 | v2 | Added `cover_group` popup type with `max_position` support; added `tap_action: toggle` for direct cover control |

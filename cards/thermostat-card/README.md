@@ -66,6 +66,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v6 | Padding consistency pass — horizontal padding normalized to 14px |
 | v5 | Touch audit: added `user-select:none` to tappable elements |
 | v4 | Mode cycling now reads live `hvac_modes` attribute — no longer cycles to unsupported modes |
 | v5 | Touch/mobile audit: added `user-select:none` to tappable elements |
