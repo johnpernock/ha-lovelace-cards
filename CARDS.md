@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v77 | Version header corrected — JS was at v76 but resources required v77 due to prior deploy |
 | v76 | Version header corrected — JS was at v75 but resources required v76 due to prior deploy |
 | v75 | Version header corrected — JS was at v74 but resources required v75 due to prior deploy at v74 |
 | v74 | Padding consistency pass — grid side padding normalized to 14px |
@@ -774,6 +775,7 @@ today_color: '#60a5fa'
 
 | Version | Changes |
 |---------|---------|
+| v7 | Version header corrected — JS was at v6 but resources required v7 due to prior deploy |
 | v6 | Version header corrected — JS was at v5 but resources required v6 due to prior deploy |
 | v5 | `_patch()` added — temperature values update in-place on hass updates |
 | v4 | Padding consistency pass — horizontal padding normalized to 14px |
@@ -923,6 +925,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v13 | Version header corrected — JS was at v12 but resources required v13 due to prior deploy |
 | v12 | Version header corrected — JS was at v11 but resources required v12 due to prior deploy |
 | v11 | Version header corrected — JS was at v10 but resources required v11 due to prior deploy at v10 |
 | v10 | `_patch()` added — banner color, title, and subtitle update in-place |
@@ -1424,6 +1427,7 @@ name: Garage
 
 | Version | Changes |
 |---------|---------|
+| v9 | Version header corrected — JS was at v8 but resources required v9 due to prior deploy |
 | v8 | Version header corrected — JS was at v7 but resources required v8 due to prior deploy |
 | v7 | Version header corrected — JS was at v7 but CARDS.md only had v6 |
 | v6 | `_patch()` added — button color, label, and icon update in-place |
