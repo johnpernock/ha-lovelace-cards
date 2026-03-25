@@ -475,19 +475,22 @@ class RoomButtonsCard extends HTMLElement {
   }
 
   _lightDotColor(id) {
+    // Returns a CSS color representing the light's current color/temperature.
+    // Used to tint the expand chevron to match the light it controls.
     const s = this._entityState(id);
     if (!s || s.state !== 'on') return 'rgba(255,255,255,.2)';
     const rgb = s.attributes.rgb_color;
     if (rgb) return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
     const k = s.attributes.color_temp_kelvin;
     if (k) {
+      // Linear interpolation from candle (~1900K, warm orange) to cool white (6500K)
       const t = Math.max(0, Math.min(1, (k - 1900) / (6500 - 1900)));
       const r = Math.round(255 - t * (255 - 212));
       const g = Math.round(147 + t * (244 - 147));
       const b = Math.round(41  + t * (255 - 41));
       return `rgb(${r},${g},${b})`;
     }
-    return '#fbbf24';
+    return '#fbbf24'; // on but no color info — default amber
   }
 
   _setColorTemp(entityId, kelvin) {

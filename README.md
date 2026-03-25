@@ -105,29 +105,32 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 
 | URL | Type |
 |-----|------|
-| `/local/cards/room-controls-card/room-controls-card.js` | JavaScript Module |
-| `/local/cards/room-buttons-card/room-buttons-card.js` | JavaScript Module |
-| `/local/cards/camera-layout-card/camera-layout-card.js` | JavaScript Module |
-| `/local/cards/technology-card/technology-card.js` | JavaScript Module |
 | `/local/cards/bambu-printer-card/bambu-printer-card.js` | JavaScript Module |
-| `/local/cards/printer-status-card/printer-status-card.js` | JavaScript Module |
-| `/local/cards/weather-card-nws/weather-card-nws.js` | JavaScript Module |
-| `/local/cards/clock-card/clock-card.js` | JavaScript Module |
-| `/local/cards/temp-strip-card/temp-strip-card.js` | JavaScript Module |
-| `/local/cards/door-sensor-card/door-sensor-card.js` | JavaScript Module |
-| `/local/cards/septa-paoli-card/septa-paoli-card.js` | JavaScript Module |
-| `/local/cards/thermostat-card/thermostat-card.js` | JavaScript Module |
-| `/local/cards/tesla-card/tesla-card.js` | JavaScript Module |
 | `/local/cards/calendar-card/calendar-card.js` | JavaScript Module |
-| `/local/cards/garage-door-card/garage-door-card.js` | JavaScript Module |
-| `/local/cards/wallbox-card/wallbox-card.js` | JavaScript Module |
-| `/local/cards/peco-card/peco-card.js` | JavaScript Module |
-| `/local/cards/ecoflow-card/ecoflow-card.js` | JavaScript Module |
-| `/local/cards/now-playing-card/now-playing-card.js` | JavaScript Module |
-| `/local/cards/traffic-card/traffic-card.js` | JavaScript Module |
-| `/local/cards/tesla-commute-card/tesla-commute-card.js` | JavaScript Module |
+| `/local/cards/camera-layout-card/camera-layout-card.js` | JavaScript Module |
 | `/local/cards/charging-card/charging-card.js` | JavaScript Module |
+| `/local/cards/clock-card/clock-card.js` | JavaScript Module |
+| `/local/cards/door-sensor-card/door-sensor-card.js` | JavaScript Module |
+| `/local/cards/ecoflow-card/ecoflow-card.js` | JavaScript Module |
+| `/local/cards/garage-door-card/garage-door-card.js` | JavaScript Module |
+| `/local/cards/leave-by-card/leave-by-card.js` | JavaScript Module |
+| `/local/cards/now-playing-card/now-playing-card.js` | JavaScript Module |
+| `/local/cards/peco-card/peco-card.js` | JavaScript Module |
+| `/local/cards/printer-status-card/printer-status-card.js` | JavaScript Module |
 | `/local/cards/protect-events-card/protect-events-card.js` | JavaScript Module |
+| `/local/cards/room-buttons-card/room-buttons-card.js` | JavaScript Module |
+| `/local/cards/room-controls-card/room-controls-card.js` | JavaScript Module |
+| `/local/cards/septa-paoli-card/septa-paoli-card.js` | JavaScript Module |
+| `/local/cards/technology-card/technology-card.js` | JavaScript Module |
+| `/local/cards/temp-strip-card/temp-strip-card.js` | JavaScript Module |
+| `/local/cards/tesla-card/tesla-card.js` | JavaScript Module |
+| `/local/cards/tesla-commute-card/tesla-commute-card.js` | JavaScript Module |
+| `/local/cards/thermostat-card/thermostat-card.js` | JavaScript Module |
+| `/local/cards/traffic-card/traffic-card.js` | JavaScript Module |
+| `/local/cards/wallbox-card/wallbox-card.js` | JavaScript Module |
+| `/local/cards/weather-card-nws/weather-card-nws.js` | JavaScript Module |
+
+> **Note for Claude:** When listing cards that need resource version bumps, always present them in **alphabetical order** — that is the order they appear in HA's Resources UI (Settings → Dashboards → Resources), which makes it faster to find and update each one.
 | `/local/cards/leave-by-card/leave-by-card.js` | JavaScript Module |
 
 > **Note:** The `shared/` modules do **not** need to be registered. They are imported directly by the card JS files using relative paths.
