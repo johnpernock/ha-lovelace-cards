@@ -1,9 +1,9 @@
 wallpanel:
   enabled: true
   hide_toolbar: false
-  hide_toolbar_action_icons: false
-  hide_sidebar: false
-  fullscreen: false
+  hide_toolbar_action_icons: true
+  hide_sidebar: true
+  fullscreen: true
   idle_time: 0
   profiles:
     device.browser_mod_ad445bc6_d2c1ddb9:
