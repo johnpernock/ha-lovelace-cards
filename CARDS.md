@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v94 | UX: remove border from popup sheet (rcc-sheet) — both mobile and desktop variants |
 | v93 | Remove .room border/border-radius — room cards borderless on Lights/Fans view |
 | v92 | UX: tstat bars 3px .5→4px .80, bg tints removed; inline tadj 34×34 1.5px→44×44 2px; popup tadj 1.5px→2px — all match new thermostat-card style |
 | v91 | Fix: popup master lm-bar track .08→.40/4px→5px; popup individual pp-ltrack same |
@@ -1090,6 +1091,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v40 | Fix: add border:none!important to expanded view ha-card — HA default was showing |
 | v39 | Remove .exp-wrap border/border-radius — expanded view borderless like compact |
 | v38 | UX: on-time compact pills → green tint rgba(74,222,128,.08) bg + .55 border (matches delayed red pill pattern); both outbound and inbound |
 | v38 | UX: small on-time pills get green tint bg .08 + green border .55 (was clear/white); expanded non-hero rows get green/red tint bg .06 and green border .55 |
@@ -1287,6 +1289,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v14 | UX: ha-card now colored by mode (bg+border from MODE_META cardBg/border); remove .sep divider bar; mode-btn border boosted to .45 |
 | v13 | Revert to original layout; tgt-btn updated to 44px height, 2px solid border, transparent bg; mode-btn border 0.5px→1.5px |
 | v12 | Redesign: colored left bar=mode (4px .80), mode pill left of controls, 44×44 2px tadj buttons, no bg tint, outer card border+header divider, matches room-controls tstat style |
 | v11 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |

@@ -1,5 +1,5 @@
 /**
- * thermostat-card.js  —  v13
+ * thermostat-card.js  —  v14
  * Compact Home Assistant Lovelace thermostat card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -101,32 +101,32 @@ class ThermostatCard extends HTMLElement {
       auto: {
         label: 'Auto', split: true,
         dotColor: null,
-        border: 'rgba(251,146,60,0.35)', bg: 'rgba(251,146,60,0.07)', textColor: '#fb923c',
+        border: 'rgba(251,146,60,0.45)', bg: 'rgba(251,146,60,0.07)', cardBg: 'rgba(251,146,60,0.12)', textColor: '#fb923c',
       },
       heat: {
         label: 'Heat', split: false,
         dotColor: '#fb923c',
-        border: 'rgba(251,146,60,0.35)', bg: 'rgba(251,146,60,0.07)', textColor: '#fb923c',
+        border: 'rgba(251,146,60,0.45)', bg: 'rgba(251,146,60,0.07)', cardBg: 'rgba(251,146,60,0.12)', textColor: '#fb923c',
       },
       cool: {
         label: 'Cool', split: false,
         dotColor: '#60a5fa',
-        border: 'rgba(96,165,250,0.35)', bg: 'rgba(96,165,250,0.07)', textColor: '#60a5fa',
+        border: 'rgba(96,165,250,0.45)', bg: 'rgba(96,165,250,0.07)', cardBg: 'rgba(96,165,250,0.12)', textColor: '#60a5fa',
       },
       fan_only: {
         label: 'Fan', split: false,
         dotColor: '#2dd4bf',
-        border: 'rgba(45,212,191,0.35)', bg: 'rgba(45,212,191,0.07)', textColor: '#2dd4bf',
+        border: 'rgba(45,212,191,0.45)', bg: 'rgba(45,212,191,0.07)', cardBg: 'rgba(45,212,191,0.12)', textColor: '#2dd4bf',
       },
       dry: {
         label: 'Dry', split: false,
         dotColor: '#fbbf24',
-        border: 'rgba(251,191,36,0.35)', bg: 'rgba(251,191,36,0.07)', textColor: '#fbbf24',
+        border: 'rgba(251,191,36,0.45)', bg: 'rgba(251,191,36,0.07)', cardBg: 'rgba(251,191,36,0.12)', textColor: '#fbbf24',
       },
       off: {
         label: 'Off', split: false,
         dotColor: 'rgba(255,255,255,0.6)',
-        border: 'rgba(255,255,255,0.22)', bg: 'rgba(255,255,255,0.04)', textColor: 'rgba(255,255,255,0.45)',
+        border: 'rgba(255,255,255,0.35)', bg: 'rgba(255,255,255,0.04)', cardBg: 'rgba(255,255,255,0.06)', textColor: 'rgba(255,255,255,0.45)',
       },
     };
   }
@@ -213,6 +213,11 @@ class ThermostatCard extends HTMLElement {
 
     if (cur) cur.textContent = curTemp;
     if (tgt) tgt.textContent = tgtTemp;
+    const card = this.shadowRoot.getElementById('tc-card');
+    if (card) {
+      card.style.background  = meta.cardBg;
+      card.style.borderColor = meta.border;
+    }
     if (mode) {
       mode.style.background   = meta.bg;
       mode.style.borderColor  = meta.border;
@@ -253,12 +258,14 @@ class ThermostatCard extends HTMLElement {
         :host { display: block; }
 
         ha-card {
-          background: transparent !important;
           box-shadow: none !important;
-          border: none !important;
           padding: 12px 14px 10px;
           box-sizing: border-box;
           font-family: var(--primary-font-family, sans-serif);
+          border-radius: 12px;
+          border-width: 1.5px;
+          border-style: solid;
+          transition: background 0.3s, border-color 0.3s;
         }
 
         .room {
@@ -296,12 +303,6 @@ class ThermostatCard extends HTMLElement {
           margin-left: 2px;
         }
 
-        .sep {
-          width: 28px;
-          height: 1px;
-          background: var(--divider-color, rgba(255,255,255,0.1));
-          margin: 8px auto;
-        }
 
         .tgt-row {
           display: flex;
@@ -407,7 +408,7 @@ class ThermostatCard extends HTMLElement {
     }
       </style>
 
-      <ha-card>
+      <ha-card id="tc-card" style="background:${meta.cardBg};border-color:${meta.border}">
         <div class="room">${name}</div>
 
         ${unavail ? `<div class="unavail">unavailable</div>` : `
@@ -416,9 +417,6 @@ class ThermostatCard extends HTMLElement {
             <span class="cur-temp">${curTemp}</span>
             <span class="cur-unit">${unit}</span>
           </div>
-
-          <div class="sep"></div>
-
           <div class="tgt-row">
             <button class="tgt-btn" id="tc-down" aria-label="Decrease target temperature">−</button>
             <span class="tgt-temp">${tgtTemp}</span>

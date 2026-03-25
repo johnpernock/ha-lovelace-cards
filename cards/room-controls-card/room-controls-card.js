@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v93
+ * room-controls-card.js  —  v94
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -1194,12 +1194,11 @@ class RoomControlsCard extends HTMLElement {
           align-items:flex-end;justify-content:center;pointer-events:all}
         .rcc-overlay.open{display:flex}
         @media(min-width:768px){.rcc-overlay{align-items:center;justify-content:center;padding:24px}}
-        .rcc-sheet{background:#0d0d0d;border:1.5px solid rgba(255,255,255,.40);
-          border-radius:16px 16px 0 0;border-bottom:none;padding:0 0 16px;overflow-y:auto;
+        .rcc-sheet{background:#0d0d0d;
+          border-radius:16px 16px 0 0;border:none;padding:0 0 16px;overflow-y:auto;
           max-height:88vh;width:100%;max-width:100%;touch-action:pan-y;overscroll-behavior:contain;
           font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px}
-        @media(min-width:768px){.rcc-sheet{max-width:440px;border-radius:16px;
-          border-bottom:1.5px solid rgba(255,255,255,.40);max-height:80vh}}
+        @media(min-width:768px){.rcc-sheet{max-width:440px;border-radius:16px;border:none;max-height:80vh}}
         .rcc-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.15);margin:12px auto 8px}
         @media(min-width:768px){.rcc-handle{display:none}}
         *{box-sizing:border-box;margin:0;padding:0;color:inherit}
