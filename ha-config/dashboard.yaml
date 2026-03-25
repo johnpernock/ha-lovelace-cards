@@ -3,7 +3,6 @@ views:
     path: home
     icon: mdi:home
     type: sections
-    theme: Amoled+
     max_columns: 3
     sections:
       - type: grid
@@ -318,7 +317,6 @@ views:
     path: lightsfans
     icon: mdi:lightbulb-group
     type: sections
-    theme: Amoled+
     max_columns: 3
     sections:
       - type: grid
@@ -579,7 +577,6 @@ views:
     path: commute
     icon: mdi:train-car
     type: sections
-    theme: Amoled+
     max_columns: 3
     sections:
       - type: grid
@@ -658,7 +655,6 @@ views:
     path: technology
     icon: mdi:desktop-classic
     type: sections
-    theme: Amoled+
     max_columns: 3
     sections:
       - type: grid
@@ -807,7 +803,6 @@ views:
     path: 3d-printer
     icon: mdi:printer-3d
     type: sections
-    theme: Amoled+
     max_columns: 2
     sections:
       - type: grid
@@ -823,7 +818,6 @@ views:
     path: energy
     icon: mdi:lightning-bolt
     type: sections
-    theme: Amoled+
     max_columns: 3
     sections:
       - type: grid
