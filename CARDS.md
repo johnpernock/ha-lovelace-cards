@@ -618,6 +618,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v21 | Fix: network row bg .05→0, WiFi row bg→0, chip dots 7px→9px, disk temp border 1px .1→1.5px .28 |
 | v20 | Low-DPI: spark baseline stroke-width 1→1.5, opacity .2→.35 |
 | v19 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v18 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
@@ -688,6 +689,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v11 | Fix: status banner bg .05→0, border-bottom 1px .1→1.5px .45 |
 | v10 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v9 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v8 | Light mode: CSS vars on border/header; @media light override block; fan pip/itog CSS normalized |
@@ -1493,6 +1495,7 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
+| v10 | Fix: banner bg .04→0, border-bottom-color .12→.45 |
 | v9 | Low-DPI: idle dot 7px→9px, opacity .55→.75 |
 | v8 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v7 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
@@ -1590,6 +1593,7 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v9 | Fix: sbanner dynamic border-bottom-color .2→.45 |
 | v8 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v7 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v6 | Light mode: CSS vars on border/header/stat-val; @media light override; dynamic bg→0/border→.35; header divider .07→.15 |
@@ -1641,6 +1645,7 @@ name: PECO Electric
 
 | Version | Changes |
 |---------|---------|
+| v8 | Fix: sbanner border-bottom 1px .1→1.5px .35 |
 | v7 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v6 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v5 | Light mode: CSS vars on border; @media light override block |

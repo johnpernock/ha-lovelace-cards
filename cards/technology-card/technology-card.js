@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v20
+ * technology-card.js  —  v21
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -229,19 +229,19 @@ class TechnologyCard extends HTMLElement {
     const guest = this._val(this._e('clients_guest')) || '—';
     return `<div class="card">
       <div class="card-hdr">Network</div>
-      <div class="big-row" style="background:rgba(${wC},.05);border-bottom:1px solid rgba(${wC},.1)">
+      <div class="big-row" style="background:rgba(255,255,255,0);border-bottom:1.5px solid rgba(${wC},.45)">
         <div class="big-dot sdot ${wDot}" style="width:16px;height:16px"></div>
         <div><div class="big-label" style="color:${wLbl}">Internet</div><div class="big-sub">${wTxt}</div></div>
       </div>
-      <div class="big-row" style="background:rgba(${aC},.05);border-bottom:1.5px solid rgba(255,255,255,.18)">
+      <div class="big-row" style="background:rgba(255,255,255,0);border-bottom:1.5px solid rgba(255,255,255,.30)">
         <div class="big-dot sdot ${aDot}" style="width:16px;height:16px"></div>
         <div><div class="big-label" style="color:${aLbl}">WiFi</div><div class="big-sub">${aTxt}</div></div>
       </div>
       <div class="sec" style="padding-top:10px">
         <div class="chips">
-          <div class="chip"><span class="sdot green" style="width:7px;height:7px;margin-right:2px"></span><span class="chip-lbl">Main</span><span class="chip-val">${main}</span></div>
-          <div class="chip"><span class="sdot amber" style="width:7px;height:7px;margin-right:2px"></span><span class="chip-lbl">IoT</span><span class="chip-val">${iot}</span></div>
-          <div class="chip"><span class="sdot" style="width:7px;height:7px;margin-right:2px;background:#a78bfa"></span><span class="chip-lbl">Guest</span><span class="chip-val">${guest}</span></div>
+          <div class="chip"><span class="sdot green" style="width:9px;height:9px;margin-right:2px"></span><span class="chip-lbl">Main</span><span class="chip-val">${main}</span></div>
+          <div class="chip"><span class="sdot amber" style="width:9px;height:9px;margin-right:2px"></span><span class="chip-lbl">IoT</span><span class="chip-val">${iot}</span></div>
+          <div class="chip"><span class="sdot" style="width:9px;height:9px;margin-right:2px;background:#a78bfa"></span><span class="chip-lbl">Guest</span><span class="chip-val">${guest}</span></div>
         </div>
       </div>
     </div>`;
@@ -511,9 +511,9 @@ class TechnologyCard extends HTMLElement {
       if (t == null) return '';
       const hot = t > 113;
       const c  = hot ? '#f87171' : 'rgba(255,255,255,.5)';
-      const bc = hot ? 'rgba(239,68,68,.3)' : 'rgba(255,255,255,.1)';
+      const bc = hot ? 'rgba(239,68,68,.3)' : 'rgba(255,255,255,.28)';
       const bg = hot ? 'rgba(239,68,68,.08)' : 'rgba(255,255,255,0)';
-      return `<div style="display:flex;align-items:center;gap:4px;padding:4px 7px;border-radius:6px;border:1px solid ${bc};background:${bg};flex-shrink:0">
+      return `<div style="display:flex;align-items:center;gap:4px;padding:4px 7px;border-radius:6px;border:1.5px solid ${bc};background:${bg};flex-shrink:0">
         <span style="font-size:10px;color:rgba(255,255,255,.35);font-weight:600">${d.name}</span>
         <span style="font-size:11px;font-weight:700;color:${c}">${Math.round(t)}°F</span>
       </div>`;
