@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js  —  v7
+ * weather-card-nws.js  —  v8
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -53,6 +53,7 @@ class WeatherCardUnified extends HTMLElement {
   }
 
   set hass(hass) {
+    const prev = this._hass;
     this._hass = hass;
     if (!this._subscribed) {
       this._subscribed = true;
@@ -62,7 +63,8 @@ class WeatherCardUnified extends HTMLElement {
       this._subscribedHourly = true;
       this._subscribeHourly();
     }
-    this._render();
+    if (!this.shadowRoot.querySelector('.cur') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   disconnectedCallback() {
@@ -312,6 +314,65 @@ class WeatherCardUnified extends HTMLElement {
   }
 
   // ── Main card render ──────────────────────────────────────────────────────────
+
+  _patch() {
+    if (!this._config || !this._hass) return;
+    const entity = this._hass.states[this._config.entity];
+    if (!entity) { this._render(); return; }
+
+    const attr      = entity.attributes;
+    const state     = entity.state;
+    const temp      = attr.temperature;
+    const feelsLike = attr.apparent_temperature ?? attr.feels_like ?? attr.wind_chill ?? null;
+    const tempUnit  = attr.temperature_unit || this._config.unit || '°F';
+    const windSpeed = attr.wind_speed;
+    const windDir   = this._compass(attr.wind_bearing);
+    const windUnit  = attr.wind_speed_unit || attr.wind_speed_units || 'mph';
+    const alert     = this._getAlert();
+    const { svg: mainSvg, color: mainColor } = this._condition(state);
+
+    // Temperature
+    const tempEl = this.shadowRoot.querySelector('.temp');
+    if (tempEl) tempEl.textContent = temp != null ? `${this._fmt(temp)}${tempUnit}` : '—';
+
+    // Condition icon + text
+    const icoEl  = this.shadowRoot.querySelector('.ico');
+    const condEl = this.shadowRoot.querySelector('.cond');
+    if (icoEl)  icoEl.innerHTML = `<svg ...>${mainSvg}</svg>`;
+    if (condEl) { condEl.textContent = state.replace(/_/g,' '); condEl.style.color = mainColor; }
+
+    // Feels like
+    const feelsEl = this.shadowRoot.querySelector('.feels span');
+    if (feelsEl && feelsLike != null) feelsEl.textContent = `${this._fmt(feelsLike)}${tempUnit}`;
+
+    // Wind
+    const windEl = this.shadowRoot.querySelector('.wind-val');
+    if (windEl && windSpeed != null) windEl.textContent = `${Math.round(windSpeed)} ${windUnit} ${windDir}`;
+
+    // Alert banner — show/hide
+    const alertEl = this.shadowRoot.querySelector('.alert');
+    const hasAlert = !!alert;
+    if (hasAlert && !alertEl) { this._render(); return; }  // structure change
+    if (!hasAlert && alertEl) { this._render(); return; }
+    if (alertEl && alert) alertEl.querySelector('span') && (alertEl.querySelector('span').textContent = alert);
+
+    // Forecast strip (forecast data comes from subscription, update separately)
+    const forecast = this._forecast || [];
+    const fcstEl   = this.shadowRoot.querySelector('.fcst');
+    if (fcstEl && forecast.length) {
+      fcstEl.innerHTML = forecast.map((day, i) => {
+        const hi = day.temperature ?? null;
+        const lo = day.templow ?? day.temperature_low ?? null;
+        const { svg, color } = this._condition(day.condition || state);
+        return `<div class="dc">
+          <div class="dn">${this._dayName(day.datetime, i)}</div>
+          <div class="di" style="color:${color}">${svg}</div>
+          <div class="dhi">${this._fmt(hi)}°</div>
+          ${lo != null ? `<div class="dlo">${this._fmt(lo)}°</div>` : ''}
+        </div>`;
+      }).join('');
+    }
+  }
 
   _render() {
     if (!this._config || !this._hass) return;

@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v6
+ * traffic-card.js  —  v7
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -47,8 +47,10 @@ class TrafficCard extends HTMLElement {
   }
 
   set hass(h) {
+    const prev = this._hass;
     this._hass = h;
-    this._render();
+    if (!this.shadowRoot.querySelector('.card') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return 4; }
@@ -315,6 +317,48 @@ class TrafficCard extends HTMLElement {
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
+  _patch() {
+    if (!this._config.to_work) return;
+    const cfg       = this._config;
+    const threshold = cfg.incident_threshold || 10;
+
+    const toWorkData = this._routeData(cfg.to_work.entity, cfg.to_work.route_label);
+    const homeRoutes = (cfg.home_routes || []).map(r => ({
+      cfg: r,
+      data: this._routeData(r.entity, r.route_label),
+    }));
+
+    // Check if incident state changed — if so, full re-render (structure changes)
+    const homeIncident = this._detectIncident(homeRoutes, threshold);
+    const hadIncident  = !!this.shadowRoot.querySelector('.incident');
+    if (!!homeIncident !== hadIncident) { this._render(); return; }
+
+    // Update to-work time
+    const twEl = this.shadowRoot.querySelector('.tw-time');
+    if (twEl && toWorkData) twEl.textContent = `${toWorkData.current} min`;
+    const twDelay = this.shadowRoot.querySelector('.tw-delay');
+    if (twDelay && toWorkData) {
+      twDelay.textContent = toWorkData.delay > 0 ? `+${toWorkData.delay} min` : 'On time';
+      twDelay.style.color = toWorkData.delay > 0 ? '#f87171' : '#4ade80';
+    }
+
+    // Update home route times
+    homeRoutes.forEach((r, i) => {
+      const timeEl  = this.shadowRoot.querySelector(`.hr-time-${i}`);
+      const delayEl = this.shadowRoot.querySelector(`.hr-delay-${i}`);
+      if (timeEl  && r.data) timeEl.textContent  = `${r.data.current} min`;
+      if (delayEl && r.data) {
+        delayEl.textContent = r.data.delay > 0 ? `+${r.data.delay} min` : 'On time';
+        delayEl.style.color = r.data.delay > 0 ? '#f87171' : '#4ade80';
+      }
+    });
+
+    // Update last-updated timestamp
+    const allUpdated = [toWorkData?.updated, ...homeRoutes.map(r => r.data?.updated)].filter(Boolean).sort().pop();
+    const updEl = this.shadowRoot.querySelector('.last-upd');
+    if (updEl) updEl.textContent = this._fmtUpdated(allUpdated);
+  }
+
   _render() {
     if (!this._config.to_work) return;
     if (this._config.expanded) { this._renderExpanded(); return; }

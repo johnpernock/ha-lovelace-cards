@@ -1,5 +1,5 @@
 /**
- * temp-strip-card.js  —  v4
+ * temp-strip-card.js  —  v5
  * A single-row temperature strip for Home Assistant Lovelace.
  * Shows sensors in one compact bar — abbr above, value below.
  *
@@ -63,8 +63,10 @@ class TempStripCard extends HTMLElement {
   }
 
   set hass(hass) {
+    const prev = this._hass;
     this._hass = hass;
-    this._render();
+    if (!this.shadowRoot.querySelector('.strip') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return 1; }
@@ -83,18 +85,32 @@ class TempStripCard extends HTMLElement {
     return isNaN(v) ? null : Math.round(v);
   }
 
+
+  _patch() {
+    if (!this._config.sensors) return;
+    const unit = this._config.unit || '°F';
+    this._config.sensors.forEach((s, i) => {
+      const el = this.shadowRoot.querySelector(`.cell-${i} .temp`);
+      if (!el) return;
+      const temp = this._readTemp(s.entity);
+      el.innerHTML = temp != null
+        ? `${temp}<span class="unit">${unit}</span>`
+        : `<span class="na">—</span>`;
+    });
+  }
+
   _render() {
     if (!this._config.sensors) return;
 
     const unit    = this._config.unit || '°F';
     const sensors = this._config.sensors;
 
-    const cellsHtml = sensors.map(s => {
+    const cellsHtml = sensors.map((s, i) => {
       const temp    = this._readTemp(s.entity);
       const display = temp != null
         ? `${temp}<span class="unit">${unit}</span>`
         : `<span class="na">—</span>`;
-      return `<div class="cell">
+      return `<div class="cell cell-${i}">
         <div class="abbr">${s.abbr || '?'}</div>
         <div class="temp">${display}</div>
       </div>`;

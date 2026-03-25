@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v13
+ * technology-card.js  —  v14
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -26,7 +26,9 @@ class TechnologyCard extends HTMLElement {
   }
 
   set hass(h) {
+    const prev = this._hass;
     this._hass = h;
+    // Update speedtest history buffer first
     ['speedtest_download','speedtest_upload'].forEach(k => {
       const id = this._e(k);
       if (!id) return;
@@ -36,7 +38,8 @@ class TechnologyCard extends HTMLElement {
       const arr = this._history[id];
       if (!arr.length || arr[arr.length-1] !== v) { arr.push(v); if (arr.length > 20) arr.shift(); }
     });
-    this._render();
+    if (!this.shadowRoot.querySelector('ha-card') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return 3; }
@@ -525,6 +528,24 @@ class TechnologyCard extends HTMLElement {
         </div>` : ''}
       </div>
     </div>`;
+  }
+
+  _patch() {
+    if (!this._config.section) return;
+    const map = {
+      network:'_buildNetwork', speed:'_buildSpeed', ink:'_buildInk',
+      controls:'_buildControls', access_points:'_buildAccessPoints',
+      services:'_buildServices', recently_added:'_buildRecentlyAdded',
+      immich:'_buildImmich', storage:'_buildStorage',
+      server_health:'_buildServerHealth',
+    };
+    const method = map[this._config.section];
+    if (!method) return;
+    const inner = this[method]();
+    const haCard = this.shadowRoot.querySelector('ha-card');
+    if (!haCard) { this._render(); return; }
+    haCard.innerHTML = inner;
+    this._listen();
   }
 
   _render() {

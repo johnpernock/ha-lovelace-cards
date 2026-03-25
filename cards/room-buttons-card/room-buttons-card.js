@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v6
+ * room-buttons-card.js  —  v7
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -130,8 +130,10 @@ class RoomButtonsCard extends HTMLElement {
   }
 
   set hass(hass) {
+    const prev = this._hass;
     this._hass = hass;
-    this._render();
+    if (!this.shadowRoot.querySelector('.grid') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return Math.ceil(this._config.buttons?.length / 2) || 3; }
@@ -441,6 +443,60 @@ class RoomButtonsCard extends HTMLElement {
       bubbles: true, composed: true,
       detail: { entityId },
     }));
+  }
+
+  _patch() {
+    if (!this._config.buttons) return;
+    this._config.buttons.forEach((btn, i) => {
+      const el = this.shadowRoot.getElementById(`rbtn-${i}`);
+      if (!el) return;
+      const t = this._theme(btn);
+      el.style.background   = t.bg;
+      el.style.borderColor  = t.border;
+      el.disabled           = !t.canAct;
+      el.className          = `room-btn ${t.canAct ? 'can-act' : 'btn-disabled'}`;
+
+      const nameEl  = el.querySelector('.btn-name');
+      const stateEl = el.querySelector('.btn-state');
+      const icoEl   = el.querySelector('.btn-icon');
+      if (nameEl)  nameEl.style.color  = t.nameColor;
+      if (stateEl) { stateEl.textContent = t.stateLabel; stateEl.style.color = t.stateColor; }
+      if (icoEl)   icoEl.style.color   = t.iconColor;
+
+      // Theme strip — update colors
+      if (btn.theme_sensor) {
+        const sensor = this._entityState(btn.theme_sensor);
+        const theme  = sensor?.state?.trim() || 'Default';
+        const attrs  = sensor?.attributes || {};
+        const colors = attrs.all_outdoor_colors || [];
+        const isHol  = attrs.is_holiday === true || theme !== 'Default';
+        const strip  = el.querySelector('.btn-theme-strip');
+        const lbl    = el.querySelector('.btn-theme-name');
+        if (strip && isHol && colors.length) {
+          strip.innerHTML = colors.map(c => `<div style="flex:1;background:${c}"></div>`).join('');
+        }
+        if (lbl && isHol) {
+          lbl.textContent = `${attrs.emoji || ''} ${theme}`;
+          lbl.style.color  = attrs.accent || 'rgba(255,255,255,.5)';
+        }
+      }
+    });
+    // If popup is open, refresh its values too
+    if (this._popupOpen && this._activeBtn) {
+      const masterWrap = this.shadowRoot.querySelector('[data-action="rb-master-drag"]');
+      if (!masterWrap) return;
+      const btn    = this._activeBtn;
+      const lcfg   = btn.lights;
+      if (!lcfg) return;
+      const on     = this._isOn(lcfg.entity || btn.entity);
+      const avg    = this._brightness(lcfg.entity || btn.entity) ?? (on ? 100 : 0);
+      const fill   = this.shadowRoot.getElementById('rbmf');
+      const thumb  = this.shadowRoot.getElementById('rbmt');
+      const pct    = this.shadowRoot.getElementById('rbmpct');
+      if (fill)  fill.style.width  = on ? avg + '%' : '0%';
+      if (thumb) thumb.style.left  = on ? Math.min(avg, 96) + '%' : '0%';
+      if (pct)   pct.textContent   = on ? avg + '%' : '';
+    }
   }
 
   // ── Helpers for new lights/fans popup ────────────────────────────────────────

@@ -158,29 +158,29 @@ Full documentation for all cards — config params, entity reference, and change
 | Card | Folder | Version |
 |------|--------|---------|
 | Room Controls | `cards/room-controls-card/` | v74 |
-| Room Buttons | `cards/room-buttons-card/` | v6 |
+| Room Buttons | `cards/room-buttons-card/` | v7 |
 | Camera Layout | `cards/camera-layout-card/` | v5 |
-| Technology | `cards/technology-card/` | v13 |
-| Bambu Printer | `cards/bambu-printer-card/` | v3 |
-| Printer Status | `cards/printer-status-card/` | v1 |
-| Weather (NWS) | `cards/weather-card-nws/` | v7 |
+| Technology | `cards/technology-card/` | v14 |
+| Bambu Printer | `cards/bambu-printer-card/` | v4 |
+| Printer Status | `cards/printer-status-card/` | v2 |
+| Weather (NWS) | `cards/weather-card-nws/` | v8 |
 | Clock | `cards/clock-card/` | v4 |
-| Temp Strip | `cards/temp-strip-card/` | v4 |
-| Door Sensors | `cards/door-sensor-card/` | v9 |
-| SEPTA Paoli | `cards/septa-paoli-card/` | v24 |
-| Thermostat | `cards/thermostat-card/` | v6 |
-| Tesla | `cards/tesla-card/` | v12 |
+| Temp Strip | `cards/temp-strip-card/` | v5 |
+| Door Sensors | `cards/door-sensor-card/` | v10 |
+| SEPTA Paoli | `cards/septa-paoli-card/` | v25 |
+| Thermostat | `cards/thermostat-card/` | v7 |
+| Tesla | `cards/tesla-card/` | v13 |
 | Calendar | `cards/calendar-card/` | v5 |
-| Garage Door ✦ | `cards/garage-door-card/` | v5 |
+| Garage Door ✦ | `cards/garage-door-card/` | v6 |
 | Wallbox | `cards/wallbox-card/` | v3 |
 | PECO Energy | `cards/peco-card/` | v3 |
 | Ecoflow | `cards/ecoflow-card/` | v3 |
-| Now Playing | `cards/now-playing-card/` | v3 |
-| Traffic (Commute) | `cards/traffic-card/` | v6 |
+| Now Playing | `cards/now-playing-card/` | v4 |
+| Traffic (Commute) | `cards/traffic-card/` | v7 |
 | Tesla Commute | `cards/tesla-commute-card/` | v4 |
 | Charging | `cards/charging-card/` | v2 |
 | Protect Events ✦ | `cards/protect-events-card/` | v1.1 |
-| Leave By ✦ | `cards/leave-by-card/` | v3 |
+| Leave By ✦ | `cards/leave-by-card/` | v4 |
 
 ✦ = fully migrated to shared modules (ha-utils, ha-styles, ha-popup)
 
@@ -231,6 +231,7 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **Performance audit — `_patch()` added to all 24 cards.** Every card now separates initial render from incremental updates. Cards that were fully rebuilding their shadow DOM on every HA state push — `thermostat-card`, `door-sensor-card`, `now-playing-card`, `bambu-printer-card`, `traffic-card`, `tesla-card`, `room-buttons-card`, `technology-card`, `temp-strip-card`, `garage-door-card`, `printer-status-card` — now update only changed values in-place. `septa-paoli-card` set hass fixed to not double-render alongside its 60s interval. `leave-by-card` fixed to not call `_render()` from both `set hass` and the interval simultaneously. `weather-card-nws` patches inline values and forecast strip without rebuilding the full style block. |
 | Mar 2026 | **room-buttons-card v6 — lights/fans popup matches lights & fans view.** Home view room buttons now open a full-featured popup with master brightness slider + individual light sliders (exact `pp-light` pattern from room-controls-card) and fan pip dot buttons (exact `fpip` pattern). Stats moved to bottom. Dashboard `buttons` config updated with `lights` and `fans` for all 12 room buttons. |
 | Mar 2026 | **Padding consistency pass.** `room-controls-card` v74, `clock-card` v4, `door-sensor-card` v9, `garage-door-card` v5, `weather-card-nws` v7, `calendar-card` v5, `thermostat-card` v6, `temp-strip-card` v4 — all horizontal padding normalized to 14px. |
 | Mar 2026 | **room-controls-card v71–v73 — individual lights popup polish.** Flat rows with uppercase name label above slider, color dot indicator, gap spacing (no dividers), live patch on every hass update. |

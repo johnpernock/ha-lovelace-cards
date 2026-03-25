@@ -1,5 +1,5 @@
 /**
- * thermostat-card.js  —  v6
+ * thermostat-card.js  —  v7
  * Compact Home Assistant Lovelace thermostat card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -60,8 +60,10 @@ class ThermostatCard extends HTMLElement {
   }
 
   set hass(hass) {
+    const prev = this._hass;
     this._hass = hass;
-    this._render();
+    if (!this.shadowRoot.querySelector('.cur-temp') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return 3; }
@@ -192,6 +194,39 @@ class ThermostatCard extends HTMLElement {
   }
 
   // ── Render ───────────────────────────────────────────────────────────────────
+
+  _patch() {
+    const e       = this._entity();
+    const unavail = !e || e.state === 'unavailable';
+    if (unavail) { this._render(); return; }  // unavail → visible change in structure, re-render
+    const curTemp = this._fmt(this._attr('current_temperature'));
+    const tgtTemp = this._fmt(this._attr('temperature') ?? this._attr('target_temp_high'));
+    const currentMode = (e?.state || 'off').toLowerCase();
+    const meta        = this._meta(currentMode);
+    const supported   = this._supportedModes();
+    const canCycle    = supported.length > 1;
+
+    const cur = this.shadowRoot.querySelector('.cur-temp');
+    const tgt = this.shadowRoot.querySelector('.tgt-temp');
+    const mode = this.shadowRoot.getElementById('tc-mode');
+    const dot  = mode?.querySelector('.mode-dot-inner');
+
+    if (cur) cur.textContent = curTemp;
+    if (tgt) tgt.textContent = tgtTemp;
+    if (mode) {
+      mode.style.background   = meta.bg;
+      mode.style.borderColor  = meta.border;
+      mode.className = `mode-btn${canCycle ? ' can-cycle' : ''}`;
+      const txt = mode.querySelector('.mode-text');
+      if (txt) { txt.textContent = meta.label; txt.style.color = meta.textColor; }
+      const dotWrap = mode.querySelector('.mode-dot-wrap');
+      if (dotWrap) {
+        dotWrap.innerHTML = meta.split
+          ? `<div style="width:8px;height:8px;border-radius:50%;overflow:hidden;flex-shrink:0;display:flex"><div style="flex:1;background:#fb923c"></div><div style="flex:1;background:#60a5fa"></div></div>`
+          : `<div style="width:8px;height:8px;border-radius:50%;background:${meta.dotColor};flex-shrink:0"></div>`;
+      }
+    }
+  }
 
   _render() {
     const e       = this._entity();
@@ -377,7 +412,7 @@ class ThermostatCard extends HTMLElement {
           <div class="mode-btn ${canCycle ? 'can-cycle' : ''}" id="tc-mode"
                style="border:0.5px solid ${meta.border};background:${meta.bg}"
                aria-label="Cycle HVAC mode">
-            ${dotHtml}
+            <span class="mode-dot-wrap">${dotHtml}</span>
             <span class="mode-text" style="color:${meta.textColor}">${meta.label}</span>
           </div>
 

@@ -1,5 +1,5 @@
 /**
- * door-sensor-card.js  —  v9
+ * door-sensor-card.js  —  v10
  * Compact door/window sensor summary banner for Home Assistant Lovelace.
  * Shows open count + which doors are open. Green when all clear.
  * Tap the banner to open a 3-column icon grid popup.
@@ -63,8 +63,10 @@ class DoorSensorCard extends HTMLElement {
   }
 
   set hass(hass) {
+    const prev = this._hass;
     this._hass = hass;
-    this._render();
+    if (!this.shadowRoot.querySelector('.banner') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return 1; }
@@ -184,6 +186,34 @@ class DoorSensorCard extends HTMLElement {
   }
 
   // ── Render ────────────────────────────────────────────────────────────────────
+
+  _patch() {
+    if (!this._config.doors) return;
+    const doors     = this._config.doors;
+    const openDoors = doors.filter(d => this._isOpen(d.entity));
+    const count     = openDoors.length;
+    const anyOpen   = count > 0;
+    const GREEN = '#4ade80', RED = '#f87171';
+    const bannerBg     = anyOpen ? 'rgba(239,68,68,0.10)'  : 'rgba(74,222,128,0.08)';
+    const bannerBorder = anyOpen ? 'rgba(239,68,68,0.35)'  : 'rgba(74,222,128,0.25)';
+    const bannerColor  = anyOpen ? RED : GREEN;
+    const bannerTitle  = anyOpen ? `${count} door${count > 1 ? 's' : ''} open` : 'All doors closed';
+    const bannerSub    = anyOpen ? openDoors.map(d => d.name).join(', ') : 'All doors are secure';
+
+    const banner = this.shadowRoot.querySelector('.banner');
+    if (!banner) return;
+    banner.style.background   = bannerBg;
+    banner.style.borderColor  = bannerBorder;
+    const ico   = banner.querySelector('.banner-icon');
+    const title = banner.querySelector('.banner-title');
+    const sub   = banner.querySelector('.banner-sub');
+    const chev  = banner.querySelector('.banner-chevron');
+    if (ico)   ico.innerHTML = this._bannerIcon(anyOpen, bannerColor);
+    if (title) { title.textContent = bannerTitle; title.style.color = bannerColor; }
+    if (sub)   { sub.textContent   = bannerSub;   sub.style.color   = bannerColor; }
+    if (chev)  chev.style.color    = bannerColor;
+    if (this._popupOpen) this._renderPopup();
+  }
 
   _render() {
     if (!this._config.doors) return;
@@ -324,7 +354,7 @@ class DoorSensorCard extends HTMLElement {
         <div class="banner"
              id="ds-banner"
              style="background:${bannerBg};border:1px solid ${bannerBorder}">
-          ${this._bannerIcon(anyOpen, bannerColor)}
+          <span class="banner-icon">${this._bannerIcon(anyOpen, bannerColor)}</span>
           <div class="banner-text">
             <div class="banner-title" style="color:${bannerColor}">${bannerTitle}</div>
             <div class="banner-sub"   style="color:${bannerColor}">${bannerSub}</div>

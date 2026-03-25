@@ -1,5 +1,5 @@
 /**
- * now-playing-card.js  —  v3
+ * now-playing-card.js  —  v4
  * Compact now-playing widget for Home Assistant Lovelace.
  * Shows active media players. Collapses to nothing when all are idle.
  *
@@ -29,8 +29,10 @@ class NowPlayingCard extends HTMLElement {
   }
 
   set hass(h) {
+    const prev = this._hass;
     this._hass = h;
-    this._render();
+    if (!this.shadowRoot.querySelector('.wrap') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return 2; }
@@ -65,6 +67,41 @@ class NowPlayingCard extends HTMLElement {
     this.dispatchEvent(new CustomEvent('hass-more-info', {
       bubbles: true, composed: true, detail: { entityId },
     }));
+  }
+
+  _patch() {
+    if (!this._config.players) return;
+    const players = this._config.players;
+    const active  = players.filter(p => this._isActive(this._estate(p.entity)?.state));
+    // If active count changed the structure changes — full re-render
+    const current = this.shadowRoot.querySelectorAll('.active-row').length;
+    if (active.length !== current) { this._render(); return; }
+    // Also re-render if visibility changed (was empty, now has content or vice-versa)
+    if (!this.shadowRoot.querySelector('.wrap')) { this._render(); return; }
+
+    players.forEach(p => {
+      const state   = this._estate(p.entity)?.state;
+      const playing = this._isPlaying(state);
+      const isActive = this._isActive(state);
+      const safeId  = p.entity.replace(/\./g, '_');
+      const row     = this.shadowRoot.getElementById(`np-${safeId}`);
+      if (!row) return;
+      const title   = this._mediaTitle(p.entity) || 'Unknown';
+      const source  = this._mediaSource(p.entity) || '';
+      const titleEl = row.querySelector('.media-title');
+      const srcEl   = row.querySelector('.media-source');
+      const stateEl = row.querySelector('.media-state');
+      const artEl   = row.querySelector('.media-art');
+      if (titleEl) titleEl.textContent = title;
+      if (srcEl)   srcEl.textContent   = source;
+      if (stateEl) {
+        stateEl.textContent   = playing ? 'Playing' : 'Paused';
+        stateEl.style.color   = playing ? '#60a5fa' : '#fbbf24';
+      }
+      if (artEl) {
+        artEl.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${playing ? '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>' : '<polygon points="5 3 19 12 5 21 5 3"/>'}</svg>`;
+      }
+    });
   }
 
   _render() {

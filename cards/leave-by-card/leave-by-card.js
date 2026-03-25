@@ -1,5 +1,5 @@
 /**
- * leave-by-card.js  —  v3
+ * leave-by-card.js  —  v4
  * "Leave by" card for Home Assistant Lovelace.
  *
  * Reads outbound SEPTA train departure times and a Waze Travel Time sensor,
@@ -50,7 +50,12 @@ class LeaveByCard extends HTMLElement {
     this._render();
   }
 
-  set hass(h) { this._hass = h; this._render(); }
+  set hass(h) {
+    this._hass = h;
+    // Only do initial render from hass; interval handles subsequent refreshes
+    if (!this.shadowRoot.querySelector('.wrap')) this._render();
+    else this._patch();
+  }
   getCardSize() { return 3; }
 
   connectedCallback()    { this._tick = setInterval(() => this._render(), 30000); }
@@ -96,6 +101,21 @@ class LeaveByCard extends HTMLElement {
   }
 
   // ── Render ────────────────────────────────────────────────────────────────
+
+  _patch() {
+    if (!this._config.waze_entity || !this._hass) return;
+    // Leave-by times depend on current clock time + Waze duration — rows can fully change
+    // so we re-render the rows HTML only, not the full card
+    const wazeState = this._hass.states[this._config.waze_entity];
+    const wazeMins  = wazeState && wazeState.state !== 'unavailable'
+      ? Math.round(parseFloat(wazeState.state)) : null;
+    const station   = this._config.station || 'Station';
+    const driveNote = wazeMins !== null ? `${wazeMins} min drive to ${station}` : 'Drive time unavailable';
+    const hdrRight  = this.shadowRoot.querySelector('.hdr-right');
+    if (hdrRight) hdrRight.textContent = driveNote;
+    // Row content changes every minute — delegate to _render for row rebuilds
+    this._render();
+  }
 
   _render() {
     if (!this._config.waze_entity || !this._hass) return;

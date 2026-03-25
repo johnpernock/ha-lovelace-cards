@@ -1,5 +1,5 @@
 /**
- * bambu-printer-card.js  —  v3
+ * bambu-printer-card.js  —  v4
  *
  * Unified Bambu Lab P1S dashboard card.
  * Shows printer status, progress, temperatures, speed/layer,
@@ -24,8 +24,10 @@ class BambuPrinterCard extends HTMLElement {
   }
 
   set hass(h) {
+    const prev = this._hass;
     this._hass = h;
-    this._render();
+    if (!this.shadowRoot.querySelector('.card') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return 6; }
@@ -142,6 +144,41 @@ class BambuPrinterCard extends HTMLElement {
     .humlbl{font-size:11px;color:rgba(255,255,255,.28)}
     .humval{font-size:12px;font-weight:700;color:rgba(255,255,255,.45)}
   `; }
+
+  _patch() {
+    const stage    = this._val('current_stage');
+    const status   = this._val('print_status');
+    const progress = this._num('print_progress');
+    const remaining= this._num('remaining_time');
+    const nozzle   = this._num('nozzle_temperature');
+    const bed      = this._num('bed_temperature');
+    const layer    = this._val('current_layer');
+    const totalLayer = this._val('total_layer_count');
+    const st  = this._statusInfo(stage, status);
+    const pct = progress != null ? Math.round(progress) : 0;
+
+    // If status color changed (idle→printing etc.), full re-render
+    const dot = this.shadowRoot.querySelector('.sdot');
+    if (dot && dot.style.background !== st.color) { this._render(); return; }
+
+    const slabel   = this.shadowRoot.querySelector('.slabel');
+    const progPct  = this.shadowRoot.querySelector('.prog-pct');
+    const progBar  = this.shadowRoot.querySelector('.prog-bar');
+    const progTime = this.shadowRoot.querySelector('.prog-time');
+    const nozzleEl = this.shadowRoot.querySelector('.nozzle-val');
+    const bedEl    = this.shadowRoot.querySelector('.bed-val');
+    const layerEl  = this.shadowRoot.querySelector('.layer-val');
+    const tF = v => v != null ? `${Math.round(v)}` : '—';
+
+    if (dot)      dot.style.background = st.color;
+    if (slabel)   { slabel.textContent = st.label; slabel.style.color = st.color; }
+    if (progPct)  progPct.textContent  = `${pct}%`;
+    if (progBar)  { progBar.style.width = `${pct}%`; progBar.style.background = st.color; }
+    if (progTime) progTime.textContent = this._fmtTime(remaining) ? `${this._fmtTime(remaining)} remaining` : '';
+    if (nozzleEl) nozzleEl.textContent = tF(nozzle);
+    if (bedEl)    bedEl.textContent    = tF(bed);
+    if (layerEl && layer && totalLayer) layerEl.textContent = `${layer} / ${totalLayer}`;
+  }
 
   _buildPrinter() {
     const stage    = this._val('current_stage');

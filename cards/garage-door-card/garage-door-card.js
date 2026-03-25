@@ -1,5 +1,5 @@
 /**
- * garage-door-card.js  —  v5
+ * garage-door-card.js  —  v6
  * Compact garage door toggle card for Home Assistant Lovelace.
  *
  * ── SHARED MODULES ────────────────────────────────────────────────────────────
@@ -58,7 +58,12 @@ class GarageDoorCard extends HTMLElement {
     this._render();
   }
 
-  set hass(hass) { this._hass = hass; this._render(); }
+  set hass(hass) {
+    const prev = this._hass;
+    this._hass = hass;
+    if (!this.shadowRoot.querySelector('.btn') || !prev) { this._render(); return; }
+    this._patch();
+  }
   getCardSize()   { return 3; }
 
   async _toggle() {
@@ -70,6 +75,26 @@ class GarageDoorCard extends HTMLElement {
     try { await this._hass.callService('cover', service, { entity_id: this._config.entity }); }
     catch (err) { console.warn('garage-door-card: service call failed', err); }
     setTimeout(() => { this._busy = false; }, 800);
+  }
+
+  _patch() {
+    const unavail = isUnavailable(this._hass, this._config.entity);
+    const state   = (getVal(this._hass, this._config.entity) || 'unknown').toLowerCase();
+    const t       = getTheme(unavail ? 'unknown' : state);
+    const btn     = this.shadowRoot.querySelector('.btn');
+    const ico     = this.shadowRoot.querySelector('.ico');
+    const lbl     = this.shadowRoot.querySelector('.label');
+    const sub     = this.shadowRoot.querySelector('.sub-label');
+    const prog    = this.shadowRoot.querySelector('.prog-indeterminate');
+    if (!btn) return;
+    btn.style.background   = t.btnBg;
+    btn.style.borderColor  = t.btnBorder;
+    btn.disabled           = !t.canToggle || this._busy;
+    if (ico)  ico.style.color  = t.iconColor;
+    if (ico)  ico.innerHTML    = doorIcon(state);
+    if (lbl)  { lbl.textContent = t.label; lbl.style.color = t.textColor; }
+    if (sub)  { sub.textContent = t.subLabel; sub.style.color = t.textColor; }
+    if (prog) prog.style.display = t.canToggle ? 'none' : 'block';
   }
 
   _render() {

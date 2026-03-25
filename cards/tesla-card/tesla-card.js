@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v12
+ * tesla-card.js  —  v13
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -116,8 +116,10 @@ class TeslaCard extends HTMLElement {
   }
 
   set hass(hass) {
+    const prev = this._hass;
     this._hass = hass;
-    this._render();
+    if (!this.shadowRoot.querySelector('ha-card') || !prev) { this._render(); return; }
+    this._patch();
   }
 
   getCardSize() { return 3; }
@@ -629,6 +631,65 @@ class TeslaCard extends HTMLElement {
   }
 
   // ── Render ───────────────────────────────────────────────────────────────────
+
+  _patch() {
+    if (!this._config) return;
+    const pct       = this._batteryPct();
+    const battColor = this._battColor(pct);
+    const range     = this._num('battery_range');
+    const charging  = this._isCharging();
+    const locked    = this._isLocked();
+    const climateOn = this._climateOn();
+    const trunkOpen = this._trunkOpen();
+    const ttf       = this._timeToFull();
+
+    // Battery fill + pct
+    const fill   = this.shadowRoot.querySelector('.batt-fill');
+    const pctEl  = this.shadowRoot.querySelector('.batt-pct');
+    const rangeEl = this.shadowRoot.querySelector('.batt-range');
+    const etaEl  = this.shadowRoot.querySelector('.eta');
+    if (fill)    { fill.style.width = `${pct ?? 0}%`; fill.style.background = battColor; }
+    if (pctEl)   { pctEl.textContent = `${pct}%`; pctEl.style.color = battColor; }
+    if (rangeEl) rangeEl.textContent = range !== null ? `${range} mi` : '';
+
+    // Badges — just update text/visibility
+    const lockBadge   = this.shadowRoot.querySelector('.badge-locked, .badge-unlocked');
+    const chargeBadge = this.shadowRoot.querySelector('.badge-charging');
+    if (lockBadge) {
+      lockBadge.className = `badge ${locked ? 'badge-locked' : 'badge-unlocked'}`;
+      lockBadge.textContent = locked ? 'LOCKED' : 'UNLOCKED';
+    }
+
+    // Buttons
+    const OFF_STYLE  = 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12)';
+    const OFF_COLOR  = 'rgba(255,255,255,0.28)';
+    const OFF_LCOLOR = 'rgba(255,255,255,0.38)';
+
+    const lockBtn = this.shadowRoot.getElementById('tc-lock');
+    if (lockBtn) {
+      lockBtn.style.cssText = locked ? 'background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.6)' : OFF_STYLE;
+      const ico = lockBtn.querySelector('.btn-icon'), lbl = lockBtn.querySelector('.btn-label');
+      if (ico) { ico.style.color = locked ? '#4ade80' : OFF_COLOR; ico.innerHTML = this._icons[locked ? 'lockClosed' : 'lockOpen']; }
+      if (lbl) { lbl.style.color = locked ? '#4ade80' : OFF_LCOLOR; lbl.textContent = locked ? 'Locked' : 'Unlocked'; }
+    }
+    const climateBtn = this.shadowRoot.getElementById('tc-climate');
+    if (climateBtn) {
+      climateBtn.style.cssText = climateOn ? 'background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.6)' : OFF_STYLE;
+      const ico = climateBtn.querySelector('.btn-icon'), lbl = climateBtn.querySelector('.btn-label');
+      if (ico) ico.style.color = climateOn ? '#f97316' : OFF_COLOR;
+      if (lbl) { lbl.style.color = climateOn ? '#f97316' : OFF_LCOLOR; lbl.textContent = climateOn ? 'Climate on' : 'Climate'; }
+    }
+    const trunkBtn = this.shadowRoot.getElementById('tc-trunk');
+    if (trunkBtn) {
+      trunkBtn.style.cssText = trunkOpen ? 'background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.6)' : OFF_STYLE;
+      const ico = trunkBtn.querySelector('.btn-icon'), lbl = trunkBtn.querySelector('.btn-label');
+      if (ico) ico.style.color = trunkOpen ? '#60a5fa' : OFF_COLOR;
+      if (lbl) { lbl.style.color = trunkOpen ? '#60a5fa' : OFF_LCOLOR; lbl.textContent = trunkOpen ? 'Trunk open' : 'Trunk'; }
+    }
+
+    // If popup is open, patch it too
+    if (this._popupOpen) this._renderPopup();
+  }
 
   _render() {
     if (!this._config) return;

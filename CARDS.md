@@ -227,6 +227,8 @@ rooms:
 | v16 | simplified: true and no_popup: true added |
 | v8 | Thermostat row added |
 | v4 | Fan pips added |
+| v7 | `_patch()` added — route times and delays update in-place; full re-render only when incident banner appears/disappears |
+| v8 | `_patch()` added — inline conditions, temp, and forecast strip update without rebuilding style block |
 | v1 | Initial release |
 
 ---
@@ -321,6 +323,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v7 | `_patch()` added — button active states, colors, and theme strips update in-place; popup master slider refreshes on hass updates |
 | v6 | New `lights` and `fans` button params — popup now shows master + individual brightness sliders (exact match to lights/fans view) and full-width fan pip dot buttons. Stats moved to bottom. `popup_entities` still works for legacy `toggle` and `cover_group` entries. |
 | v5 | Padding consistency pass — horizontal padding normalized to 14px |
 | v4 | `theme_sensor` parameter added — holiday color strip and theme name label |
@@ -582,6 +585,7 @@ entities:
 | v4 | Added `storage` section |
 | v3 | Added sparkline to `speed` section |
 | v2 | Added `speed` section |
+| v14 | `_patch()` added — section inner HTML updates without rebuilding the style block; `_listen()` still re-attaches on content change |
 | v1 | Initial release — `network` section |
 
 ---
@@ -633,6 +637,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v4 | `_patch()` added — status label, progress bar, and temperatures update in-place; full re-render only when status category changes |
 | v3 | Active tray detection handles multiple firmware formats; external spool auto-switch; humidity display |
 | v2 | `current_stage` status label mapping improved |
 | v1 | Initial release |
@@ -756,6 +761,7 @@ today_color: '#60a5fa'
 
 | Version | Changes |
 |---------|---------|
+| v5 | `_patch()` added — temperature values update in-place on hass updates |
 | v4 | Padding consistency pass — horizontal padding normalized to 14px |
 | v3 | Calendar popup with month navigation and event dots; next-event strip |
 | v2 | `today_color` option; seconds display refined |
@@ -902,6 +908,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v10 | `_patch()` added — banner color, title, and subtitle update in-place |
 | v9 | Padding consistency pass |
 | v8 | Popup max-width normalized to 440px |
 | v7 | Body scroll lock; overscroll-behavior:contain |
@@ -1090,6 +1097,7 @@ outbound:
 | Version | Changes |
 |---------|---------|
 | v3 | Card header: 10px uppercase → 17px white bold |
+| v4 | Fixed double-render — `set hass` no longer calls `_render()` on top of the 30s interval |
 | v2 | Touch audit: `-webkit-tap-highlight-color:transparent` on `lb-row` |
 | v1 | Initial release |
 
@@ -1127,6 +1135,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v7 | `_patch()` added — current temp, setpoint, mode dot/colors update in-place |
 | v6 | Padding consistency pass |
 | v5 | Touch audit: `user-select:none` on tappable elements |
 | v4 | Mode cycling reads live `hvac_modes` attribute |
@@ -1391,6 +1400,7 @@ name: Garage
 
 | Version | Changes |
 |---------|---------|
+| v6 | `_patch()` added — button color, label, and icon update in-place |
 | v5 | Padding consistency pass |
 | v4 | Touch audit: `-webkit-tap-highlight-color:transparent` |
 | v3 | Entity ID updated to `cover.garage_door_door` |
@@ -1566,5 +1576,6 @@ players:
 | Version | Changes |
 |---------|---------|
 | v3 | Card header: 10px uppercase → 17px white bold |
+| v4 | `_patch()` added — player title, source, and play/pause state update in-place; re-renders only when active count changes |
 | v2 | Touch audit: `user-select:none` on tappable elements |
 | v1 | Initial release |

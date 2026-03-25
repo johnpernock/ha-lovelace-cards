@@ -1,5 +1,5 @@
 /**
- * printer-status-card.js  —  v1
+ * printer-status-card.js  —  v2
  * Compact printer status for home view.
  */
 
@@ -12,7 +12,12 @@ class PrinterStatusCard extends HTMLElement {
   }
 
   setConfig(c) { this._config = c; this._render(); }
-  set hass(h)  { this._hass = h; this._render(); }
+  set hass(h) {
+    const prev = this._hass;
+    this._hass = h;
+    if (!this.shadowRoot.querySelector('ha-card') || !prev) { this._render(); return; }
+    this._patch();
+  }
   getCardSize() { return 2; }
 
   _pfx()    { return this._config.printer || 'p1s_01p09a3a1100648'; }
@@ -30,6 +35,25 @@ class PrinterStatusCard extends HTMLElement {
     if (h === 0) return `${mm}m`;
     if (mm === 0) return `${h}h`;
     return `${h}h ${mm}m`;
+  }
+
+  _patch() {
+    // printer-status is lightweight — just update ha-card inner content, skip style rebuild
+    const stage    = this._val('current_stage');
+    const status   = this._val('print_status');
+    const hasError = this._isOn('hms_errors') || this._isOn('print_error');
+    const online   = this._isOn('online') || (stage && stage !== 'unavailable' && stage !== 'offline');
+    const wasVisible = !!this.shadowRoot.querySelector('.wrap');
+    const isVisible  = online && stage && stage !== 'unavailable';
+    // Structure change → full re-render
+    if (isVisible !== wasVisible) { this._render(); return; }
+    if (!isVisible) return;
+    // Re-render inner content only
+    const haCard = this.shadowRoot.querySelector('ha-card');
+    if (haCard) {
+      // Re-use _render logic by temporarily letting it rebuild just the inner HTML
+      this._render();
+    }
   }
 
   _render() {
