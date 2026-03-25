@@ -114,7 +114,7 @@ class TeslaCommuteCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
+    .card { overflow: hidden; }
     .divider{height:2px;background:rgba(255,255,255,.22)}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .sec-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28)}

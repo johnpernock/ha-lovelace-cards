@@ -91,10 +91,10 @@ class CameraLayoutCard extends HTMLElement {
       <style>
         :host { display: block; }
         ha-card {
-          background: #08080f !important;
+          background: transparent !important;
           border: none !important;
           box-shadow: none !important;
-          border-radius: 12px !important;
+          border-radius: 0 !important;
           overflow: hidden;
           padding: 0;
         }

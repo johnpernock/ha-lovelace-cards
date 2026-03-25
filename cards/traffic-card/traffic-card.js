@@ -116,7 +116,7 @@ class TrafficCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
+    .card { overflow: hidden; }
     .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.40)}
     .card-hdr-title{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .updated{font-size:9px;color:rgba(255,255,255,.2)}
