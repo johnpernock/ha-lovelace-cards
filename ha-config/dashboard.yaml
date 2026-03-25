@@ -131,7 +131,7 @@ views:
                     speeds: 4
               - entity: light.all_solarium_lights
                 name: Solarium
-                icon: home
+                icon: greenhouse
                 lights:
                   entity: light.all_solarium_lights
                   individuals:

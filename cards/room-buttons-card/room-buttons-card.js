@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v16
+ * room-buttons-card.js  —  v17
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -95,7 +95,7 @@
  *
  * ── ICONS ─────────────────────────────────────────────────────────────────────
  * bulb, garage, sofa, sun, kitchen, dining, desk, bed, bath, stairs, tree,
- * fan, blinds, tv, appletv, homepod, speaker, lock, thermo, plug, home
+ * fan, blinds, tv, appletv, homepod, speaker, lock, thermo, plug, greenhouse, home
  * Any unknown value falls back to the generic home icon.
  */
 
@@ -175,6 +175,7 @@ class RoomButtonsCard extends HTMLElement {
       lock:    `${w}<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
       thermo:  `${w}<path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>`,
       plug:    `${w}<line x1="8" y1="6" x2="8" y2="2"/><line x1="16" y1="6" x2="16" y2="2"/><path d="M6 6h12v4a6 6 0 0 1-6 6 6 6 0 0 1-6-6V6z"/><line x1="12" y1="16" x2="12" y2="22"/></svg>`,
+      greenhouse: `${w}<path d="M3 11 Q3 4 12 4 Q21 4 21 11"/><rect x="3" y="11" width="18" height="10" rx="1"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="12" y1="4" x2="12" y2="21"/><line x1="3" y1="16" x2="21" y2="16"/></svg>`,
     };
   }
 
