@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v88
+ * room-controls-card.js  —  v89
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -270,7 +270,7 @@ class RoomControlsCard extends HTMLElement {
     auto:      { label:'Auto',      dot:'#a78bfa', bg:'rgba(139,92,246,.08)',  bc:'rgba(139,92,246,.4)',  tc:'#a78bfa' },
     fan_only:  { label:'Fan',       dot:'#2dd4bf', bg:'rgba(20,184,166,.08)',  bc:'rgba(20,184,166,.4)',  tc:'#2dd4bf' },
     dry:       { label:'Dry',       dot:'#fbbf24', bg:'rgba(251,191,36,.08)',  bc:'rgba(251,191,36,.4)',  tc:'#fbbf24' },
-    off:       { label:'Off',       dot:'rgba(255,255,255,.25)', bg:'rgba(255,255,255,.04)', bc:'rgba(255,255,255,.14)', tc:'rgba(255,255,255,.8)' },
+    off:       { label:'Off',       dot:'rgba(255,255,255,.55)', bg:'rgba(255,255,255,0)',   bc:'rgba(255,255,255,.35)', tc:'rgba(255,255,255,.8)' },
   }; }
   _hvacMeta(mode) { return RoomControlsCard.HVAC_META[mode]||RoomControlsCard.HVAC_META.off; }
 
@@ -315,9 +315,9 @@ class RoomControlsCard extends HTMLElement {
 
   _togHtml(on, elId, action, size) {
     const w=size==='sm'?36:44, h=size==='sm'?24:30, tw=size==='sm'?16:20, tt=size==='sm'?4:5;
-    const bg  = on?'background:rgba(251,191,36,.25);border-color:rgba(251,191,36,.5)':'background:rgba(255,255,255,0);border-color:rgba(255,255,255,.28)';
+    const bg  = on?'background:rgba(251,191,36,.25);border-color:rgba(251,191,36,.5)':'background:rgba(255,255,255,0);border-color:rgba(255,255,255,.40)';
     const tl  = on?(w-tw-tt)+'px':tt+'px';
-    const tbg = on?'#fbbf24':'rgba(255,255,255,.6)';
+    const tbg = on?'#fbbf24':'rgba(255,255,255,.70)';
     const roomId = elId.replace(/^rtog-/,'').replace(/^pp-ltog-/,'');
     return `<div class="tog" style="${bg};width:${w}px;height:${h}px" id="${elId}" data-action="${action}" data-room="${roomId}"><div class="tog-thumb" style="top:${tt}px;width:${tw}px;height:${tw}px;left:${tl};background:${tbg}"></div></div>`;
   }
@@ -367,9 +367,9 @@ class RoomControlsCard extends HTMLElement {
           const btns = cfg.individuals.map(l => {
             const lon = this._isOn(l.entity);
             const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
-            const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
-            const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.8)';
-            const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
+            const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.40)';
+            const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.65)';
+            const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.75)';
             const nm  = l.name || this._attr(l.entity,'friendly_name') || l.entity.split('.').pop();
             const eid = l.entity.replace(/[^a-z0-9]/g,'_');
             return `<div class="itog" id="itog-${room.id}-${eid}" data-room="${room.id}" data-action="indiv-tog" data-entity="${l.entity}" style="background:${bg};border:1px solid ${bc}"><div class="itog-dot" style="background:${dc}"></div><div class="itog-lbl" style="color:${lc}">${nm}</div></div>`;
@@ -403,16 +403,16 @@ class RoomControlsCard extends HTMLElement {
       const co   = cs === 'closed' || pos === 0;
       const mov  = cs === 'opening' || cs === 'closing';
       // pill appearance
-      const color = oo ? '#a78bfa' : co ? 'rgba(255,255,255,.35)' : '#a78bfa';
+      const color = oo ? '#a78bfa' : co ? 'rgba(255,255,255,.65)' : '#a78bfa';
       const bg    = oo ? 'rgba(167,139,250,.06)' : co ? 'rgba(255,255,255,.04)' : 'rgba(167,139,250,.04)';
-      const bc    = oo ? 'rgba(167,139,250,.2)'  : co ? 'rgba(255,255,255,.1)'  : 'rgba(167,139,250,.15)';
+      const bc    = oo ? 'rgba(167,139,250,.40)' : co ? 'rgba(255,255,255,.35)' : 'rgba(167,139,250,.30)';
       const lbl   = mov ? (cs==='opening'?'Opening…':'Closing…') : oo ? 'Blinds Open' : co ? 'Blinds Closed' : 'Blinds Partial';
       const sub   = mov ? 'In progress' : oo ? 'Tap to close' : co ? 'Tap to open' : 'Tap to open fully';
       // tapping: open→close, closed/partial→open to max_position
       const action = oo ? 'blind-close' : 'blind-open';
       const barPct = max > 0 ? Math.round((pos / max) * 100) : 0;
       const chevPath = (oo || cs==='opening') ? '<polyline points="18 15 12 9 6 15"/>' : '<polyline points="6 9 12 15 18 9"/>';
-      const opacity  = (!oo && !co) ? ';opacity:.7' : '';
+      const opacity  = '';
       body += `<div class="blind-pill" id="bpill-${room.id}" style="background:${bg};border:1px solid ${bc}" data-room="${room.id}" data-action="${action}">
         <div class="blind-pill-dot" style="background:${color}${opacity}"></div>
         <div>
@@ -807,7 +807,7 @@ class RoomControlsCard extends HTMLElement {
     .tsetctrl{display:flex;align-items:center;gap:4px}
     .tadj{width:34px;height:34px;flex-shrink:0;border-radius:7px;background:transparent;border:1.5px solid rgba(255,255,255,.40);color:var(--primary-text-color);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
     .tadj:active{background:rgba(255,255,255,.55)}
-    .tadj-off{opacity:.5;pointer-events:none}
+    .tadj-off{opacity:1;color:rgba(255,255,255,.3);pointer-events:none}
     .tsetval{font-size:18px;font-weight:700;color:#fb923c;min-width:36px;text-align:center}
     .tsetval-off{color:rgba(255,255,255,.3)}
     .t-pill{display:flex;align-items:center;gap:4px;padding:5px 9px;border-radius:7px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.18);margin-left:3px;flex-shrink:0}
@@ -890,9 +890,9 @@ class RoomControlsCard extends HTMLElement {
         colors.slice(0,6).map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
       const isOn = st.pct > 0;
       const btnBg  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,0)';
-      const btnBc  = isOn ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.22)';
+      const btnBc  = isOn ? 'rgba(255,255,255,.40)' : 'rgba(255,255,255,.30)';
       const lblClr = isOn ? st.color : 'rgba(255,255,255,.5)';
-      return `<div class="theme-area" id="tarea-${room.id}-${ai}" style="background:${btnBg};border:1px solid ${btnBc};${isOn?'':'opacity:.6'}">
+      return `<div class="theme-area" id="tarea-${room.id}-${ai}" style="background:${btnBg};border:1.5px solid ${btnBc}">
         <div class="theme-area-swatches" id="tasw-${room.id}-${ai}">${swatchHtml}</div>
         <div class="theme-area-label" id="tast-${room.id}-${ai}" style="color:${lblClr}">${area.label}</div>
       </div>`;
@@ -937,10 +937,10 @@ class RoomControlsCard extends HTMLElement {
       const isOn  = st.pct > 0;
       if (btnEl) {
         btnEl.style.background  = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,0)';
-        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.22)';
-        btnEl.style.opacity     = isOn ? '' : '0.6';
+        btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.40)' : 'rgba(255,255,255,.30)';
+        btnEl.style.opacity     = '';
       }
-      if (stEl)  { stEl.textContent = area.label; stEl.style.color = isOn ? st.color : 'rgba(255,255,255,.6)'; }
+      if (stEl)  { stEl.textContent = area.label; stEl.style.color = isOn ? st.color : 'rgba(255,255,255,.70)'; }
       if (swEl && !isSwitch) {
         swEl.innerHTML = colors.slice(0,6)
           .map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
@@ -1001,10 +1001,10 @@ class RoomControlsCard extends HTMLElement {
             const btn = itogGrid.querySelector(`[data-entity="${l.entity}"]`);
             if (!btn) return;
             btn.style.background = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
-            btn.style.borderColor = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
+            btn.style.borderColor = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.40)';
             const dot2=btn.querySelector('.itog-dot'), lbl2=btn.querySelector('.itog-lbl');
-            if (dot2) dot2.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.8)';
-            if (lbl2) lbl2.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
+            if (dot2) dot2.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.65)';
+            if (lbl2) lbl2.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.75)';
           });
         }
         // simplified header count
@@ -1090,9 +1090,9 @@ class RoomControlsCard extends HTMLElement {
           const oo   = cs === 'open'   || pos >= max;
           const co   = cs === 'closed' || pos === 0;
           const mov  = cs === 'opening' || cs === 'closing';
-          const color = oo ? '#a78bfa' : co ? 'rgba(255,255,255,.35)' : '#a78bfa';
+          const color = oo ? '#a78bfa' : co ? 'rgba(255,255,255,.65)' : '#a78bfa';
           const bg    = oo ? 'rgba(167,139,250,.06)' : co ? 'rgba(255,255,255,.04)' : 'rgba(167,139,250,.04)';
-          const bc    = oo ? 'rgba(167,139,250,.2)'  : co ? 'rgba(255,255,255,.1)'  : 'rgba(167,139,250,.15)';
+          const bc    = oo ? 'rgba(167,139,250,.40)' : co ? 'rgba(255,255,255,.35)' : 'rgba(167,139,250,.30)';
           const lbl   = mov ? (cs==='opening'?'Opening…':'Closing…') : oo ? 'Blinds Open' : co ? 'Blinds Closed' : 'Blinds Partial';
           const sub   = mov ? 'In progress' : oo ? 'Tap to close' : co ? 'Tap to open' : 'Tap to open fully';
           const action = oo ? 'blind-close' : 'blind-open';
@@ -1281,7 +1281,7 @@ class RoomControlsCard extends HTMLElement {
         .tsetctrl{display:flex;align-items:center;gap:5px}
         .tadj{width:44px;height:44px;flex-shrink:0;border-radius:8px;background:transparent;border:1.5px solid rgba(255,255,255,.40);color:#e2e8f0;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
         .tadj:active{background:rgba(255,255,255,.55)}
-        .tadj-off{opacity:.5;pointer-events:none}
+        .tadj-off{opacity:1;color:rgba(255,255,255,.3);pointer-events:none}
         .tsetval{font-size:22px;font-weight:700;color:#fb923c;min-width:44px;text-align:center}
         .tsetval-off{color:rgba(255,255,255,.3)}
         .t-pill{display:flex;align-items:center;gap:4px;padding:5px 9px;border-radius:7px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.18);margin-left:3px;flex-shrink:0}

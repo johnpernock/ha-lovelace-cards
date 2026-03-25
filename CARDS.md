@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v89 | UX: gray=off/color=on — removed all opacity dimming; itog/fpip/toggle/theme-area/blind/thermostat off states now solid gray not faded; tadj-off gray not transparent |
 | v88 | Fix: temp pill border 1px .22→1.5px .45; popup master expand border .12→.30 |
 | v87 | Low-DPI: thermostat/door dots 7px→9px, disabled +/- opacity .3→.5, pp-clbl font 8px→10px opacity .25→.55 |
 | v86 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -338,6 +339,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v29 | UX: gray=off/color=on — button tile off state bolder (icon .65, name .85); itog off border .40, dot .65, label .75; theme-area no opacity dim |
 | v28 | Fix: master slider container bg .04→0, border 1px .12→1.5px .35 |
 | v27 | Low-DPI: rb-clbl font 8px→10px, opacity .5→.6 |
 | v26 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -1154,6 +1156,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v17 | UX: removed .dimmed opacity — rows show at full opacity, distinction comes from color not fading |
 | v16 | Fix: delay/On Time badge borders 1px→1.5px; row/section dividers 1px→2px .18/.22 |
 | v15 | Low-DPI: incident dot 7px→9px, dimmed opacity .38→.60, best-badge font 8px→10px |
 | v14 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -1211,6 +1214,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v10 | UX: removed opacity:.65 on on-time rows — all rows same opacity, on-time shown via green color |
 | v9 | Fix: on-time row border 1px .2→1.5px .45 |
 | v8 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v7 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
