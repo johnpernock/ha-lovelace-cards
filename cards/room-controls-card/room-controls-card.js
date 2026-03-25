@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v72
+ * room-controls-card.js  —  v73
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -995,6 +995,37 @@ class RoomControlsCard extends HTMLElement {
         this._simplifiedMeta[room.id] = { on, cnt, tot };
         const hcount = sr.querySelector(`#room-${room.id} .rhead-count`);
         if (hcount) hcount.textContent = `${cnt} of ${tot}`;
+
+        // patch popup individual light rows (fill, thumb, pct, on/off classes)
+        const oc = this._overlayContainer;
+        if (oc && indiv.length) {
+          // master popup slider
+          const mfill  = oc.querySelector(`#pp-mfill-${room.id}`);
+          const mthumb = oc.querySelector(`#pp-mthumb-${room.id}`);
+          const mpct   = oc.querySelector(`#pp-mpct-${room.id}`);
+          if (mfill)  mfill.style.width  = (on?avg:0)+'%';
+          if (mthumb) mthumb.style.left  = Math.min(on?avg:0,96)+'%';
+          if (mpct)   mpct.textContent   = on?avg+'%':'';
+          // individual light rows
+          indiv.forEach((l, li) => {
+            const lon  = this._isOn(l.entity);
+            const lpct = this._brightness(l.entity)??(lon?100:0);
+            const lSliderPct = lon ? lpct : 0;
+            const lightEl = oc.querySelector(`#ppl-${room.id}-${li}`);
+            if (lightEl) {
+              if (lon) lightEl.classList.add('pp-light-on');
+              else     lightEl.classList.remove('pp-light-on');
+            }
+            const lname = oc.querySelector(`#ppl-${room.id}-${li} .pp-lname`);
+            if (lname) lname.className = `pp-lname${lon?' lit':''}`;
+            const lfill  = oc.querySelector(`#ppls-${room.id}-${li}`);
+            const lthumb = oc.querySelector(`#pplthumb-${room.id}-${li}`);
+            const lpctEl = oc.querySelector(`#ppp-${room.id}-${li}`);
+            if (lfill)  lfill.style.width  = lSliderPct+'%';
+            if (lthumb) lthumb.style.left  = Math.max(4,Math.min(lSliderPct,96))+'%';
+            if (lpctEl) lpctEl.textContent = lon ? (l.entity.startsWith('switch.')?'On':lpct+'%') : '';
+          });
+        }
       }
       // thermostat setpoint labels
       if (room.thermostat && this._state(room.thermostat.entity)) {
@@ -1167,12 +1198,11 @@ class RoomControlsCard extends HTMLElement {
         .pp-msub{font-size:11px;color:rgba(255,255,255,.35);font-weight:400;margin-left:4px}
         .pp-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
         .pp-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
-        .pp-lights{padding:4px 14px 8px;display:flex;flex-direction:column;gap:0}
-        .pp-light{opacity:.5;transition:opacity .15s;padding:8px 0 4px;border-bottom:1px solid rgba(255,255,255,.05)}
-        .pp-light:last-child{border-bottom:none}
+        .pp-lights{padding:4px 14px 8px;display:flex;flex-direction:column;gap:8px}
+        .pp-light{opacity:.5;transition:opacity .15s;padding:0}
         .pp-light-on{opacity:1}
-        .pp-lname{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 4px;display:block}
-        .pp-lname.lit{color:rgba(255,255,255,.55)}
+        .pp-lname{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 5px;display:block}
+        .pp-lname.lit{color:rgba(255,255,255,.65)}
         .pp-lrow{display:flex;align-items:center;gap:8px;padding:0}
         .pp-ldot{display:none}
         .pp-ltrack{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}

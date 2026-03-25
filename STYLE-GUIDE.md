@@ -317,7 +317,51 @@ width: 28px; height: 28px;
 
 ---
 
-## Toggle switch pattern
+## Lights popup pattern
+
+The lights popup (`room-controls-card`) has two tiers of controls — a master "All Lights" block and individual light rows. Both tiers use the same visual language: small uppercase label above, slider + percentage + chevron inline below. No borders, no backgrounds on individual rows.
+
+### All Lights block
+
+Contained in a subtle amber-tinted box (`rgba(251,191,36,.04)` background, `rgba(251,191,36,.12)` border). Label is a `sec-hdr` above the box.
+
+```
+ALL LIGHTS
+┌─────────────────────────────────────┐
+│  [══════════════●]  100%  ❯         │
+└─────────────────────────────────────┘
+```
+
+### Individual light rows
+
+Flat, no borders, no backgrounds. Rows separated by `gap` only (no dividers). Each row dims to `opacity: 0.5` when the light is off, `opacity: 1` when on.
+
+```
+WALL SCONCE                  ← 9px uppercase label, rgba(.35) off / rgba(.65) on
+[══════════════●]  100%  ❯   ← slider + pct + chevron inline
+```
+
+Layout rules:
+- **Name** (`pp-lname`): `font-size:9px`, `font-weight:700`, uppercase, `letter-spacing:.08em`. `display:block` so it sits on its own line above the slider row. Color `rgba(255,255,255,.35)` when off, `rgba(255,255,255,.65)` when on (`.lit` class).
+- **Slider row** (`pp-lrow`): `display:flex`, `align-items:center`, `gap:8px`. Contains slider wrap, percentage span, and chevron.
+- **No dot** — the colored status dot was removed. On/off state is communicated by opacity and label brightness only.
+- **Chevron** — only rendered if the light supports CT or RGB color. Rotates 180° when the color panel is expanded.
+- **Color panel** (`pp-color-sec`) — `hidden` by default, toggled by the chevron. Contains CT presets and/or color presets with `pp-clbl` labels.
+
+```css
+.pp-lights  { padding: 4px 14px 8px; display: flex; flex-direction: column; gap: 8px; }
+.pp-light   { opacity: .5; transition: opacity .15s; padding: 0; }
+.pp-light-on{ opacity: 1; }
+.pp-lname   { font-size: 9px; font-weight: 700; text-transform: uppercase;
+              letter-spacing: .08em; color: rgba(255,255,255,.35);
+              padding: 0 0 5px; display: block; }
+.pp-lname.lit { color: rgba(255,255,255,.65); }
+.pp-lrow    { display: flex; align-items: center; gap: 8px; padding: 0; }
+```
+
+### Patch requirement
+
+Individual light state (slider fill, thumb position, percentage, on/off opacity, label brightness) **must be updated in `_patch()`** on every hass update — not only during drag. This ensures the popup stays in sync when lights are changed from another source (voice, automation, another dashboard).
 
 Room on/off toggles use a pill shape with a circular thumb:
 

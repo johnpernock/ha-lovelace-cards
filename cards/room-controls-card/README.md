@@ -151,14 +151,10 @@ doors:
 | v71 | Individual light rows in popup: borders/backgrounds removed; dot indicator (amber=on, grey=off) added left of name; flat single row with divider lines; slider and chevron inline |
 | v72 | Fixed pp-lrow flex-direction was column — changed to row so dot/name/slider/pct/chevron all sit on one horizontal line; dot size 9→11px |
 | v71 | Popup individual light rows: removed bordered box, added color dot before name (reflects current rgb/CT/on state), flat single row layout with name+slider+pct+chevron. Added _lightDotColor() helper that maps rgb_color and color_temp_kelvin to a display color. |
-| v71 | Popup individual light rows: borders removed, flat rows with 12px dot showing on/off and color; row opacity .5 when off, 1 when on; pp-lrow changed from column to row layout |
-| v70 | v70 | Popup improvements: expand chevrons bare (no box); off individual lights dimmed to 65% opacity; pct hidden when off; subtitle "X of Y on" → "X / Y"; sheet max-width 500→440px |
+| v73 | Individual light rows in popup redesigned to match All Lights style: removed border-bottom dividers (now uses gap spacing between rows), tightened padding, brightened lit label (rgba(.65) from .55). Fixed patch bug — popup individual light fills/thumbs/pct/on-off classes now update live on every hass update, not only during drag. |
 | v72 | Fixed pp-lrow flex-direction was column — changed to row so dot/name/slider/pct/chevron all sit on one horizontal line; dot size 9→11px |
-| v71 | Individual light rows in popup: borders/backgrounds removed; dot indicator (amber=on, grey=off) added left of name; flat single row with divider lines; slider and chevron inline |
-| v72 | Fixed pp-lrow flex-direction was column — changed to row so dot/name/slider/pct/chevron all sit on one horizontal line; dot size 9→11px |
-| v71 | Popup individual light rows: removed bordered box, added color dot before name (reflects current rgb/CT/on state), flat single row layout with name+slider+pct+chevron. Added _lightDotColor() helper that maps rgb_color and color_temp_kelvin to a display color. |
-| v71 | Popup individual light rows: borders removed, flat rows with 12px dot showing on/off and color; row opacity .5 when off, 1 when on; pp-lrow changed from column to row layout |
-| v70 | Individual lights in popup: removed border/background; name now uppercase label above slider row; slider thumb min 4%; pct empty when off; expand chevron moved to name row right |
+| v71 | Individual light rows in popup: borders/backgrounds removed; dot indicator (amber=on, grey=off) added left of name; flat single row with divider lines; slider and chevron inline. Added _lightDotColor() helper that maps rgb_color and color_temp_kelvin to a display color. |
+| v70 | Popup improvements: expand chevrons bare (no box); off individual lights dimmed to 65% opacity; pct hidden when off; subtitle "X of Y on" → "X / Y"; sheet max-width 500→440px. Individual lights: removed border/background; name now uppercase label above slider row; slider thumb min 4%; pct empty when off; expand chevron moved to name row right. |
 | v69 | Popup sheet header: added top padding (was 0); title 16px→17px white bold matching dashboard style |
 | v68 | Fixed: All Lights expand chevron was missing data-room attribute so rid was undefined and the expand block never toggled |
 | v67 | Color/CT expand now checks master group entity first — HA light groups report their own supported_color_modes so the expand arrow appears even when some individuals are plain dimmers or switches |
