@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v79
+ * room-controls-card.js  —  v80
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
