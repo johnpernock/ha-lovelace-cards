@@ -1086,6 +1086,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v37 | Remove exp-row-div dividers between train rows in expanded view |
 | v36 | UX: hide .div separator between outbound and inbound trains |
 | v35 | Fix: restore border:none!important on compact ha-card — HA default was showing through |
 | v34 | UX: remove outer ha-card border on compact/expanded views; remove pills border-top divider (pills have own borders); add 6px padding-top to pills section |
