@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v8
+ * room-buttons-card.js  —  v9
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -880,7 +880,7 @@ class RoomButtonsCard extends HTMLElement {
     const masterWrap = popup.querySelector('[data-action="rb-master-drag"]');
     if (masterWrap) {
       const eid = masterWrap.dataset.entity;
-      const fill = popup.getElementById('rbmf'), thumb = popup.getElementById('rbmt'), pct = popup.getElementById('rbmpct');
+      const fill = popup.querySelector('#rbmf'), thumb = popup.querySelector('#rbmt'), pct = popup.querySelector('#rbmpct');
       let dragging = false, timer = null;
       const upd = (cx, commit) => {
         const r = masterWrap.getBoundingClientRect();
@@ -904,7 +904,7 @@ class RoomButtonsCard extends HTMLElement {
     // ── Individual light drag sliders ───────────────────────────────────────────
     popup.querySelectorAll('[data-action="rb-indiv-drag"]').forEach(wrap => {
       const eid = wrap.dataset.entity, li = wrap.dataset.li;
-      const fill = popup.getElementById(`rblf-${li}`), thumb = popup.getElementById(`rblth-${li}`), pct = popup.getElementById(`rblpct-${li}`);
+      const fill = popup.querySelector(`#rblf-${li}`), thumb = popup.querySelector(`#rblth-${li}`), pct = popup.querySelector(`#rblpct-${li}`);
       let dragging = false, timer = null;
       const upd = (cx, commit) => {
         const r = wrap.getBoundingClientRect();
@@ -937,7 +937,7 @@ class RoomButtonsCard extends HTMLElement {
         this._setFanSpeed(cfg, step);
         // Patch pips in-place rather than full re-render
         const speeds = this._fanResolvedSpeeds(cfg);
-        const row    = popup.getElementById(`rbfan-${fi}`);
+        const row    = popup.querySelector(`#rbfan-${fi}`);
         if (row) row.querySelectorAll('.rb-fpip').forEach((pip, i) => {
           pip.classList.toggle('rb-fpip-on', i === step);
           const dotEl = pip.querySelector('.rb-fdots-row, .rb-fdots-grid, .rb-fpip-off');
