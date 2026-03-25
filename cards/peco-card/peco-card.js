@@ -74,21 +74,21 @@ class PecoCard extends HTMLElement {
     .usage-val{font-size:22px;font-weight:700;color:#e2e8f0;letter-spacing:-.5px;line-height:1}
     .usage-unit{font-size:11px;color:rgba(255,255,255,.35);margin-left:2px}
     .pct-pill{font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;flex-shrink:0}
-    .bar-bg{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin-top:6px}
+    .bar-bg{height:8px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden;margin-top:6px}
     .bar-fill{height:100%;border-radius:99px;transition:width .5s}
     .bar-ends{display:flex;justify-content:space-between;margin-top:3px}
-    .bar-end{font-size:9px;color:rgba(255,255,255,.2)}
+    .bar-end{font-size:9px;color:rgba(255,255,255,.50)}
     .divider{height:2px;background:rgba(255,255,255,.22)}
     .bill-row{display:flex;align-items:center;justify-content:space-between}
     .bill-lbl{font-size:12px;color:rgba(255,255,255,.45)}
     .bill-val{font-size:13px;font-weight:700;color:#e2e8f0}
-    .bill-note{font-size:10px;color:rgba(255,255,255,.25);margin-left:5px}
-    .gas-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.2);margin-bottom:4px}
-    .unavail-note{font-size:11px;color:rgba(255,255,255,.2);font-style:italic}
-    .updated{font-size:10px;color:rgba(255,255,255,.18);margin-top:2px}
+    .bill-note{font-size:10px;color:rgba(255,255,255,.50);margin-left:5px}
+    .gas-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.55);margin-bottom:4px}
+    .unavail-note{font-size:11px;color:rgba(255,255,255,.50);font-style:italic}
+    .updated{font-size:10px;color:rgba(255,255,255,.45);margin-top:2px}
     .typical-row{display:flex;align-items:center;justify-content:space-between;padding:4px 0}
-    .typical-lbl{font-size:11px;color:rgba(255,255,255,.3)}
-    .typical-val{font-size:11px;font-weight:700;color:rgba(255,255,255,.4)}
+    .typical-lbl{font-size:11px;color:rgba(255,255,255,.55)}
+    .typical-val{font-size:11px;font-weight:700;color:rgba(255,255,255,.70)}
   `; }
 
   _buildElectric() {

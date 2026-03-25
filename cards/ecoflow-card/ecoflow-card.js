@@ -1,5 +1,5 @@
 /**
- * ecoflow-card.js  —  v7
+ * ecoflow-card.js  —  v8
  * Ecoflow River 2 Pro power station card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -96,7 +96,7 @@ class EcoflowCard extends HTMLElement {
     .pw-lbl{font-size:12px;color:rgba(255,255,255,.4);flex:1}
     .pw-val{font-size:14px;font-weight:700}
     .pw-sub{font-size:10px;color:rgba(255,255,255,.3);margin-left:4px}
-    .divider{height:1px;background:rgba(255,255,255,.07)}
+    .divider{height:2px;background:rgba(255,255,255,.22)}
     .slider-section{display:flex;flex-direction:column;gap:5px;padding:6px 0}
     .slider-lbl-row{display:flex;justify-content:space-between;align-items:baseline}
     .slider-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3)}

@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v32
+ * septa-paoli-card.js  —  v33
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -522,7 +522,8 @@ class SeptaPaoliCard extends HTMLElement {
         ha-card {
           background: transparent !important;
           box-shadow: none !important;
-          border: none !important;
+          border: 1.5px solid rgba(255,255,255,.40) !important;
+          border-radius: 12px;
           padding: 8px 14px 10px;
           box-sizing: border-box;
           font-family: var(--primary-font-family, sans-serif);
@@ -541,8 +542,8 @@ class SeptaPaoliCard extends HTMLElement {
         .hero:active { opacity: 0.85; }
 
         .hero-neutral {
-          background: rgba(255,255,255,0.04);
-          border: 1.5px solid rgba(255,255,255,0.30);
+          background: rgba(255,255,255,0);
+          border: 1.5px solid rgba(255,255,255,0.40);
         }
 
         .hero-label {
@@ -667,7 +668,7 @@ class SeptaPaoliCard extends HTMLElement {
           align-items: flex-start;
           gap: 9px;
           background: rgba(239,68,68,0.12);
-          border: 1px solid rgba(239,68,68,0.45);
+          border: 1.5px solid rgba(239,68,68,0.60);
           border-radius: 9px;
           padding: 9px 13px;
           font-size: 12.5px;
@@ -689,28 +690,28 @@ class SeptaPaoliCard extends HTMLElement {
         /* ── Expanded row mode ── */
         .exp-wrap{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
         .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:space-between}
-        .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
+        .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.55)}
         .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
         .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
         .exp-train-row:active{opacity:.85}
         .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
         .exp-train-sub:active{opacity:.85}
-        .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
+        .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55);margin-bottom:3px}
         .exp-time-hero{font-size:26px;font-weight:600;letter-spacing:-1px;line-height:1}
-        .exp-ap{font-size:13px;font-weight:500;color:rgba(255,255,255,.35);margin-left:1px}
+        .exp-ap{font-size:13px;font-weight:500;color:rgba(255,255,255,.60);margin-left:1px}
         .exp-time-sub{font-size:18px;font-weight:600;letter-spacing:-.5px;line-height:1}
-        .exp-ap-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.3);margin-left:1px}
-        .exp-row-meta{font-size:10px;color:rgba(255,255,255,.3);margin-top:4px}
+        .exp-ap-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.55);margin-left:1px}
+        .exp-row-meta{font-size:10px;color:rgba(255,255,255,.55);margin-top:4px}
         .exp-row-right{text-align:right;flex-shrink:0}
-        .exp-arr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);margin-bottom:2px}
+        .exp-arr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.55);margin-bottom:2px}
         .exp-arr-hero{font-size:14px;font-weight:600}
         .exp-arr-sub{font-size:13px;font-weight:600}
         .exp-badge{font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:5px;display:inline-block}
         .exp-row-div{height:2px;background:rgba(255,255,255,.18);margin:0 10px}
         .exp-sec-div{height:2px;background:rgba(255,255,255,.22);margin:8px 14px 0}
-        .exp-train-footer{font-size:11px;color:rgba(255,255,255,.3);margin-top:5px}
-        .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1.5px solid rgba(255,255,255,.30)}
-        .exp-no-service{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:10px 14px}
+        .exp-train-footer{font-size:11px;color:rgba(255,255,255,.55);margin-top:5px}
+        .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.55);border-top:1.5px solid rgba(255,255,255,.30)}
+        .exp-no-service{font-size:12px;color:rgba(255,255,255,.55);font-style:italic;padding:10px 14px}
 
         /* ── Popup — mobile: bottom sheet, desktop ≥768px: centered modal ── */
         #sp-overlay {
@@ -894,37 +895,37 @@ class SeptaPaoliCard extends HTMLElement {
   _buildExpandedStyle() {
     return `
       :host{display:block}
-      ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0;font-family:var(--primary-font-family,sans-serif)}
+      ha-card{background:transparent!important;box-shadow:none!important;border:1.5px solid rgba(255,255,255,.40)!important;border-radius:12px;padding:0;font-family:var(--primary-font-family,sans-serif)}
       *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-      .exp-wrap{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
-      .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between}
-      .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
-      .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--secondary-text-color, rgba(255,255,255,.3));padding:10px 14px 0}
+      .exp-wrap{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
+      .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:space-between}
+      .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.55)}
+      .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55);padding:10px 14px 0}
       .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
       .exp-train-row:active{opacity:.85}
       .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
       .exp-train-sub:active{opacity:.85}
-      .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
+      .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55);margin-bottom:3px}
       .exp-time-hero{font-size:26px;font-weight:600;letter-spacing:-1px;line-height:1}
-      .exp-ap{font-size:13px;font-weight:500;color:rgba(255,255,255,.35);margin-left:1px}
+      .exp-ap{font-size:13px;font-weight:500;color:rgba(255,255,255,.60);margin-left:1px}
       .exp-time-sub{font-size:18px;font-weight:600;letter-spacing:-.5px;line-height:1}
-      .exp-ap-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.3);margin-left:1px}
-      .exp-row-meta{font-size:10px;color:rgba(255,255,255,.3);margin-top:4px}
+      .exp-ap-sub{font-size:10px;font-weight:500;color:rgba(255,255,255,.55);margin-left:1px}
+      .exp-row-meta{font-size:10px;color:rgba(255,255,255,.55);margin-top:4px}
       .exp-row-right{text-align:right;flex-shrink:0}
-      .exp-arr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);margin-bottom:2px}
+      .exp-arr-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.55);margin-bottom:2px}
       .exp-arr-hero{font-size:14px;font-weight:600}
       .exp-arr-sub{font-size:13px;font-weight:600}
       .exp-badge{font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:5px;display:inline-block}
-      .exp-row-div{height:1px;background:rgba(255,255,255,.05);margin:0 10px}
-      .exp-sec-div{height:1px;background:rgba(255,255,255,.07);margin:8px 14px 0}
-      .exp-train-footer{font-size:11px;color:rgba(255,255,255,.3);margin-top:5px}
-      .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.06)}
-      .exp-no-service{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:10px 14px}
-      .no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.06)}
+      .exp-row-div{height:2px;background:rgba(255,255,255,.18);margin:0 10px}
+      .exp-sec-div{height:2px;background:rgba(255,255,255,.22);margin:8px 14px 0}
+      .exp-train-footer{font-size:11px;color:rgba(255,255,255,.55);margin-top:5px}
+      .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.55);border-top:1.5px solid rgba(255,255,255,.25)}
+      .exp-no-service{font-size:12px;color:rgba(255,255,255,.55);font-style:italic;padding:10px 14px}
+      .no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.55);border-top:1.5px solid rgba(255,255,255,.25)}
       #sp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;box-sizing:border-box;align-items:flex-end;justify-content:center}
-      #sp-popup{background:var(--card-background-color,#1e1e1e);border:1px solid var(--divider-color, rgba(255,255,255,.22));border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
+      #sp-popup{background:#1a1a1a;border:1.5px solid rgba(255,255,255,.40);border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
       #sp-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 16px}
-      @media(min-width:768px){#sp-overlay{align-items:center;justify-content:center;padding:24px}#sp-popup{max-width: 440px;border-radius:16px;border-bottom:1px solid rgba(255,255,255,.12)}#sp-handle{display:none}}
+      @media(min-width:768px){#sp-overlay{align-items:center;justify-content:center;padding:24px}#sp-popup{max-width: 440px;border-radius:16px;border-bottom:1.5px solid rgba(255,255,255,.35)}#sp-handle{display:none}}
     `;
   }
 

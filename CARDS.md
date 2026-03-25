@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v91 | Fix: popup master lm-bar track .08→.40/4px→5px; popup individual pp-ltrack same |
 | v90 | Fix: light slider track rgba(.1)→(.35) — visible gray on OLED when off; switch track same; header pill padding 3→4px, margin 6→8px; rhead padding 14→16px |
 | v89 | UX: gray=off/color=on — removed all opacity dimming; itog/fpip/toggle/theme-area/blind/thermostat off states now solid gray not faded; tadj-off gray not transparent |
 | v88 | Fix: temp pill border 1px .22→1.5px .45; popup master expand border .12→.30 |
@@ -623,6 +624,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v23 | Fix: card-hdr now has border-bottom 1.5px .28 — consistent with all other cards |
 | v22 | Fix: popup sheet-head divider border .18→.30 |
 | v21 | Fix: network row bg .05→0, WiFi row bg→0, chip dots 7px→9px, disk temp border 1px .1→1.5px .28 |
 | v20 | Low-DPI: spark baseline stroke-width 1→1.5, opacity .2→.35 |
@@ -1083,6 +1085,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v33 | Fix: ha-card now has 1.5px .40 border in both compact and expanded views; hero-neutral bg .04→0, border .30→.40 |
 | v32 | Fix: all inline 1px→1.5px; card/pill/badge/row borders boosted (.25-.35→.55-.65); expanded view row bg→0, bdr .07→.30; slider now gray when off |
 | v31 | Fix: row/section dividers height:1px→2px, opacity .05/.07→.18/.22; no-alert border .18→.30 |
 | v30 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -1350,6 +1353,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v21 | Fix: tile-lbl color rgba(.55) instead of opacity:.6 on secondary text color |
 | v20 | Fix: tile 1px→1.5px; off state bg .04→0, border .1→.35; popup off border .22→.40 |
 | v19 | Fix: Lock/Climate/Trunk action button borders 1px→1.5px .7 |
 | v18 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -1714,6 +1718,7 @@ name: River 2 Pro
 
 | Version | Changes |
 |---------|---------|
+| v8 | Fix: section divider height 1px→2px, opacity .07→.22 |
 | v7 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v6 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v5 | Light mode: CSS vars on border/header; @media light override; header divider .07→.15 |

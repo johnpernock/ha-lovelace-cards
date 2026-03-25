@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v90
+ * room-controls-card.js  —  v91
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -354,11 +354,11 @@ class RoomControlsCard extends HTMLElement {
         body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:2px">
           ${masterIsSwitch
             ? `<div class="lm-sw-row" data-action="switch-toggle" data-entity="${cfg.entity}" data-room="${room.id}" style="cursor:pointer;-webkit-tap-highlight-color:transparent">
-                <div class="lm-track" style="background:${on?'rgba(251,191,36,.35)':'rgba(255,255,255,.35)'}"><div class="lm-fill" id="lfill-${room.id}" style="width:${on?'100':'0'}%"></div></div>
+                <div class="lm-track" style="background:${on?'rgba(251,191,36,.55)':'rgba(255,255,255,.55)'}"><div class="lm-fill" id="lfill-${room.id}" style="width:${on?'100':'0'}%"></div></div>
               </div>`
             : `<div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
                 <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
-                <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%"></div>
+                <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%;background:${on?'#fbbf24':'rgba(255,255,255,.70)'}"></div>
               </div>`}
           <div class="lm-btn">${this._ico('chev','rgba(255,255,255,.4)',14,14)}</div>
         </div>`;
@@ -736,7 +736,7 @@ class RoomControlsCard extends HTMLElement {
     .room{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
     .door-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;margin-left:7px;flex-shrink:0}
     .door-pill-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-    .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 9px;border-bottom:1.5px solid rgba(255,255,255,.30)}
+    .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 9px;gap:8px;border-bottom:1.5px solid rgba(255,255,255,.30)}
     .rlbl{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .rbody{padding:6px 10px 10px;display:flex;flex-direction:column;gap:5px}
     .tog{position:relative;border-radius:99px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
@@ -746,7 +746,7 @@ class RoomControlsCard extends HTMLElement {
     .lm-lbl.lit{color:rgba(255,255,255,.8)}
     .lm-sub{font-size:10px;color:rgba(255,255,255,.5);font-weight:400;margin-left:4px}
     .lm-slider-wrap{flex:1;height:32px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0;padding-right:12px}
-    .lm-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden;position:relative}
+    .lm-track{width:100%;height:7px;border-radius:99px;background:rgba(255,255,255,.55);overflow:hidden;position:relative}
     .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
     .lm-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
     .lm-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);width:28px;text-align:right;flex-shrink:0}
@@ -760,7 +760,7 @@ class RoomControlsCard extends HTMLElement {
     .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.75)}
     .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
     .light-row-simple{cursor:pointer}
-    .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:8px;font-weight:400}
+    .rhead-count{font-size:11px;color:rgba(255,255,255,.50);font-weight:400}
     .rhead-chev{cursor:pointer}
     .fan-section{display:flex;flex-direction:column;gap:4px}
     .fan-flat{display:flex;flex-direction:column;gap:4px}
@@ -782,7 +782,7 @@ class RoomControlsCard extends HTMLElement {
     .blind-pill-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
     .blind-pill-lbl{font-size:14px;font-weight:700}
     .blind-pill-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:1px}
-    .blind-pill-track{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin:0 2px}
+    .blind-pill-track{flex:1;height:7px;border-radius:99px;background:rgba(255,255,255,.30);overflow:hidden;margin:0 2px}
     .blind-pill-fill{height:100%;border-radius:99px;transition:width .3s}
     .blind-pill-pct{font-size:12px;font-weight:700;flex-shrink:0;width:30px;text-align:right}
     .garage-status{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;user-select:none;transition:filter .1s;margin:2px 0}
@@ -816,7 +816,7 @@ class RoomControlsCard extends HTMLElement {
     .hvac-btn{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;border:0.5px solid;cursor:pointer;transition:transform .1s;user-select:none}
     .hvac-btn:active{transform:scale(.95)}
     .hvac-lbl{font-size:11px;font-weight:700}
-    .rhead-temp-pill{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;flex-shrink:0;margin-left:8px}
+    .rhead-temp-pill{display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;font-size:11px;font-weight:700;flex-shrink:0}
     .rhead-temp-pill .rtp-cur{color:var(--primary-text-color)}
     .rhead-temp-pill .rtp-arr{color:rgba(255,255,255,.45);margin:0 1px}
     .rhead-temp-pill .rtp-set{color:#fb923c}
@@ -834,7 +834,7 @@ class RoomControlsCard extends HTMLElement {
     .mode-txt-fan{color:#2dd4bf}
     .mode-btn-swing{background:rgba(96,165,250,.06)!important;border-color:rgba(96,165,250,.25)!important}
     .mode-txt-swing{color:#60a5fa}
-    .strack{height:5px;border-radius:99px;background:rgba(255,255,255,.08);position:relative;overflow:visible}
+    .strack{height:7px;border-radius:99px;background:rgba(255,255,255,.30);position:relative;overflow:visible}
     .sfill{height:100%;border-radius:99px;background:#fbbf24;transition:width .1s;pointer-events:none}
     .sinput{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;height:18px;margin-top:-6px}
     .theme-block{margin-bottom:4px}
@@ -1222,7 +1222,7 @@ class RoomControlsCard extends HTMLElement {
         .pp-lname.lit{color:rgba(255,255,255,.65)}
         .pp-lrow{display:flex;align-items:center;gap:8px;padding:0}
         .pp-ldot{display:none}
-        .pp-ltrack{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+        .pp-ltrack{flex:1;height:5px;border-radius:99px;background:rgba(255,255,255,.40);overflow:hidden}
         .pp-lfill{height:100%;border-radius:99px;background:#fbbf24;transition:width .1s}
         .pp-lpct{font-size:9px;font-weight:700;color:rgba(251,191,36,.75);width:30px;text-align:right;flex-shrink:0}
         .pp-lpct.off{color:rgba(255,255,255,.2)}
@@ -1239,12 +1239,12 @@ class RoomControlsCard extends HTMLElement {
         .pp-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0}
         .pp-dot-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;line-height:1}
         .pp-preset-sel .pp-dot-lbl{color:rgba(255,255,255,.82)}
-        .strack{height:5px;border-radius:99px;background:rgba(255,255,255,.08);position:relative;overflow:visible}
+        .strack{height:7px;border-radius:99px;background:rgba(255,255,255,.30);position:relative;overflow:visible}
         .sfill{height:100%;border-radius:99px;background:#fbbf24;transition:width .1s;pointer-events:none}
         .sinput{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;height:44px;margin-top:-19px}
-        .lm-bar{height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+        .lm-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.40);overflow:hidden}
         .lm-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
-        .lm-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden;position:relative}
+        .lm-track{width:100%;height:7px;border-radius:99px;background:rgba(255,255,255,.55);overflow:hidden;position:relative}
         .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
         .lm-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
         .lm-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}

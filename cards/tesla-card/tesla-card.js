@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v20
+ * tesla-card.js  —  v21
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -355,9 +355,9 @@ class TeslaCard extends HTMLElement {
   _tileOff({ icon, state, label, id }) {
     return this._tile({
       icon, state, label, id,
-      color:  'rgba(255,255,255,0.35)',
+      color:  'rgba(255,255,255,0.65)',
       bg:     'rgba(255,255,255,0)',
-      border: 'rgba(255,255,255,0.35)',
+      border: 'rgba(255,255,255,0.40)',
     });
   }
 
@@ -366,7 +366,7 @@ class TeslaCard extends HTMLElement {
       icon, state, label, id,
       color:  `rgb(${r},${g},${b})`,
       bg:     `rgba(${r},${g},${b},0.12)`,
-      border: `rgba(${r},${g},${b},0.35)`,
+      border: `rgba(${r},${g},${b},0.55)`,
     });
   }
 
@@ -806,15 +806,15 @@ class TeslaCard extends HTMLElement {
           position: relative; overflow: hidden; flex-shrink: 0;
         }
         .batt-fill  { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; transition: width 0.6s ease; }
-        .batt-nub   { width: 5px; height: 14px; background: var(--divider-color, rgba(255,255,255,0.15)); border-radius: 0 2px 2px 0; margin-left: -1px; flex-shrink: 0; }
+        .batt-nub   { width: 5px; height: 14px; background: rgba(255,255,255,0.35); border-radius: 0 2px 2px 0; margin-left: -1px; flex-shrink: 0; }
         .batt-pct   { font-size: 13px; font-weight: 700; white-space: nowrap; }
-        .sep        { font-size: 11px; color: var(--secondary-text-color); opacity: 0.35; }
-        .batt-range { font-size: 13px; font-weight: 600; color: var(--secondary-text-color); white-space: nowrap; opacity: 0.7; }
+        .sep        { font-size: 11px; color: rgba(255,255,255,0.45); }
+        .batt-range { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); white-space: nowrap; }
         .eta        { font-size: 13px; font-weight: 600; color: #4ade80; white-space: nowrap; }
 
         /* ── Badges ── */
         .badges { display: flex; flex-direction: row; gap: 5px; flex-wrap: wrap; justify-content: flex-end; }
-        .badge  { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 99px; border: 1px solid; white-space: nowrap; }
+        .badge  { font-size: 10px; font-weight: 700; letter-spacing: 0.05em; padding: 3px 8px; border-radius: 99px; border: 1.5px solid; white-space: nowrap; }
         .badge-locked   { color: #4ade80; border-color: rgba(74,222,128,0.45);  background: rgba(74,222,128,0.08); }
         .badge-unlocked { color: #fb923c; border-color: rgba(251,146,60,0.45);  background: rgba(251,146,60,0.08); }
         .badge-charging { color: #60a5fa; border-color: rgba(96,165,250,0.45);  background: rgba(96,165,250,0.08); }
@@ -906,7 +906,7 @@ class TeslaCard extends HTMLElement {
         .tile-icon { width: 20px; height: 20px; flex-shrink: 0; }
         .tile-icon svg { width: 100%; height: 100%; }
         .tile-state { font-size: 13px; font-weight: 600; line-height: 1.2; }
-        .tile-lbl   { font-size: 10px; font-weight: 500; color: var(--secondary-text-color); margin-top: 2px; opacity: 0.6; }
+        .tile-lbl   { font-size: 10px; font-weight: 500; color: rgba(255,255,255,.55); margin-top: 2px; }
 
     /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
     @media (prefers-color-scheme: light) {
