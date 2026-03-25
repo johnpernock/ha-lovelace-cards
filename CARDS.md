@@ -327,6 +327,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v18 | Popup border opacity boosted (rgba 0.12→0.25) for better visibility on OLED/Amoled themes |
 | v17 | Added `greenhouse` icon to icon set; Solarium button updated from `home` fallback to `greenhouse` |
 | v16 | Yard popup: `theme_block` with area grid (matching lightfan view); `theme_block` config supported on any home button. Basement popup: fans added. `_themeAreaState` helper ported from room-controls-card |
 | v15 | Fix: fan speed detection aligned with room-controls-card — `_fanResolvedSpeeds` now adds +1 for Off pip, `_fanCurrentStep` uses `Math.round((pct/100)*(speeds-1))` matching room-controls exactly; `_fanSpeedPercentages` removed |

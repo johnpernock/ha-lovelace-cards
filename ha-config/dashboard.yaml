@@ -3,8 +3,8 @@ views:
     path: home
     icon: mdi:home
     type: sections
-    max_columns: 3
     theme: Amoled+
+    max_columns: 3
     sections:
       - type: grid
         cards:
@@ -245,8 +245,6 @@ views:
                     - entity: switch.garage_lights
                       name: Garage
                       mode: toggle
-              # theme_sensor adds holiday color strip + name label to this button.
-              # Hidden on non-holiday nights — no visual change.
               - entity: light.all_yard_lights
                 name: Yard
                 icon: tree
@@ -295,21 +293,6 @@ views:
               - type: custom:thermostat-card
                 entity: climate.solarium_mini_split
                 name: Solarium
-          - type: custom:temp-strip-card
-            unit: °F
-            sensors:
-              - entity: sensor.office_temperature
-                abbr: 'Off'
-              - entity: sensor.bedroom_temperature
-                abbr: Bed
-              - entity: climate.main_floor
-                abbr: Din
-              - entity: climate.family_room_2
-                abbr: FR·T
-              - entity: sensor.family_room_temperature
-                abbr: FR·S
-              - entity: climate.solarium_mini_split
-                abbr: Sol
           - type: custom:printer-status-card
             printer: p1s_01p09a3a1100648
       - type: grid
@@ -335,8 +318,8 @@ views:
     path: lightsfans
     icon: mdi:lightbulb-group
     type: sections
-    max_columns: 3
     theme: Amoled+
+    max_columns: 3
     sections:
       - type: grid
         cards:
@@ -393,6 +376,10 @@ views:
                 thermostat:
                   entity: climate.main_floor
                   name: Main Floor
+                  sensor: sensor.kitchen_temperature
+                  sensor_label: |-
+                    Room
+                    sensor
           - type: custom:room-controls-card
             rooms:
               - id: bathroom
@@ -408,10 +395,6 @@ views:
             rooms:
               - id: yard
                 name: Yard
-                # theme_block shows the active outdoor lighting schedule/holiday
-                # above the lights row. Reads from sensor.outdoor_lighting_theme.
-                # See ha-config/outdoor-lighting-theme-sensor.yaml for setup.
-                # light.yard_spotlights group defined in ha-config/light-groups.yaml.
                 theme_block:
                   sensor: sensor.outdoor_lighting_theme
                   areas:
@@ -504,6 +487,7 @@ views:
                     - entity: switch.garage_lights
                       name: Garage
                       mode: toggle
+                garage:
                   entity: cover.garage_door_door
       - type: grid
         cards:
@@ -567,56 +551,36 @@ views:
                   - entity: fan.workshop_demo_fan
                     name: Demo Fan
     cards: []
-  - title: Security
+  - type: panel
     path: security
+    title: Security
     icon: mdi:cctv
-    type: sections
-    max_columns: 3
-    theme: Amoled+
-    sections:
-      - type: grid
-        cards:
-          - type: custom:camera-layout-card
-            height: 640
-            doorbell:
-              entity: camera.g6_entry_high_resolution_channel
-              name: Front Door
-            cameras:
-              - entity: camera.driveway
-                name: Driveway
-              - entity: camera.back_garden
-                name: Back Garden
-              - entity: camera.back_yard
-                name: Back Yard
-              - entity: camera.garage_side_yard
-                name: Garage Side
-              - entity: camera.utility_side_yard
-                name: Utility Side
-            grid_options:
-              columns: 24
-              rows: auto
-        column_span: 2
-      - type: grid
-        cards:
-          - type: custom:protect-events-card
-            cameras:
-              - entity: camera.g6_entry_high_resolution_channel
-                sensor_base: g6_entry
-              - camera.driveway
-              - camera.back_garden
-              - camera.back_yard
-              - camera.garage_side_yard
-              - camera.utility_side_yard
-            max_events: 8
-            show_motion: false
-            cameras_view: /security
-    cards: []
+    cards:
+      - type: custom:camera-layout-card
+        height: 640
+        doorbell:
+          entity: camera.g6_entry_high_resolution_channel
+          name: Front Door
+        cameras:
+          - entity: camera.driveway
+            name: Driveway
+          - entity: camera.back_garden
+            name: Back Garden
+          - entity: camera.back_yard
+            name: Back Yard
+          - entity: camera.garage_side_yard
+            name: Garage Side
+          - entity: camera.utility_side_yard
+            name: Utility Side
+        grid_options:
+          columns: 24
+          rows: auto
   - title: Commute
     path: commute
     icon: mdi:train-car
     type: sections
-    max_columns: 3
     theme: Amoled+
+    max_columns: 3
     sections:
       - type: grid
         cards:
@@ -664,38 +628,38 @@ views:
             tire_warn_psi: 40
             temp_unit: F
             entities:
-              battery_level:        sensor.magneton_battery
-              battery_range:        sensor.magneton_range
-              charging_state:       binary_sensor.magneton_charging
-              door_lock:            lock.magneton_doors
-              climate:              climate.magneton_hvac_climate_system
-              trunk:                cover.magneton_trunk
-              sentry_mode:          switch.magneton_sentry_mode
-              odometer:             sensor.magneton_odometer
+              battery_level: sensor.magneton_battery
+              battery_range: sensor.magneton_range
+              charging_state: binary_sensor.magneton_charging
+              door_lock: lock.magneton_doors
+              climate: climate.magneton_hvac_climate_system
+              trunk: cover.magneton_trunk
+              sentry_mode: switch.magneton_sentry_mode
+              odometer: sensor.magneton_odometer
               interior_temperature: sensor.magneton_temperature_inside
               exterior_temperature: sensor.magneton_temperature_outside
-              tire_pressure_fl:     sensor.magneton_tpms_front_left
-              tire_pressure_fr:     sensor.magneton_tpms_front_right
-              tire_pressure_rl:     sensor.magneton_tpms_rear_left
-              tire_pressure_rr:     sensor.magneton_tpms_rear_right
+              tire_pressure_fl: sensor.magneton_tpms_front_left
+              tire_pressure_fr: sensor.magneton_tpms_front_right
+              tire_pressure_rl: sensor.magneton_tpms_rear_left
+              tire_pressure_rr: sensor.magneton_tpms_rear_right
           - type: custom:charging-card
             name: Magneton
             charger_name: Beryl Pulsar Plus
             wallbox_prefix: wallbox_beryl_pulsar_plus
             tesla:
-              battery_level:  sensor.magneton_battery
-              battery_range:  sensor.magneton_range
+              battery_level: sensor.magneton_battery
+              battery_range: sensor.magneton_range
               charging_state: binary_sensor.magneton_charging
-              charge_rate:    sensor.magneton_charging_rate
-              time_to_full:   sensor.magneton_time_charge_complete
-              charge_limit:   sensor.magneton_charge_limit
+              charge_rate: sensor.magneton_charging_rate
+              time_to_full: sensor.magneton_time_charge_complete
+              charge_limit: sensor.magneton_charge_limit
     cards: []
   - title: Technology
     path: technology
     icon: mdi:desktop-classic
     type: sections
-    max_columns: 3
     theme: Amoled+
+    max_columns: 3
     sections:
       - type: grid
         cards:
@@ -843,8 +807,8 @@ views:
     path: 3d-printer
     icon: mdi:printer-3d
     type: sections
-    max_columns: 2
     theme: Amoled+
+    max_columns: 2
     sections:
       - type: grid
         column_span: 2
@@ -855,14 +819,12 @@ views:
               columns: 24
               rows: auto
     cards: []
-
-
   - title: Energy
     path: energy
     icon: mdi:lightning-bolt
     type: sections
-    max_columns: 3
     theme: Amoled+
+    max_columns: 3
     sections:
       - type: grid
         cards:
