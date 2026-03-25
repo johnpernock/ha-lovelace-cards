@@ -1,5 +1,5 @@
 /**
- * bambu-printer-card.js  —  current
+ * bambu-printer-card.js  —  v3
  *
  * Unified Bambu Lab P1S dashboard card.
  * Shows printer status, progress, temperatures, speed/layer,

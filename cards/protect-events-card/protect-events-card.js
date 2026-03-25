@@ -1,5 +1,5 @@
 /**
- * protect-events-card.js  —  v1 (standalone — shared modules inlined)
+ * protect-events-card.js  —  v1.1 (standalone — shared modules inlined)
  *
  * Shared modules (ha-utils, ha-styles, ha-popup) are inlined directly
  * so this file has no external import dependencies.
