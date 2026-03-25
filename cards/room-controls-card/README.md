@@ -148,8 +148,10 @@ doors:
 | Version | Changes |
 |---------|---------|
 | v71 | Individual light rows in popup: borders/backgrounds removed; dot indicator (amber=on, grey=off) added left of name; flat single row with divider lines; slider and chevron inline |
+| v71 | Popup individual light rows: removed bordered box, added color dot before name (reflects current rgb/CT/on state), flat single row layout with name+slider+pct+chevron. Added _lightDotColor() helper that maps rgb_color and color_temp_kelvin to a display color. |
 | v70 | v70 | Popup improvements: expand chevrons bare (no box); off individual lights dimmed to 65% opacity; pct hidden when off; subtitle "X of Y on" → "X / Y"; sheet max-width 500→440px |
 | v71 | Individual light rows in popup: borders/backgrounds removed; dot indicator (amber=on, grey=off) added left of name; flat single row with divider lines; slider and chevron inline |
+| v71 | Popup individual light rows: removed bordered box, added color dot before name (reflects current rgb/CT/on state), flat single row layout with name+slider+pct+chevron. Added _lightDotColor() helper that maps rgb_color and color_temp_kelvin to a display color. |
 | v70 | Individual lights in popup: removed border/background; name now uppercase label above slider row; slider thumb min 4%; pct empty when off; expand chevron moved to name row right |
 | v69 | Popup sheet header: added top padding (was 0); title 16px→17px white bold matching dashboard style |
 | v68 | Fixed: All Lights expand chevron was missing data-room attribute so rid was undefined and the expand block never toggled |

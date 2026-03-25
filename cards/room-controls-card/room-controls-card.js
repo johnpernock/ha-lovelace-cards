@@ -184,6 +184,23 @@ class RoomControlsCard extends HTMLElement {
     const modes = this._attr(id,'supported_color_modes') || [];
     return modes.some(m => ['xy','hs','rgb','rgbw','rgbww'].includes(m));
   }
+  _lightDotColor(id) {
+    // Returns a CSS color string representing the light's current color
+    const s = this._state(id);
+    if (!s || s.state !== 'on') return 'rgba(255,255,255,.2)';
+    const rgb = s.attributes.rgb_color;
+    if (rgb) return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+    const k = s.attributes.color_temp_kelvin;
+    if (k) {
+      // Map kelvin to warm-cool gradient: 2000K=amber, 4000K=white, 6500K=cool blue
+      const t = Math.max(0, Math.min(1, (k - 2000) / 4500));
+      const r = Math.round(255 - t * 55);
+      const g = Math.round(200 + t * 44);
+      const b = Math.round(80 + t * 175);
+      return `rgb(${r},${g},${b})`;
+    }
+    return '#fbbf24'; // amber — on but no color info
+  }
   _ctRange(id) {
     const min = this._attr(id,'min_color_temp_kelvin') || 2000;
     const max = this._attr(id,'max_color_temp_kelvin') || 6500;
@@ -590,21 +607,19 @@ class RoomControlsCard extends HTMLElement {
       const lSliderPct = lon ? lpct : 0;
       const hasCols = !isSw&&(this._supportsCT(l.entity)||this._supportsColor(l.entity));
       const lname = l.name||this._attr(l.entity,'friendly_name')||l.entity.split('.').pop().replace(/_/g,' ');
-      return `<div class="pp-light${lon?' pp-light-on':''}" id="ppl-${room.id}-${li}">
+      const dotClr = this._lightDotColor(l.entity);
+      return `<div class="pp-light" id="ppl-${room.id}-${li}">
         <div class="pp-lrow">
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <span class="pp-lname${lon?' lit':''}">${lname}</span>
-            ${hasCols?`<div class="pp-lchev" data-action="popup-light-exp" data-room="${room.id}" data-li="${li}">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="ppla-${room.id}-${li}"><polyline points="6 9 12 15 18 9"/></svg>
-            </div>`:''}
-          </div>
-          <div style="display:flex;align-items:center;gap:8px">
-            ${!isSw?`<div class="lm-slider-wrap" id="ppls-wrap-${room.id}-${li}" data-room="${room.id}" data-li="${li}" data-action="popup-brightness-drag" data-entity="${l.entity}" style="touch-action:none">
+          <div class="pp-ldot" id="ppdot-${room.id}-${li}" style="background:${dotClr}"></div>
+          <span class="pp-lname${lon?' lit':''}">${lname}</span>
+          ${!isSw?`<div class="lm-slider-wrap" id="ppls-wrap-${room.id}-${li}" data-room="${room.id}" data-li="${li}" data-action="popup-brightness-drag" data-entity="${l.entity}" style="touch-action:none">
               <div class="lm-track"><div class="lm-fill" id="ppls-${room.id}-${li}" style="width:${lSliderPct}%"></div></div>
               <div class="lm-thumb" id="pplthumb-${room.id}-${li}" style="left:${Math.max(4,Math.min(lSliderPct,96))}%"></div>
             </div>`:`<div style="flex:1"></div>`}
-            <span class="lm-pct" id="ppp-${room.id}-${li}">${lon?(isSw?'On':lpct+'%'):''}</span>
-          </div>
+          <span class="lm-pct" id="ppp-${room.id}-${li}">${lon?(isSw?'On':lpct+'%'):''}</span>
+          ${hasCols?`<div class="pp-lchev" data-action="popup-light-exp" data-room="${room.id}" data-li="${li}">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="ppla-${room.id}-${li}"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>`:''}
         </div>
         ${hasCols?`<div class="pp-color-sec hidden" id="ppcs-${room.id}-${li}">
           ${this._supportsCT(l.entity)?`<div class="pp-clbl">Color temperature</div>
@@ -1155,8 +1170,8 @@ class RoomControlsCard extends HTMLElement {
         .pp-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
         .pp-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
         .pp-lights{padding:2px 0 6px;display:flex;flex-direction:column}
-        .pp-light{border-radius:7px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);overflow:hidden;opacity:.65}
-        .pp-light-on{background:rgba(251,191,36,.04);border-color:rgba(251,191,36,.18);opacity:1}
+        .pp-light{overflow:hidden;opacity:.65}
+        .pp-light-on{opacity:1}
         .pp-lrow{display:flex;flex-direction:column;gap:4px;padding:8px 11px 6px}
         .pp-ldot{width:9px;height:9px;border-radius:50%;flex-shrink:0;transition:background .15s}
         .pp-lname{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0;width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
