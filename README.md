@@ -317,4 +317,4 @@ See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
 |---|---|
 | [ha-lovelace-cards](https://github.com/johnpernock/ha-lovelace-cards) | This repo — dashboard cards displayed on the kiosk |
 | [ha-pi-dashboard](https://github.com/johnpernock/ha-pi-dashboard) | Kiosk OS setup — Pi hardware, browser_mod, display API |
-| [homeassistant-kiosk-popup-automation](https://github.com/johnpernock/homeassistant-kiosk-popup-automation) | browser_mod popup cards — NWS alerts, doorbell, SEPTA delays |
+| [ha-kiosk-popup-automation](https://github.com/johnpernock/ha-kiosk-popup-automation) | browser_mod popup cards — NWS alerts, doorbell, SEPTA delays |
