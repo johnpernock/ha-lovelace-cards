@@ -1239,6 +1239,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v13 | Remove .wrap border — borderless on Commute view |
 | v12 | UX: lb-ok (on-time) rows → green tint rgba(74,222,128,.08) bg + .50 border; now/soon rows already red/amber; all statuses now consistently color-coded |
 | v12 | UX: full row tinting — ok=green bg.08/border.55, soon=amber bg.10/border.55, now=red bg.12/border.55; all borders boosted to .55 |
 | v11 | UX: card-hdr border .28→.40; more space between header and pills (drive-note padding, row margin 6→8px) |
