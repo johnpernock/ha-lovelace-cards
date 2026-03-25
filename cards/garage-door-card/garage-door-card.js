@@ -1,5 +1,5 @@
 /**
- * garage-door-card.js  —  v9
+ * garage-door-card.js  —  v10
  * Compact garage door toggle card for Home Assistant Lovelace.
  *
  * ── SHARED MODULES ────────────────────────────────────────────────────────────
@@ -62,6 +62,11 @@ class GarageDoorCard extends HTMLElement {
     const prev = this._hass;
     this._hass = hass;
     if (!this.shadowRoot.querySelector('.btn') || !prev) { this._render(); return; }
+    // Only patch if the entity state actually changed — prevents unnecessary DOM
+    // mutations that restart the indeterminate CSS animation mid-cycle.
+    const newState = (hass.states[this._config.entity]?.state || 'unknown').toLowerCase();
+    if (newState === this._lastState) return;
+    this._lastState = newState;
     this._patch();
   }
   getCardSize()   { return 3; }
@@ -81,20 +86,26 @@ class GarageDoorCard extends HTMLElement {
     const unavail = isUnavailable(this._hass, this._config.entity);
     const state   = (getVal(this._hass, this._config.entity) || 'unknown').toLowerCase();
     const t       = getTheme(unavail ? 'unknown' : state);
-    const btn     = this.shadowRoot.querySelector('.btn');
-    const ico     = this.shadowRoot.querySelector('.ico');
-    const lbl     = this.shadowRoot.querySelector('.label');
-    const sub     = this.shadowRoot.querySelector('.sub-label');
-    const prog    = this.shadowRoot.querySelector('.prog-indeterminate');
+    const btn     = this.shadowRoot.getElementById('gd-btn');
+    const ico     = this.shadowRoot.querySelector('.btn-icon');
+    const lbl     = this.shadowRoot.querySelector('.btn-label');
+    const sub     = this.shadowRoot.querySelector('.btn-sub');
+    const progWrap = this.shadowRoot.querySelector('.prog-wrap');
     if (!btn) return;
-    btn.style.background   = t.btnBg;
-    btn.style.borderColor  = t.btnBorder;
-    btn.disabled           = !t.canToggle || this._busy;
-    if (ico)  ico.style.color  = t.iconColor;
-    if (ico)  ico.innerHTML    = doorIcon(state);
-    if (lbl)  { lbl.textContent = t.label; lbl.style.color = t.textColor; }
-    if (sub)  { sub.textContent = t.subLabel; sub.style.color = t.textColor; }
-    if (prog) prog.style.display = t.canToggle ? 'none' : 'block';
+
+    // canToggle changed (e.g. closed→opening adds/removes the progress bar) → full re-render
+    const wasToggleable = !btn.disabled;
+    if (wasToggleable !== t.canToggle) { this._render(); return; }
+
+    btn.style.background  = t.btnBg;
+    btn.style.borderColor = t.btnBorder;
+    if (ico) { ico.style.color = t.iconColor; ico.innerHTML = doorIcon(state); }
+    if (lbl) { lbl.textContent = t.label;    lbl.style.color = t.textColor; }
+    if (sub) { sub.textContent = t.subLabel; sub.style.color = t.textColor; }
+    if (progWrap) {
+      const bar = progWrap.querySelector('.prog-bar');
+      if (bar) bar.style.background = t.iconColor;
+    }
   }
 
   _render() {

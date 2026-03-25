@@ -1434,6 +1434,7 @@ name: Garage
 
 | Version | Changes |
 |---------|---------|
+| v10 | Fix: animation stutter during opening/closing — `set hass` now skips patch when state unchanged; `_patch()` triggers full re-render on canToggle change (adds/removes progress bar); selectors fixed to match rendered class names |
 | v9 | Version header corrected — JS was at v8 but resources required v9 due to prior deploy |
 | v8 | Version header corrected — JS was at v7 but resources required v8 due to prior deploy |
 | v7 | Version header corrected — JS was at v7 but CARDS.md only had v6 |
