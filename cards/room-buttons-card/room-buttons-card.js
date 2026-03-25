@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v14
+ * room-buttons-card.js  —  v15
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -286,32 +286,25 @@ class RoomButtonsCard extends HTMLElement {
   }
 
   _fanResolvedSpeeds(cfg) {
+    // Returns total pip count including the Off pip (pip 0).
+    // e.g. a fan with 4 speed steps → 5 pips (Off + 4).
     if (cfg.speeds != null) return cfg.speeds;
     const e = this._entityState(cfg.entity);
-    if (!e) return 3;
+    if (!e) return 5;
     const step = e.attributes.percentage_step;
-    if (step && step > 0) return Math.round(100 / step);
+    if (step && step > 0) return Math.round(100 / step) + 1;
     const sc = e.attributes.speed_count;
-    if (sc && sc > 1) return sc;
-    return 3;
-  }
-
-  _fanSpeedPercentages(cfg) {
-    if (cfg.speed_percentages) return cfg.speed_percentages;
-    const speeds = this._fanResolvedSpeeds(cfg);
-    return Array.from({length: speeds}, (_, i) => Math.round((i + 1) * (100 / speeds)));
+    if (sc && sc > 1) return sc + 1;
+    return 5;
   }
 
   _fanCurrentStep(cfg) {
+    // Returns the active pip index (0 = Off).
     const e = this._entityState(cfg.entity);
     if (!e || e.state === 'off' || e.state === 'unavailable') return 0;
-    const pct = e.attributes.percentage;
-    if (pct == null || pct === 0) return e.state === 'on' ? 1 : 0;
-    const sps = this._fanSpeedPercentages(cfg);
-    for (let i = 0; i < sps.length; i++) {
-      if (pct <= sps[i] + 8) return i + 1;
-    }
-    return sps.length;
+    const speeds = this._fanResolvedSpeeds(cfg);
+    const pct    = e.attributes.percentage ?? (e.state === 'on' ? 50 : 0);
+    return Math.max(1, Math.min(speeds - 1, Math.round((pct / 100) * (speeds - 1))));
   }
 
   _coverGroupState(cfg) {
@@ -420,8 +413,9 @@ class RoomButtonsCard extends HTMLElement {
       this._callService('fan', 'turn_off', entityId, `fan-${entityId}`);
       return;
     }
-    const sps = this._fanSpeedPercentages(cfg);
-    const pct = sps[step - 1] || 100;
+    // Compute target percentage: step N out of (speeds-1) steps maps to N/(speeds-1)*100
+    const speeds = this._fanResolvedSpeeds(cfg);
+    const pct    = Math.round((step / (speeds - 1)) * 100);
     this._callServiceData('fan', 'set_percentage', {
       entity_id:  entityId,
       percentage: pct,
@@ -846,7 +840,6 @@ class RoomButtonsCard extends HTMLElement {
 
   _fanTileHTML(cfg) {
     const speeds       = this._fanResolvedSpeeds(cfg);
-    const sps          = this._fanSpeedPercentages(cfg);
     const currentStep  = this._fanCurrentStep(cfg);
     const isOn         = currentStep > 0;
     const color        = '#38bdf8';
@@ -855,26 +848,23 @@ class RoomButtonsCard extends HTMLElement {
       || this._entityState(cfg.entity)?.attributes?.friendly_name
       || cfg.entity;
 
-    // Pip heights for header indicator — generated for any speed count
+    // Pip heights for header indicator
     const pipHs = Array.from({length: speeds}, (_, i) => Math.round(5 + (i / (speeds - 1 || 1)) * 11));
     const headerPips = pipHs.map((h, i) =>
       `<div style="width:5px;height:${h}px;border-radius:2px 2px 1px 1px;` +
       `background:${i < currentStep && isOn ? color : 'rgba(255,255,255,0.14)'}"></div>`
     ).join('');
 
-    // Speed buttons: off (✕) + 1..speeds (growing pips)
+    // Speed buttons: off (✕) + 1..(speeds-1) speed steps
     let speedBtns = '';
-
-    // Off button
     const offActive = currentStep === 0;
     speedBtns += `<div class="spd-btn${offActive ? ' s-active-off' : ''}" data-fan-step="0">
       <div class="spd-x${offActive ? ' spd-x-on' : ''}"></div>
     </div>`;
 
-    // Speed 1..N buttons
-    for (let i = 1; i <= speeds; i++) {
+    for (let i = 1; i < speeds; i++) {
       const isActive = i === currentStep;
-      const btnPipHs = Array.from({length: i}, (_, j) => Math.round(5 + (j / (speeds - 1 || 1)) * 11));
+      const btnPipHs = Array.from({length: i}, (_, j) => Math.round(5 + (j / (speeds - 2 || 1)) * 11));
       const pips     = btnPipHs.map(h =>
         `<div style="width:4px;height:${h}px;border-radius:2px 2px 1px 1px;` +
         `background:${isActive ? color : 'rgba(255,255,255,0.18)'}"></div>`
@@ -889,7 +879,7 @@ class RoomButtonsCard extends HTMLElement {
         <div class="fan-ico" style="color:${isOn ? color : 'rgba(255,255,255,0.28)'}">${this._icon('fan')}</div>
         <div class="fan-info">
           <div class="fan-lbl">${label}</div>
-          <div class="fan-state" style="color:${isOn ? color : 'rgba(255,255,255,0.35)'}">${speedLabels[currentStep]}</div>
+          <div class="fan-state" style="color:${isOn ? color : 'rgba(255,255,255,0.35)'}">${speedLabels[currentStep] || 'Speed ' + currentStep}</div>
         </div>
         <div style="display:flex;gap:2px;align-items:flex-end">${headerPips}</div>
       </div>
