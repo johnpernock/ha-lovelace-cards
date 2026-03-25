@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v37
+ * septa-paoli-card.js  —  v38
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -387,8 +387,8 @@ class SeptaPaoliCard extends HTMLElement {
           const tDelayedArr = tDelayed ? this._calcDelayedArrival(t.arrives, t.delay) : null;
           const tMins       = tDelayed ? parseInt(t.delay.replace(/[^0-9]/g, '')) : 0;
           const tArrTime    = tDelayedArr ? tDelayedArr.time : t.arrives;
-          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0)';
-          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.55)' : 'rgba(255,255,255,0.40)';
+          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(74,222,128,0.08)';
+          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.55)' : 'rgba(74,222,128,0.55)';
           const statusEl    = tDelayed
             ? `<span class="pill-late">+${tMins}m</span>`
             : this._checkmark();
@@ -459,8 +459,8 @@ class SeptaPaoliCard extends HTMLElement {
           const tDelayedArr = tDelayed ? this._calcDelayedArrival(t.arrives, t.delay) : null;
           const tMins       = tDelayed ? parseInt(t.delay.replace(/[^0-9]/g, '')) : 0;
           const tArrTime    = tDelayedArr ? tDelayedArr.time : t.arrives;
-          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0)';
-          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.55)' : 'rgba(255,255,255,0.40)';
+          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(74,222,128,0.08)';
+          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.55)' : 'rgba(74,222,128,0.55)';
           const statusEl    = tDelayed
             ? `<span class="pill-late">+${tMins}m</span>`
             : this._checkmark();
@@ -840,8 +840,8 @@ class SeptaPaoliCard extends HTMLElement {
       const timeCls = isHero ? 'exp-time-hero' : 'exp-time-sub';
       const apCls   = isHero ? 'exp-ap' : 'exp-ap-sub';
       const arrCls  = isHero ? 'exp-arr-hero' : 'exp-arr-sub';
-      const bg      = isHero ? cardBg : 'rgba(255,255,255,0)';
-      const bdr     = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.45)' : 'rgba(255,255,255,.30)');
+      const bg      = isHero ? cardBg : (isDelayed ? 'rgba(239,68,68,.06)' : 'rgba(74,222,128,.06)');
+      const bdr     = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.45)' : 'rgba(74,222,128,.55)');
       const parts   = train.departs.toUpperCase().replace(/\s/g,'');
       const depNum  = parts.replace('AM','').replace('PM','');
       const depAp   = parts.includes('PM') ? 'PM' : 'AM';
@@ -868,8 +868,8 @@ class SeptaPaoliCard extends HTMLElement {
       const timeCls  = isHero ? 'exp-time-hero' : 'exp-time-sub';
       const apCls    = isHero ? 'exp-ap' : 'exp-ap-sub';
       const arrCls   = isHero ? 'exp-arr-hero' : 'exp-arr-sub';
-      const bg       = isHero ? cardBg : 'rgba(255,255,255,0)';
-      const bdr      = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.45)' : 'rgba(255,255,255,.30)');
+      const bg       = isHero ? cardBg : (isDelayed ? 'rgba(239,68,68,.06)' : 'rgba(74,222,128,.06)');
+      const bdr      = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.45)' : 'rgba(74,222,128,.55)');
       const timeClr  = isHero ? (isDelayed ? '#fca5a5' : 'white') : (isDelayed ? 'rgba(252,165,165,.8)' : 'rgba(255,255,255,.75)');
       const footer   = isHero && nextStation ? `<div class="exp-train-footer">At ${nextStation}</div>` : '';
       return `<div class="${rowCls}" style="background:${bg};border:1.5px solid ${bdr}" data-train='${JSON.stringify({...train,extra:nextStation||'—'})}' data-type="inbound">

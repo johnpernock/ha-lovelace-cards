@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v18
+ * traffic-card.js  —  v19
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -184,7 +184,7 @@ class TrafficCard extends HTMLElement {
     const t    = this._delayTheme(data.delay, this._config.incident_threshold);
     const name = cfg.route_label || cfg.label || data.route;
     const via  = cfg.via_label || '';
-    return `<div class="tile${isDimmed ? ' dimmed' : ''}">
+    return `<div class="tile${isDimmed ? ' dimmed' : ''}" style="background:rgba(${t.rgb},.07)">
       <div class="tile-left">
         ${isBest ? `<div class="best-badge">Fastest</div>` : ''}
         <div class="route-name${!isBest && !isPrimary ? ' slow' : ''}">${name}</div>
@@ -254,7 +254,7 @@ class TrafficCard extends HTMLElement {
       const t    = this._delayTheme(data.delay, threshold);
       const name = cfg_route.route_label || cfg_route.label || data.route;
       const via  = cfg_route.via_label || '';
-      return `<div class="exp-hero-row${isDimmed?' dimmed':''}" style="background:rgba(${t.rgb},.07);border:1px solid rgba(${t.rgb},.25)">
+      return `<div class="exp-hero-row${isDimmed?' dimmed':''}" style="background:rgba(${t.rgb},.07);border:1.5px solid rgba(${t.rgb},.45)">
         <div>
           <div class="exp-row-lbl">${label}</div>
           <div class="exp-row-route" style="color:${t.color}">${name}</div>

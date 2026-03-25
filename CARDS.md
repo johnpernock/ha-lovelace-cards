@@ -1086,6 +1086,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v38 | UX: small on-time pills get green tint bg .08 + green border .55 (was clear/white); expanded non-hero rows get green/red tint bg .06 and green border .55 |
 | v37 | Remove exp-row-div dividers between train rows in expanded view |
 | v36 | UX: hide .div separator between outbound and inbound trains |
 | v35 | Fix: restore border:none!important on compact ha-card — HA default was showing through |
@@ -1167,6 +1168,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v19 | UX: tile rows get color tint bg rgba(t.rgb,.07); exp-hero-row border 1px.25→1.5px.45 |
 | v18 | Fix: card-hdr border .28→.40; .divider hidden (card-hdr border handles separation) |
 | v18 | Fix: .card-hdr missing border-bottom — added 1.5px rgba(.28) |
 | v17 | UX: removed .dimmed opacity — rows show at full opacity, distinction comes from color not fading |
@@ -1227,6 +1229,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v12 | UX: full row tinting — ok=green bg.08/border.55, soon=amber bg.10/border.55, now=red bg.12/border.55; all borders boosted to .55 |
 | v11 | UX: card-hdr border .28→.40; more space between header and pills (drive-note padding, row margin 6→8px) |
 | v11 | Fix: row margin/padding +2px; chip borders 1px→1.5px; row bdr colors boosted; 1px→1.5px on rows |
 | v10 | UX: removed opacity:.65 on on-time rows — all rows same opacity, on-time shown via green color |
