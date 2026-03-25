@@ -4,24 +4,20 @@ wallpanel:
   hide_toolbar_action_icons: true
   hide_sidebar: true
   fullscreen: true
-  # ── Screensaver ────────────────────────────────────────────────────────────
-  # idle_time: 0 disables the screensaver entirely.
-  # To re-enable later, set idle_time to seconds (e.g. 300 = 5 min) and
-  # uncomment screensaver_entity so HA automations can control it.
+  # ── Screensaver disabled ───────────────────────────────────────────────────
   idle_time: 0
-  # screensaver_entity: input_boolean.wallpanel_screensaver
   # ── Browser Mod integration ────────────────────────────────────────────────
-  # Requires Browser Mod (https://github.com/thomasloven/hass-browser_mod).
-  # Once installed, open the dashboard on the wall display — Browser Mod will
-  # register a Browser ID automatically (visible in Browser Mod settings).
-  # Then replace WALL_PANEL_BROWSER_ID below with that ID (hyphens → underscores)
-  # and uncomment the profiles block to enable device-specific settings and
-  # keep the display permanently logged in.
-  #
-  # profiles:
-  #   device.WALL_PANEL_BROWSER_ID:
-  #     enabled: true
-  #     idle_time: 0
+  # Setup steps:
+  # 1. Install Browser Mod via HACS
+  # 2. Open the wall display browser → HA sidebar → Browser Mod
+  # 3. Set Browser ID to: dining-room-display  (before hitting Register)
+  # 4. Toggle Register on, clear cache (Ctrl+F5 or hard refresh)
+  # 5. In Browser Mod settings for this browser, enable "Lock user" so it
+  #    never prompts for login again
+  profiles:
+    device.dining_room_display:
+      enabled: true
+      idle_time: 0
 views:
   - title: Home
     path: home
