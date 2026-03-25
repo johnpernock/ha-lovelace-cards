@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v27
+ * room-buttons-card.js  —  v28
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -1568,7 +1568,7 @@ class RoomButtonsCard extends HTMLElement {
         .rb-sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65);padding:0 0 4px;display:block}
         .rb-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28);padding:0 0 6px;display:block}
         .rb-lights-sec{padding:0 0 4px}
-        .rb-master{margin:0 0 6px;border-radius:8px;background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.12);overflow:hidden}
+        .rb-master{margin:0 0 6px;border-radius:8px;background:rgba(251,191,36,0);border:1.5px solid rgba(251,191,36,.35);overflow:hidden}
         .rb-mrow{display:flex;align-items:center;gap:8px;padding:10px 12px}
         .rb-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
         .rb-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden;position:relative}

@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v30
+ * septa-paoli-card.js  —  v31
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -706,10 +706,10 @@ class SeptaPaoliCard extends HTMLElement {
         .exp-arr-hero{font-size:14px;font-weight:600}
         .exp-arr-sub{font-size:13px;font-weight:600}
         .exp-badge{font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:5px;display:inline-block}
-        .exp-row-div{height:1px;background:rgba(255,255,255,.05);margin:0 10px}
-        .exp-sec-div{height:1px;background:rgba(255,255,255,.07);margin:8px 14px 0}
+        .exp-row-div{height:2px;background:rgba(255,255,255,.18);margin:0 10px}
+        .exp-sec-div{height:2px;background:rgba(255,255,255,.22);margin:8px 14px 0}
         .exp-train-footer{font-size:11px;color:rgba(255,255,255,.3);margin-top:5px}
-        .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1.5px solid rgba(255,255,255,.18)}
+        .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1.5px solid rgba(255,255,255,.30)}
         .exp-no-service{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:10px 14px}
 
         /* ── Popup — mobile: bottom sheet, desktop ≥768px: centered modal ── */

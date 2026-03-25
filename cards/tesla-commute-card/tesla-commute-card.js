@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v10
+ * tesla-commute-card.js  —  v11
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -247,13 +247,13 @@ class TeslaCommuteCard extends HTMLElement {
       auto: 'Auto', fan_only: 'Fan', dry: 'Dry', off: 'Off'
     }[climateMode] || climateMode;
     const onBadgeStyle = climateOn
-      ? `background:rgba(249,115,22,.15);color:#f97316;border:1px solid rgba(249,115,22,.3)`
+      ? `background:rgba(249,115,22,.15);color:#f97316;border:1.5px solid rgba(249,115,22,.5)`
       : `background:rgba(255,255,255,.07);color:rgba(255,255,255,.3)`;
 
     // Lock badge
     const lockBadgeStyle = locked
-      ? `background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.3)`
-      : `background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.3)`;
+      ? `background:rgba(74,222,128,.12);color:#4ade80;border:1.5px solid rgba(74,222,128,.5)`
+      : `background:rgba(248,113,113,.12);color:#f87171;border:1.5px solid rgba(248,113,113,.5)`;
 
     // Action buttons
     const OFF_BG  = `background:rgba(255,255,255,0);border-color:rgba(255,255,255,.28)`;

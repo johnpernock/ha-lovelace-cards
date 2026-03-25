@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v15
+ * traffic-card.js  —  v16
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -169,8 +169,8 @@ class TrafficCard extends HTMLElement {
     .exp-time-sm{font-size:20px;font-weight:600;letter-spacing:-.3px;line-height:1}
     .exp-min{font-size:11px;font-weight:500;color:rgba(255,255,255,.35);margin-left:2px}
     .exp-badge{font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:5px;display:inline-block}
-    .exp-row-div{height:1px;background:rgba(255,255,255,.05);margin:0 10px}
-    .exp-sec-div{height:1px;background:rgba(255,255,255,.07);margin:8px 14px 0}
+    .exp-row-div{height:2px;background:rgba(255,255,255,.18);margin:0 10px}
+    .exp-sec-div{height:2px;background:rgba(255,255,255,.22);margin:8px 14px 0}
   `; }
 
   // ── Route tile HTML ───────────────────────────────────────────────────────
@@ -263,7 +263,7 @@ class TrafficCard extends HTMLElement {
         <div class="exp-row-right">
           <div class="exp-arr-lbl">Travel time</div>
           <div class="exp-time-xl" style="color:${t.color}">${data.current}<span class="exp-min">min</span></div>
-          <div class="exp-badge" style="background:rgba(${t.rgb},.12);color:${t.color};border:1px solid rgba(${t.rgb},.3)">${t.label}</div>
+          <div class="exp-badge" style="background:rgba(${t.rgb},.12);color:${t.color};border:1.5px solid rgba(${t.rgb},.45)">${t.label}</div>
         </div>
       </div>`;
     };
@@ -281,7 +281,7 @@ class TrafficCard extends HTMLElement {
         </div>
         <div class="exp-row-right">
           <div class="exp-time-sm" style="color:rgba(255,255,255,.6)">${data.current}<span class="exp-min">min</span></div>
-          <div class="exp-badge" style="background:rgba(${t.rgb},.10);color:${t.color};border:1px solid rgba(${t.rgb},.25)">${isBest ? 'Fastest' : t.label}</div>
+          <div class="exp-badge" style="background:rgba(${t.rgb},.10);color:${t.color};border:1.5px solid rgba(${t.rgb},.40)">${isBest ? 'Fastest' : t.label}</div>
         </div>
       </div>`;
     };

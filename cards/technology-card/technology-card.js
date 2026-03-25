@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v21
+ * technology-card.js  —  v22
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -197,7 +197,7 @@ class TechnologyCard extends HTMLElement {
       .sheet-handle{display:none!important}
     }
     .sheet-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.15);margin:12px auto 8px}
-    .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;padding:0 16px 12px;border-bottom:1.5px solid rgba(255,255,255,.18)}
+    .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;padding:0 16px 12px;border-bottom:1.5px solid rgba(255,255,255,.30)}
     .sheet-title{font-size:16px;font-weight:700;color:#e2e8f0;margin-bottom:3px}
     .sheet-sub{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
     .sheet-close{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);cursor:pointer;color:rgba(255,255,255,.6);font-size:17px;display:flex;align-items:center;justify-content:center;border:none;flex-shrink:0}

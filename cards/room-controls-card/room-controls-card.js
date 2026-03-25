@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v87
+ * room-controls-card.js  —  v88
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -514,7 +514,7 @@ class RoomControlsCard extends HTMLElement {
         const _setHtml = (!_isOff && _set != null)
           ? `<span class="rtp-arr">→</span><span class="rtp-set">${_set}°</span>`
           : '';
-        tempPill = `<div class="rhead-temp-pill" style="background:${_clr};border:1px solid ${_bc}">
+        tempPill = `<div class="rhead-temp-pill" style="background:${_clr};border:1.5px solid ${_bc}">
           ${_dot}<span class="rtp-cur">${_cur}°</span>${_setHtml}
         </div>`;
       }
@@ -522,7 +522,7 @@ class RoomControlsCard extends HTMLElement {
       if (room.thermostat.sensor) {
         const _sv = this._tempVal(room.thermostat.sensor);
         if (_sv != null) {
-          tempPill += `<div class="rhead-temp-pill" style="background:rgba(96,165,250,.10);border:1px solid rgba(96,165,250,.22)"><span style="color:#60a5fa;font-weight:700">${_sv}°</span></div>`;
+          tempPill += `<div class="rhead-temp-pill" style="background:rgba(96,165,250,.10);border:1.5px solid rgba(96,165,250,.45)"><span style="color:#60a5fa;font-weight:700">${_sv}°</span></div>`;
         }
       }
     }
@@ -1214,7 +1214,7 @@ class RoomControlsCard extends HTMLElement {
         .pp-mlbl{font-size:14px;font-weight:700;color:rgba(255,255,255,.8);flex-shrink:0}
         .pp-msub{font-size:11px;color:rgba(255,255,255,.35);font-weight:400;margin-left:4px}
         .pp-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
-        .pp-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
+        .pp-master-exp{padding:0 12px 10px;border-top:1.5px solid rgba(251,191,36,.30)}
         .pp-lights{padding:4px 14px 8px;display:flex;flex-direction:column;gap:8px}
         .pp-light{opacity:.5;transition:opacity .15s;padding:0}
         .pp-light-on{opacity:1}

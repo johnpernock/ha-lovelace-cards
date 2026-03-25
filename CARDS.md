@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v88 | Fix: temp pill border 1px .22→1.5px .45; popup master expand border .12→.30 |
 | v87 | Low-DPI: thermostat/door dots 7px→9px, disabled +/- opacity .3→.5, pp-clbl font 8px→10px opacity .25→.55 |
 | v86 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v85 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
@@ -337,6 +338,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v28 | Fix: master slider container bg .04→0, border 1px .12→1.5px .35 |
 | v27 | Low-DPI: rb-clbl font 8px→10px, opacity .5→.6 |
 | v26 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v25 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
@@ -618,6 +620,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v22 | Fix: popup sheet-head divider border .18→.30 |
 | v21 | Fix: network row bg .05→0, WiFi row bg→0, chip dots 7px→9px, disk temp border 1px .1→1.5px .28 |
 | v20 | Low-DPI: spark baseline stroke-width 1→1.5, opacity .2→.35 |
 | v19 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -1077,6 +1080,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v31 | Fix: row/section dividers height:1px→2px, opacity .05/.07→.18/.22; no-alert border .18→.30 |
 | v30 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v29 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v28 | Light mode: CSS vars on border/header/labels; @media light override; header divider .07→.15 |
@@ -1150,6 +1154,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v16 | Fix: delay/On Time badge borders 1px→1.5px; row/section dividers 1px→2px .18/.22 |
 | v15 | Low-DPI: incident dot 7px→9px, dimmed opacity .38→.60, best-badge font 8px→10px |
 | v14 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v13 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
@@ -1206,6 +1211,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v9 | Fix: on-time row border 1px .2→1.5px .45 |
 | v8 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v7 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v6 | Light mode: CSS vars on border/header; @media light override; header divider .07→.15 |
@@ -1338,6 +1344,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v19 | Fix: Lock/Climate/Trunk action button borders 1px→1.5px .7 |
 | v18 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v17 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v16 | Light mode: CSS vars on off-state; @media light override |
@@ -1427,6 +1434,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v11 | Fix: climate/lock badge borders 1px .3→1.5px .5 |
 | v10 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v9 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v8 | Light mode: CSS vars on border/labels; @media light override |
@@ -1737,6 +1745,7 @@ players:
 
 | Version | Changes |
 |---------|---------|
+| v11 | Fix: album art border 1px .2→1.5px .40 |
 | v10 | Low-DPI: idle dot 6px→9px, opacity .55→.75 |
 | v9 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v8 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |

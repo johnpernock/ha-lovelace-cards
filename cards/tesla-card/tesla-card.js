@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v18
+ * tesla-card.js  —  v19
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -667,21 +667,21 @@ class TeslaCard extends HTMLElement {
 
     const lockBtn = this.shadowRoot.getElementById('tc-lock');
     if (lockBtn) {
-      lockBtn.style.cssText = locked ? 'background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.6)' : OFF_STYLE;
+      lockBtn.style.cssText = locked ? 'background:rgba(74,222,128,0.15);border:1.5px solid rgba(74,222,128,0.7)' : OFF_STYLE;
       const ico = lockBtn.querySelector('.btn-icon'), lbl = lockBtn.querySelector('.btn-label');
       if (ico) { ico.style.color = locked ? '#4ade80' : OFF_COLOR; ico.innerHTML = this._icons[locked ? 'lockClosed' : 'lockOpen']; }
       if (lbl) { lbl.style.color = locked ? '#4ade80' : OFF_LCOLOR; lbl.textContent = locked ? 'Locked' : 'Unlocked'; }
     }
     const climateBtn = this.shadowRoot.getElementById('tc-climate');
     if (climateBtn) {
-      climateBtn.style.cssText = climateOn ? 'background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.6)' : OFF_STYLE;
+      climateBtn.style.cssText = climateOn ? 'background:rgba(249,115,22,0.15);border:1.5px solid rgba(249,115,22,0.7)' : OFF_STYLE;
       const ico = climateBtn.querySelector('.btn-icon'), lbl = climateBtn.querySelector('.btn-label');
       if (ico) ico.style.color = climateOn ? '#f97316' : OFF_COLOR;
       if (lbl) { lbl.style.color = climateOn ? '#f97316' : OFF_LCOLOR; lbl.textContent = climateOn ? 'Climate on' : 'Climate'; }
     }
     const trunkBtn = this.shadowRoot.getElementById('tc-trunk');
     if (trunkBtn) {
-      trunkBtn.style.cssText = trunkOpen ? 'background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.6)' : OFF_STYLE;
+      trunkBtn.style.cssText = trunkOpen ? 'background:rgba(96,165,250,0.15);border:1.5px solid rgba(96,165,250,0.7)' : OFF_STYLE;
       const ico = trunkBtn.querySelector('.btn-icon'), lbl = trunkBtn.querySelector('.btn-label');
       if (ico) ico.style.color = trunkOpen ? '#60a5fa' : OFF_COLOR;
       if (lbl) { lbl.style.color = trunkOpen ? '#60a5fa' : OFF_LCOLOR; lbl.textContent = trunkOpen ? 'Trunk open' : 'Trunk'; }
@@ -738,19 +738,19 @@ class TeslaCard extends HTMLElement {
     const OFF_LCOLOR = `rgba(255,255,255,0.38)`;
 
     const lockBtn = ents.door_lock ? `
-      <button class="action-btn" id="tc-lock" style="${locked ? 'background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.6)' : OFF_STYLE}">
+      <button class="action-btn" id="tc-lock" style="${locked ? 'background:rgba(74,222,128,0.15);border:1.5px solid rgba(74,222,128,0.7)' : OFF_STYLE}">
         <div class="btn-icon" style="color:${locked ? '#4ade80' : OFF_COLOR}">${icons[locked ? 'lockClosed' : 'lockOpen']}</div>
         <div class="btn-label" style="color:${locked ? '#4ade80' : OFF_LCOLOR}">${locked ? 'Locked' : 'Unlocked'}</div>
       </button>` : '';
 
     const climateBtn = ents.climate ? `
-      <button class="action-btn" id="tc-climate" style="${climateOn ? 'background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.6)' : OFF_STYLE}">
+      <button class="action-btn" id="tc-climate" style="${climateOn ? 'background:rgba(249,115,22,0.15);border:1.5px solid rgba(249,115,22,0.7)' : OFF_STYLE}">
         <div class="btn-icon" style="color:${climateOn ? '#f97316' : OFF_COLOR}">${icons.climate}</div>
         <div class="btn-label" style="color:${climateOn ? '#f97316' : OFF_LCOLOR}">${climateOn ? 'Climate on' : 'Climate'}</div>
       </button>` : '';
 
     const trunkBtn = ents.trunk ? `
-      <button class="action-btn" id="tc-trunk" style="${trunkOpen ? 'background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.6)' : OFF_STYLE}">
+      <button class="action-btn" id="tc-trunk" style="${trunkOpen ? 'background:rgba(96,165,250,0.15);border:1.5px solid rgba(96,165,250,0.7)' : OFF_STYLE}">
         <div class="btn-icon" style="color:${trunkOpen ? '#60a5fa' : OFF_COLOR}">${icons.trunk}</div>
         <div class="btn-label" style="color:${trunkOpen ? '#60a5fa' : OFF_LCOLOR}">${trunkOpen ? 'Trunk open' : 'Trunk'}</div>
       </button>` : '';
