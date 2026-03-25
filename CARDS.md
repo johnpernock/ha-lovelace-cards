@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v87 | Low-DPI: thermostat/door dots 7px→9px, disabled +/- opacity .3→.5, pp-clbl font 8px→10px opacity .25→.55 |
 | v86 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v85 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v84 | Light mode: CSS vars on borders/dots/labels/fan pips/itog/thermostat; @media light override; room border .25→.22 |
@@ -336,6 +337,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v27 | Low-DPI: rb-clbl font 8px→10px, opacity .5→.6 |
 | v26 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v25 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v24 | Light mode: CSS vars on all borders/dots/labels/fan pips/itog; @media light override; fan pip dot .20→.75; wallbox-style bg fixed |
@@ -616,6 +618,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v20 | Low-DPI: spark baseline stroke-width 1→1.5, opacity .2→.35 |
 | v19 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v18 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v17 | Light mode: CSS vars on border/labels; @media light override |
@@ -828,6 +831,7 @@ today_color: '#60a5fa'
 
 | Version | Changes |
 |---------|---------|
+| v12 | Low-DPI: event dot 7px→9px, mini dot 4px→8px |
 | v11 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v10 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v9 | Light mode: CSS vars on border; @media light override; outer border .18→.22 |
@@ -1144,6 +1148,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v15 | Low-DPI: incident dot 7px→9px, dimmed opacity .38→.60, best-badge font 8px→10px |
 | v14 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v13 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v12 | Light mode: CSS vars on border/labels; @media light override |
@@ -1488,6 +1493,7 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
+| v9 | Low-DPI: idle dot 7px→9px, opacity .55→.75 |
 | v8 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v7 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v6 | Light mode: CSS vars on border/header/stat-val; @media light override; header divider .07→.15 |
@@ -1726,6 +1732,7 @@ players:
 
 | Version | Changes |
 |---------|---------|
+| v10 | Low-DPI: idle dot 6px→9px, opacity .55→.75 |
 | v9 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v8 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v7 | Light mode: CSS vars on border/header; @media light override; header divider .07→.15 |

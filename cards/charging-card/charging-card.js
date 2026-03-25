@@ -1,5 +1,5 @@
 /**
- * charging-card.js  —  v8
+ * charging-card.js  —  v9
  * Unified EV charging card combining Tesla (battery, range, time-to-full,
  * charging speed) and Wallbox (power, session energy) data into one view.
  *
@@ -130,7 +130,7 @@ class ChargingCard extends HTMLElement {
 
     /* idle */
     .idle-row{display:flex;align-items:flex-start;gap:10px;padding:10px 14px}
-    .idle-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);flex-shrink:0;margin-top:3px}
+    .idle-dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.75);flex-shrink:0;margin-top:3px}
     .idle-lbl{font-size:13px;font-weight:700;color:rgba(255,255,255,.45)}
     .idle-sub{font-size:10px;color:rgba(255,255,255,.25);margin-top:2px}
     .session-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 14px 12px}

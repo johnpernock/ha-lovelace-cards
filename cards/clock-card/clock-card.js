@@ -1,5 +1,5 @@
 /**
- * clock-card.js  —  v11
+ * clock-card.js  —  v12
  * Home Assistant Lovelace clock + date card with optional calendar popup.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -250,7 +250,7 @@ class ClockCard extends HTMLElement {
     // Legend dots
     const legendHtml = cals.filter(c => c.color).map(c => `
       <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--secondary-text-color)">
-        <div style="width:7px;height:7px;border-radius:50%;background:${c.color};flex-shrink:0"></div>
+        <div style="width:9px;height:9px;border-radius:50%;background:${c.color};flex-shrink:0"></div>
         <span>${c.name || (this._hass?.states[c.entity]?.attributes?.friendly_name) || c.entity.split('.')[1]}</span>
       </div>`).join('');
 
@@ -270,7 +270,7 @@ class ClockCard extends HTMLElement {
       const dots    = this._events[key] || [];
 
       const dotHtml = dots.slice(0, 3).map(e =>
-        `<div style="width:4px;height:4px;border-radius:50%;background:${e.color};flex-shrink:0"></div>`
+        `<div style="width:8px;height:8px;border-radius:50%;background:${e.color};flex-shrink:0"></div>`
       ).join('');
 
       const dotsRow = dots.length

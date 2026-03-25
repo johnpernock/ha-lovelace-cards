@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v86
+ * room-controls-card.js  —  v87
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -506,8 +506,8 @@ class RoomControlsCard extends HTMLElement {
       const _isOff = _mode === 'off';
       // Mode dot — reuse existing dot pattern
       const _dot = _meta.split
-        ? `<div style="width:7px;height:7px;border-radius:50%;background:linear-gradient(90deg,#fb923c 50%,#60a5fa 50%);flex-shrink:0"></div>`
-        : `<div style="width:7px;height:7px;border-radius:50%;background:${_isOff ? 'rgba(255,255,255,.2)' : _meta.dot};flex-shrink:0"></div>`;
+        ? `<div style="width:9px;height:9px;border-radius:50%;background:linear-gradient(90deg,#fb923c 50%,#60a5fa 50%);flex-shrink:0"></div>`
+        : `<div style="width:9px;height:9px;border-radius:50%;background:${_isOff ? 'rgba(255,255,255,.2)' : _meta.dot};flex-shrink:0"></div>`;
       const _clr = _isOff ? 'rgba(255,255,255,.10)' : 'rgba(251,146,60,.15)';
       const _bc  = _isOff ? 'rgba(255,255,255,.22)' : 'rgba(251,146,60,.25)';
       if (_cur != null) {
@@ -735,7 +735,7 @@ class RoomControlsCard extends HTMLElement {
     @media(max-width:767px){.grid{grid-template-columns:1fr!important}}
     .room{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
     .door-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;margin-left:7px;flex-shrink:0}
-    .door-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    .door-pill-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
     .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1.5px solid rgba(255,255,255,.30)}
     .rlbl{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .rbody{padding:6px 10px 10px;display:flex;flex-direction:column;gap:5px}
@@ -807,7 +807,7 @@ class RoomControlsCard extends HTMLElement {
     .tsetctrl{display:flex;align-items:center;gap:4px}
     .tadj{width:34px;height:34px;flex-shrink:0;border-radius:7px;background:transparent;border:1.5px solid rgba(255,255,255,.40);color:var(--primary-text-color);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
     .tadj:active{background:rgba(255,255,255,.55)}
-    .tadj-off{opacity:.3;pointer-events:none}
+    .tadj-off{opacity:.5;pointer-events:none}
     .tsetval{font-size:18px;font-weight:700;color:#fb923c;min-width:36px;text-align:center}
     .tsetval-off{color:rgba(255,255,255,.3)}
     .t-pill{display:flex;align-items:center;gap:4px;padding:5px 9px;border-radius:7px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.18);margin-left:3px;flex-shrink:0}
@@ -1229,7 +1229,7 @@ class RoomControlsCard extends HTMLElement {
         .pp-lchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
         .pp-lslider{padding:0 11px 7px;display:flex;align-items:center}
         .pp-color-sec{padding:7px 11px 9px;border-top:1.5px solid rgba(255,255,255,.35)}
-        .pp-clbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.25);margin-bottom:6px;margin-top:3px}
+        .pp-clbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.55);margin-bottom:6px;margin-top:3px}
         .pp-presets{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
         .pp-presets-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px}
         .pp-preset{flex:1;min-width:0;height:60px;border-radius:7px;border:1.5px solid rgba(255,255,255,.40);background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 4px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
@@ -1281,7 +1281,7 @@ class RoomControlsCard extends HTMLElement {
         .tsetctrl{display:flex;align-items:center;gap:5px}
         .tadj{width:44px;height:44px;flex-shrink:0;border-radius:8px;background:transparent;border:1.5px solid rgba(255,255,255,.40);color:#e2e8f0;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
         .tadj:active{background:rgba(255,255,255,.55)}
-        .tadj-off{opacity:.3;pointer-events:none}
+        .tadj-off{opacity:.5;pointer-events:none}
         .tsetval{font-size:22px;font-weight:700;color:#fb923c;min-width:44px;text-align:center}
         .tsetval-off{color:rgba(255,255,255,.3)}
         .t-pill{display:flex;align-items:center;gap:4px;padding:5px 9px;border-radius:7px;background:rgba(96,165,250,.06);border:1px solid rgba(96,165,250,.18);margin-left:3px;flex-shrink:0}

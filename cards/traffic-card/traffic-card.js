@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v14
+ * traffic-card.js  —  v15
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -124,7 +124,7 @@ class TrafficCard extends HTMLElement {
 
     /* incident banner */
     .incident{display:flex;align-items:flex-start;gap:9px;padding:8px 14px;background:rgba(248,113,113,.07);border-bottom:1px solid rgba(248,113,113,.15)}
-    .inc-dot{width:7px;height:7px;border-radius:50%;background:#f87171;flex-shrink:0;margin-top:3px;animation:blink 2s ease-in-out infinite}
+    .inc-dot{width:9px;height:9px;border-radius:50%;background:#f87171;flex-shrink:0;margin-top:3px;animation:blink 2s ease-in-out infinite}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
     .inc-title{font-size:11px;font-weight:700;color:#f87171;line-height:1.3}
     .inc-sub{font-size:10px;color:rgba(248,113,113,.6);margin-top:2px;line-height:1.3}
@@ -137,9 +137,9 @@ class TrafficCard extends HTMLElement {
 
     /* route tile */
     .tile{display:flex;align-items:center;gap:10px;padding:9px 14px}
-    .tile.dimmed{opacity:.38}
+    .tile.dimmed{opacity:.60}
     .tile-left{flex:1;min-width:0}
-    .best-badge{font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;background:rgba(74,222,128,.12);color:#4ade80;display:inline-block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+    .best-badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:3px;background:rgba(74,222,128,.12);color:#4ade80;display:inline-block;margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
     .route-name{font-size:13px;font-weight:700;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .route-name.slow{color:rgba(255,255,255,.45)}
     .route-via{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -158,7 +158,7 @@ class TrafficCard extends HTMLElement {
     /* ── expanded row mode ── */
     .sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
     .exp-hero-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
-    .exp-hero-row.dimmed{opacity:.38}
+    .exp-hero-row.dimmed{opacity:.60}
     .exp-sub-row{margin:4px 10px 8px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
     .exp-row-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);margin-bottom:3px}
     .exp-row-route{font-size:15px;font-weight:600;line-height:1.2}

@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v19
+ * technology-card.js  —  v20
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -117,7 +117,7 @@ class TechnologyCard extends HTMLElement {
             }
           }).catch(() => { this._fetchingHistory[id] = false; });
       }
-      return `<svg class="spark" viewBox="0 0 100 24"><line x1="0" y1="12" x2="100" y2="12" stroke="${color}" stroke-width="1" opacity=".2"/></svg>`;
+      return `<svg class="spark" viewBox="0 0 100 24"><line x1="0" y1="12" x2="100" y2="12" stroke="${color}" stroke-width="1.5" opacity=".35"/></svg>`;
     }
     const mn = Math.min(...hist), mx = Math.max(...hist), r = mx-mn||1;
     const pts = hist.map((v,i) => `${((i/(hist.length-1))*100).toFixed(1)},${(22-((v-mn)/r)*18).toFixed(1)}`).join(' ');
