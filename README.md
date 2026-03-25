@@ -305,6 +305,12 @@ See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
 
 ---
 
+## License
+
+[MIT](LICENSE)
+
+---
+
 ## Related Repositories
 
 | Repo | Purpose |

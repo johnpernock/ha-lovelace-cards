@@ -1,0 +1,32 @@
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Node (linting / bundling tools)
+node_modules/
+npm-debug.log*
+.npmrc
+
+# Build output (if minification added later)
+dist/
+*.min.js
+
+# HA secrets / local overrides — never commit
+secrets.yaml
+*.env
+.env*
+
+# Deployment logs
+deploy.log
+
+# Temporary files
+tmp/
+temp/
