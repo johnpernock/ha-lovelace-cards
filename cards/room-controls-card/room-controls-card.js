@@ -367,9 +367,9 @@ class RoomControlsCard extends HTMLElement {
           const btns = cfg.individuals.map(l => {
             const lon = this._isOn(l.entity);
             const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
-            const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.08)';
+            const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.22)';
             const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
-            const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.35)';
+            const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.6)';
             const nm  = l.name || this._attr(l.entity,'friendly_name') || l.entity.split('.').pop();
             const eid = l.entity.replace(/[^a-z0-9]/g,'_');
             return `<div class="itog" id="itog-${room.id}-${eid}" data-room="${room.id}" data-action="indiv-tog" data-entity="${l.entity}" style="background:${bg};border:1px solid ${bc}"><div class="itog-dot" style="background:${dc}"></div><div class="itog-lbl" style="color:${lc}">${nm}</div></div>`;
@@ -733,10 +733,10 @@ class RoomControlsCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     .grid{display:grid;gap:8px;padding:8px 14px}
     @media(max-width:767px){.grid{grid-template-columns:1fr!important}}
-    .room{border-radius:10px;border:1px solid rgba(255,255,255,.12);overflow:hidden}
+    .room{border-radius:10px;border:1px solid rgba(255,255,255,.25);overflow:hidden}
     .door-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;margin-left:7px;flex-shrink:0}
     .door-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-    .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1px solid rgba(255,255,255,.05)}
+    .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1px solid rgba(255,255,255,.18)}
     .rlbl{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .rbody{padding:6px 10px 10px;display:flex;flex-direction:column;gap:5px}
     .tog{position:relative;border-radius:99px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
@@ -766,7 +766,7 @@ class RoomControlsCard extends HTMLElement {
     .fan-flat{display:flex;flex-direction:column;gap:4px}
     .fan-nm-row{padding:0 2px}
     .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
-    .sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28);padding:8px 0 2px}
+    .sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);padding:8px 0 2px}
     .fpips{display:flex;gap:4px;flex:1}
     .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
     .fpip:active{transform:scale(.9)}
@@ -1208,7 +1208,7 @@ class RoomControlsCard extends HTMLElement {
         .sheet-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px}
         .sheet-close{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.08);cursor:pointer;color:rgba(255,255,255,.6);font-size:20px;display:flex;align-items:center;justify-content:center;user-select:none;border:none;flex-shrink:0}
         .hidden{display:none!important}
-        .pp-master{margin:10px 14px 6px;border-radius:8px;background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.12);overflow:hidden}
+        .pp-master{margin:10px 14px 6px;border-radius:8px;background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.25);overflow:hidden}
         .pp-mrow{display:flex;align-items:center;gap:8px;padding:10px 12px}
         .pp-minfo{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
         .pp-mlbl{font-size:14px;font-weight:700;color:rgba(255,255,255,.8);flex-shrink:0}
