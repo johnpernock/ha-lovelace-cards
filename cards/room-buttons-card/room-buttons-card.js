@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v15
+ * room-buttons-card.js  —  v16
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -691,24 +691,69 @@ class RoomButtonsCard extends HTMLElement {
   }
 
 
+  // ── Theme area state helper (mirrors room-controls-card) ─────────────────────
+  _themeAreaState(area) {
+    const isSwitch = area.type === 'switch';
+    const on = area.entity
+      ? (isSwitch
+          ? this._hass?.states[area.entity]?.state === 'on'
+          : this._isOn(area.entity))
+      : false;
+    const bri = isSwitch ? null : this._brightness(area.entity);
+    if (!on) return { label: 'Off',  color: 'rgba(255,255,255,.25)', pct: 0 };
+    if (isSwitch) return { label: 'On', color: '#4ade80', pct: 100 };
+    if (bri != null && bri < 30) return { label: bri + '%', color: '#fbbf24', pct: bri };
+    return { label: area.count ? area.count + ' on' : 'On', color: '#4ade80', pct: bri ?? 100 };
+  }
+
   _themePopupHtml(btn) {
-    if (!btn.theme_sensor) return '';
-    const sensor = this._entityState(btn.theme_sensor);
+    // Supports both:
+    //   theme_block: { sensor, areas: [...] }  — full area grid (matches lightfan view)
+    //   theme_sensor: sensor.id               — simple swatch bar (legacy fallback)
+    const tbCfg  = btn.theme_block;
+    const sensor = this._entityState(tbCfg ? tbCfg.sensor : btn.theme_sensor);
     if (!sensor) return '';
     const theme  = sensor.state?.trim() || 'Default';
     const attrs  = sensor.attributes || {};
     const isHol  = attrs.is_holiday === true || theme !== 'Default';
     const accent = attrs.accent || 'rgba(255,255,255,.55)';
     const emoji  = attrs.emoji  || '🌙';
-    const colors = attrs.all_outdoor_colors || [];
     const sub    = isHol ? 'Holiday theme active' : 'Warm white';
 
-    if (!colors.length) return '';
+    if (tbCfg?.areas?.length) {
+      // Full theme_block — area grid matching room-controls-card exactly
+      const areasHtml = tbCfg.areas.map((area, ai) => {
+        const colors     = attrs[area.color_attr] || ['#ffcf7d'];
+        const isSwitch   = area.type === 'switch';
+        const st         = this._themeAreaState(area);
+        const swatchHtml = isSwitch ? '' :
+          colors.slice(0, 6).map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
+        const isOn  = st.pct > 0;
+        const btnBg = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,.02)';
+        const btnBc = isOn ? 'rgba(255,255,255,.18)' : 'rgba(255,255,255,.06)';
+        const lblClr = isOn ? st.color : 'rgba(255,255,255,.2)';
+        return `<div class="theme-area" style="background:${btnBg};border:1px solid ${btnBc};${isOn ? '' : 'opacity:.5'}">
+          <div class="theme-area-swatches">${swatchHtml}</div>
+          <div class="theme-area-label" style="color:${lblClr}">${area.label}</div>
+        </div>`;
+      }).join('');
 
+      return `<div class="theme-block">
+        <div class="theme-block-hdr">
+          <span style="font-size:14px;line-height:1">${emoji}</span>
+          <div class="theme-block-name" style="color:${accent}">${theme}</div>
+          <div class="theme-block-sub">${sub}</div>
+        </div>
+        <div class="theme-areas">${areasHtml}</div>
+      </div>`;
+    }
+
+    // Fallback: simple color swatch bar (theme_sensor only, no areas)
+    const colors = attrs.all_outdoor_colors || [];
+    if (!colors.length) return '';
     const swatches = colors.slice(0, 8).map(c =>
       `<div class="rb-swatch" style="background:${c}"></div>`
     ).join('');
-
     return `<div class="rb-theme-block">
       <div class="rb-theme-hdr">
         <span style="font-size:14px;line-height:1">${emoji}</span>
@@ -1573,7 +1618,18 @@ class RoomButtonsCard extends HTMLElement {
         .fpip-dots-row{display:flex;gap:4px;align-items:center;justify-content:center}
         .fpip-dots-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center;justify-items:center}
 
-        /* ── Theme block ── */
+        /* ── Theme block — full area grid (matches room-controls-card) ── */
+        .theme-block{margin-bottom:8px}
+        .theme-block-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+        .theme-block-name{font-size:13px;font-weight:700}
+        .theme-block-sub{font-size:10px;color:rgba(255,255,255,.35);margin-left:auto;white-space:nowrap}
+        .theme-areas{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+        .theme-area{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:58px;justify-content:center}
+        .theme-area-label{font-size:10px;font-weight:700;text-align:center;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 2px}
+        .theme-area-swatches{display:flex;gap:3px;justify-content:center}
+        .theme-area-swatch{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+
+        /* ── Theme block — simple swatch bar (legacy theme_sensor fallback) ── */
         .rb-theme-block{margin-bottom:12px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
         .rb-theme-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
         .rb-theme-name{font-size:13px;font-weight:700;flex:1;min-width:0}
@@ -1599,7 +1655,7 @@ class RoomButtonsCard extends HTMLElement {
       const el       = this.shadowRoot.getElementById(`rbtn-${i}`);
       if (!el) return;
 
-      const hasPopup = btn.popup_entities?.length > 0 || btn.lights || btn.fans?.length > 0;
+      const hasPopup = btn.popup_entities?.length > 0 || btn.lights || btn.fans?.length > 0 || btn.theme_block;
       const isCover  = this._isCover(btn);
 
       // Cover without popup → direct toggle

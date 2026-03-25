@@ -229,6 +229,11 @@ views:
                     - entity: switch.basement_lights
                       name: Basement
                       mode: toggle
+                fans:
+                  - entity: fan.workshop_workbench_fan
+                    name: Workbench Fan
+                  - entity: fan.workshop_demo_fan
+                    name: Demo Fan
               - entity: light.all_garage_lights
                 name: Garage
                 icon: garage
@@ -246,6 +251,22 @@ views:
                 name: Yard
                 icon: tree
                 theme_sensor: sensor.outdoor_lighting_theme
+                theme_block:
+                  sensor: sensor.outdoor_lighting_theme
+                  areas:
+                    - label: All Outdoor
+                      entity: light.all_yard_lights
+                      color_attr: all_outdoor_colors
+                    - label: Display Lights
+                      entity: light.yard_spotlights
+                      color_attr: spotlight_colors
+                      count: 5
+                    - label: Front Path
+                      entity: light.hue_path_lights
+                      color_attr: front_path_colors
+                    - label: Side Path
+                      entity: switch.yard_light_controller_zone_1
+                      type: switch
                 lights:
                   entity: light.all_yard_lights
                   individuals:
