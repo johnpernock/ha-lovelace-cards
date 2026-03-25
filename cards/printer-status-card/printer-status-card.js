@@ -1,5 +1,5 @@
 /**
- * printer-status-card.js  —  v4
+ * printer-status-card.js  —  v5
  * Compact printer status widget for the Home view.
  * Uses the same `printer` prefix config as bambu-printer-card.
  * Entity lookup is domain-agnostic — see bambu-printer-card for explanation.
@@ -137,7 +137,7 @@ class PrinterStatusCard extends HTMLElement {
         :host{display:block}
         ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
         *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-        .wrap{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden;padding:10px 14px;display:flex;flex-direction:column;gap:7px}
+        .wrap{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden;padding:10px 14px;display:flex;flex-direction:column;gap:7px}
         .row{display:flex;align-items:center;gap:10px}
         .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
         .info{flex:1;min-width:0}
@@ -150,6 +150,24 @@ class PrinterStatusCard extends HTMLElement {
         .error-badge{background:rgba(239,68,68,.15);color:#f87171}
         .done-badge{background:rgba(74,222,128,.15);color:#4ade80}
         .wrap.has-error{border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.04)}
+
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
       </style>
       <ha-card>
         <div class="wrap${hasError ? ' has-error' : ''}">

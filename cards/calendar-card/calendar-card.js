@@ -1,5 +1,5 @@
 /**
- * calendar-card.js  —  v6
+ * calendar-card.js  —  v7
  * Custom Home Assistant Lovelace calendar card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -339,12 +339,12 @@ class CalendarCard extends HTMLElement {
           + `&style=feature:road|element:geometry|color:0x2d2d44`
           + `&key=${apiKey}`;
         mapHtml = `
-          <div style="margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.18)">
+          <div style="margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.22)">
             <img src="${src}" style="width:100%;display:block" alt="Map of ${ev.location}" loading="lazy"/>
           </div>`;
       } else {
         mapHtml = `
-          <div style="margin-top:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.03);padding:12px 14px;display:flex;align-items:center;gap:10px">
+          <div style="margin-top:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0);padding:12px 14px;display:flex;align-items:center;gap:10px">
             <div style="width:14px;height:14px;flex-shrink:0;opacity:0.3;color:var(--secondary-text-color)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -784,6 +784,24 @@ class CalendarCard extends HTMLElement {
           }
           #cc-handle { display: none; }
         }
+
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
       </style>
 
       <ha-card>

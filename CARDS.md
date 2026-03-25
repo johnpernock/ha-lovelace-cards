@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v84 | Light mode: CSS vars on borders/dots/labels/fan pips/itog/thermostat; @media light override; room border .25→.22 |
 | v83 | Final pass: thermostat off dot .25→.65/bg→0/border→.22; preset-cycle bg→0 |
 | v82 | OLED visibility pass: itog-dot CSS default .75; off dot .45→.80; toggle thumb .30→.60; thermostat dot .25→.60 |
 | v81 | Comprehensive visibility pass: all neutral borders 0.22-0.28, fan pip off-dot 0.45, fan dot-off label 0.5, lm-btn 0.22, sensor-row 0.2, tstat-off 0.28, tadj popup 0.28, tdiv 0.25, theme-area off label 0.5, sheet border 0.28, fpip-dot off 0.45, mode-sub 0.45, lm-sub 0.5, sensor-lbl 0.5 |
@@ -333,6 +334,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v24 | Light mode: CSS vars on all borders/dots/labels/fan pips/itog; @media light override; fan pip dot .20→.75; wallbox-style bg fixed |
 | v23 | Final pass: cover closed border .09→.22/bg→0; popup icon off .28→.55; theme-area label off .20→.50 |
 | v22 | OLED visibility pass: itog-dot CSS default .75; off dot .45→.80; inner borders .08→.18 |
 | v21 | Comprehensive visibility pass: pop-tile off border 0.28, rb-track 0.22, master-exp border-top 0.3, rb-divider 0.2, fp pip border 0.22, fp dot-off 0.5, rb-preset border 0.22, rb-dot-lbl 0.6, rb-clbl 0.5 |
@@ -418,6 +420,7 @@ cameras:
 
 | Version | Changes |
 |---------|---------|
+| v6 | Light mode: @media light override block |
 | v5 | Loading placeholder behind each stream — shows camera icon and name while stream connects |
 | v4 | Responsive stacking breakpoint raised 480px → 700px |
 | v3 | Responsive flex-wrap layout; below 480px doorbell stacks above cameras |
@@ -476,6 +479,7 @@ cameras_view: /security
 
 | Version | Notes |
 |---------|-------|
+| v4 | Light mode: CSS vars on borders; @media light override block |
 | v3 | Final pass: off state bg .04→0 |
 | v2 | OLED visibility pass: off dot .25→.60, off border .12→.22, off bg→0 |
 | v1.1 | `sensor_base` override for multi-channel cameras |
@@ -604,6 +608,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v17 | Light mode: CSS vars on border/labels; @media light override |
 | v16 | Final pass: media divider .06→.15 |
 | v15 | OLED visibility pass: card border .12→.22, inner borders .08→.18, tile bg→0 |
 | v2 | OLED visibility pass: off dot .25→.60, off border .12→.22, off bg→0 |
@@ -670,6 +675,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v8 | Light mode: CSS vars on border/header; @media light override block; fan pip/itog CSS normalized |
 | v7 | Final pass: filament slot active border .20→.35, bg→0 |
 | v6 | OLED visibility pass: card border .12→.22, inner borders .08→.18, tile bg .04→0 |
 | v5 | Fix: `_state()` now scans common HA domains (`sensor.`, `binary_sensor.`, etc.) — previously looked up bare entity IDs which never matched, causing blank card |
@@ -709,6 +715,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v5 | Light mode: CSS vars on border; @media light override block |
 | v4 | OLED visibility pass: card border .12→.22 |
 | v3 | Fix: same domain-scanning fix as bambu-printer-card v5 — bare entity ID lookup was silently returning null |
 | v2 | `_patch()` added — rebuilds inner content only; full re-render on visibility change |
@@ -753,6 +760,7 @@ tap_action: popup
 
 | Version | Changes |
 |---------|---------|
+| v12 | Light mode: CSS vars on border; @media light override block |
 | v11 | Final pass: stat panel bg .04→0 |
 | v10 | OLED visibility pass: card border .12→.22, inner borders .08→.18 |
 | v9 | Fix: `_patch()` condition text now uses `_label()` — previously used raw `replace(/_/g,' ')` which left hyphens in place (e.g. `clear-night` instead of `Clear Night`) |
@@ -804,6 +812,7 @@ today_color: '#60a5fa'
 
 | Version | Changes |
 |---------|---------|
+| v9 | Light mode: CSS vars on border; @media light override; outer border .18→.22 |
 | v8 | OLED visibility pass: card border .07→.18, inner borders .08→.18 |
 | v7 | Version header corrected — JS was at v6 but resources required v7 due to prior deploy |
 | v6 | Version header corrected — JS was at v5 but resources required v6 due to prior deploy |
@@ -869,6 +878,7 @@ google_maps_api_key: YOUR_KEY_HERE
 
 | Version | Changes |
 |---------|---------|
+| v7 | Light mode: CSS vars on border; @media light override block |
 | v6 | OLED visibility pass: card border .12→.22, inner borders .08→.18 |
 | v5 | Padding consistency pass — horizontal padding normalized to 14px |
 | v4 | Event detail popup with location, static map thumbnail, description |
@@ -915,6 +925,7 @@ sensors:
 
 | Version | Changes |
 |---------|---------|
+| v6 | Light mode: @media light override block |
 | v5 | `_patch()` added — individual cell values update in-place by index class |
 | v4 | Padding consistency pass — horizontal padding normalized to 14px |
 | v3 | `climate.*` domain support — reads `current_temperature` attribute |
@@ -956,6 +967,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v15 | Light mode: @media light override block |
 | v14 | OLED visibility pass: inner borders .08→.18 |
 | v13 | Version header corrected — JS was at v12 but resources required v13 due to prior deploy |
 | v12 | Version header corrected — JS was at v11 but resources required v12 due to prior deploy |
@@ -1035,6 +1047,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v28 | Light mode: CSS vars on border/header/labels; @media light override; header divider .07→.15 |
 | v27 | Final pass: expanded info box bg .04→0 |
 | v26 | OLED visibility pass: on-time pill border .08→.20, card border .22 retained |
 | v25 | set hass no longer re-renders on every HA state push — 60s interval is the sole render driver |
@@ -1105,6 +1118,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v12 | Light mode: CSS vars on border/labels; @media light override |
 | v11 | Final pass: unavailable row bg .03→0, border→.22 |
 | v10 | OLED visibility pass: card border .10→.22, inner borders .08→.18 |
 | v9 | New `hide_home_before` param — dims home route row before a specified hour (symmetric to `hide_to_work_after`); dashboard simplified to single home route |
@@ -1157,6 +1171,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v6 | Light mode: CSS vars on border/header; @media light override; header divider .07→.15 |
 | v5 | OLED visibility pass: card border .10→.22, row border .07→.18, row bg→0 |
 | v4 | `_patch()` added — set hass no longer calls `_render()` on top of the 30s interval (was double-rendering) |
 | v3 | Card header: 10px uppercase → 17px white bold |
@@ -1198,6 +1213,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v9 | Light mode: @media light override block |
 | v8 | OLED visibility pass: off dot .25→.60, inner borders .08→.18, bg→0 |
 | v7 | `_patch()` added — current temp, setpoint, mode dot/colors update in-place |
 | v6 | Padding consistency pass |
@@ -1283,6 +1299,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v16 | Light mode: CSS vars on off-state; @media light override |
 | v15 | Final pass: all off-state bg .04→0, border .10/.22→.28 |
 | v14 | OLED visibility pass: action button off border .12→.22, bg→0, off icon .28→.55 |
 | v13 | `_patch()` added — battery bar, badges, and lock/climate/trunk button states update in-place |
@@ -1369,6 +1386,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v8 | Light mode: CSS vars on border/labels; @media light override |
 | v7 | Final pass: action off border .10→.28 |
 | v6 | OLED visibility pass: card border .10→.22, inner borders .08→.18, tile bg→0 |
 | v5 | Removed hardcoded default `name: 'Magneton'` — defaults to empty string so cards without a name set don't show a stale vehicle name |
@@ -1434,6 +1452,7 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
+| v6 | Light mode: CSS vars on border/header/stat-val; @media light override; header divider .07→.15 |
 | v5 | Final pass: session-tile border .06→.18 |
 | v4 | OLED visibility pass: card border .10→.22, inner borders .08→.18, idle dot .18→.55, tile bg→0 |
 | v3 | New `charger_name` config param — replaces hardcoded `'Beryl Pulsar Plus'` in banner sub-label; `name` default changed from `'Magneton'` to `''` |
@@ -1473,6 +1492,7 @@ name: Garage
 
 | Version | Changes |
 |---------|---------|
+| v12 | Light mode: CSS vars on border; @media light override block |
 | v11 | OLED visibility pass: card border .10→.22, unknown state border .12→.22 |
 | v10 | Fix: animation stutter during opening/closing — `set hass` now skips patch when state unchanged; `_patch()` triggers full re-render on canToggle change (adds/removes progress bar); selectors fixed to match rendered class names |
 | v9 | Version header corrected — JS was at v8 but resources required v9 due to prior deploy |
@@ -1524,6 +1544,7 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v6 | Light mode: CSS vars on border/header/stat-val; @media light override; dynamic bg→0/border→.35; header divider .07→.15 |
 | v5 | Final pass: stat-tile bg .04→0/border→.22; section border-top .06→.15 |
 | v4 | OLED visibility pass: card border .10→.22, inner borders .08→.18 |
 | v3 | Card name label: 15px → 17px white bold |
@@ -1572,6 +1593,7 @@ name: PECO Electric
 
 | Version | Changes |
 |---------|---------|
+| v5 | Light mode: CSS vars on border; @media light override block |
 | v4 | OLED visibility pass: card border .10→.22 |
 | v3 | Card name label: 15px amber → 17px white bold |
 | v2 | Removed amber tinted background from outer `.card` container |
@@ -1621,6 +1643,7 @@ name: River 2 Pro
 
 | Version | Changes |
 |---------|---------|
+| v5 | Light mode: CSS vars on border/header; @media light override; header divider .07→.15 |
 | v4 | OLED visibility pass: card border .10→.22, inner borders .08→.18, tile bg→0 |
 | v3 | Card header: 10px uppercase → 17px white bold |
 | v2 | Added `.ha-tap` class with `scale(0.96)/brightness(0.9)` `:active` states |
@@ -1657,6 +1680,7 @@ players:
 
 | Version | Changes |
 |---------|---------|
+| v7 | Light mode: CSS vars on border/header; @media light override; header divider .07→.15 |
 | v6 | Final pass: player divider .06→.18, idle row border .05→.18 |
 | v5 | OLED visibility pass: idle dot .20→.55 |
 | v4 | `_patch()` added — title, source, and state update per player; full re-render only when active player count changes |

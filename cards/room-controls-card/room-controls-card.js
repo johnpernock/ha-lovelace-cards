@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v83
+ * room-controls-card.js  —  v84
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -733,7 +733,7 @@ class RoomControlsCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     .grid{display:grid;gap:8px;padding:8px 14px}
     @media(max-width:767px){.grid{grid-template-columns:1fr!important}}
-    .room{border-radius:10px;border:1px solid rgba(255,255,255,.25);overflow:hidden}
+    .room{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
     .door-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;margin-left:7px;flex-shrink:0}
     .door-pill-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
     .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1px solid rgba(255,255,255,.18)}
@@ -755,9 +755,9 @@ class RoomControlsCard extends HTMLElement {
     .lm-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
     .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
     .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 2px;}
-    .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s}
+    .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s;border:1px solid var(--divider-color, rgba(255,255,255,.28))}
     .itog:active{transform:scale(.94)}
-    .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.75)}
+    .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:var(--secondary-text-color, rgba(255,255,255,.75))}
     .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
     .light-row-simple{cursor:pointer}
     .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:6px;font-weight:400}
@@ -765,15 +765,15 @@ class RoomControlsCard extends HTMLElement {
     .fan-section{display:flex;flex-direction:column;gap:4px}
     .fan-flat{display:flex;flex-direction:column;gap:4px}
     .fan-nm-row{padding:0 2px}
-    .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
-    .sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);padding:8px 0 2px}
+    .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--secondary-text-color, rgba(255,255,255,.3))}
+    .sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--secondary-text-color, rgba(255,255,255,.5));padding:8px 0 2px}
     .fpips{display:flex;gap:4px;flex:1}
-    .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.28);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
+    .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,0);border:1px solid var(--divider-color, rgba(255,255,255,.28));cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
     .fpip:active{transform:scale(.9)}
     .fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
-    .fpip-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.45)}
+    .fpip-dot{width:8px;height:8px;border-radius:50%;background:var(--secondary-text-color, rgba(255,255,255,.75))}
     .fpip-dot-on{background:#2dd4bf}
-    .fpip-dot-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.5)}
+    .fpip-dot-off{font-size:9px;font-weight:700;color:var(--secondary-text-color, rgba(255,255,255,.5))}
     .fpip-dots-row{display:flex;gap:4px;align-items:center;justify-content:center}
     .fpip-dots-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center;justify-items:center}
     .bpip-pos{flex:0 0 auto;width:68px}
@@ -1232,7 +1232,7 @@ class RoomControlsCard extends HTMLElement {
         .pp-clbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.25);margin-bottom:6px;margin-top:3px}
         .pp-presets{display:flex;gap:4px;margin-bottom:10px;flex-wrap:wrap}
         .pp-presets-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:10px}
-        .pp-preset{flex:1;min-width:0;height:60px;border-radius:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 4px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .pp-preset{flex:1;min-width:0;height:60px;border-radius:7px;border:1px solid var(--divider-color, rgba(255,255,255,.22));background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 4px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
         .pp-presets-grid .pp-preset{height:54px;flex:unset}
         .pp-preset:active{transform:scale(.92)}
         .pp-preset-sel{border-width:1.5px}
@@ -1290,6 +1290,24 @@ class RoomControlsCard extends HTMLElement {
         .hvac-btn{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;border:0.5px solid;cursor:pointer;transition:transform .1s;user-select:none}
         .hvac-btn:active{transform:scale(.95)}
         .hvac-lbl{font-size:11px;font-weight:700}
+
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
       </style>
       ${rooms.filter(r=>r.lights && !r.no_popup).map(r=>this._buildLightsPopup(r)).join('')}
       ${rooms.filter(r=>r.blinds).map(r=>this._buildBlindPopup(r)).join('')}

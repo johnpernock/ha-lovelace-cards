@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v15
+ * tesla-card.js  —  v16
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -907,6 +907,24 @@ class TeslaCard extends HTMLElement {
         .tile-icon svg { width: 100%; height: 100%; }
         .tile-state { font-size: 13px; font-weight: 600; line-height: 1.2; }
         .tile-lbl   { font-size: 10px; font-weight: 500; color: var(--secondary-text-color); margin-top: 2px; opacity: 0.6; }
+
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
       </style>
 
       <ha-card>

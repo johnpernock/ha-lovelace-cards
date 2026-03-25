@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v7
+ * tesla-commute-card.js  —  v8
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -114,7 +114,7 @@ class TeslaCommuteCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
+    .card{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
     .divider{height:1px;background:rgba(255,255,255,.07)}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .sec-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28)}
@@ -151,7 +151,7 @@ class TeslaCommuteCard extends HTMLElement {
     .climate-lbl{font-size:12px;color:rgba(255,255,255,.45);flex:1}
     .climate-controls{display:flex;align-items:center;gap:8px}
     .temp-stepper{display:flex;align-items:center;gap:5px}
-    .temp-btn{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.7);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1;transition:background .1s}
+    .temp-btn{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid var(--divider-color, rgba(255,255,255,.22));color:rgba(255,255,255,.7);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1;transition:background .1s}
     .temp-btn:active{background:rgba(255,255,255,.18)}
     .temp-display{font-size:14px;font-weight:700;min-width:44px;text-align:center;line-height:1}
     .on-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px}
@@ -280,7 +280,25 @@ class TeslaCommuteCard extends HTMLElement {
     </div>` : '';
 
     this.shadowRoot.innerHTML = `
-      <style>${this._css()}</style>
+      <style>${this._css()}
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
+</style>
       <ha-card>
         <div class="card">
 

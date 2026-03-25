@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v16
+ * technology-card.js  —  v17
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -128,7 +128,7 @@ class TechnologyCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
+    .card{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
     .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px}
     .sec{padding:8px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .placeholder{font-size:12px;color:rgba(255,255,255,.25);padding:4px 0;font-style:italic}
@@ -139,7 +139,7 @@ class TechnologyCard extends HTMLElement {
     .sdot{border-radius:50%;flex-shrink:0;display:inline-block}
     .green{background:#4ade80}.red{background:#f87171}.amber{background:#fbbf24}
     .chips{display:flex;gap:6px;flex-wrap:wrap}
-    .chip{display:flex;align-items:center;gap:5px;padding:5px 9px;border-radius:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,0)}
+    .chip{display:flex;align-items:center;gap:5px;padding:5px 9px;border-radius:7px;border:1px solid var(--divider-color, rgba(255,255,255,.22));background:rgba(255,255,255,0)}
     .chip-lbl{font-size:11px;color:rgba(255,255,255,.45)}
     .chip-val{font-size:13px;font-weight:700;color:#e2e8f0;margin-left:2px}
     .speed-row{display:flex;gap:6px}
@@ -155,10 +155,10 @@ class TechnologyCard extends HTMLElement {
     .ink-pct{font-size:12px;font-weight:700;color:#e2e8f0}
     .ink-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase}
     .ink-warn{font-size:9px;font-weight:700;color:#fbbf24}
-    .rbtn{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,0);cursor:pointer;user-select:none;transition:background .12s;-webkit-tap-highlight-color:transparent}
+    .rbtn{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:8px;border:1px solid var(--divider-color, rgba(255,255,255,.22));background:rgba(255,255,255,0);cursor:pointer;user-select:none;transition:background .12s;-webkit-tap-highlight-color:transparent}
     .rbtn:active{background:rgba(255,255,255,.09)}
     .rbtn-left{display:flex;align-items:center;gap:9px}
-    .rbtn-icon{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .rbtn-icon{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid var(--divider-color, rgba(255,255,255,.22));display:flex;align-items:center;justify-content:center;flex-shrink:0}
     .rbtn-name{font-size:13px;font-weight:700;color:#e2e8f0}
     .rbtn-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:1px}
     .rbtn.danger{border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.05)}
@@ -205,7 +205,7 @@ class TechnologyCard extends HTMLElement {
     .sheet-btns{display:flex;gap:8px}
     .btn-yes{flex:1;height:40px;border-radius:8px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;font-size:14px;font-weight:700;cursor:pointer}
     .btn-yes:active{background:rgba(239,68,68,.25)}
-    .btn-no{flex:1;height:40px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.5);font-size:14px;font-weight:700;cursor:pointer}
+    .btn-no{flex:1;height:40px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid var(--divider-color, rgba(255,255,255,.22));color:rgba(255,255,255,.5);font-size:14px;font-weight:700;cursor:pointer}
     .btn-no:active{background:rgba(255,255,255,.12)}
   `; }
 
@@ -559,7 +559,25 @@ class TechnologyCard extends HTMLElement {
     };
     const method = map[this._config.section];
     const inner  = method ? this[method]() : `<div class="card"><div class="sec">Unknown section: ${this._config.section}</div></div>`;
-    this.shadowRoot.innerHTML = `<style>${this._css()}</style><ha-card>${inner}</ha-card>`;
+    this.shadowRoot.innerHTML = `<style>${this._css()}
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
+</style><ha-card>${inner}</ha-card>`;
     this._listen();
   }
 

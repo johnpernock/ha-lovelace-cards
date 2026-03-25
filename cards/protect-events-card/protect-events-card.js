@@ -1,5 +1,5 @@
 /**
- * protect-events-card.js  —  v3.1 (standalone — shared modules inlined)
+ * protect-events-card.js  —  v4.1 (standalone — shared modules inlined)
  *
  * Shared modules (ha-utils, ha-styles, ha-popup) are inlined directly
  * so this file has no external import dependencies.
@@ -403,7 +403,7 @@ const CSS_POPUP = `
   }
   .ha-popup-sheet {
     background: var(--card-background-color, #1e1e2a);
-    border: 1px solid rgba(255,255,255,0.22);
+    border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
     border-radius: 16px 16px 0 0;
     border-bottom: none;
     padding: 20px;
@@ -754,7 +754,7 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
       #${id} .portal-overlay.open { display: flex; }
       #${id} .portal-sheet {
         background: var(--card-background-color, #1e1e2a);
-        border: 1px solid rgba(255,255,255,0.22);
+        border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
         border-radius: 16px 16px 0 0;
         border-bottom: none;
         padding: 20px;
@@ -824,6 +824,24 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
       }
       #${id} .portal-section-label:first-child { margin-top: 0; }
       ${extraCss}
+
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
     </style>
     <div class="portal-overlay">
       <div class="portal-sheet">
@@ -933,7 +951,7 @@ function popupHeaderHtml(title, sub = '', subColor = '') {
 
 // ── protect-events-card ─────────────────────────────────────────────────────
 /**
- * protect-events-card.js  —  v3
+ * protect-events-card.js  —  v4
  * Real-time UniFi Protect smart detection event feed for Home Assistant Lovelace.
  *
  * Displays a live-updating list of detection events (person, vehicle, animal,
@@ -1460,7 +1478,7 @@ class ProtectEventsCard extends HTMLElement {
       /* ── Outer wrap ── */
       .wrap {
         border-radius: 10px;
-        border: 1px solid rgba(255,255,255,.22);
+        border: 1px solid var(--divider-color, rgba(255,255,255,.22));
         overflow: hidden;
       }
 
@@ -1501,7 +1519,7 @@ class ProtectEventsCard extends HTMLElement {
         font-size: 10px; font-weight: 700;
         text-transform: uppercase; letter-spacing: .05em;
         padding: 3px 8px; border-radius: 5px;
-        border: 1px solid rgba(255,255,255,.22);
+        border: 1px solid var(--divider-color, rgba(255,255,255,.22));
         background: rgba(255,255,255,.04);
         color: rgba(255,255,255,.4);
       }
@@ -1629,7 +1647,7 @@ class ProtectEventsCard extends HTMLElement {
       .pe-popup-actions { display: flex; gap: 8px; }
       .pe-popup-btn {
         flex: 1; padding: 10px; border-radius: 8px;
-        border: 1px solid rgba(255,255,255,.22);
+        border: 1px solid var(--divider-color, rgba(255,255,255,.22));
         background: rgba(255,255,255,.05);
         color: var(--primary-text-color, #e2e8f0);
         font-size: 12px; font-weight: 700; letter-spacing: .02em;

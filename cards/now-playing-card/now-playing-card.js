@@ -1,5 +1,5 @@
 /**
- * now-playing-card.js  —  v6
+ * now-playing-card.js  —  v7
  * Compact now-playing widget for Home Assistant Lovelace.
  * Shows active media players. Collapses to nothing when all are idle.
  *
@@ -161,8 +161,8 @@ class NowPlayingCard extends HTMLElement {
         :host{display:block}
         ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
         *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-        .wrap{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
-        .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.07)}
+        .wrap{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
+        .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.15)}
         .active-row{display:flex;align-items:center;gap:12px;padding:11px 14px;transition:filter .1s}
         .active-row:active{filter:brightness(.85)}
         .media-art{width:44px;height:44px;border-radius:7px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -175,6 +175,24 @@ class NowPlayingCard extends HTMLElement {
         .idle-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);flex-shrink:0}
         .idle-lbl{font-size:11px;color:rgba(255,255,255,.5);flex:1}
         .idle-state{font-size:10px;color:rgba(255,255,255,.3);font-weight:600}
+
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
       </style>
       <ha-card>
         <div class="wrap">

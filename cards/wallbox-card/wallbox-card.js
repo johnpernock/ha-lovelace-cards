@@ -1,5 +1,5 @@
 /**
- * wallbox-card.js  —  v5
+ * wallbox-card.js  —  v6
  * Wallbox EV charger status card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -99,16 +99,16 @@ class WallboxCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
-    .sbanner{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+    .card{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
+    .sbanner{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.15)}
     .sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
     .slabel{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;line-height:1}
     .ssub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-    .stat-tile{background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:9px 11px}
+    .stat-tile{background:rgba(255,255,255,0);border:1px solid var(--divider-color, rgba(255,255,255,.22));border-radius:8px;padding:9px 11px}
     .stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);margin-bottom:3px}
-    .stat-val{font-size:20px;font-weight:700;color:#e2e8f0;letter-spacing:-.5px;line-height:1}
+    .stat-val{font-size:20px;font-weight:700;color:var(--primary-text-color, #e2e8f0);letter-spacing:-.5px;line-height:1}
     .stat-unit{font-size:11px;color:rgba(255,255,255,.35);margin-left:2px}
     .bar-wrap{display:flex;flex-direction:column;gap:4px}
     .bar-label-row{display:flex;justify-content:space-between;align-items:baseline}
@@ -129,7 +129,7 @@ class WallboxCard extends HTMLElement {
     .mode-ico{width:16px;height:16px;flex-shrink:0}
     .mode-ico svg{width:100%;height:100%}
     .mode-lbl{font-size:11px;color:rgba(255,255,255,.3);flex:1}
-    .mode-opt{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.3);cursor:pointer;transition:background .15s,color .15s,border-color .15s;user-select:none;-webkit-tap-highlight-color:transparent}
+    .mode-opt{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid var(--divider-color, rgba(255,255,255,.22));color:rgba(255,255,255,.3);cursor:pointer;transition:background .15s,color .15s,border-color .15s;user-select:none;-webkit-tap-highlight-color:transparent}
     .mode-opt:active{filter:brightness(.85)}
     .mode-opt.active{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.3);color:#4ade80}
     .mode-opt.active-eco{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.3);color:#60a5fa}
@@ -170,10 +170,28 @@ class WallboxCard extends HTMLElement {
     };
 
     this.shadowRoot.innerHTML = `
-      <style>${this._css()}</style>
+      <style>${this._css()}
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
+</style>
       <ha-card>
-        <div class="card" style="background:rgba(${theme.rgb},.03);border-color:rgba(${theme.rgb},.18)">
-          <div class="sbanner" style="border-bottom-color:rgba(${theme.rgb},.1)">
+        <div class="card" style="background:rgba(255,255,255,0);border-color:rgba(${theme.rgb},.35)">
+          <div class="sbanner" style="border-bottom-color:rgba(${theme.rgb},.2)">
             <div class="sdot" style="background:${theme.dot}"></div>
             <div>
               <div class="slabel" style="color:${theme.color}">${theme.label}</div>

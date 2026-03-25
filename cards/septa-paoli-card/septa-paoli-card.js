@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v27
+ * septa-paoli-card.js  —  v28
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -687,10 +687,10 @@ class SeptaPaoliCard extends HTMLElement {
         }
 
         /* ── Expanded row mode ── */
-        .exp-wrap{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
-        .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+        .exp-wrap{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
+        .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between}
         .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
-        .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
+        .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--secondary-text-color, rgba(255,255,255,.3));padding:10px 14px 0}
         .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
         .exp-train-row:active{opacity:.85}
         .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -764,6 +764,24 @@ class SeptaPaoliCard extends HTMLElement {
           }
           #sp-handle { display: none; }
         }
+
+    /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
+    @media (prefers-color-scheme: light) {
+      .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .itog-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
+      .itog-lbl { color: var(--primary-text-color, rgba(0,0,0,.75)) !important; }
+      .sec-hdr,.sec-lbl,.fan-nm,.card-hdr-title,.stat-lbl,.stat-lbl-sm,.bar-label,.dir-lbl,.exp-row-lbl,.exp-arr-lbl,.exp-sec-lbl { color: var(--secondary-text-color, rgba(0,0,0,.5)) !important; }
+      .slabel,.stat-val,.time-big,.exp-time-xl,.exp-time-sm,.cur-temp,.card-hdr { color: var(--primary-text-color, rgba(0,0,0,.87)) !important; }
+      .lm-thumb,.tog-thumb { background: var(--primary-text-color, rgba(0,0,0,.4)) !important; }
+      .tog { border-color: var(--divider-color, rgba(0,0,0,.2)) !important; background: transparent !important; }
+      .stat-tile,.stat-tile-sm,.speed-item,.session-tile,.titem,.iitem,.tire-tile,.temp-tile,.aslot,.rbtn { border-color: var(--divider-color, rgba(0,0,0,.12)) !important; background: transparent !important; }
+      .lm-track,.lm-bar,.batt-bar-bg,.pp-ltrack,.strack { background: var(--divider-color, rgba(0,0,0,.1)) !important; }
+      .idle-dot,.bdot { background: var(--secondary-text-color, rgba(0,0,0,.3)) !important; }
+    }
       </style>
 
       <ha-card>
@@ -878,10 +896,10 @@ class SeptaPaoliCard extends HTMLElement {
       :host{display:block}
       ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0;font-family:var(--primary-font-family,sans-serif)}
       *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-      .exp-wrap{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
-      .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between}
+      .exp-wrap{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
+      .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between}
       .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
-      .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
+      .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--secondary-text-color, rgba(255,255,255,.3));padding:10px 14px 0}
       .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
       .exp-train-row:active{opacity:.85}
       .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -904,7 +922,7 @@ class SeptaPaoliCard extends HTMLElement {
       .exp-no-service{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:10px 14px}
       .no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.06)}
       #sp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;box-sizing:border-box;align-items:flex-end;justify-content:center}
-      #sp-popup{background:var(--card-background-color,#1e1e1e);border:1px solid rgba(255,255,255,.22);border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
+      #sp-popup{background:var(--card-background-color,#1e1e1e);border:1px solid var(--divider-color, rgba(255,255,255,.22));border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
       #sp-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 16px}
       @media(min-width:768px){#sp-overlay{align-items:center;justify-content:center;padding:24px}#sp-popup{max-width: 440px;border-radius:16px;border-bottom:1px solid rgba(255,255,255,.12)}#sp-handle{display:none}}
     `;
