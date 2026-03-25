@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v13
+ * room-buttons-card.js  —  v14
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -609,33 +609,27 @@ class RoomButtonsCard extends HTMLElement {
     const masterEnt = lcfg.entity || btn.entity;
     const indiv     = lcfg.individuals || [];
     const on        = this._isOn(masterEnt);
-    // mode: 'auto' (default) = detect from entity domain,
-    //       'toggle' = always show tap-to-toggle,
-    //       'slider' = always show brightness slider
+    // mode: 'auto' = detect from entity domain, 'toggle' = force toggle, 'slider' = force slider
     const mode = lcfg.mode || 'auto';
     const masterIsSwitch = mode === 'toggle' || (mode === 'auto' && masterEnt.startsWith('switch.'));
     const avg       = this._brightness(masterEnt) ?? (on ? 100 : 0);
     const sliderPct = on ? avg : 0;
 
-    // Determine color support — exclude switches, they have no color modes
-    const lightEnts   = [...indiv.map(l => l.entity), masterEnt].filter(e => !e.startsWith('switch.'));
-    const anyCT       = lightEnts.some(e => this._supportsCT(e));
-    const anyColor    = lightEnts.some(e => this._supportsColor(e));
-    const hasColors   = anyCT || anyColor;
+    // Color support — exclude switches
+    const lightEnts = [...indiv.map(l => l.entity), masterEnt].filter(e => !e.startsWith('switch.'));
+    const anyCT     = lightEnts.some(e => this._supportsCT(e));
+    const anyColor  = lightEnts.some(e => this._supportsColor(e));
+    const hasColors = anyCT || anyColor;
     const masterColor = this._lightDotColor(masterEnt);
-    const ctAll       = this._ctPresets();
-    const colorAll    = this._colorPresets();
-
-    // Master CT range (intersection of all lights)
     const ctEnts = lightEnts.filter(e => this._supportsCT(e));
     const minK = ctEnts.length ? Math.max(...ctEnts.map(e => this._ctRange(e).min)) : 2000;
     const maxK = ctEnts.length ? Math.min(...ctEnts.map(e => this._ctRange(e).max)) : 6500;
-    const filteredCT = ctAll.filter(p => p.kelvin >= minK && p.kelvin <= maxK);
+    const filteredCT = this._ctPresets().filter(p => p.kelvin >= minK && p.kelvin <= maxK);
 
     const chevSvg = (id, color) =>
       `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="${id}"><polyline points="6 9 12 15 18 9"/></svg>`;
 
-    // Master row: brightness slider for lights, tap-to-toggle for switches
+    // Master row — slider for lights, toggle for switches
     const masterInner = masterIsSwitch
       ? `<div class="rb-sw-row" data-action="rb-master-toggle" data-entity="${masterEnt}" style="cursor:pointer;-webkit-tap-highlight-color:transparent">
           <span class="rb-sw-lbl">All Lights</span>
@@ -655,42 +649,35 @@ class RoomButtonsCard extends HTMLElement {
         </div>
         <div class="rb-master-exp hidden" id="rbme">
           ${anyCT    ? `<div class="rb-clbl">Color temperature</div>${this._presetRow(filteredCT, 'rbpct-all', true)}` : ''}
-          ${anyColor ? `<div class="rb-clbl">Color</div>${this._presetRow(colorAll, 'rbpcc-all', true)}` : ''}
+          ${anyColor ? `<div class="rb-clbl">Color</div>${this._presetRow(this._colorPresets(), 'rbpcc-all', true)}` : ''}
         </div>
       </div>`;
 
-    const list = indiv.length ? indiv : [];
-    const lightsHtml = list.map((l, li) => {
-      const lon    = this._isOn(l.entity);
-      const isSw   = l.mode === 'toggle' || (l.entity.startsWith('switch.') && l.mode !== 'slider');
-      const lpct   = this._brightness(l.entity) ?? (lon ? 100 : 0);
-      const lsp    = lon ? lpct : 0;
-      const lname  = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
-      const hasCT  = !isSw && this._supportsCT(l.entity);
-      const hasCol = !isSw && this._supportsColor(l.entity);
-      const hasCols = hasCT || hasCol;
-      const lcolor  = this._lightDotColor(l.entity);
-      const { min: lMinK, max: lMaxK } = this._ctRange(l.entity);
-      const lCT = ctAll.filter(p => p.kelvin >= lMinK && p.kelvin <= lMaxK);
+    // Individual lights — 3-col itog-grid matching room-controls-card exactly
+    let indivHtml = '';
+    if (indiv.length) {
+      const btns = indiv.map(l => {
+        const lon = this._isOn(l.entity);
+        const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
+        const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.08)';
+        const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
+        const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.35)';
+        const nm  = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
+        const eid = l.entity.replace(/[^a-z0-9]/g, '_');
+        return `<div class="itog" id="rbitog-${eid}" data-action="rb-indiv-tog" data-entity="${l.entity}" style="background:${bg};border:1px solid ${bc}"><div class="itog-dot" style="background:${dc}"></div><div class="itog-lbl" style="color:${lc}">${nm}</div></div>`;
+      }).join('');
+      indivHtml = `<div class="itog-grid">${btns}</div>`;
+    }
 
-      return `<div class="rb-pp-light${lon ? ' rb-pp-light-on' : ''}" id="rbpl-${li}">
-        <span class="rb-pp-lname${lon ? ' lit' : ''}">${lname}</span>
-        <div class="rb-pp-lrow">
-          ${!isSw ? `<div class="rb-slider-wrap" data-action="rb-indiv-drag" data-entity="${l.entity}" data-li="${li}" style="touch-action:none">
-            <div class="rb-track"><div class="rb-fill" id="rblf-${li}" style="width:${lsp}%"></div></div>
-            <div class="rb-thumb" id="rblth-${li}" style="left:${Math.max(4, Math.min(lsp, 96))}%"></div>
-          </div>` : `<div style="flex:1"></div>`}
-          <span class="rb-pct" id="rblpct-${li}">${lon ? (isSw ? 'On' : lpct + '%') : ''}</span>
-          ${hasCols ? `<div class="rb-lchev" data-action="rb-light-expand" data-li="${li}" id="rblc-${li}">${chevSvg('rbla-' + li, lcolor)}</div>` : ''}
-        </div>
-        ${hasCols ? `<div class="rb-color-sec hidden" id="rbcs-${li}">
-          ${hasCT  ? `<div class="rb-clbl">Color temperature</div>${this._presetRow(lCT, 'rbpct-' + li, true)}` : ''}
-          ${hasCol ? `<div class="rb-clbl">Color</div>${this._presetRow(colorAll, 'rbpcc-' + li, true)}` : ''}
-        </div>` : ''}
-      </div>`;
-    }).join('');
+    return `<div class="rb-lights-sec">${masterHtml}${indivHtml}</div>`;
+  }
 
-    return `<div class="rb-lights-sec">${masterHtml}<div class="rb-pp-lights">${lightsHtml}</div></div>`;
+  // Signal-bar dots — matches room-controls-card _signal() exactly
+  _signal(level, active) {
+    if (!level) return `<div class="fpip-dot-off">Off</div>`;
+    const c = active ? 'fpip-dot fpip-dot-on' : 'fpip-dot';
+    if (level <= 3) return `<div class="fpip-dots-row">${Array(level).fill(`<div class="${c}"></div>`).join('')}</div>`;
+    return `<div class="fpip-dots-grid">${Array(Math.min(level, 4)).fill(`<div class="${c}"></div>`).join('')}</div>`;
   }
 
   _fansPopupHtml(btn) {
@@ -702,22 +689,13 @@ class RoomButtonsCard extends HTMLElement {
       const fname  = fcfg.name || this._attr(fcfg.entity, 'friendly_name') || fcfg.entity.split('.').pop().replace(/_/g, ' ');
       let pips = '';
       for (let i = 0; i < speeds; i++) {
-        const active = i === idx;
-        const dots   = i === 0
-          ? `<div class="rb-fpip-off">Off</div>`
-          : this._fanDots(i, speeds, active);
-        pips += `<div class="rb-fpip${active ? ' rb-fpip-on' : ''}" data-fan-idx="${fi}" data-step="${i}">${dots}</div>`;
+        pips += `<div class="fpip${i === idx ? ' fpip-on' : ''}" data-fan-idx="${fi}" data-step="${i}">${this._signal(i, i === idx)}</div>`;
       }
-      return `<span class="rb-pp-lname">${fname}</span><div class="rb-fpips" id="rbfan-${fi}">${pips}</div>`;
+      return `<div class="fan-flat"><div class="fan-nm-row"><span class="fan-nm">${fname}</span></div><div class="fpips" id="rbfan-${fi}">${pips}</div></div>`;
     }).join('');
-    return `<div class="rb-fans-sec">${html}</div>`;
+    return `<div class="fan-section">${html}</div>`;
   }
 
-  _fanDots(level, speeds, active) {
-    const c = active ? 'rb-fdot rb-fdot-on' : 'rb-fdot';
-    if (level <= 3) return `<div class="rb-fdots-row">${Array(level).fill(`<div class="${c}"></div>`).join('')}</div>`;
-    return `<div class="rb-fdots-grid">${Array(4).fill(`<div class="${c}"></div>`).join('')}</div>`;
-  }
 
   _themePopupHtml(btn) {
     if (!btn.theme_sensor) return '';
@@ -1052,8 +1030,9 @@ class RoomButtonsCard extends HTMLElement {
     });
 
     // ── Fan pip buttons ─────────────────────────────────────────────────────────
+    // Now uses .fpip/.fpip-dot classes (matching room-controls-card exactly)
     const fans = btn.fans || [];
-    popup.querySelectorAll('.rb-fpip[data-fan-idx]').forEach(el => {
+    popup.querySelectorAll('.fpip[data-fan-idx]').forEach(el => {
       const fi   = parseInt(el.dataset.fanIdx);
       const step = parseInt(el.dataset.step);
       const cfg  = fans[fi];
@@ -1061,24 +1040,33 @@ class RoomButtonsCard extends HTMLElement {
       el.addEventListener('click', e => {
         e.stopPropagation();
         this._setFanSpeed(cfg, step);
-        // Patch pips in-place rather than full re-render
-        const speeds = this._fanResolvedSpeeds(cfg);
-        const row    = popup.querySelector(`#rbfan-${fi}`);
-        if (row) row.querySelectorAll('.rb-fpip').forEach((pip, i) => {
-          pip.classList.toggle('rb-fpip-on', i === step);
-          const dotEl = pip.querySelector('.rb-fdots-row, .rb-fdots-grid, .rb-fpip-off');
-          if (dotEl) {
-            if (i === 0) {
-              dotEl.className = 'rb-fpip-off';
-              dotEl.innerHTML = 'Off';
-            } else {
-              const active = (i === step);
-              dotEl.className = i <= 3 ? 'rb-fdots-row' : 'rb-fdots-grid';
-              const c = active ? 'rb-fdot rb-fdot-on' : 'rb-fdot';
-              dotEl.innerHTML = Array(Math.min(i, 4)).fill(`<div class="${c}"></div>`).join('');
-            }
-          }
+        // Patch pips in-place
+        const row = popup.querySelector(`#rbfan-${fi}`);
+        if (row) row.querySelectorAll('.fpip').forEach((pip, i) => {
+          pip.classList.toggle('fpip-on', i === step);
+          const dotEl = pip.querySelector('.fpip-dots-row, .fpip-dots-grid, .fpip-dot-off');
+          if (dotEl) dotEl.outerHTML = this._signal(i, i === step);
         });
+      });
+    });
+
+    // ── Individual light toggles (itog-grid) ──────────────────────────────────
+    popup.querySelectorAll('[data-action="rb-indiv-tog"]').forEach(el => {
+      el.addEventListener('click', e => {
+        e.stopPropagation();
+        const eid   = el.dataset.entity;
+        const isOn  = this._isOn(eid);
+        const domain = eid.split('.')[0];
+        const svc   = isOn ? 'turn_off' : 'turn_on';
+        this._call(domain === 'switch' ? 'switch' : 'light', svc, { entity_id: eid }, null);
+        // Optimistic visual update
+        const lon   = !isOn;
+        el.style.background   = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,.04)';
+        el.style.borderColor  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.08)';
+        const dot = el.querySelector('.itog-dot');
+        const lbl = el.querySelector('.itog-lbl');
+        if (dot) dot.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.2)';
+        if (lbl) lbl.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.35)';
       });
     });
 
@@ -1101,34 +1089,8 @@ class RoomButtonsCard extends HTMLElement {
       });
     }
 
-    // ── Individual light color chevrons ───────────────────────────────────────
-    popup.querySelectorAll('[data-action="rb-light-expand"]').forEach(chev => {
-      chev.addEventListener('click', e => {
-        e.stopPropagation();
-        const li = chev.dataset.li;
-        const sec = popup.querySelector(`#rbcs-${li}`);
-        if (!sec) return;
-        // toggle returns true when class was ADDED (now hidden), false when removed (now visible)
-        const nowHidden = sec.classList.toggle('hidden');
-        const arrow = popup.querySelector(`#rbla-${li}`);
-        if (arrow) arrow.style.transform = nowHidden ? '' : 'rotate(180deg)';
-        // When opening this light, close all other sections and the master expand
-        if (!nowHidden) {
-          popup.querySelectorAll(`.rb-color-sec:not(#rbcs-${li}):not(.hidden)`).forEach(s => s.classList.add('hidden'));
-          popup.querySelectorAll(`[id^="rbla-"]:not(#rbla-${li})`).forEach(a => { a.style.transform = ''; });
-          const masterExp = popup.querySelector('#rbme');
-          if (masterExp && !masterExp.classList.contains('hidden')) {
-            masterExp.classList.add('hidden');
-            const ma = popup.querySelector('#rbmc-a');
-            if (ma) ma.style.transform = '';
-          }
-        }
-      });
-    });
-
     // ── Preset clicks (color/CT swatches) ────────────────────────────────────
-    // Prefix encoding: 'rbpct-all' = CT all lights, 'rbpcc-all' = color all lights,
-    // 'rbpct-N' = CT for individual light N, 'rbpcc-N' = color for light N.
+    // Only 'rbpct-all' / 'rbpcc-all' remain — per-light chevrons removed in favour of itog-grid.
     popup.querySelectorAll('[data-rb-preset]').forEach(el => {
       el.addEventListener('click', e => {
         e.stopPropagation();
@@ -1137,7 +1099,7 @@ class RoomButtonsCard extends HTMLElement {
         const lcfg      = btn.lights;
         const masterEnt = lcfg?.entity || btn.entity;
         const indiv     = lcfg?.individuals || [];
-        // All-lights presets: apply to master group + every individual
+        // Apply to master group entity + all individuals
         const allEnts   = [masterEnt, ...indiv.map(l => l.entity)];
 
         if (prefix === 'rbpct-all') {
@@ -1146,18 +1108,6 @@ class RoomButtonsCard extends HTMLElement {
         } else if (prefix === 'rbpcc-all') {
           const p = this._colorPresets()[idx];
           if (p) allEnts.forEach(eid => this._setColor(eid, p.rgb));
-        } else if (prefix.startsWith('rbpct-')) {
-          // Individual light color temp — suffix is the indiv array index
-          const li  = parseInt(prefix.split('-')[1]);
-          const p   = this._ctPresets()[idx];
-          const eid = indiv[li]?.entity;
-          if (p && eid) this._setColorTemp(eid, p.kelvin);
-        } else if (prefix.startsWith('rbpcc-')) {
-          // Individual light RGB color
-          const li  = parseInt(prefix.split('-')[1]);
-          const p   = this._colorPresets()[idx];
-          const eid = indiv[li]?.entity;
-          if (p && eid) this._setColor(eid, p.rgb);
         }
         this._selPreset(el);
       });
@@ -1595,13 +1545,13 @@ class RoomButtonsCard extends HTMLElement {
         .rb-sw-row{flex:1;display:flex;align-items:center;gap:10px;padding:0 4px;min-width:0}
         .rb-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
         .rb-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
-        .rb-pp-lights{display:flex;flex-direction:column;gap:8px;padding:0 0 8px}
-        .rb-pp-light{opacity:.5;transition:opacity .15s}
-        .rb-pp-light-on{opacity:1}
-        .rb-pp-lname{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 5px;display:block}
-        .rb-pp-lname.lit{color:rgba(255,255,255,.65)}
-        .rb-pp-lrow{display:flex;align-items:center;gap:8px}
-        .rb-lchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+        /* ── Individual lights — itog-grid (matches room-controls-card) ── */
+        .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:6px 0 2px}
+        .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s}
+        .itog:active{transform:scale(.94)}
+        .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+        .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
+        /* ── Color expand panels ── */
         .rb-color-sec{padding:7px 0 4px;border-top:1px solid rgba(255,255,255,.06)}
         .rb-color-sec.hidden{display:none}
         .rb-clbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.25);margin-bottom:6px;margin-top:3px}
@@ -1618,17 +1568,20 @@ class RoomButtonsCard extends HTMLElement {
         /* ── Section divider ── */
         .rb-divider{height:1px;background:rgba(255,255,255,.07);margin:8px 0}
 
-        /* ── Fans section ── */
-        .rb-fans-sec{padding:4px 0 8px;display:flex;flex-direction:column;gap:10px}
-        .rb-fpips{display:flex;gap:4px;margin-top:4px}
-        .rb-fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
-        .rb-fpip:active{transform:scale(.9)}
-        .rb-fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
-        .rb-fdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2)}
-        .rb-fdot-on{background:#2dd4bf}
-        .rb-fdots-row{display:flex;gap:4px;align-items:center;justify-content:center}
-        .rb-fdots-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center;justify-items:center}
-        .rb-fpip-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
+        /* ── Fans — fpip/fpip-dot (matches room-controls-card exactly) ── */
+        .fan-section{display:flex;flex-direction:column;gap:4px;padding:4px 0 8px}
+        .fan-flat{display:flex;flex-direction:column;gap:4px}
+        .fan-nm-row{padding:0 2px}
+        .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
+        .fpips{display:flex;gap:4px}
+        .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .fpip:active{transform:scale(.9)}
+        .fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
+        .fpip-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2)}
+        .fpip-dot-on{background:#2dd4bf}
+        .fpip-dot-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
+        .fpip-dots-row{display:flex;gap:4px;align-items:center;justify-content:center}
+        .fpip-dots-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center;justify-items:center}
 
         /* ── Theme block ── */
         .rb-theme-block{margin-bottom:12px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}

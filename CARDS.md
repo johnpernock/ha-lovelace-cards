@@ -327,6 +327,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v14 | Popup redesign — fans now use `fpip`/`fpip-dot` signal-bar pips and individuals use `itog-grid` tap-to-toggle dots, matching room-controls-card exactly; per-light color chevrons removed (color/CT on master chevron only); dead rb-fpip CSS and event handlers removed |
 | v13 | Switch/slider display mode — `mode: toggle\|slider` on `lights:` and each individual row overrides auto-detection; switch entities default to toggle, lights default to slider |
 | v12 | Fix: `popup.getElementById()` replaced with `popup.querySelector()` throughout — `getElementById` is a Document-only method; calling it on an Element silently returns `undefined`, breaking all chevron expand and color preset interactions |
 | v11 | Fix: chevron expand logic inverted — `classList.toggle()` returns `true` when class added (hidden), was being read as "opening"; arrow rotation and close-others logic now correct |
