@@ -224,6 +224,47 @@ After running: hard refresh your browser. Resource version bumps are optional si
 
 ---
 
+## Developer workflow (for Claude sessions)
+
+Before committing at the end of any session, always run this checklist:
+
+**1. Syntax check all modified JS files:**
+```bash
+for f in cards/*/$(basename $f).js; do node --check "$f" && echo "✅ $f" || echo "❌ $f"; done
+```
+
+**2. Cross-check JS version headers against CARDS.md:**
+Every card's JS file has a version header comment (`v-card-name.js — vN`). This must match the latest `| vN |` entry in that card's CARDS.md changelog. If they're out of sync, bump the JS header to match what was actually deployed.
+
+```bash
+# Quick audit — prints JS version vs CARDS.md latest version for every card
+python3 - <<'EOF'
+import re, os
+with open('CARDS.md') as f:
+    cards_md = f.read()
+for card in sorted(os.listdir('cards')):
+    js = f'cards/{card}/{card}.js'
+    if not os.path.exists(js): continue
+    with open(js) as f:
+        f.readline()        # skip opening /**
+        line = f.readline() # version is on line 2: " * card-name.js  —  vN"
+    js_ver = re.search(r'v(\d+)', line)
+    js_ver = js_ver.group(0) if js_ver else '?'
+    m = re.search(rf'^## {re.escape(card)}\n', cards_md, re.MULTILINE)
+    if not m: continue
+    cl = cards_md.find('### Changelog', m.end())
+    md_ver = re.search(r'\| (v\d+) \|', cards_md[cl:cl+200])
+    md_ver = md_ver.group(1) if md_ver else '?'
+    status = '✅' if js_ver == md_ver else '❌ MISMATCH'
+    print(f'{status}  {card:40s}  JS={js_ver}  CARDS.md={md_ver}')
+EOF
+```
+
+**3. When listing cards that need resource bumps for the user:**
+Always present them in **alphabetical order** — that is the order they appear in HA's Resources UI (Settings → Dashboards → Resources), which makes it faster to find and update each one.
+
+---
+
 ## Design reference
 
 See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color system, component patterns with ASCII mockups, CSS snippets, and do's and don'ts.

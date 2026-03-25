@@ -579,6 +579,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v14 | `_patch()` added — inner content updates only; style block never rebuilt after initial render |
 | v13 | Card section headers: 10px uppercase → 17px white bold |
 | v12 | Touch audit: added `-webkit-tap-highlight-color:transparent` to `.rbtn` |
 | v11 | Added `immich` and `recently_added` sections |
@@ -877,6 +878,7 @@ sensors:
 
 | Version | Changes |
 |---------|---------|
+| v5 | `_patch()` added — individual cell values update in-place by index class |
 | v4 | Padding consistency pass — horizontal padding normalized to 14px |
 | v3 | `climate.*` domain support — reads `current_temperature` attribute |
 | v2 | `unit` config option; separator lines between cells |
@@ -993,6 +995,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v25 | set hass no longer re-renders on every HA state push — 60s interval is the sole render driver |
 | v24 | Popup max-width normalized to 440px |
 | v23 | Fixed once:true tap-outside listener; body scroll lock; overscroll-behavior:contain |
 | v22 | Card header: 10px uppercase → 17px white bold |
@@ -1108,6 +1111,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v4 | `_patch()` added — set hass no longer calls `_render()` on top of the 30s interval (was double-rendering) |
 | v3 | Card header: 10px uppercase → 17px white bold |
 | v4 | Fixed double-render — `set hass` no longer calls `_render()` on top of the 30s interval |
 | v2 | Touch audit: `-webkit-tap-highlight-color:transparent` on `lb-row` |
@@ -1231,6 +1235,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v13 | `_patch()` added — battery bar, badges, and lock/climate/trunk button states update in-place |
 | v12 | Padding consistency pass |
 | v11 | Popup max-width normalized to 440px |
 | v10 | Fixed once:true tap-outside listener; body scroll lock |
@@ -1414,6 +1419,7 @@ name: Garage
 
 | Version | Changes |
 |---------|---------|
+| v7 | Version header corrected — JS was at v7 but CARDS.md only had v6 |
 | v6 | `_patch()` added — button color, label, and icon update in-place |
 | v5 | Padding consistency pass |
 | v4 | Touch audit: `-webkit-tap-highlight-color:transparent` |
@@ -1589,6 +1595,7 @@ players:
 
 | Version | Changes |
 |---------|---------|
+| v4 | `_patch()` added — title, source, and state update per player; full re-render only when active player count changes |
 | v3 | Card header: 10px uppercase → 17px white bold |
 | v4 | `_patch()` added — player title, source, and play/pause state update in-place; re-renders only when active count changes |
 | v2 | Touch audit: `user-select:none` on tappable elements |
