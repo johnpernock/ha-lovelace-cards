@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v92 | UX: tstat bars 3px .5→4px .80, bg tints removed; inline tadj 34×34 1.5px→44×44 2px; popup tadj 1.5px→2px — all match new thermostat-card style |
 | v91 | Fix: popup master lm-bar track .08→.40/4px→5px; popup individual pp-ltrack same |
 | v90 | Fix: light slider track rgba(.1)→(.35) — visible gray on OLED when off; switch track same; header pill padding 3→4px, margin 6→8px; rhead padding 14→16px |
 | v89 | UX: gray=off/color=on — removed all opacity dimming; itog/fpip/toggle/theme-area/blind/thermostat off states now solid gray not faded; tadj-off gray not transparent |
@@ -1085,6 +1086,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v36 | UX: hide .div separator between outbound and inbound trains |
 | v35 | Fix: restore border:none!important on compact ha-card — HA default was showing through |
 | v34 | UX: remove outer ha-card border on compact/expanded views; remove pills border-top divider (pills have own borders); add 6px padding-top to pills section |
 | v34 | UX: remove outer border from compact view (pills have own borders); remove middle divider between Outbound/Inbound |
@@ -1272,6 +1274,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v12 | Redesign: colored left bar=mode (4px .80), mode pill left of controls, 44×44 2px tadj buttons, no bg tint, outer card border+header divider, matches room-controls tstat style |
 | v11 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v10 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v9 | Light mode: @media light override block |
