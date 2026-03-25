@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js  —  v8
+ * weather-card-nws.js  —  v9
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -339,7 +339,7 @@ class WeatherCardUnified extends HTMLElement {
     const icoEl  = this.shadowRoot.querySelector('.ico');
     const condEl = this.shadowRoot.querySelector('.cond');
     if (icoEl)  icoEl.innerHTML = `<svg ...>${mainSvg}</svg>`;
-    if (condEl) { condEl.textContent = state.replace(/_/g,' '); condEl.style.color = mainColor; }
+    if (condEl) { condEl.textContent = this._label(state); condEl.style.color = mainColor; }
 
     // Feels like
     const feelsEl = this.shadowRoot.querySelector('.feels span');

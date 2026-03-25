@@ -1,6 +1,8 @@
 /**
- * printer-status-card.js  —  v2
- * Compact printer status for home view.
+ * printer-status-card.js  —  v3
+ * Compact printer status widget for the Home view.
+ * Uses the same `printer` prefix config as bambu-printer-card.
+ * Entity lookup is domain-agnostic — see bambu-printer-card for explanation.
  */
 
 class PrinterStatusCard extends HTMLElement {
@@ -20,9 +22,18 @@ class PrinterStatusCard extends HTMLElement {
   }
   getCardSize() { return 2; }
 
-  _pfx()    { return this._config.printer || 'p1s_01p09a3a1100648'; }
+  _pfx()    { return this._config.printer || ''; }
   _eid(s)   { return `${this._pfx()}_${s}`; }
-  _state(s) { return this._hass?.states[this._eid(s)] || null; }
+  _state(s) {
+    if (!this._hass) return null;
+    const suffix = this._eid(s);
+    const domains = ['sensor', 'binary_sensor', 'select', 'switch', 'number'];
+    for (const d of domains) {
+      const e = this._hass.states[`${d}.${suffix}`];
+      if (e) return e;
+    }
+    return Object.values(this._hass.states).find(e => e.entity_id.endsWith(`.${suffix}`)) || null;
+  }
   _val(s)   { return this._state(s)?.state ?? null; }
   _num(s)   { const v = parseFloat(this._val(s)); return isNaN(v) ? null : v; }
   _isOn(s)  { const v = this._val(s); return v === 'on' || v === 'true'; }

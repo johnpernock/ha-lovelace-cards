@@ -654,6 +654,7 @@ views:
               tire_pressure_rr:     sensor.magneton_tpms_rear_right
           - type: custom:charging-card
             name: Magneton
+            charger_name: Beryl Pulsar Plus
             wallbox_prefix: wallbox_beryl_pulsar_plus
             tesla:
               battery_level:  sensor.magneton_battery

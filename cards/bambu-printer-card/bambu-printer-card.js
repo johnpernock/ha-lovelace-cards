@@ -1,13 +1,21 @@
 /**
- * bambu-printer-card.js  —  v4
+ * bambu-printer-card.js  —  v5
  *
  * Unified Bambu Lab P1S dashboard card.
  * Shows printer status, progress, temperatures, speed/layer,
  * and AMS slots or external spool depending on which is active.
  *
+ * HOW ENTITY LOOKUP WORKS:
+ * The Bambu Lab HA integration exposes entities like:
+ *   sensor.p1s_01p09a3a1100648_current_stage
+ *   binary_sensor.p1s_01p09a3a1100648_ams_1_active
+ * The `printer` config value is the prefix (everything before the last underscore
+ * group). _state(suffix) tries common HA domains automatically — you never need
+ * to specify domains in config.
+ *
  * CONFIG:
  * type: custom:bambu-printer-card
- * printer: p1s_01p09a3a1100648
+ * printer: p1s_01p09a3a1100648   # your printer's entity prefix
  */
 
 class BambuPrinterCard extends HTMLElement {
@@ -32,9 +40,20 @@ class BambuPrinterCard extends HTMLElement {
 
   getCardSize() { return 6; }
 
-  _pfx()           { return this._config.printer || 'p1s_01p09a3a1100648'; }
-  _eid(s)          { return `${this._pfx()}_${s}`; }
-  _state(s)        { return this._hass?.states[this._eid(s)] || null; }
+  _pfx()      { return this._config.printer || ''; }
+  _eid(s)     { return `${this._pfx()}_${s}`; }
+  _state(s) {
+    if (!this._hass) return null;
+    const suffix = this._eid(s);
+    // Try common domains first for speed
+    const domains = ['sensor', 'binary_sensor', 'select', 'switch', 'number', 'button', 'camera'];
+    for (const d of domains) {
+      const e = this._hass.states[`${d}.${suffix}`];
+      if (e) return e;
+    }
+    // Fallback: scan all states for a key ending with the suffix
+    return Object.values(this._hass.states).find(e => e.entity_id.endsWith(`.${suffix}`)) || null;
+  }
   _val(s)          { return this._state(s)?.state ?? null; }
   _attr(s, k)      { return this._state(s)?.attributes?.[k] ?? null; }
   _num(s)          { const v = parseFloat(this._val(s)); return isNaN(v) ? null : v; }

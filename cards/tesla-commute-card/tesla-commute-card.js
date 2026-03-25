@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v4
+ * tesla-commute-card.js  —  v5
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -37,7 +37,7 @@ class TeslaCommuteCard extends HTMLElement {
 
   setConfig(c) {
     if (!c.entities) throw new Error('tesla-commute-card: entities is required');
-    this._config = { name: 'Magneton', tire_warn_psi: 40, temp_unit: 'F', ...c };
+    this._config = { name: '', tire_warn_psi: 40, temp_unit: 'F', ...c };
     this._render();
   }
 

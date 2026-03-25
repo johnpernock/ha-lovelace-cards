@@ -323,6 +323,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v10 | Color/CT chevrons on individual lights and master slider; theme color swatch bar in Yard popup; section labels removed from popup header; `_openCoverGroup` method header restored |
 | v9 | Fix: duplicate `_buildPopupContent` method removed — second definition was silently overwriting the first, causing `lights:` and `fans:` popup buttons to show empty popups |
 | v8 | Fix: `hasPopup` check now includes `lights` and `fans` keys so custom popup opens correctly for those buttons |
 | v7 | `_patch()` added — button active states, colors, and theme strips update in-place; popup master slider refreshes on hass updates |
@@ -639,6 +640,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v5 | Fix: `_state()` now scans common HA domains (`sensor.`, `binary_sensor.`, etc.) — previously looked up bare entity IDs which never matched, causing blank card |
 | v4 | `_patch()` added — status label, progress bar, and temperatures update in-place; full re-render only when status category changes |
 | v3 | Active tray detection handles multiple firmware formats; external spool auto-switch; humidity display |
 | v2 | `current_stage` status label mapping improved |
@@ -675,6 +677,8 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v3 | Fix: same domain-scanning fix as bambu-printer-card v5 — bare entity ID lookup was silently returning null |
+| v2 | `_patch()` added — rebuilds inner content only; full re-render on visibility change |
 | v1 | Initial release |
 
 ---
@@ -716,6 +720,8 @@ tap_action: popup
 
 | Version | Changes |
 |---------|---------|
+| v9 | Fix: `_patch()` condition text now uses `_label()` — previously used raw `replace(/_/g,' ')` which left hyphens in place (e.g. `clear-night` instead of `Clear Night`) |
+| v8 | `_patch()` added — inline conditions, temp, and forecast strip update without rebuilding style block |
 | v7 | Padding consistency pass — horizontal padding normalized to 14px |
 | v6 | Popup max-width normalized to 440px |
 | v5 | Fixed once:true tap-outside listener; body scroll lock; overscroll-behavior:contain |
@@ -1051,6 +1057,8 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v8 | Removed hardcoded `'21 Beryl Rd'` fallback for home direction label — now uses `home_routes[0].label` only |
+| v7 | `_patch()` added — route times and delays update in-place; full re-render only when incident banner appears/disappears |
 | v6 | Card header title: 10px uppercase → 17px white bold |
 | v5 | Touch audit: `-webkit-tap-highlight-color:transparent` on expanded row classes |
 | v4 | To-work row dimming after noon removed — always full brightness |
@@ -1304,6 +1312,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v5 | Removed hardcoded default `name: 'Magneton'` — defaults to empty string so cards without a name set don't show a stale vehicle name |
 | v4 | Fixed ReferenceError: ents is not defined in `_patch()` |
 | v3 | Climate temp display shows empty string when off |
 | v2 | Climate badge shows HVAC mode name; tire pressures rounded to integer PSI |
@@ -1366,6 +1375,7 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
+| v3 | New `charger_name` config param — replaces hardcoded `'Beryl Pulsar Plus'` in banner sub-label; `name` default changed from `'Magneton'` to `''` |
 | v2 | Card name label: 15px → 17px white bold |
 | v1 | Initial release |
 

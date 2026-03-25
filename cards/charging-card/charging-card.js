@@ -1,5 +1,5 @@
 /**
- * charging-card.js  —  v2
+ * charging-card.js  —  v3
  * Unified EV charging card combining Tesla (battery, range, time-to-full,
  * charging speed) and Wallbox (power, session energy) data into one view.
  *
@@ -8,7 +8,8 @@
  *
  * CONFIG:
  * type: custom:charging-card
- * name: Magneton                       # optional
+ * name: Magneton                       # optional — vehicle name shown in banner
+ * charger_name: Beryl Pulsar Plus      # optional — charger model shown in sub-label
  * wallbox_prefix: wallbox_beryl_pulsar_plus
  * tesla:
  *   battery_level:    sensor.magneton_battery
@@ -30,7 +31,7 @@ class ChargingCard extends HTMLElement {
   setConfig(c) {
     if (!c.tesla)           throw new Error('charging-card: tesla entities required');
     if (!c.wallbox_prefix)  throw new Error('charging-card: wallbox_prefix required');
-    this._config = { name: 'Magneton', ...c };
+    this._config = { name: '', charger_name: '', ...c };
     this._render();
   }
 
@@ -156,7 +157,7 @@ class ChargingCard extends HTMLElement {
         <div class="bdot pulse" style="background:#60a5fa"></div>
         <div>
           <div class="blabel" style="color:#60a5fa">Charging</div>
-          <div class="bsub">${this._config.name} · Beryl Pulsar Plus</div>
+          <div class="bsub">${[this._config.name, this._config.charger_name].filter(Boolean).join(' · ')}</div>
         </div>
         ${ttf ? `<div class="bttf" style="color:#60a5fa" id="cc-ttf">Full in ${ttf}</div>` : ''}
       </div>
@@ -210,7 +211,7 @@ class ChargingCard extends HTMLElement {
         <div class="bdot" style="background:rgba(255,255,255,.2)"></div>
         <div>
           <div class="blabel" style="color:rgba(255,255,255,.45)">Not charging</div>
-          <div class="bsub">Beryl Pulsar Plus · ${wbStatus}</div>
+          <div class="bsub">${[this._config.charger_name, wbStatus].filter(Boolean).join(' · ')}</div>
         </div>
         ${lastAgo ? `<div style="font-size:10px;color:rgba(255,255,255,.22);margin-left:auto">Last charged ${lastAgo}</div>` : ''}
       </div>

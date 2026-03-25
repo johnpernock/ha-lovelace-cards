@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v7
+ * traffic-card.js  —  v8
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -457,7 +457,7 @@ class TrafficCard extends HTMLElement {
                 <polyline points="19 12 5 12"/><polyline points="11 18 5 12 11 6"/>
               </svg>
             </div>
-            <div class="dir-lbl">Home · ${cfg.home_routes[0]?.label || '21 Beryl Rd'}</div>
+            <div class="dir-lbl">Home · ${cfg.home_routes[0]?.label || ''}</div>
           </div>
           ${homeTilesHtml}
         </div>

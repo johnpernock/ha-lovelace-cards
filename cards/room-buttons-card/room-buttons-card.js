@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v9
+ * room-buttons-card.js  —  v10
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -9,14 +9,14 @@
  *      Type: JavaScript Module
  *
  * ── BUTTON BEHAVIOUR ──────────────────────────────────────────────────────────
- * Without popup_entities:
+ * Without popup_entities / lights / fans:
  *   tap       → fires hass-more-info (opens bubble card popup)
  *   hold 600ms → toggles the entity
  *
- * With popup_entities, lights:, or fans: defined:
+ * With lights:, fans:, or popup_entities: defined:
  *   tap       → opens custom room popup
  *
- * Cover buttons (tap_action: toggle, no popup_entities):
+ * Cover buttons (tap_action: toggle, no popup config):
  *   tap       → calls cover.open_cover / cover.close_cover immediately
  *
  * ── CONFIG ────────────────────────────────────────────────────────────────────
@@ -34,56 +34,62 @@
  *     icon: garage
  *     tap_action: toggle
  *
- *   # Button with custom popup
+ *   # Button with lights popup — master brightness slider + per-light sliders
+ *   # Color temperature and RGB color pickers appear automatically for lights
+ *   # that support them. Tap the chevron (›) next to a light to expand colors.
+ *   - entity: light.family_room        # drives the button active state
+ *     name: Family Room
+ *     icon: sofa
+ *     lights:
+ *       entity: light.all_family_room  # master group entity (slider controls all)
+ *       individuals:                   # optional — per-light rows below master
+ *         - entity: light.family_room_main
+ *           name: Main
+ *         - entity: light.family_room_lamp
+ *           name: Lamp
+ *
+ *   # Button with fans popup — pip-dot speed buttons per fan
+ *   - entity: fan.family_room_ceiling
+ *     name: Family Room
+ *     icon: sofa
+ *     fans:
+ *       - entity: fan.family_room_ceiling
+ *         name: Ceiling Fan   # optional, falls back to friendly_name
+ *         speeds: 3           # optional — 3 or 4, auto-detected if omitted
+ *
+ *   # Theme sensor — shows a holiday color strip + name label on the button,
+ *   # and a color swatch bar at the top of the popup.
+ *   # Reads all_outdoor_colors, emoji, accent, is_holiday from sensor attributes.
+ *   - entity: light.yard
+ *     name: Yard
+ *     icon: tree
+ *     theme_sensor: sensor.outdoor_lighting_theme
+ *     lights:
+ *       entity: light.all_yard_lights
+ *
+ *   # Legacy popup_entities — still fully supported
  *   - entity: light.family_room
  *     name: Family Room
  *     icon: sofa
  *     popup_entities:
- *
- *       # Stat — read-only sensor value
  *       - entity: sensor.family_room_temperature
  *         label: Temperature
  *         type: stat
- *
- *       - entity: sensor.family_room_humidity
- *         label: Humidity
- *         type: stat
- *
- *       # Toggle — on/off tile
- *       # light.* entities auto-show a brightness slider when on
  *       - entity: light.family_room
  *         label: Main Lights
  *         type: toggle
- *         icon: bulb          # optional — auto-detected from domain
- *
- *       - entity: switch.ceiling_fan_light
- *         label: Fan Light
- *         type: toggle
- *
- *       - entity: media_player.apple_tv
- *         label: Apple TV
- *         type: toggle
- *
- *       # Fan — smart fan with speed control
+ *         icon: bulb
  *       - entity: fan.family_room_ceiling
  *         label: Ceiling Fan
  *         type: fan
- *         speeds: 3             # 3 or 4, default 3
- *         speed_percentages:    # optional — defaults to equal divisions
- *           - 33
- *           - 66
- *           - 100
- *
- *       # Cover group — one tile, open/close buttons for all blinds together
- *       - entity: cover.fr_blind_1     # used to read state
+ *         speeds: 3
+ *       - entity: cover.fr_blind_1
  *         label: Blinds
  *         type: cover_group
- *         max_position: 70             # open button targets this %, default 100
- *         entities:                    # all entities moved together
+ *         max_position: 70
+ *         entities:
  *           - cover.fr_blind_1
  *           - cover.fr_blind_2
- *           - cover.fr_blind_3
- *           - cover.fr_blind_4
  *
  * ── ICONS ─────────────────────────────────────────────────────────────────────
  * bulb, garage, sofa, sun, kitchen, dining, desk, bed, bath, stairs, tree,
@@ -420,6 +426,97 @@ class RoomButtonsCard extends HTMLElement {
     }, `fan-${entityId}`);
   }
 
+  // ── Color / CT helpers ────────────────────────────────────────────────────────
+
+  static get DEFAULT_CT() {
+    return [
+      { label: 'Candle',     kelvin: 1900, color: '#ff8c3a' },
+      { label: 'Warm White', kelvin: 2700, color: '#ffcf7d' },
+      { label: 'Soft White', kelvin: 3000, color: '#ffe4a8' },
+      { label: 'Natural',    kelvin: 4000, color: '#fff5d6' },
+      { label: 'Daylight',   kelvin: 5000, color: '#fffbf0' },
+      { label: 'Cool',       kelvin: 6500, color: '#d4eeff' },
+    ];
+  }
+
+  static get DEFAULT_COLORS() {
+    return [
+      { label: 'Red',    rgb: [255, 107, 107], color: '#ff6b6b' },
+      { label: 'Orange', rgb: [255, 154,  60], color: '#ff9a3c' },
+      { label: 'Yellow', rgb: [255, 212,  59], color: '#ffd43b' },
+      { label: 'Green',  rgb: [105, 219, 124], color: '#69db7c' },
+      { label: 'Teal',   rgb: [ 56, 217, 169], color: '#38d9a9' },
+      { label: 'Blue',   rgb: [116, 192, 252], color: '#74c0fc' },
+      { label: 'Purple', rgb: [151, 117, 250], color: '#9775fa' },
+      { label: 'Pink',   rgb: [247, 131, 172], color: '#f783ac' },
+      { label: 'Lavend', rgb: [192, 132, 252], color: '#c084fc' },
+      { label: 'White',  rgb: [240, 244, 255], color: '#f0f4ff' },
+    ];
+  }
+
+  _ctPresets()    { return RoomButtonsCard.DEFAULT_CT; }
+  _colorPresets() { return RoomButtonsCard.DEFAULT_COLORS; }
+
+  _supportsCT(id) {
+    const modes = this._attr(id, 'supported_color_modes') || [];
+    return modes.some(m => ['color_temp', 'xy', 'hs', 'rgb', 'rgbw', 'rgbww'].includes(m)) ||
+           this._attr(id, 'color_temp_kelvin') != null;
+  }
+
+  _supportsColor(id) {
+    const modes = this._attr(id, 'supported_color_modes') || [];
+    return modes.some(m => ['xy', 'hs', 'rgb', 'rgbw', 'rgbww'].includes(m));
+  }
+
+  _ctRange(id) {
+    const min = this._attr(id, 'min_color_temp_kelvin') || 2000;
+    const max = this._attr(id, 'max_color_temp_kelvin') || 6500;
+    return { min, max };
+  }
+
+  _lightDotColor(id) {
+    const s = this._entityState(id);
+    if (!s || s.state !== 'on') return 'rgba(255,255,255,.2)';
+    const rgb = s.attributes.rgb_color;
+    if (rgb) return `rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+    const k = s.attributes.color_temp_kelvin;
+    if (k) {
+      const t = Math.max(0, Math.min(1, (k - 1900) / (6500 - 1900)));
+      const r = Math.round(255 - t * (255 - 212));
+      const g = Math.round(147 + t * (244 - 147));
+      const b = Math.round(41  + t * (255 - 41));
+      return `rgb(${r},${g},${b})`;
+    }
+    return '#fbbf24';
+  }
+
+  _setColorTemp(entityId, kelvin) {
+    this._callServiceData('light', 'turn_on', { entity_id: entityId, color_temp_kelvin: kelvin }, null);
+  }
+
+  _setColor(entityId, rgb) {
+    this._callServiceData('light', 'turn_on', { entity_id: entityId, rgb_color: rgb }, null);
+  }
+
+  _selPreset(el) {
+    const row = el.closest('.rb-presets,.rb-presets-grid');
+    if (row) row.querySelectorAll('.rb-preset').forEach(p => {
+      p.classList.remove('rb-preset-sel');
+      p.style.borderColor = ''; p.style.background = '';
+      const d = p.querySelector('.rb-dot-lbl'); if (d) d.style.color = 'rgba(255,255,255,.35)';
+    });
+    el.classList.add('rb-preset-sel');
+    const dot = el.querySelector('.rb-dot');
+    if (dot) { el.style.borderColor = dot.style.background + '55'; el.style.background = dot.style.background + '1a'; }
+    const d = el.querySelector('.rb-dot-lbl'); if (d) d.style.color = 'rgba(255,255,255,.82)';
+  }
+
+  _presetRow(list, prefix, grid = false) {
+    return (grid ? `<div class="rb-presets-grid">` : `<div class="rb-presets">`) +
+      list.map((p, i) => `<div class="rb-preset" data-rb-preset="${prefix}" data-idx="${i}"><div class="rb-dot" style="background:${p.color}"></div><div class="rb-dot-lbl">${p.label}</div></div>`).join('') +
+    `</div>`;
+  }
+
   _openCoverGroup(cfg) {
     const max      = cfg.max_position || 100;
     const entities = cfg.entities || [cfg.entity];
@@ -509,28 +606,55 @@ class RoomButtonsCard extends HTMLElement {
     const on        = this._isOn(masterEnt);
     const avg       = this._brightness(masterEnt) ?? (on ? 100 : 0);
     const sliderPct = on ? avg : 0;
-    const cnt       = indiv.length ? indiv.filter(l => this._isOn(l.entity)).length : (on ? 1 : 0);
-    const tot       = indiv.length || 1;
+
+    // Determine color support
+    const lightEnts   = [...indiv.map(l => l.entity), masterEnt].filter(e => !e.startsWith('switch.'));
+    const anyCT       = lightEnts.some(e => this._supportsCT(e));
+    const anyColor    = lightEnts.some(e => this._supportsColor(e));
+    const hasColors   = anyCT || anyColor;
+    const masterColor = this._lightDotColor(masterEnt);
+    const ctAll       = this._ctPresets();
+    const colorAll    = this._colorPresets();
+
+    // Master CT range (intersection of all lights)
+    const ctEnts = lightEnts.filter(e => this._supportsCT(e));
+    const minK = ctEnts.length ? Math.max(...ctEnts.map(e => this._ctRange(e).min)) : 2000;
+    const maxK = ctEnts.length ? Math.min(...ctEnts.map(e => this._ctRange(e).max)) : 6500;
+    const filteredCT = ctAll.filter(p => p.kelvin >= minK && p.kelvin <= maxK);
+
+    const chevSvg = (id, color) =>
+      `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="${id}"><polyline points="6 9 12 15 18 9"/></svg>`;
 
     const masterHtml = `
-      <div class="rb-sec-hdr">All Lights</div>
       <div class="rb-master">
         <div class="rb-mrow">
           <div class="rb-slider-wrap" data-action="rb-master-drag" data-entity="${masterEnt}" style="touch-action:none">
             <div class="rb-track"><div class="rb-fill" id="rbmf" style="width:${sliderPct}%"></div></div>
-            <div class="rb-thumb" id="rbmt" style="left:${Math.min(sliderPct,96)}%"></div>
+            <div class="rb-thumb" id="rbmt" style="left:${Math.min(sliderPct, 96)}%"></div>
           </div>
           <span class="rb-pct" id="rbmpct">${on ? avg + '%' : ''}</span>
+          ${hasColors ? `<div class="rb-mchev" data-action="rb-master-expand" id="rbmc">${chevSvg('rbmc-a', masterColor)}</div>` : ''}
+        </div>
+        <div class="rb-master-exp hidden" id="rbme">
+          ${anyCT    ? `<div class="rb-clbl">Color temperature</div>${this._presetRow(filteredCT, 'rbpct-all', true)}` : ''}
+          ${anyColor ? `<div class="rb-clbl">Color</div>${this._presetRow(colorAll, 'rbpcc-all', true)}` : ''}
         </div>
       </div>`;
 
     const list = indiv.length ? indiv : [];
     const lightsHtml = list.map((l, li) => {
-      const lon  = this._isOn(l.entity);
-      const isSw = l.entity.startsWith('switch.');
-      const lpct = this._brightness(l.entity) ?? (lon ? 100 : 0);
-      const lsp  = lon ? lpct : 0;
-      const lname = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
+      const lon    = this._isOn(l.entity);
+      const isSw   = l.entity.startsWith('switch.');
+      const lpct   = this._brightness(l.entity) ?? (lon ? 100 : 0);
+      const lsp    = lon ? lpct : 0;
+      const lname  = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
+      const hasCT  = !isSw && this._supportsCT(l.entity);
+      const hasCol = !isSw && this._supportsColor(l.entity);
+      const hasCols = hasCT || hasCol;
+      const lcolor  = this._lightDotColor(l.entity);
+      const { min: lMinK, max: lMaxK } = this._ctRange(l.entity);
+      const lCT = ctAll.filter(p => p.kelvin >= lMinK && p.kelvin <= lMaxK);
+
       return `<div class="rb-pp-light${lon ? ' rb-pp-light-on' : ''}" id="rbpl-${li}">
         <span class="rb-pp-lname${lon ? ' lit' : ''}">${lname}</span>
         <div class="rb-pp-lrow">
@@ -539,7 +663,12 @@ class RoomButtonsCard extends HTMLElement {
             <div class="rb-thumb" id="rblth-${li}" style="left:${Math.max(4, Math.min(lsp, 96))}%"></div>
           </div>` : `<div style="flex:1"></div>`}
           <span class="rb-pct" id="rblpct-${li}">${lon ? (isSw ? 'On' : lpct + '%') : ''}</span>
+          ${hasCols ? `<div class="rb-lchev" data-action="rb-light-expand" data-li="${li}" id="rblc-${li}">${chevSvg('rbla-' + li, lcolor)}</div>` : ''}
         </div>
+        ${hasCols ? `<div class="rb-color-sec hidden" id="rbcs-${li}">
+          ${hasCT  ? `<div class="rb-clbl">Color temperature</div>${this._presetRow(lCT, 'rbpct-' + li, true)}` : ''}
+          ${hasCol ? `<div class="rb-clbl">Color</div>${this._presetRow(colorAll, 'rbpcc-' + li, true)}` : ''}
+        </div>` : ''}
       </div>`;
     }).join('');
 
@@ -570,6 +699,34 @@ class RoomButtonsCard extends HTMLElement {
     const c = active ? 'rb-fdot rb-fdot-on' : 'rb-fdot';
     if (level <= 3) return `<div class="rb-fdots-row">${Array(level).fill(`<div class="${c}"></div>`).join('')}</div>`;
     return `<div class="rb-fdots-grid">${Array(4).fill(`<div class="${c}"></div>`).join('')}</div>`;
+  }
+
+  _themePopupHtml(btn) {
+    if (!btn.theme_sensor) return '';
+    const sensor = this._entityState(btn.theme_sensor);
+    if (!sensor) return '';
+    const theme  = sensor.state?.trim() || 'Default';
+    const attrs  = sensor.attributes || {};
+    const isHol  = attrs.is_holiday === true || theme !== 'Default';
+    const accent = attrs.accent || 'rgba(255,255,255,.55)';
+    const emoji  = attrs.emoji  || '🌙';
+    const colors = attrs.all_outdoor_colors || [];
+    const sub    = isHol ? 'Holiday theme active' : 'Warm white';
+
+    if (!colors.length) return '';
+
+    const swatches = colors.slice(0, 8).map(c =>
+      `<div class="rb-swatch" style="background:${c}"></div>`
+    ).join('');
+
+    return `<div class="rb-theme-block">
+      <div class="rb-theme-hdr">
+        <span style="font-size:14px;line-height:1">${emoji}</span>
+        <div class="rb-theme-name" style="color:${accent}">${theme}</div>
+        <div class="rb-theme-sub">${sub}</div>
+      </div>
+      <div class="rb-swatches">${swatches}</div>
+    </div>`;
   }
 
   _statsPopupHtml(btn) {
@@ -613,6 +770,7 @@ class RoomButtonsCard extends HTMLElement {
 
     const lightsHtml = hasLights ? this._lightsPopupHtml(btn) : '';
     const fansHtml   = hasFans   ? this._fansPopupHtml(btn)   : '';
+    const themeHtml  = this._themePopupHtml(btn);
     const statsHtml  = this._statsPopupHtml(btn);
 
     // Legacy popup_entities (toggle, cover_group) still work
@@ -637,8 +795,9 @@ class RoomButtonsCard extends HTMLElement {
         <button id="rb-close">✕</button>
       </div>
       <div class="pop-divider"></div>
-      ${hasLights ? `<div class="rb-sec-lbl">Lights</div>${lightsHtml}` : ''}
-      ${hasFans   ? `${hasLights ? '<div class="rb-divider"></div>' : ''}<div class="rb-sec-lbl">Fans</div>${fansHtml}` : ''}
+      ${themeHtml}
+      ${lightsHtml}
+      ${hasFans ? `${hasLights ? '<div class="rb-divider"></div>' : ''}${fansHtml}` : ''}
       ${legacyHtml}
       ${statsHtml}`;
   }
@@ -885,6 +1044,81 @@ class RoomButtonsCard extends HTMLElement {
             }
           }
         });
+      });
+    });
+
+    // ── Master color chevron ──────────────────────────────────────────────────
+    const masterChev = popup.querySelector('[data-action="rb-master-expand"]');
+    if (masterChev) {
+      masterChev.addEventListener('click', e => {
+        e.stopPropagation();
+        const exp = popup.getElementById('rbme');
+        if (!exp) return;
+        const opening = exp.classList.toggle('hidden');
+        const arrow = popup.getElementById('rbmc-a');
+        if (arrow) arrow.style.transform = opening ? '' : 'rotate(180deg)';
+        // Close all individual light color sections when master opens
+        if (!opening) {
+          popup.querySelectorAll('.rb-color-sec:not(.hidden)').forEach(s => s.classList.add('hidden'));
+          popup.querySelectorAll('[id^="rbla-"]').forEach(a => { a.style.transform = ''; });
+        }
+      });
+    }
+
+    // ── Individual light color chevrons ───────────────────────────────────────
+    popup.querySelectorAll('[data-action="rb-light-expand"]').forEach(chev => {
+      chev.addEventListener('click', e => {
+        e.stopPropagation();
+        const li = chev.dataset.li;
+        const sec = popup.getElementById(`rbcs-${li}`);
+        if (!sec) return;
+        const opening = sec.classList.toggle('hidden');
+        const arrow = popup.getElementById(`rbla-${li}`);
+        if (arrow) arrow.style.transform = opening ? '' : 'rotate(180deg)';
+        // Close other individual sections and master expand
+        if (!opening) {
+          popup.querySelectorAll(`.rb-color-sec:not(#rbcs-${li}):not(.hidden)`).forEach(s => s.classList.add('hidden'));
+          popup.querySelectorAll(`[id^="rbla-"]:not(#rbla-${li})`).forEach(a => { a.style.transform = ''; });
+          const masterExp = popup.getElementById('rbme');
+          if (masterExp && !masterExp.classList.contains('hidden')) {
+            masterExp.classList.add('hidden');
+            const ma = popup.getElementById('rbmc-a');
+            if (ma) ma.style.transform = '';
+          }
+        }
+      });
+    });
+
+    // ── Preset clicks (color/CT swatches) ────────────────────────────────────
+    popup.querySelectorAll('[data-rb-preset]').forEach(el => {
+      el.addEventListener('click', e => {
+        e.stopPropagation();
+        const prefix = el.dataset.rbPreset;
+        const idx    = parseInt(el.dataset.idx);
+        const lcfg   = btn.lights;
+        const masterEnt = lcfg?.entity || btn.entity;
+        const indiv     = lcfg?.individuals || [];
+
+        if (prefix === 'rbpct-all') {
+          const p = this._ctPresets()[idx];
+          if (!p) return;
+          [[masterEnt], ...indiv.map(l => [l.entity])].forEach(([eid]) => this._setColorTemp(eid, p.kelvin));
+        } else if (prefix === 'rbpcc-all') {
+          const p = this._colorPresets()[idx];
+          if (!p) return;
+          [[masterEnt], ...indiv.map(l => [l.entity])].forEach(([eid]) => this._setColor(eid, p.rgb));
+        } else if (prefix.startsWith('rbpct-')) {
+          const li = parseInt(prefix.split('-')[1]);
+          const p  = this._ctPresets()[idx];
+          const eid = indiv[li]?.entity;
+          if (p && eid) this._setColorTemp(eid, p.kelvin);
+        } else if (prefix.startsWith('rbpcc-')) {
+          const li = parseInt(prefix.split('-')[1]);
+          const p  = this._colorPresets()[idx];
+          const eid = indiv[li]?.entity;
+          if (p && eid) this._setColor(eid, p.rgb);
+        }
+        this._selPreset(el);
       });
     });
 
@@ -1314,12 +1548,28 @@ class RoomButtonsCard extends HTMLElement {
         .rb-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
         .rb-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
         .rb-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}
+        .rb-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+        .rb-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
+        .rb-master-exp.hidden{display:none}
         .rb-pp-lights{display:flex;flex-direction:column;gap:8px;padding:0 0 8px}
         .rb-pp-light{opacity:.5;transition:opacity .15s}
         .rb-pp-light-on{opacity:1}
         .rb-pp-lname{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 5px;display:block}
         .rb-pp-lname.lit{color:rgba(255,255,255,.65)}
         .rb-pp-lrow{display:flex;align-items:center;gap:8px}
+        .rb-lchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+        .rb-color-sec{padding:7px 0 4px;border-top:1px solid rgba(255,255,255,.06)}
+        .rb-color-sec.hidden{display:none}
+        .rb-clbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.25);margin-bottom:6px;margin-top:3px}
+        .rb-presets{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
+        .rb-presets-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px}
+        .rb-preset{flex:1;min-width:0;height:54px;border-radius:7px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 3px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .rb-presets-grid .rb-preset{flex:unset}
+        .rb-preset:active{transform:scale(.92)}
+        .rb-preset-sel{border-width:1.5px}
+        .rb-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
+        .rb-dot-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;line-height:1}
+        .rb-preset-sel .rb-dot-lbl{color:rgba(255,255,255,.82)}
 
         /* ── Section divider ── */
         .rb-divider{height:1px;background:rgba(255,255,255,.07);margin:8px 0}
@@ -1335,6 +1585,14 @@ class RoomButtonsCard extends HTMLElement {
         .rb-fdots-row{display:flex;gap:4px;align-items:center;justify-content:center}
         .rb-fdots-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center;justify-items:center}
         .rb-fpip-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
+
+        /* ── Theme block ── */
+        .rb-theme-block{margin-bottom:12px;padding:10px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+        .rb-theme-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+        .rb-theme-name{font-size:13px;font-weight:700;flex:1;min-width:0}
+        .rb-theme-sub{font-size:10px;color:rgba(255,255,255,.3)}
+        .rb-swatches{display:flex;gap:4px;height:10px;border-radius:5px;overflow:hidden}
+        .rb-swatch{flex:1;min-width:0;border-radius:0}
 
         /* ── Stats section (bottom) ── */
         .rb-stat-sec{padding:8px 0 0}
