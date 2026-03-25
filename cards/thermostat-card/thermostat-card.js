@@ -1,5 +1,5 @@
 /**
- * thermostat-card.js  —  v14
+ * thermostat-card.js  —  v15
  * Compact Home Assistant Lovelace thermostat card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -213,11 +213,6 @@ class ThermostatCard extends HTMLElement {
 
     if (cur) cur.textContent = curTemp;
     if (tgt) tgt.textContent = tgtTemp;
-    const card = this.shadowRoot.getElementById('tc-card');
-    if (card) {
-      card.style.background  = meta.cardBg;
-      card.style.borderColor = meta.border;
-    }
     if (mode) {
       mode.style.background   = meta.bg;
       mode.style.borderColor  = meta.border;
@@ -258,14 +253,12 @@ class ThermostatCard extends HTMLElement {
         :host { display: block; }
 
         ha-card {
+          background: transparent !important;
           box-shadow: none !important;
+          border: none !important;
           padding: 12px 14px 10px;
           box-sizing: border-box;
           font-family: var(--primary-font-family, sans-serif);
-          border-radius: 12px;
-          border-width: 1.5px;
-          border-style: solid;
-          transition: background 0.3s, border-color 0.3s;
         }
 
         .room {
@@ -408,7 +401,7 @@ class ThermostatCard extends HTMLElement {
     }
       </style>
 
-      <ha-card id="tc-card" style="background:${meta.cardBg};border-color:${meta.border}">
+      <ha-card>
         <div class="room">${name}</div>
 
         ${unavail ? `<div class="unavail">unavailable</div>` : `

@@ -1290,6 +1290,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v15 | Revert ha-card to transparent/borderless — colored bg was too much for compact Lights/Fans view; mode color stays on mode-btn pill only |
 | v14 | UX: ha-card now colored by mode (bg+border from MODE_META cardBg/border); remove .sep divider bar; mode-btn border boosted to .45 |
 | v13 | Revert to original layout; tgt-btn updated to 44px height, 2px solid border, transparent bg; mode-btn border 0.5px→1.5px |
 | v12 | Redesign: colored left bar=mode (4px .80), mode pill left of controls, 44×44 2px tadj buttons, no bg tint, outer card border+header divider, matches room-controls tstat style |
