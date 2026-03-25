@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v7
+ * room-buttons-card.js  —  v8
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -13,7 +13,7 @@
  *   tap       → fires hass-more-info (opens bubble card popup)
  *   hold 600ms → toggles the entity
  *
- * With popup_entities defined:
+ * With popup_entities, lights:, or fans: defined:
  *   tap       → opens custom room popup
  *
  * Cover buttons (tap_action: toggle, no popup_entities):
@@ -1422,7 +1422,7 @@ class RoomButtonsCard extends HTMLElement {
       const el       = this.shadowRoot.getElementById(`rbtn-${i}`);
       if (!el) return;
 
-      const hasPopup = btn.popup_entities?.length > 0;
+      const hasPopup = btn.popup_entities?.length > 0 || btn.lights || btn.fans?.length > 0;
       const isCover  = this._isCover(btn);
 
       // Cover without popup → direct toggle
