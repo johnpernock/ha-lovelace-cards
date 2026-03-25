@@ -1,5 +1,5 @@
 /**
- * ecoflow-card.js  —  v8
+ * ecoflow-card.js  —  v9
  * Ecoflow River 2 Pro power station card for Home Assistant Lovelace.
  *
  * CONFIG:

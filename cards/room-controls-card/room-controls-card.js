@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v92
+ * room-controls-card.js  —  v93
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -733,7 +733,7 @@ class RoomControlsCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     .grid{display:grid;gap:8px;padding:8px 14px}
     @media(max-width:767px){.grid{grid-template-columns:1fr!important}}
-    .room{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
+    .room{overflow:hidden}
     .door-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;margin-left:7px;flex-shrink:0}
     .door-pill-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
     .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 9px;gap:8px;border-bottom:1.5px solid rgba(255,255,255,.30)}

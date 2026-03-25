@@ -1,5 +1,5 @@
 /**
- * charging-card.js  —  v11
+ * charging-card.js  —  v12
  * Unified EV charging card combining Tesla (battery, range, time-to-full,
  * charging speed) and Wallbox (power, session energy) data into one view.
  *

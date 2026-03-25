@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v93 | Remove .room border/border-radius — room cards borderless on Lights/Fans view |
 | v92 | UX: tstat bars 3px .5→4px .80, bg tints removed; inline tadj 34×34 1.5px→44×44 2px; popup tadj 1.5px→2px — all match new thermostat-card style |
 | v91 | Fix: popup master lm-bar track .08→.40/4px→5px; popup individual pp-ltrack same |
 | v90 | Fix: light slider track rgba(.1)→(.35) — visible gray on OLED when off; switch track same; header pill padding 3→4px, margin 6→8px; rhead padding 14→16px |
@@ -433,6 +434,7 @@ cameras:
 
 | Version | Changes |
 |---------|---------|
+| v9 | Remove ha-card background #08080f→transparent, border-radius 12px→0 |
 | v8 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v7 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v6 | Light mode: @media light override block |
@@ -625,6 +627,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v24 | Remove outer .card border/border-radius — borderless on Technology view |
 | v23 | Fix: card-hdr now has border-bottom 1.5px .28 — consistent with all other cards |
 | v22 | Fix: popup sheet-head divider border .18→.30 |
 | v21 | Fix: network row bg .05→0, WiFi row bg→0, chip dots 7px→9px, disk temp border 1px .1→1.5px .28 |
@@ -698,6 +701,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v12 | Remove outer .card border/border-radius — borderless on 3D Printer view |
 | v11 | Fix: status banner bg .05→0, border-bottom 1px .1→1.5px .45 |
 | v10 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v9 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
@@ -1086,6 +1090,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v39 | Remove .exp-wrap border/border-radius — expanded view borderless like compact |
 | v38 | UX: on-time compact pills → green tint rgba(74,222,128,.08) bg + .55 border (matches delayed red pill pattern); both outbound and inbound |
 | v38 | UX: small on-time pills get green tint bg .08 + green border .55 (was clear/white); expanded non-hero rows get green/red tint bg .06 and green border .55 |
 | v37 | Remove exp-row-div dividers between train rows in expanded view |
@@ -1169,6 +1174,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v20 | Remove outer .card border/border-radius — borderless on Commute view |
 | v19 | UX: exp-sub-row gets rgba(t.rgb,.05) tint matching hero row; exp-row-div between route rows removed (display:none) |
 | v19 | UX: tile rows get color tint bg rgba(t.rgb,.07); exp-hero-row border 1px.25→1.5px.45 |
 | v18 | Fix: card-hdr border .28→.40; .divider hidden (card-hdr border handles separation) |
@@ -1463,6 +1469,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v14 | Remove outer .card border/border-radius — borderless on Commute view |
 | v13 | Fix: section dividers 1px .07 → 2px .22 — visible on low DPI wall display |
 | v12 | Fix: .hdr border-bottom .28→.40 — more visible header divider |
 | v12 | Fix: .hdr missing border-bottom — added 1.5px rgba(.28) |
@@ -1535,6 +1542,7 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
+| v12 | Remove outer .card border/border-radius — borderless on Commute view |
 | v11 | Fix: section divider 1px .07 → 2px .22 — visible on low DPI wall display |
 | v10 | Fix: banner bg .04→0, border-bottom-color .12→.45 |
 | v9 | Low-DPI: idle dot 7px→9px, opacity .55→.75 |
@@ -1634,6 +1642,7 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v12 | Remove outer .card border/border-radius — borderless on Energy view |
 | v11 | Fix: section divider 1px .07 → 2px .22 — visible on low DPI wall display |
 | v10 | Fix: sbanner header divider always white .40 (removed dynamic color override); boost .35→.40 |
 | v10 | Fix: sbanner inline border-bottom-color .2→.45; CSS fallback .28→.35 |
@@ -1689,6 +1698,7 @@ name: PECO Electric
 
 | Version | Changes |
 |---------|---------|
+| v10 | Remove outer .card border/border-radius — borderless on Energy view |
 | v9 | Fix: divider height 1px→2px, opacity .07→.22 |
 | v8 | Fix: sbanner border-bottom 1px .1→1.5px .35 |
 | v7 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -1743,6 +1753,7 @@ name: River 2 Pro
 
 | Version | Changes |
 |---------|---------|
+| v9 | Remove outer .card border/border-radius — borderless on Energy view |
 | v8 | Fix: section divider height 1px→2px, opacity .07→.22 |
 | v7 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v6 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |

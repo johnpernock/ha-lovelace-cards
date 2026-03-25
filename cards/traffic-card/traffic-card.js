@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v19
+ * traffic-card.js  —  v20
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *

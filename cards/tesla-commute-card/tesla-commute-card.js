@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v13
+ * tesla-commute-card.js  —  v14
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
