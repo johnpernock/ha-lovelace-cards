@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v13
+ * tesla-card.js  —  v14
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -542,9 +542,9 @@ class TeslaCard extends HTMLElement {
           <div style="font-size:17px;font-weight:700;color:var(--primary-text-color,white);line-height:1.2">${this._config.name}</div>
           <div style="font-size:11px;color:var(--secondary-text-color,rgba(255,255,255,0.4));margin-top:3px">Vehicle details</div>
         </div>
-        <button id="tc-close" style="background:rgba(255,255,255,0.08);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--secondary-text-color,rgba(255,255,255,0.5));font-size:14px;line-height:1;font-family:inherit">✕</button>
+        <button id="tc-close" style="background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--secondary-text-color,rgba(255,255,255,0.5));font-size:14px;line-height:1;font-family:inherit">✕</button>
       </div>
-      <div style="height:1px;background:var(--divider-color,rgba(255,255,255,0.08));margin-bottom:14px"></div>
+      <div style="height:1px;background:var(--divider-color,rgba(255,255,255,0.18));margin-bottom:14px"></div>
       ${batterySection}
       ${tireSection}
       ${tempSection}
@@ -661,8 +661,8 @@ class TeslaCard extends HTMLElement {
     }
 
     // Buttons
-    const OFF_STYLE  = 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12)';
-    const OFF_COLOR  = 'rgba(255,255,255,0.28)';
+    const OFF_STYLE  = 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.22)';
+    const OFF_COLOR  = 'rgba(255,255,255,0.55)';
     const OFF_LCOLOR = 'rgba(255,255,255,0.38)';
 
     const lockBtn = this.shadowRoot.getElementById('tc-lock');
@@ -733,8 +733,8 @@ class TeslaCard extends HTMLElement {
       ? `<div class="badges">${lockBadge}${chargeBadge}</div>` : '';
 
     // ── Control buttons ───────────────────────────────────────────────────
-    const OFF_STYLE  = `background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12)`;
-    const OFF_COLOR  = `rgba(255,255,255,0.28)`;
+    const OFF_STYLE  = `background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.22)`;
+    const OFF_COLOR  = `rgba(255,255,255,0.55)`;
     const OFF_LCOLOR = `rgba(255,255,255,0.38)`;
 
     const lockBtn = ents.door_lock ? `
@@ -801,8 +801,8 @@ class TeslaCard extends HTMLElement {
         .batt-wrap  { display: flex; align-items: center; }
         .batt-shell {
           width: 64px; height: 8px; border-radius: 99px;
-          background: var(--divider-color, rgba(255,255,255,0.08));
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+          background: var(--divider-color, rgba(255,255,255,0.18));
+          border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
           position: relative; overflow: hidden; flex-shrink: 0;
         }
         .batt-fill  { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; transition: width 0.6s ease; }
@@ -833,7 +833,7 @@ class TeslaCard extends HTMLElement {
         .btn-label { font-size: 11px; font-weight: 600; letter-spacing: 0.03em; }
 
         /* ── Climate temp adjuster ── */
-        .climate-extra { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--divider-color, rgba(255,255,255,0.07)); }
+        .climate-extra { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--divider-color, rgba(255,255,255,0.18)); }
         .temp-stepper  { display: flex; align-items: center; }
         .temp-btn {
           width: 44px; height: 44px; border-radius: 10px;
@@ -856,7 +856,7 @@ class TeslaCard extends HTMLElement {
         }
         #tc-popup {
           background: var(--card-background-color, #1e1e1e);
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+          border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
           border-radius: 16px 16px 0 0; border-bottom: none;
           padding: 20px; box-sizing: border-box;
           overflow-y: auto; max-height: 85vh;
@@ -870,7 +870,7 @@ class TeslaCard extends HTMLElement {
         }
         @media (min-width: 768px) {
           #tc-overlay { align-items: center; justify-content: center; padding: 24px; }
-          #tc-popup { width: 100%; max-width: 440px; border-radius: 16px; border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.12)); }
+          #tc-popup { width: 100%; max-width: 440px; border-radius: 16px; border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.22)); }
           #tc-handle { display: none; }
         }
 
@@ -885,7 +885,7 @@ class TeslaCard extends HTMLElement {
         .pop-grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
         .pop-stat {
           background: var(--secondary-background-color, rgba(255,255,255,0.04));
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.07));
+          border: 1px solid var(--divider-color, rgba(255,255,255,0.18));
           border-radius: 10px; padding: 10px 10px 8px;
         }
         .pop-stat-val { font-size: 18px; font-weight: 600; color: var(--primary-text-color); letter-spacing: -0.5px; line-height: 1; }

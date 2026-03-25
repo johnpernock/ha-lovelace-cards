@@ -1,5 +1,5 @@
 /**
- * charging-card.js  —  v3
+ * charging-card.js  —  v4
  * Unified EV charging card combining Tesla (battery, range, time-to-full,
  * charging speed) and Wallbox (power, session energy) data into one view.
  *
@@ -96,7 +96,7 @@ class ChargingCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
+    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
     .divider{height:1px;background:rgba(255,255,255,.07)}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
 
@@ -122,7 +122,7 @@ class ChargingCard extends HTMLElement {
 
     /* stat grid */
     .stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}
-    .stat-tile{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:9px 11px}
+    .stat-tile{background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 11px}
     .stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);margin-bottom:3px}
     .stat-val{font-size:18px;font-weight:700;letter-spacing:-.5px;line-height:1}
     .stat-unit{font-size:10px;color:rgba(255,255,255,.35);margin-left:1px}
@@ -130,11 +130,11 @@ class ChargingCard extends HTMLElement {
 
     /* idle */
     .idle-row{display:flex;align-items:flex-start;gap:10px;padding:10px 14px}
-    .idle-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.18);flex-shrink:0;margin-top:3px}
+    .idle-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.55);flex-shrink:0;margin-top:3px}
     .idle-lbl{font-size:13px;font-weight:700;color:rgba(255,255,255,.45)}
     .idle-sub{font-size:10px;color:rgba(255,255,255,.25);margin-top:2px}
     .session-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:0 14px 12px}
-    .session-tile{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:8px 10px}
+    .session-tile{background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:8px 10px}
     .session-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:rgba(255,255,255,.25);margin-bottom:2px}
     .session-val{font-size:15px;font-weight:700;color:rgba(255,255,255,.5)}
     .session-unit{font-size:10px;color:rgba(255,255,255,.25);margin-left:1px}

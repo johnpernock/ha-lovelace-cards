@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v9
+ * traffic-card.js  —  v10
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -116,7 +116,7 @@ class TrafficCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
+    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
     .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px}
     .card-hdr-title{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .updated{font-size:9px;color:rgba(255,255,255,.2)}
@@ -247,7 +247,7 @@ class TrafficCard extends HTMLElement {
     }
 
     const _heroRow = (data, cfg_route, label, isDimmed) => {
-      if (!data) return `<div class="exp-hero-row" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)">
+      if (!data) return `<div class="exp-hero-row" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.18)">
         <div><div class="exp-row-lbl">${label}</div><div class="exp-row-route" style="color:rgba(255,255,255,.35)">${cfg_route.route_label||''}</div></div>
         <div class="exp-row-right"><div class="exp-time-xl" style="color:rgba(255,255,255,.25)">—</div></div>
       </div>`;
@@ -274,7 +274,7 @@ class TrafficCard extends HTMLElement {
       const name = cfg_route.route_label || cfg_route.label || data.route;
       const via  = cfg_route.via_label || '';
       return `<div class="exp-row-div"></div>
-      <div class="exp-sub-row" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07)">
+      <div class="exp-sub-row" style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.18)">
         <div>
           <div class="exp-row-route" style="font-size:13px;color:rgba(255,255,255,.6)">${name}</div>
           ${via ? `<div class="exp-row-via">${via}</div>` : ''}

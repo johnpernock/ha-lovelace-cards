@@ -1,5 +1,5 @@
 /**
- * thermostat-card.js  —  v7
+ * thermostat-card.js  —  v8
  * Compact Home Assistant Lovelace thermostat card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -125,8 +125,8 @@ class ThermostatCard extends HTMLElement {
       },
       off: {
         label: 'Off', split: false,
-        dotColor: 'rgba(255,255,255,0.25)',
-        border: 'rgba(255,255,255,0.12)', bg: 'rgba(255,255,255,0.04)', textColor: 'rgba(255,255,255,0.45)',
+        dotColor: 'rgba(255,255,255,0.6)',
+        border: 'rgba(255,255,255,0.22)', bg: 'rgba(255,255,255,0.04)', textColor: 'rgba(255,255,255,0.45)',
       },
     };
   }
@@ -348,7 +348,7 @@ class ThermostatCard extends HTMLElement {
         .sep2 {
           width: 100%;
           height: 1px;
-          background: var(--divider-color, rgba(255,255,255,0.07));
+          background: var(--divider-color, rgba(255,255,255,0.18));
           margin: 10px 0 8px;
         }
 

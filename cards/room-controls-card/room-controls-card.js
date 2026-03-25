@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v81
+ * room-controls-card.js  —  v82
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -270,7 +270,7 @@ class RoomControlsCard extends HTMLElement {
     auto:      { label:'Auto',      dot:'#a78bfa', bg:'rgba(139,92,246,.08)',  bc:'rgba(139,92,246,.4)',  tc:'#a78bfa' },
     fan_only:  { label:'Fan',       dot:'#2dd4bf', bg:'rgba(20,184,166,.08)',  bc:'rgba(20,184,166,.4)',  tc:'#2dd4bf' },
     dry:       { label:'Dry',       dot:'#fbbf24', bg:'rgba(251,191,36,.08)',  bc:'rgba(251,191,36,.4)',  tc:'#fbbf24' },
-    off:       { label:'Off',       dot:'rgba(255,255,255,.25)', bg:'rgba(255,255,255,.04)', bc:'rgba(255,255,255,.14)', tc:'rgba(255,255,255,.45)' },
+    off:       { label:'Off',       dot:'rgba(255,255,255,.25)', bg:'rgba(255,255,255,.04)', bc:'rgba(255,255,255,.14)', tc:'rgba(255,255,255,.8)' },
   }; }
   _hvacMeta(mode) { return RoomControlsCard.HVAC_META[mode]||RoomControlsCard.HVAC_META.off; }
 
@@ -317,7 +317,7 @@ class RoomControlsCard extends HTMLElement {
     const w=size==='sm'?36:44, h=size==='sm'?24:30, tw=size==='sm'?16:20, tt=size==='sm'?4:5;
     const bg  = on?'background:rgba(251,191,36,.25);border-color:rgba(251,191,36,.5)':'background:rgba(255,255,255,0);border-color:rgba(255,255,255,.28)';
     const tl  = on?(w-tw-tt)+'px':tt+'px';
-    const tbg = on?'#fbbf24':'rgba(255,255,255,.3)';
+    const tbg = on?'#fbbf24':'rgba(255,255,255,.6)';
     const roomId = elId.replace(/^rtog-/,'').replace(/^pp-ltog-/,'');
     return `<div class="tog" style="${bg};width:${w}px;height:${h}px" id="${elId}" data-action="${action}" data-room="${roomId}"><div class="tog-thumb" style="top:${tt}px;width:${tw}px;height:${tw}px;left:${tl};background:${tbg}"></div></div>`;
   }
@@ -368,7 +368,7 @@ class RoomControlsCard extends HTMLElement {
             const lon = this._isOn(l.entity);
             const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
             const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
-            const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.45)';
+            const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.8)';
             const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
             const nm  = l.name || this._attr(l.entity,'friendly_name') || l.entity.split('.').pop();
             const eid = l.entity.replace(/[^a-z0-9]/g,'_');
@@ -757,7 +757,7 @@ class RoomControlsCard extends HTMLElement {
     .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 2px;}
     .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s}
     .itog:active{transform:scale(.94)}
-    .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+    .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.75)}
     .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
     .light-row-simple{cursor:pointer}
     .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:6px;font-weight:400}
@@ -806,7 +806,7 @@ class RoomControlsCard extends HTMLElement {
     .tsetblock{flex:1;display:flex;flex-direction:column;align-items:center}
     .tsetctrl{display:flex;align-items:center;gap:4px}
     .tadj{width:34px;height:34px;flex-shrink:0;border-radius:7px;background:transparent;border:1px solid rgba(255,255,255,.28);color:var(--primary-text-color);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
-    .tadj:active{background:rgba(255,255,255,.18)}
+    .tadj:active{background:rgba(255,255,255,.55)}
     .tadj-off{opacity:.3;pointer-events:none}
     .tsetval{font-size:18px;font-weight:700;color:#fb923c;min-width:36px;text-align:center}
     .tsetval-off{color:rgba(255,255,255,.3)}
@@ -940,7 +940,7 @@ class RoomControlsCard extends HTMLElement {
         btnEl.style.borderColor = isOn ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.22)';
         btnEl.style.opacity     = isOn ? '' : '0.6';
       }
-      if (stEl)  { stEl.textContent = area.label; stEl.style.color = isOn ? st.color : 'rgba(255,255,255,.3)'; }
+      if (stEl)  { stEl.textContent = area.label; stEl.style.color = isOn ? st.color : 'rgba(255,255,255,.6)'; }
       if (swEl && !isSwitch) {
         swEl.innerHTML = colors.slice(0,6)
           .map(c => `<div class="theme-area-swatch" style="background:${c}"></div>`).join('');
@@ -962,7 +962,7 @@ class RoomControlsCard extends HTMLElement {
     } else {
       tog.style.background = 'rgba(255,255,255,0)';
       tog.style.borderColor = 'rgba(255,255,255,.28)';
-      if (thumb) { thumb.style.left = tt+'px'; thumb.style.background = 'rgba(255,255,255,.45)'; }
+      if (thumb) { thumb.style.left = tt+'px'; thumb.style.background = 'rgba(255,255,255,.8)'; }
     }
   }
 
@@ -1003,7 +1003,7 @@ class RoomControlsCard extends HTMLElement {
             btn.style.background = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
             btn.style.borderColor = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
             const dot2=btn.querySelector('.itog-dot'), lbl2=btn.querySelector('.itog-lbl');
-            if (dot2) dot2.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.45)';
+            if (dot2) dot2.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.8)';
             if (lbl2) lbl2.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
           });
         }
@@ -1280,7 +1280,7 @@ class RoomControlsCard extends HTMLElement {
         .tsetlbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.25);margin-bottom:4px}
         .tsetctrl{display:flex;align-items:center;gap:5px}
         .tadj{width:44px;height:44px;flex-shrink:0;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,.28);color:#e2e8f0;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;user-select:none;transition:background .1s}
-        .tadj:active{background:rgba(255,255,255,.18)}
+        .tadj:active{background:rgba(255,255,255,.55)}
         .tadj-off{opacity:.3;pointer-events:none}
         .tsetval{font-size:22px;font-weight:700;color:#fb923c;min-width:44px;text-align:center}
         .tsetval-off{color:rgba(255,255,255,.3)}

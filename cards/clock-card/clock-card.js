@@ -1,5 +1,5 @@
 /**
- * clock-card.js  —  v7
+ * clock-card.js  —  v8
  * Home Assistant Lovelace clock + date card with optional calendar popup.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -429,7 +429,7 @@ class ClockCard extends HTMLElement {
           padding: 7px 10px;
           background: rgba(255,255,255,0.04);
           border-radius: 8px;
-          border: 1px solid rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.18);
         }
         .next-dot {
           width: 7px;
@@ -467,7 +467,7 @@ class ClockCard extends HTMLElement {
         }
         #cc-popup {
           background: var(--card-background-color, #1e1e2a);
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+          border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
           border-radius: 16px 16px 0 0;
           border-bottom: none;
           padding: 20px;
@@ -481,7 +481,7 @@ class ClockCard extends HTMLElement {
           #cc-popup {
             max-width: 380px;
             border-radius: 16px;
-            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.22));
           }
           #cc-handle { display: none !important; }
         }
@@ -501,7 +501,7 @@ class ClockCard extends HTMLElement {
           color: var(--primary-text-color); line-height: 1.2;
         }
         #cc-close {
-          background: rgba(255,255,255,0.08); border: none; border-radius: 50%;
+          background: rgba(255,255,255,0.18); border: none; border-radius: 50%;
           width: 28px; height: 28px; cursor: pointer; display: flex;
           align-items: center; justify-content: center;
           color: var(--secondary-text-color); font-size: 14px;
@@ -526,7 +526,7 @@ class ClockCard extends HTMLElement {
           justify-content: center; font-family: inherit;
           transition: background .12s;
         }
-        .cal-nav-btn:hover { background: rgba(255,255,255,0.12); }
+        .cal-nav-btn:hover { background: rgba(255,255,255,0.22); }
         .cal-month-lbl {
           font-size: 15px; font-weight: 700;
           color: var(--primary-text-color);

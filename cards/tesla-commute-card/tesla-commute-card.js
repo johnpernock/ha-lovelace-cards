@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v5
+ * tesla-commute-card.js  —  v6
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -114,7 +114,7 @@ class TeslaCommuteCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
+    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
     .divider{height:1px;background:rgba(255,255,255,.07)}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .sec-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28)}
@@ -138,7 +138,7 @@ class TeslaCommuteCard extends HTMLElement {
 
     /* temp grid */
     .temp-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-    .temp-tile{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:9px 11px}
+    .temp-tile{background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 11px}
     .temp-tile-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);margin-bottom:3px}
     .temp-val{font-size:24px;font-weight:700;letter-spacing:-.5px;line-height:1}
     .temp-unit{font-size:11px;color:rgba(255,255,255,.35);margin-left:1px}
@@ -151,14 +151,14 @@ class TeslaCommuteCard extends HTMLElement {
     .climate-lbl{font-size:12px;color:rgba(255,255,255,.45);flex:1}
     .climate-controls{display:flex;align-items:center;gap:8px}
     .temp-stepper{display:flex;align-items:center;gap:5px}
-    .temp-btn{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.7);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1;transition:background .1s}
+    .temp-btn{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.7);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1;transition:background .1s}
     .temp-btn:active{background:rgba(255,255,255,.18)}
     .temp-display{font-size:14px;font-weight:700;min-width:44px;text-align:center;line-height:1}
     .on-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px}
 
     /* tire grid */
     .tire-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-    .tire-tile{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 11px;display:flex;align-items:center;justify-content:space-between}
+    .tire-tile{background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:8px 11px;display:flex;align-items:center;justify-content:space-between}
     .tire-tile.warn{background:rgba(248,113,113,.06);border-color:rgba(248,113,113,.25)}
     .tire-pos{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
     .tire-pos.warn{color:#f87171}
@@ -256,7 +256,7 @@ class TeslaCommuteCard extends HTMLElement {
       : `background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.3)`;
 
     // Action buttons
-    const OFF_BG  = `background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1)`;
+    const OFF_BG  = `background:rgba(255,255,255,0);border-color:rgba(255,255,255,.1)`;
     const btnLock   = ents.door_lock   ? `<div class="action-btn" id="tc-lock-btn" style="${locked ? 'background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.4)' : OFF_BG}">
       <div class="action-ico"><svg viewBox="0 0 24 24" fill="none" stroke="${locked ? '#4ade80' : '#f87171'}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${locked ? '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>' : '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>'}
       </svg></div>

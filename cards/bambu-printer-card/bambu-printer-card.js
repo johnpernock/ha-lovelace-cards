@@ -1,5 +1,5 @@
 /**
- * bambu-printer-card.js  —  v5
+ * bambu-printer-card.js  —  v6
  *
  * Unified Bambu Lab P1S dashboard card.
  * Shows printer status, progress, temperatures, speed/layer,
@@ -115,7 +115,7 @@ class BambuPrinterCard extends HTMLElement {
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
     .layout{display:grid;grid-template-columns:1.35fr 1fr;gap:10px;align-items:start}
     @media(max-width:600px){.layout{grid-template-columns:1fr}}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.12);overflow:hidden}
+    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
     .card-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:10px 14px 6px}
     .sec{padding:8px 14px 12px;display:flex;flex-direction:column;gap:8px}
 
@@ -132,29 +132,29 @@ class BambuPrinterCard extends HTMLElement {
     .prog-bar{height:100%;border-radius:99px;transition:width .3s}
 
     .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-    .titem{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:9px 11px}
+    .titem{background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 11px}
     .tlbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);margin-bottom:4px}
     .tval{font-size:18px;font-weight:700;color:#e2e8f0}
     .tunit{font-size:12px;color:rgba(255,255,255,.35);margin-left:1px}
     .ttgt{font-size:11px;color:rgba(255,255,255,.25);margin-top:2px}
 
     .irow{display:flex;gap:6px}
-    .iitem{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px 11px;display:flex;align-items:center;justify-content:space-between}
+    .iitem{flex:1;background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:8px 11px;display:flex;align-items:center;justify-content:space-between}
     .ilbl{font-size:11px;color:rgba(255,255,255,.35)}
     .ival{font-size:13px;font-weight:700;color:#e2e8f0}
 
     .aslots{display:flex;flex-direction:column;gap:5px}
-    .aslot{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);position:relative;overflow:hidden}
+    .aslot{display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,0);position:relative;overflow:hidden}
     .aslot.on{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
     .anum{font-size:11px;font-weight:700;color:rgba(255,255,255,.2);width:14px;text-align:center;flex-shrink:0}
-    .aswatch{width:26px;height:26px;border-radius:5px;flex-shrink:0;border:1px solid rgba(255,255,255,.12)}
+    .aswatch{width:26px;height:26px;border-radius:5px;flex-shrink:0;border:1px solid rgba(255,255,255,.22)}
     .ainfo{flex:1;min-width:0}
     .aname{font-size:13px;font-weight:700;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .atype{font-size:11px;color:rgba(255,255,255,.38);margin-top:1px}
     .abadge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(74,222,128,.15);color:#4ade80;flex-shrink:0}
 
     .extslot{display:flex;align-items:center;gap:12px;padding:12px 14px}
-    .extswatch{width:36px;height:36px;border-radius:8px;flex-shrink:0;border:1px solid rgba(255,255,255,.12)}
+    .extswatch{width:36px;height:36px;border-radius:8px;flex-shrink:0;border:1px solid rgba(255,255,255,.22)}
     .extname{font-size:15px;font-weight:700;color:#e2e8f0}
     .exttype{font-size:12px;color:rgba(255,255,255,.38);margin-top:2px}
     .abadge-ext{font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;background:rgba(74,222,128,.15);color:#4ade80;margin-left:auto;flex-shrink:0}

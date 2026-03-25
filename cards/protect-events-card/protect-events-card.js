@@ -1,5 +1,5 @@
 /**
- * protect-events-card.js  —  v1.1 (standalone — shared modules inlined)
+ * protect-events-card.js  —  v2.1 (standalone — shared modules inlined)
  *
  * Shared modules (ha-utils, ha-styles, ha-popup) are inlined directly
  * so this file has no external import dependencies.
@@ -47,7 +47,7 @@ const COLORS = {
 function colorTheme(name, bgOpacity = 0.08, borderOpacity = 0.25) {
   const rgb = COLORS.rgb[name];
   const hex = COLORS[name];
-  if (!rgb) return { bg: 'transparent', border: 'rgba(255,255,255,0.12)', text: '#fff' };
+  if (!rgb) return { bg: 'transparent', border: 'rgba(255,255,255,0.22)', text: '#fff' };
   return {
     bg:     `rgba(${rgb},${bgOpacity})`,
     border: `rgba(${rgb},${borderOpacity})`,
@@ -209,8 +209,8 @@ const HVAC_META = {
     border: 'rgba(251,191,36,0.35)', bg: 'rgba(251,191,36,0.07)', text: '#fbbf24',
   },
   off: {
-    label: 'Off',         split: false, dotColor: 'rgba(255,255,255,0.25)',
-    border: 'rgba(255,255,255,0.12)', bg: 'rgba(255,255,255,0.04)', text: 'rgba(255,255,255,0.45)',
+    label: 'Off',         split: false, dotColor: 'rgba(255,255,255,0.6)',
+    border: 'rgba(255,255,255,0.22)', bg: 'rgba(255,255,255,0.04)', text: 'rgba(255,255,255,0.45)',
   },
 };
 
@@ -403,7 +403,7 @@ const CSS_POPUP = `
   }
   .ha-popup-sheet {
     background: var(--card-background-color, #1e1e2a);
-    border: 1px solid rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.22);
     border-radius: 16px 16px 0 0;
     border-bottom: none;
     padding: 20px;
@@ -423,7 +423,7 @@ const CSS_POPUP = `
     .ha-popup-sheet {
       max-width: 440px;
       border-radius: 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.22);
     }
     .ha-popup-handle { display: none !important; }
   }
@@ -453,7 +453,7 @@ const CSS_POPUP = `
     color: rgba(255,255,255,0.45);
   }
   .ha-popup-close {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.18);
     border: none;
     border-radius: 50%;
     width: 28px;
@@ -507,7 +507,7 @@ const CSS_BADGE = `
   .ha-badge-blue   { background: rgba(96,165,250,0.15);  color: #60a5fa; }
   .ha-badge-amber  { background: rgba(251,191,36,0.15);  color: #fbbf24; }
   .ha-badge-purple { background: rgba(167,139,250,0.15); color: #a78bfa; }
-  .ha-badge-gray   { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.45); }
+  .ha-badge-gray   { background: rgba(255,255,255,0.18); color: rgba(255,255,255,0.45); }
 `;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -540,7 +540,7 @@ const CSS_SECTION = `
   }
   .ha-divider {
     height: 1px;
-    background: rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.18);
     margin: 8px 0;
   }
 `;
@@ -564,7 +564,7 @@ const CSS_SLIDER = `
     width: 100%;
     height: 6px;
     border-radius: 99px;
-    background: rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.22);
     position: relative;
     overflow: visible;
   }
@@ -649,7 +649,7 @@ const CSS_PILL = `
   }
   .ha-pill-bar-bg {
     height: 3px;
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.18);
     border-radius: 99px;
     overflow: hidden;
     margin-top: 4px;
@@ -754,7 +754,7 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
       #${id} .portal-overlay.open { display: flex; }
       #${id} .portal-sheet {
         background: var(--card-background-color, #1e1e2a);
-        border: 1px solid rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.22);
         border-radius: 16px 16px 0 0;
         border-bottom: none;
         padding: 20px;
@@ -774,7 +774,7 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
         #${id} .portal-sheet {
           max-width: ${maxWidth};
           border-radius: 16px;
-          border-bottom: 1px solid rgba(255,255,255,0.12);
+          border-bottom: 1px solid rgba(255,255,255,0.22);
         }
         #${id} .portal-handle { display: none !important; }
       }
@@ -801,7 +801,7 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
         color: rgba(255,255,255,0.45);
       }
       #${id} .portal-close {
-        background: rgba(255,255,255,0.08);
+        background: rgba(255,255,255,0.18);
         border: none; border-radius: 50%;
         width: 28px; height: 28px;
         cursor: pointer; display: flex;
@@ -933,7 +933,7 @@ function popupHeaderHtml(title, sub = '', subColor = '') {
 
 // ── protect-events-card ─────────────────────────────────────────────────────
 /**
- * protect-events-card.js  —  v1
+ * protect-events-card.js  —  v2
  * Real-time UniFi Protect smart detection event feed for Home Assistant Lovelace.
  *
  * Displays a live-updating list of detection events (person, vehicle, animal,
@@ -999,7 +999,7 @@ function typeMeta(type) {
     ...meta,
     color:  'rgba(255,255,255,0.4)',
     bg:     'rgba(255,255,255,0.06)',
-    border: 'rgba(255,255,255,0.12)',
+    border: 'rgba(255,255,255,0.22)',
   };
 }
 
@@ -1460,7 +1460,7 @@ class ProtectEventsCard extends HTMLElement {
       /* ── Outer wrap ── */
       .wrap {
         border-radius: 10px;
-        border: 1px solid rgba(255,255,255,.10);
+        border: 1px solid rgba(255,255,255,.22);
         overflow: hidden;
       }
 
@@ -1501,7 +1501,7 @@ class ProtectEventsCard extends HTMLElement {
         font-size: 10px; font-weight: 700;
         text-transform: uppercase; letter-spacing: .05em;
         padding: 3px 8px; border-radius: 5px;
-        border: 1px solid rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.22);
         background: rgba(255,255,255,.04);
         color: rgba(255,255,255,.4);
       }
@@ -1595,7 +1595,7 @@ class ProtectEventsCard extends HTMLElement {
       .pe-popup-thumb-ph {
         width: 100%; aspect-ratio: 16/9;
         background: rgba(0,0,0,.45);
-        border: 1px solid rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.18);
         border-radius: 8px;
         display: flex; align-items: center; justify-content: center;
         margin-bottom: 14px; position: relative;
@@ -1614,7 +1614,7 @@ class ProtectEventsCard extends HTMLElement {
       }
       .pe-meta-box {
         background: rgba(255,255,255,.04);
-        border: 1px solid rgba(255,255,255,.07);
+        border: 1px solid rgba(255,255,255,.18);
         border-radius: 8px; padding: 10px 12px; text-align: center;
       }
       .pe-meta-label {
@@ -1629,7 +1629,7 @@ class ProtectEventsCard extends HTMLElement {
       .pe-popup-actions { display: flex; gap: 8px; }
       .pe-popup-btn {
         flex: 1; padding: 10px; border-radius: 8px;
-        border: 1px solid rgba(255,255,255,.12);
+        border: 1px solid rgba(255,255,255,.22);
         background: rgba(255,255,255,.05);
         color: var(--primary-text-color, #e2e8f0);
         font-size: 12px; font-weight: 700; letter-spacing: .02em;

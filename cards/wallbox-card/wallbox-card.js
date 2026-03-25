@@ -1,5 +1,5 @@
 /**
- * wallbox-card.js  —  v3
+ * wallbox-card.js  —  v4
  * Wallbox EV charger status card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -99,14 +99,14 @@ class WallboxCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
+    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
     .sbanner{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
     .sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
     .slabel{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;line-height:1}
     .ssub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-    .stat-tile{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:9px 11px}
+    .stat-tile{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:9px 11px}
     .stat-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,.3);margin-bottom:3px}
     .stat-val{font-size:20px;font-weight:700;color:#e2e8f0;letter-spacing:-.5px;line-height:1}
     .stat-unit{font-size:11px;color:rgba(255,255,255,.35);margin-left:2px}
@@ -129,7 +129,7 @@ class WallboxCard extends HTMLElement {
     .mode-ico{width:16px;height:16px;flex-shrink:0}
     .mode-ico svg{width:100%;height:100%}
     .mode-lbl{font-size:11px;color:rgba(255,255,255,.3);flex:1}
-    .mode-opt{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);cursor:pointer;transition:background .15s,color .15s,border-color .15s;user-select:none;-webkit-tap-highlight-color:transparent}
+    .mode-opt{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.3);cursor:pointer;transition:background .15s,color .15s,border-color .15s;user-select:none;-webkit-tap-highlight-color:transparent}
     .mode-opt:active{filter:brightness(.85)}
     .mode-opt.active{background:rgba(74,222,128,.12);border-color:rgba(74,222,128,.3);color:#4ade80}
     .mode-opt.active-eco{background:rgba(96,165,250,.12);border-color:rgba(96,165,250,.3);color:#60a5fa}

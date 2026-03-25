@@ -1,5 +1,5 @@
 /**
- * garage-door-card.js  —  v10
+ * garage-door-card.js  —  v11
  * Compact garage door toggle card for Home Assistant Lovelace.
  *
  * ── SHARED MODULES ────────────────────────────────────────────────────────────
@@ -28,7 +28,7 @@ function getTheme(state) {
     case 'open':    return { btnBg:'rgba(96,165,250,0.12)',  btnBorder:'rgba(96,165,250,0.55)',  iconColor:COLORS.blue,   textColor:COLORS.blue,   label:'Open',     subLabel:'Tap to close', canToggle:true,  service:'close_cover' };
     case 'opening': return { btnBg:'rgba(251,191,36,0.08)',  btnBorder:'rgba(251,191,36,0.35)',  iconColor:COLORS.amber,  textColor:'rgba(251,191,36,0.6)',  label:'Opening…', subLabel:'In progress',  canToggle:false, service:null          };
     case 'closing': return { btnBg:'rgba(251,146,60,0.08)',  btnBorder:'rgba(251,146,60,0.35)',  iconColor:COLORS.orange, textColor:'rgba(251,146,60,0.6)', label:'Closing…', subLabel:'In progress',  canToggle:false, service:null          };
-    default:        return { btnBg:'rgba(255,255,255,0.04)', btnBorder:'rgba(255,255,255,0.12)', iconColor:'rgba(255,255,255,0.3)', textColor:'rgba(255,255,255,0.35)', label: state.charAt(0).toUpperCase()+state.slice(1), subLabel:'Tap to toggle', canToggle:true, service:'toggle' };
+    default:        return { btnBg:'rgba(255,255,255,0.04)', btnBorder:'rgba(255,255,255,0.22)', iconColor:'rgba(255,255,255,0.3)', textColor:'rgba(255,255,255,0.35)', label: state.charAt(0).toUpperCase()+state.slice(1), subLabel:'Tap to toggle', canToggle:true, service:'toggle' };
   }
 }
 
@@ -119,7 +119,7 @@ class GarageDoorCard extends HTMLElement {
         ${CSS_TAPPABLE}
         ${CSS_UNAVAIL}
         ha-card { padding: 0 14px; }
-        .card { border-radius:10px; border:1px solid rgba(255,255,255,.10); overflow:hidden; }
+        .card { border-radius:10px; border:1px solid rgba(255,255,255,.22); overflow:hidden; }
         .action-btn {
           width:100%; border-radius:0; padding:20px 8px 14px; border:none;
           display:flex; flex-direction:column; align-items:center; gap:10px;

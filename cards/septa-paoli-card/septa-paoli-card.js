@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v25
+ * septa-paoli-card.js  —  v26
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -225,11 +225,11 @@ class SeptaPaoliCard extends HTMLElement {
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
           <div style="font-size:11px;font-weight:700;color:${statusColor};background:${statusBg};border:1px solid ${statusBorder};border-radius:6px;padding:4px 10px;">${statusText}</div>
-          <button id="sp-close" style="background:rgba(255,255,255,0.08);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--secondary-text-color,rgba(255,255,255,0.5));font-size:14px;line-height:1;font-family:inherit;">✕</button>
+          <button id="sp-close" style="background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--secondary-text-color,rgba(255,255,255,0.5));font-size:14px;line-height:1;font-family:inherit;">✕</button>
         </div>
       </div>
 
-      <div style="height:1px;background:var(--divider-color,rgba(255,255,255,0.08));margin-bottom:14px;"></div>
+      <div style="height:1px;background:var(--divider-color,rgba(255,255,255,0.18));margin-bottom:14px;"></div>
 
       <div style="display:flex;flex-direction:column;gap:12px;">
 
@@ -387,8 +387,8 @@ class SeptaPaoliCard extends HTMLElement {
           const tDelayedArr = tDelayed ? this._calcDelayedArrival(t.arrives, t.delay) : null;
           const tMins       = tDelayed ? parseInt(t.delay.replace(/[^0-9]/g, '')) : 0;
           const tArrTime    = tDelayedArr ? tDelayedArr.time : t.arrives;
-          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.05)';
-          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.08)';
+          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0)';
+          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.18)';
           const statusEl    = tDelayed
             ? `<span class="pill-late">+${tMins}m</span>`
             : this._checkmark();
@@ -459,8 +459,8 @@ class SeptaPaoliCard extends HTMLElement {
           const tDelayedArr = tDelayed ? this._calcDelayedArrival(t.arrives, t.delay) : null;
           const tMins       = tDelayed ? parseInt(t.delay.replace(/[^0-9]/g, '')) : 0;
           const tArrTime    = tDelayedArr ? tDelayedArr.time : t.arrives;
-          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.05)';
-          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.08)';
+          const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0)';
+          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.18)';
           const statusEl    = tDelayed
             ? `<span class="pill-late">+${tMins}m</span>`
             : this._checkmark();
@@ -542,7 +542,7 @@ class SeptaPaoliCard extends HTMLElement {
 
         .hero-neutral {
           background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
+          border: 1px solid rgba(255,255,255,0.18);
         }
 
         .hero-label {
@@ -651,7 +651,7 @@ class SeptaPaoliCard extends HTMLElement {
 
         .div {
           height: 1px;
-          background: rgba(255,255,255,0.08);
+          background: rgba(255,255,255,0.18);
           margin: 6px 0;
         }
 
@@ -726,7 +726,7 @@ class SeptaPaoliCard extends HTMLElement {
 
         #sp-popup {
           background: var(--card-background-color, #1e1e1e);
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+          border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
           border-radius: 16px 16px 0 0;
           border-bottom: none;
           padding: 20px;
@@ -760,7 +760,7 @@ class SeptaPaoliCard extends HTMLElement {
           #sp-popup {
             max-width: 440px;
             border-radius: 16px;
-            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.22));
           }
           #sp-handle { display: none; }
         }
@@ -904,7 +904,7 @@ class SeptaPaoliCard extends HTMLElement {
       .exp-no-service{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:10px 14px}
       .no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.06)}
       #sp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;box-sizing:border-box;align-items:flex-end;justify-content:center}
-      #sp-popup{background:var(--card-background-color,#1e1e1e);border:1px solid rgba(255,255,255,.12);border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
+      #sp-popup{background:var(--card-background-color,#1e1e1e);border:1px solid rgba(255,255,255,.22);border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
       #sp-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 16px}
       @media(min-width:768px){#sp-overlay{align-items:center;justify-content:center;padding:24px}#sp-popup{max-width: 440px;border-radius:16px;border-bottom:1px solid rgba(255,255,255,.12)}#sp-handle{display:none}}
     `;

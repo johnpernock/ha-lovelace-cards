@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v21
+ * room-buttons-card.js  —  v22
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -655,7 +655,7 @@ class RoomButtonsCard extends HTMLElement {
         const lon = this._isOn(l.entity);
         const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
         const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
-        const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.45)';
+        const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.8)';
         const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
         const nm  = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
         const eid = l.entity.replace(/[^a-z0-9]/g, '_');
@@ -1101,7 +1101,7 @@ class RoomButtonsCard extends HTMLElement {
         el.style.borderColor  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.28)';
         const dot = el.querySelector('.itog-dot');
         const lbl = el.querySelector('.itog-lbl');
-        if (dot) dot.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.45)';
+        if (dot) dot.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.8)';
         if (lbl) lbl.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.65)';
       });
     });
@@ -1374,7 +1374,7 @@ class RoomButtonsCard extends HTMLElement {
         }
         .pop-sub { font-size: 11px; color: var(--secondary-text-color); margin-top: 3px; }
         #rb-close {
-          background: rgba(255,255,255,0.08); border: none; border-radius: 50%;
+          background: rgba(255,255,255,0.18); border: none; border-radius: 50%;
           width: 28px; height: 28px; cursor: pointer; display: flex;
           align-items: center; justify-content: center;
           color: var(--secondary-text-color); font-size: 14px;
@@ -1481,7 +1481,7 @@ class RoomButtonsCard extends HTMLElement {
           transition: filter .12s; -webkit-tap-highlight-color: transparent;
         }
         .fan-tile:active { filter: brightness(0.9); }
-        .fan-off { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.07); }
+        .fan-off { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.18); }
         .fan-on  { background: rgba(56,189,248,0.08);  border-color: rgba(56,189,248,0.28);  }
         .fan-row { display: flex; align-items: center; gap: 10px; }
         .fan-ico { width: 18px; height: 18px; flex-shrink: 0; }
@@ -1560,7 +1560,7 @@ class RoomButtonsCard extends HTMLElement {
           border-color: rgba(96,165,250,0.4); color: #60a5fa;
         }
         .cov-close {
-          background: rgba(255,255,255,0.08);
+          background: rgba(255,255,255,0.18);
           border-color: rgba(255,255,255,0.14); color: #94a3b8;
         }
 
@@ -1585,7 +1585,7 @@ class RoomButtonsCard extends HTMLElement {
         .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:6px 0 2px}
         .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s}
         .itog:active{transform:scale(.94)}
-        .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+        .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.75)}
         .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
         /* ── Color expand panels ── */
         .rb-color-sec{padding:7px 0 4px;border-top:1px solid rgba(255,255,255,.22)}

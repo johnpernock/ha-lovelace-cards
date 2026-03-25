@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v82 | OLED visibility pass: itog-dot CSS default .75; off dot .45→.80; toggle thumb .30→.60; thermostat dot .25→.60 |
 | v81 | Comprehensive visibility pass: all neutral borders 0.22-0.28, fan pip off-dot 0.45, fan dot-off label 0.5, lm-btn 0.22, sensor-row 0.2, tstat-off 0.28, tadj popup 0.28, tdiv 0.25, theme-area off label 0.5, sheet border 0.28, fpip-dot off 0.45, mode-sub 0.45, lm-sub 0.5, sensor-lbl 0.5 |
 | v81 | Comprehensive OLED visibility pass: toggle OFF bg→0/border→.28/thumb→.45; theme-area OFF bg→0/border→.22/opacity→.6; fpip OFF bg→0/border→.28; blind border→.22; lm-btn bg→0 |
 | v80 | (version sync — intermediate v80 changes applied on device) |
@@ -331,6 +332,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v22 | OLED visibility pass: itog-dot CSS default .75; off dot .45→.80; inner borders .08→.18 |
 | v21 | Comprehensive visibility pass: pop-tile off border 0.28, rb-track 0.22, master-exp border-top 0.3, rb-divider 0.2, fp pip border 0.22, fp dot-off 0.5, rb-preset border 0.22, rb-dot-lbl 0.6, rb-clbl 0.5 |
 | v21 | Comprehensive OLED visibility pass: theme-area OFF bg→0/border→.22; fpip OFF bg→0/border→.28; preset bg→0/border→.25; color-sec border→.22; theme-block border→.25/bg→0 |
 | v20 | (version sync — intermediate changes applied on device) |
@@ -472,6 +474,7 @@ cameras_view: /security
 
 | Version | Notes |
 |---------|-------|
+| v2 | OLED visibility pass: off dot .25→.60, off border .12→.22, off bg→0 |
 | v1.1 | `sensor_base` override for multi-channel cameras |
 | v1 | Initial release. Ring buffer, filter pills, thumbnail fetch, portal popup, live state_changed subscription |
 
@@ -598,6 +601,8 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v15 | OLED visibility pass: card border .12→.22, inner borders .08→.18, tile bg→0 |
+| v2 | OLED visibility pass: off dot .25→.60, off border .12→.22, off bg→0 |
 | v14 | `_patch()` added — inner content updates only; style block never rebuilt after initial render |
 | v13 | Card section headers: 10px uppercase → 17px white bold |
 | v12 | Touch audit: added `-webkit-tap-highlight-color:transparent` to `.rbtn` |
@@ -661,6 +666,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v6 | OLED visibility pass: card border .12→.22, inner borders .08→.18, tile bg .04→0 |
 | v5 | Fix: `_state()` now scans common HA domains (`sensor.`, `binary_sensor.`, etc.) — previously looked up bare entity IDs which never matched, causing blank card |
 | v4 | `_patch()` added — status label, progress bar, and temperatures update in-place; full re-render only when status category changes |
 | v3 | Active tray detection handles multiple firmware formats; external spool auto-switch; humidity display |
@@ -698,6 +704,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v4 | OLED visibility pass: card border .12→.22 |
 | v3 | Fix: same domain-scanning fix as bambu-printer-card v5 — bare entity ID lookup was silently returning null |
 | v2 | `_patch()` added — rebuilds inner content only; full re-render on visibility change |
 | v1 | Initial release |
@@ -741,6 +748,7 @@ tap_action: popup
 
 | Version | Changes |
 |---------|---------|
+| v10 | OLED visibility pass: card border .12→.22, inner borders .08→.18 |
 | v9 | Fix: `_patch()` condition text now uses `_label()` — previously used raw `replace(/_/g,' ')` which left hyphens in place (e.g. `clear-night` instead of `Clear Night`) |
 | v8 | `_patch()` added — inline conditions, temp, and forecast strip update without rebuilding style block |
 | v7 | Padding consistency pass — horizontal padding normalized to 14px |
@@ -790,6 +798,7 @@ today_color: '#60a5fa'
 
 | Version | Changes |
 |---------|---------|
+| v8 | OLED visibility pass: card border .07→.18, inner borders .08→.18 |
 | v7 | Version header corrected — JS was at v6 but resources required v7 due to prior deploy |
 | v6 | Version header corrected — JS was at v5 but resources required v6 due to prior deploy |
 | v5 | `_patch()` added — temperature values update in-place on hass updates |
@@ -854,6 +863,7 @@ google_maps_api_key: YOUR_KEY_HERE
 
 | Version | Changes |
 |---------|---------|
+| v6 | OLED visibility pass: card border .12→.22, inner borders .08→.18 |
 | v5 | Padding consistency pass — horizontal padding normalized to 14px |
 | v4 | Event detail popup with location, static map thumbnail, description |
 | v3 | `show_past_events`, `mobile_expand`, `show_legend`; pulsing today accent; globally-next event highlight |
@@ -940,6 +950,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v14 | OLED visibility pass: inner borders .08→.18 |
 | v13 | Version header corrected — JS was at v12 but resources required v13 due to prior deploy |
 | v12 | Version header corrected — JS was at v11 but resources required v12 due to prior deploy |
 | v11 | Version header corrected — JS was at v10 but resources required v11 due to prior deploy at v10 |
@@ -1018,6 +1029,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v26 | OLED visibility pass: on-time pill border .08→.20, card border .22 retained |
 | v25 | set hass no longer re-renders on every HA state push — 60s interval is the sole render driver |
 | v24 | Popup max-width normalized to 440px |
 | v23 | Fixed once:true tap-outside listener; body scroll lock; overscroll-behavior:contain |
@@ -1086,6 +1098,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v10 | OLED visibility pass: card border .10→.22, inner borders .08→.18 |
 | v9 | New `hide_home_before` param — dims home route row before a specified hour (symmetric to `hide_to_work_after`); dashboard simplified to single home route |
 | v8 | Removed hardcoded `'21 Beryl Rd'` fallback for home direction label — now uses `home_routes[0].label` only |
 | v7 | `_patch()` added — route times and delays update in-place; full re-render only when incident banner appears/disappears |
@@ -1136,6 +1149,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v5 | OLED visibility pass: card border .10→.22, row border .07→.18, row bg→0 |
 | v4 | `_patch()` added — set hass no longer calls `_render()` on top of the 30s interval (was double-rendering) |
 | v3 | Card header: 10px uppercase → 17px white bold |
 | v4 | Fixed double-render — `set hass` no longer calls `_render()` on top of the 30s interval |
@@ -1176,6 +1190,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v8 | OLED visibility pass: off dot .25→.60, inner borders .08→.18, bg→0 |
 | v7 | `_patch()` added — current temp, setpoint, mode dot/colors update in-place |
 | v6 | Padding consistency pass |
 | v5 | Touch audit: `user-select:none` on tappable elements |
@@ -1260,6 +1275,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v14 | OLED visibility pass: action button off border .12→.22, bg→0, off icon .28→.55 |
 | v13 | `_patch()` added — battery bar, badges, and lock/climate/trunk button states update in-place |
 | v12 | Padding consistency pass |
 | v11 | Popup max-width normalized to 440px |
@@ -1344,6 +1360,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v6 | OLED visibility pass: card border .10→.22, inner borders .08→.18, tile bg→0 |
 | v5 | Removed hardcoded default `name: 'Magneton'` — defaults to empty string so cards without a name set don't show a stale vehicle name |
 | v4 | Fixed ReferenceError: ents is not defined in `_patch()` |
 | v3 | Climate temp display shows empty string when off |
@@ -1407,6 +1424,7 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
+| v4 | OLED visibility pass: card border .10→.22, inner borders .08→.18, idle dot .18→.55, tile bg→0 |
 | v3 | New `charger_name` config param — replaces hardcoded `'Beryl Pulsar Plus'` in banner sub-label; `name` default changed from `'Magneton'` to `''` |
 | v2 | Card name label: 15px → 17px white bold |
 | v1 | Initial release |
@@ -1444,6 +1462,7 @@ name: Garage
 
 | Version | Changes |
 |---------|---------|
+| v11 | OLED visibility pass: card border .10→.22, unknown state border .12→.22 |
 | v10 | Fix: animation stutter during opening/closing — `set hass` now skips patch when state unchanged; `_patch()` triggers full re-render on canToggle change (adds/removes progress bar); selectors fixed to match rendered class names |
 | v9 | Version header corrected — JS was at v8 but resources required v9 due to prior deploy |
 | v8 | Version header corrected — JS was at v7 but resources required v8 due to prior deploy |
@@ -1494,6 +1513,7 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v4 | OLED visibility pass: card border .10→.22, inner borders .08→.18 |
 | v3 | Card name label: 15px → 17px white bold |
 | v2 | Touch audit: `-webkit-tap-highlight-color:transparent` on ctrl-row and mode-opt buttons |
 | v1 | Initial release |
@@ -1540,6 +1560,7 @@ name: PECO Electric
 
 | Version | Changes |
 |---------|---------|
+| v4 | OLED visibility pass: card border .10→.22 |
 | v3 | Card name label: 15px amber → 17px white bold |
 | v2 | Removed amber tinted background from outer `.card` container |
 | v1 | Initial release |
@@ -1588,6 +1609,7 @@ name: River 2 Pro
 
 | Version | Changes |
 |---------|---------|
+| v4 | OLED visibility pass: card border .10→.22, inner borders .08→.18, tile bg→0 |
 | v3 | Card header: 10px uppercase → 17px white bold |
 | v2 | Added `.ha-tap` class with `scale(0.96)/brightness(0.9)` `:active` states |
 | v1 | Initial release |
@@ -1623,6 +1645,7 @@ players:
 
 | Version | Changes |
 |---------|---------|
+| v5 | OLED visibility pass: idle dot .20→.55 |
 | v4 | `_patch()` added — title, source, and state update per player; full re-render only when active player count changes |
 | v3 | Card header: 10px uppercase → 17px white bold |
 | v4 | `_patch()` added — player title, source, and play/pause state update in-place; re-renders only when active count changes |

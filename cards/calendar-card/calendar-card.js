@@ -1,5 +1,5 @@
 /**
- * calendar-card.js  —  v5
+ * calendar-card.js  —  v6
  * Custom Home Assistant Lovelace calendar card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -339,12 +339,12 @@ class CalendarCard extends HTMLElement {
           + `&style=feature:road|element:geometry|color:0x2d2d44`
           + `&key=${apiKey}`;
         mapHtml = `
-          <div style="margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08)">
+          <div style="margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.18)">
             <img src="${src}" style="width:100%;display:block" alt="Map of ${ev.location}" loading="lazy"/>
           </div>`;
       } else {
         mapHtml = `
-          <div style="margin-top:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.03);padding:12px 14px;display:flex;align-items:center;gap:10px">
+          <div style="margin-top:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.03);padding:12px 14px;display:flex;align-items:center;gap:10px">
             <div style="width:14px;height:14px;flex-shrink:0;opacity:0.3;color:var(--secondary-text-color)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -372,10 +372,10 @@ class CalendarCard extends HTMLElement {
             ${ev.calName ? `<div style="font-size:11px;font-weight:700;color:${ev.color || 'var(--secondary-text-color)'};opacity:0.85;text-transform:uppercase;letter-spacing:0.06em;margin-top:3px">${ev.calName}</div>` : ''}
           </div>
         </div>
-        <button id="cc-close" style="background:rgba(255,255,255,0.08);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--secondary-text-color);font-size:14px;line-height:1;font-family:inherit">✕</button>
+        <button id="cc-close" style="background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--secondary-text-color);font-size:14px;line-height:1;font-family:inherit">✕</button>
       </div>
 
-      <div style="height:1px;background:var(--divider-color,rgba(255,255,255,0.08));margin-bottom:14px"></div>
+      <div style="height:1px;background:var(--divider-color,rgba(255,255,255,0.18));margin-bottom:14px"></div>
 
       <div style="display:flex;flex-direction:column;gap:12px">
 
@@ -481,14 +481,14 @@ class CalendarCard extends HTMLElement {
             ? `<span class="day-count"
                      style="${g.isToday
                        ? `color:${todayColor};background:${todayColor}22;border-color:${todayColor}44`
-                       : 'color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.12)'}">
+                       : 'color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.22)'}">
                  ×${g.events.length}
                </span>`
             : '';
 
           return `
             <div class="day-group"
-                 style="${gi > 0 ? 'border-top:1px solid var(--divider-color,rgba(255,255,255,0.07))' : ''}">
+                 style="${gi > 0 ? 'border-top:1px solid var(--divider-color,rgba(255,255,255,0.18))' : ''}">
               <div class="group-row">
                 <div class="date-col">
                   ${dateColInner}
@@ -720,7 +720,7 @@ class CalendarCard extends HTMLElement {
           flex-wrap: wrap;
           gap: 12px;
           padding: 10px 20px 12px;
-          border-top: 1px solid var(--divider-color, rgba(255,255,255,0.07));
+          border-top: 1px solid var(--divider-color, rgba(255,255,255,0.18));
         }
         .leg-item {
           display: flex;
@@ -748,7 +748,7 @@ class CalendarCard extends HTMLElement {
         /* Mobile: bottom sheet */
         #cc-popup {
           background: var(--card-background-color, #1e1e1e);
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+          border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
           padding: 20px;
           box-sizing: border-box;
           overflow-y: auto;
@@ -780,7 +780,7 @@ class CalendarCard extends HTMLElement {
             width: 100%;
             max-width: 420px;
             border-radius: 16px;
-            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.22));
           }
           #cc-handle { display: none; }
         }
