@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v78 | Switch master entities now render tap-to-toggle row instead of brightness slider on both inline and popup views; `mode: toggle\|slider` override on individuals; CSS `.lm-sw-row` added |
 | v77 | Version header corrected — JS was at v76 but resources required v77 due to prior deploy |
 | v76 | Version header corrected — JS was at v75 but resources required v76 due to prior deploy |
 | v75 | Version header corrected — JS was at v74 but resources required v75 due to prior deploy at v74 |
@@ -326,6 +327,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v13 | Switch/slider display mode — `mode: toggle\|slider` on `lights:` and each individual row overrides auto-detection; switch entities default to toggle, lights default to slider |
 | v12 | Fix: `popup.getElementById()` replaced with `popup.querySelector()` throughout — `getElementById` is a Document-only method; calling it on an Element silently returns `undefined`, breaking all chevron expand and color preset interactions |
 | v11 | Fix: chevron expand logic inverted — `classList.toggle()` returns `true` when class added (hidden), was being read as "opening"; arrow rotation and close-others logic now correct |
 | v10 | Color/CT chevrons on individual lights and master slider; theme color swatch bar in Yard popup; section labels removed from popup header; `_openCoverGroup` method header restored |
@@ -1070,6 +1072,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v9 | New `hide_home_before` param — dims home route row before a specified hour (symmetric to `hide_to_work_after`); dashboard simplified to single home route |
 | v8 | Removed hardcoded `'21 Beryl Rd'` fallback for home direction label — now uses `home_routes[0].label` only |
 | v7 | `_patch()` added — route times and delays update in-place; full re-render only when incident banner appears/disappears |
 | v6 | Card header title: 10px uppercase → 17px white bold |

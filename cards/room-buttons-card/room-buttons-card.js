@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v12
+ * room-buttons-card.js  —  v13
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -42,11 +42,13 @@
  *     icon: sofa
  *     lights:
  *       entity: light.all_family_room  # master group entity (slider controls all)
+ *       mode: slider                   # optional — 'slider' (default for lights) or 'toggle'
  *       individuals:                   # optional — per-light rows below master
  *         - entity: light.family_room_main
  *           name: Main
- *         - entity: light.family_room_lamp
+ *         - entity: switch.family_room_lamp
  *           name: Lamp
+ *           mode: toggle               # optional — override auto-detection per row
  *
  *   # Button with fans popup — pip-dot speed buttons per fan
  *   - entity: fan.family_room_ceiling
@@ -607,10 +609,15 @@ class RoomButtonsCard extends HTMLElement {
     const masterEnt = lcfg.entity || btn.entity;
     const indiv     = lcfg.individuals || [];
     const on        = this._isOn(masterEnt);
+    // mode: 'auto' (default) = detect from entity domain,
+    //       'toggle' = always show tap-to-toggle,
+    //       'slider' = always show brightness slider
+    const mode = lcfg.mode || 'auto';
+    const masterIsSwitch = mode === 'toggle' || (mode === 'auto' && masterEnt.startsWith('switch.'));
     const avg       = this._brightness(masterEnt) ?? (on ? 100 : 0);
     const sliderPct = on ? avg : 0;
 
-    // Determine color support
+    // Determine color support — exclude switches, they have no color modes
     const lightEnts   = [...indiv.map(l => l.entity), masterEnt].filter(e => !e.startsWith('switch.'));
     const anyCT       = lightEnts.some(e => this._supportsCT(e));
     const anyColor    = lightEnts.some(e => this._supportsColor(e));
@@ -628,14 +635,22 @@ class RoomButtonsCard extends HTMLElement {
     const chevSvg = (id, color) =>
       `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="${id}"><polyline points="6 9 12 15 18 9"/></svg>`;
 
+    // Master row: brightness slider for lights, tap-to-toggle for switches
+    const masterInner = masterIsSwitch
+      ? `<div class="rb-sw-row" data-action="rb-master-toggle" data-entity="${masterEnt}" style="cursor:pointer;-webkit-tap-highlight-color:transparent">
+          <span class="rb-sw-lbl">All Lights</span>
+          <span class="rb-sw-state" id="rbmstate" style="color:${on ? '#fbbf24' : 'rgba(255,255,255,.35)'}">${on ? 'On' : 'Off'}</span>
+        </div>`
+      : `<div class="rb-slider-wrap" data-action="rb-master-drag" data-entity="${masterEnt}" style="touch-action:none">
+          <div class="rb-track"><div class="rb-fill" id="rbmf" style="width:${sliderPct}%"></div></div>
+          <div class="rb-thumb" id="rbmt" style="left:${Math.min(sliderPct, 96)}%"></div>
+        </div>
+        <span class="rb-pct" id="rbmpct">${on ? avg + '%' : ''}</span>`;
+
     const masterHtml = `
       <div class="rb-master">
         <div class="rb-mrow">
-          <div class="rb-slider-wrap" data-action="rb-master-drag" data-entity="${masterEnt}" style="touch-action:none">
-            <div class="rb-track"><div class="rb-fill" id="rbmf" style="width:${sliderPct}%"></div></div>
-            <div class="rb-thumb" id="rbmt" style="left:${Math.min(sliderPct, 96)}%"></div>
-          </div>
-          <span class="rb-pct" id="rbmpct">${on ? avg + '%' : ''}</span>
+          ${masterInner}
           ${hasColors ? `<div class="rb-mchev" data-action="rb-master-expand" id="rbmc">${chevSvg('rbmc-a', masterColor)}</div>` : ''}
         </div>
         <div class="rb-master-exp hidden" id="rbme">
@@ -647,7 +662,7 @@ class RoomButtonsCard extends HTMLElement {
     const list = indiv.length ? indiv : [];
     const lightsHtml = list.map((l, li) => {
       const lon    = this._isOn(l.entity);
-      const isSw   = l.entity.startsWith('switch.');
+      const isSw   = l.mode === 'toggle' || (l.entity.startsWith('switch.') && l.mode !== 'slider');
       const lpct   = this._brightness(l.entity) ?? (lon ? 100 : 0);
       const lsp    = lon ? lpct : 0;
       const lname  = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
@@ -970,7 +985,24 @@ class RoomButtonsCard extends HTMLElement {
       overlay.addEventListener('click', e => { if (e.target === overlay) this._closePopup(); }, { once: true });
     }, 50);
 
-    // ── Master brightness drag ──────────────────────────────────────────────────
+    // ── Master toggle (switch entities) ────────────────────────────────────────
+    const masterToggle = popup.querySelector('[data-action="rb-master-toggle"]');
+    if (masterToggle) {
+      const eid = masterToggle.dataset.entity;
+      masterToggle.addEventListener('click', e => {
+        e.stopPropagation();
+        const isOn = this._isOn(eid);
+        this._call('switch', isOn ? 'turn_off' : 'turn_on', { entity_id: eid }, null);
+        // Update state label immediately for responsiveness
+        const stateEl = popup.querySelector('#rbmstate');
+        if (stateEl) {
+          stateEl.textContent = isOn ? 'Off' : 'On';
+          stateEl.style.color = isOn ? 'rgba(255,255,255,.35)' : '#fbbf24';
+        }
+      });
+    }
+
+    // ── Master brightness drag (light entities only) ────────────────────────────
     const masterWrap = popup.querySelector('[data-action="rb-master-drag"]');
     if (masterWrap) {
       const eid = masterWrap.dataset.entity;
@@ -1560,6 +1592,9 @@ class RoomButtonsCard extends HTMLElement {
         .rb-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
         .rb-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
         .rb-master-exp.hidden{display:none}
+        .rb-sw-row{flex:1;display:flex;align-items:center;gap:10px;padding:0 4px;min-width:0}
+        .rb-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
+        .rb-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
         .rb-pp-lights{display:flex;flex-direction:column;gap:8px;padding:0 0 8px}
         .rb-pp-light{opacity:.5;transition:opacity .15s}
         .rb-pp-light-on{opacity:1}

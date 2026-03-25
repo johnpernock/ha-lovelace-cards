@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v77
+ * room-controls-card.js  —  v78
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -347,12 +347,19 @@ class RoomControlsCard extends HTMLElement {
         this._simplifiedMeta[room.id] = { on, cnt, tot };
       } else {
         const sliderPct = on ? avg : 0;
+        // mode: 'auto' = detect from domain, 'toggle' = force toggle, 'slider' = force slider
+        const mode = cfg.mode || 'auto';
+        const masterIsSwitch = mode === 'toggle' || (mode === 'auto' && cfg.entity.startsWith('switch.'));
         body += `<div class="sec-hdr">Lights</div>`;
         body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:2px">
-          <div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
-            <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
-            <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%"></div>
-          </div>
+          ${masterIsSwitch
+            ? `<div class="lm-sw-row" data-action="switch-toggle" data-entity="${cfg.entity}" data-room="${room.id}" style="cursor:pointer;-webkit-tap-highlight-color:transparent">
+                <div class="lm-track" style="background:${on?'rgba(251,191,36,.35)':'rgba(255,255,255,.1)'}"><div class="lm-fill" id="lfill-${room.id}" style="width:${on?'100':'0'}%"></div></div>
+              </div>`
+            : `<div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
+                <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
+                <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%"></div>
+              </div>`}
           <div class="lm-btn">${this._ico('chev','rgba(255,255,255,.4)',14,14)}</div>
         </div>`;
         // Individual light toggle grid
@@ -581,13 +588,20 @@ class RoomControlsCard extends HTMLElement {
     const maxK = ctEnts.length ? Math.min(...ctEnts.map(e=>this._ctRange(e).max)) : 6500;
     const ctPfx='pct-all:'+room.id, ccPfx='pcc-all:'+room.id;
 
+    const mode = cfg.mode || 'auto'; // 'auto' | 'toggle' | 'slider'
+    const masterIsSwitch = mode === 'toggle' || (mode === 'auto' && cfg.entity.startsWith('switch.'));
     const masterBlock=`<div class="sec-hdr" style="padding:10px 14px 4px">All Lights</div><div class="pp-master">
       <div class="pp-mrow">
-        <div class="lm-slider-wrap" id="pp-mslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
-          <div class="lm-track"><div class="lm-fill" id="pp-mfill-${room.id}" style="width:${sliderPct}%"></div></div>
-          <div class="lm-thumb" id="pp-mthumb-${room.id}" style="left:${Math.min(sliderPct,96)}%"></div>
-        </div>
-        <span class="lm-pct" id="pp-mpct-${room.id}">${on?avg+'%':''}</span>
+        ${masterIsSwitch
+          ? `<div class="lm-sw-row" data-action="switch-toggle" data-entity="${cfg.entity}" data-room="${room.id}" style="flex:1;cursor:pointer;-webkit-tap-highlight-color:transparent">
+              <span class="lm-sw-lbl">All Lights</span>
+              <span class="lm-sw-state" id="pp-mstate-${room.id}" style="color:${on?'#fbbf24':'rgba(255,255,255,.35)'}">${on?'On':'Off'}</span>
+            </div>`
+          : `<div class="lm-slider-wrap" id="pp-mslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
+              <div class="lm-track"><div class="lm-fill" id="pp-mfill-${room.id}" style="width:${sliderPct}%"></div></div>
+              <div class="lm-thumb" id="pp-mthumb-${room.id}" style="left:${Math.min(sliderPct,96)}%"></div>
+            </div>
+            <span class="lm-pct" id="pp-mpct-${room.id}">${on?avg+'%':''}</span>`}
         ${hasColors?`<div class="pp-mchev" data-action="popup-master-expand" data-room="${room.id}" id="ppmc-${room.id}">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2" stroke-linecap="round" style="transition:transform .2s" id="ppmc-a-${room.id}"><polyline points="6 9 12 15 18 9"/></svg>
         </div>`:''}
@@ -603,7 +617,7 @@ class RoomControlsCard extends HTMLElement {
     const list = indiv.length?indiv:[{entity:cfg.entity,name:'All Lights'}];
     const lights = list.map((l,li)=>{
       const lon=this._isOn(l.entity), lpct=this._brightness(l.entity)??(lon?100:0);
-      const isSw=l.entity.startsWith('switch.');
+      const isSw=l.mode==='toggle'||(l.entity.startsWith('switch.')&&l.mode!=='slider');
       const lSliderPct = lon ? lpct : 0;
       const hasCols = !isSw&&(this._supportsCT(l.entity)||this._supportsColor(l.entity));
       const lname = l.name||this._attr(l.entity,'friendly_name')||l.entity.split('.').pop().replace(/_/g,' ');
@@ -736,6 +750,9 @@ class RoomControlsCard extends HTMLElement {
     .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
     .lm-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
     .lm-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);width:28px;text-align:right;flex-shrink:0}
+    .lm-sw-row{flex:1;display:flex;align-items:center;gap:8px;padding:0 4px;min-width:0;user-select:none}
+    .lm-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
+    .lm-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
     .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
     .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 2px;}
     .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s}
@@ -1231,6 +1248,9 @@ class RoomControlsCard extends HTMLElement {
         .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
         .lm-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
         .lm-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}
+        .lm-sw-row{flex:1;display:flex;align-items:center;gap:8px;padding:0 4px;min-width:0;user-select:none}
+        .lm-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
+        .lm-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
         .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .2s}
         .tog{position:relative;border-radius:8px;cursor:pointer;flex-shrink:0;border:1px solid;user-select:none}
         .tog-thumb{position:absolute;border-radius:50%;transition:left .15s,background .15s}
@@ -1394,6 +1414,18 @@ class RoomControlsCard extends HTMLElement {
         document.addEventListener('mouseup',()=>{dragging=false;});
         document.addEventListener('touchend',()=>{dragging=false;});
       });
+      // switch-toggle: tap-to-toggle for switch.* master entities in popup
+      oc.querySelectorAll('[data-action="switch-toggle"]').forEach(row => {
+        row.addEventListener('click', e => {
+          const eid = row.dataset.entity;
+          const rid = row.dataset.room;
+          const isOn = this._isOn(eid);
+          this._call('switch', isOn ? 'turn_off' : 'turn_on', { entity_id: eid }, null);
+          // Optimistic UI update
+          const stateEl = oc.querySelector(`#pp-mstate-${rid}`);
+          if (stateEl) { stateEl.textContent = isOn ? 'Off' : 'On'; stateEl.style.color = isOn ? 'rgba(255,255,255,.35)' : '#fbbf24'; }
+        });
+      });
       // Blind sliders in overlay
       oc.querySelectorAll('input[data-action="blind-pos-slide"]').forEach(inp => {
         inp.addEventListener('input', () => {
@@ -1554,7 +1586,20 @@ class RoomControlsCard extends HTMLElement {
       document.addEventListener('touchend', () => { dragging = false; });
     });
 
-    /* tstat-top: open popup unless tapping +/− */
+    /* switch-toggle: tap-to-toggle for switch.* master entities on inline rows */
+    sr.querySelectorAll('[data-action="switch-toggle"]').forEach(row => {
+      row.addEventListener('click', e => {
+        if (e.target.closest('.lm-btn')) return; // don't intercept chevron
+        const eid = row.dataset.entity;
+        const isOn = this._isOn(eid);
+        this._call('switch', isOn ? 'turn_off' : 'turn_on', { entity_id: eid }, null);
+        // Optimistic UI update
+        const fill = sr.getElementById(`lfill-${row.dataset.room}`);
+        if (fill) fill.style.width = isOn ? '0%' : '100%';
+      });
+    });
+
+
     sr.querySelectorAll('.tstat-top[data-action="tstat-popup"]').forEach(top => {
       top.addEventListener('click', e => {
         if (e.target.closest('.tadj')) return;

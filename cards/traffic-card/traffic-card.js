@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v8
+ * traffic-card.js  —  v9
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -14,6 +14,7 @@
  * type: custom:traffic-card
  * incident_threshold: 10        # optional — minutes over typical to show alert (default 10)
  * hide_to_work_after: 12        # optional — hour (24h) to dim "to work" row (default 12)
+ * hide_home_before: 14          # optional — hour (24h) before which to dim "home" row (default none)
  * to_work:
  *   label: "1030 Continental Dr"
  *   entity: sensor.commute_to_work
@@ -22,9 +23,6 @@
  *   - label: "21 Beryl Rd"
  *     entity: sensor.commute_home_via_202
  *     route_label: US-202 S
- *   - label: "21 Beryl Rd"
- *     entity: sensor.commute_home_via_rt_30
- *     route_label: Route 30 W
  */
 
 class TrafficCard extends HTMLElement {
@@ -213,6 +211,7 @@ class TrafficCard extends HTMLElement {
     const threshold = cfg.incident_threshold || 10;
     const hour      = new Date().getHours();
     const dimToWork = hour >= (cfg.hide_to_work_after ?? 12);
+    const dimHome   = cfg.hide_home_before != null && hour < cfg.hide_home_before;
 
     const toWorkData = this._routeData(cfg.to_work.entity, cfg.to_work.route_label);
     const homeRoutes = (cfg.home_routes || []).map(r => ({
@@ -290,11 +289,7 @@ class TrafficCard extends HTMLElement {
     const toWorkRow = _heroRow(toWorkData, cfg.to_work, 'Live travel time', false);
 
     const heroHome  = homeRoutes[bestHomeIdx];
-    const heroHomeRow = _heroRow(heroHome.data, heroHome.cfg, 'Fastest route', false);
-    const otherHomeRows = homeRoutes
-      .filter((_, i) => i !== bestHomeIdx)
-      .map(r => _subRow(r.data, r.cfg, false))
-      .join('');
+    const heroHomeRow = _heroRow(heroHome.data, heroHome.cfg, 'Fastest route home', dimHome);
 
     this.shadowRoot.innerHTML = `
       <style>${this._css()}</style>
@@ -309,9 +304,8 @@ class TrafficCard extends HTMLElement {
           <div class="sec-lbl">→ To work · ${cfg.to_work.label || ''}</div>
           ${toWorkRow}
           <div class="exp-sec-div"></div>
-          <div class="sec-lbl">← Home · ${cfg.home_routes[0]?.label || ''}</div>
+          <div class="sec-lbl">← Home · ${heroHome.cfg?.label || ''}</div>
           ${heroHomeRow}
-          ${otherHomeRows}
         </div>
       </ha-card>`;
   }
@@ -367,6 +361,7 @@ class TrafficCard extends HTMLElement {
     const threshold = cfg.incident_threshold || 10;
     const hour      = new Date().getHours();
     const dimToWork = hour >= (cfg.hide_to_work_after ?? 12);
+    const dimHome   = cfg.hide_home_before != null && hour < cfg.hide_home_before;
 
     // Gather data
     const toWorkData   = this._routeData(cfg.to_work.entity, cfg.to_work.route_label);
@@ -424,8 +419,7 @@ class TrafficCard extends HTMLElement {
     // Build home routes
     const homeTilesHtml = homeRoutes.map((r, i) => {
       const isBest    = i === bestHomeIdx;
-      const isPrimary = i === 0;
-      return this._tileHtml(r.cfg, r.data, isBest, false, isBest);
+      return this._tileHtml(r.cfg, r.data, isBest, dimHome, isBest);
     }).join('<div class="divider" style="margin:0 14px"></div>');
 
     this.shadowRoot.innerHTML = `

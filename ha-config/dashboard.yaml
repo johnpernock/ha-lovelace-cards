@@ -223,6 +223,12 @@ views:
                 icon: stairs
                 lights:
                   entity: switch.basement_lights
+                  individuals:
+                    - entity: light.workshop
+                      name: Workshop
+                    - entity: switch.basement_lights
+                      name: Basement
+                      mode: toggle
               - entity: light.all_garage_lights
                 name: Garage
                 icon: garage
@@ -233,6 +239,7 @@ views:
                       name: Door Light
                     - entity: switch.garage_lights
                       name: Garage
+                      mode: toggle
               # theme_sensor adds holiday color strip + name label to this button.
               # Hidden on non-holiday nights — no visual change.
               - entity: light.all_yard_lights
@@ -475,7 +482,7 @@ views:
                       name: Door Light
                     - entity: switch.garage_lights
                       name: Garage
-                garage:
+                      mode: toggle
                   entity: cover.garage_door_door
       - type: grid
         cards:
@@ -596,6 +603,7 @@ views:
             expanded: true
             incident_threshold: 10
             hide_to_work_after: 12
+            hide_home_before: 14
             to_work:
               entity: sensor.commute_to_work
               label: 1030 Continental Dr
@@ -603,10 +611,7 @@ views:
             home_routes:
               - entity: sensor.commute_home_via_202
                 label: 21 Beryl Rd
-                route_label: Home Route 1
-              - entity: sensor.commute_home_via_rt_30
-                label: 21 Beryl Rd
-                route_label: Home Route 2
+                route_label: US-202 S
           - type: custom:leave-by-card
             waze_entity: sensor.commute_to_work
             station: Paoli Station
