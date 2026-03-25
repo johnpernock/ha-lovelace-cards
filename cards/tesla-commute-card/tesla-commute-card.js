@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v12
+ * tesla-commute-card.js  —  v13
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -115,7 +115,7 @@ class TeslaCommuteCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
     .card{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
-    .divider{height:1px;background:rgba(255,255,255,.07)}
+    .divider{height:2px;background:rgba(255,255,255,.22)}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .sec-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28)}
 

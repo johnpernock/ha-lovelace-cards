@@ -169,7 +169,7 @@ class TrafficCard extends HTMLElement {
     .exp-time-sm{font-size:20px;font-weight:600;letter-spacing:-.3px;line-height:1}
     .exp-min{font-size:11px;font-weight:500;color:rgba(255,255,255,.35);margin-left:2px}
     .exp-badge{font-size:10px;font-weight:700;border-radius:5px;padding:3px 7px;white-space:nowrap;margin-top:5px;display:inline-block}
-    .exp-row-div{height:2px;background:rgba(255,255,255,.18);margin:0 10px}
+    .exp-row-div{display:none}
     .exp-sec-div{height:2px;background:rgba(255,255,255,.22);margin:8px 14px 0}
   `; }
 
@@ -274,7 +274,7 @@ class TrafficCard extends HTMLElement {
       const name = cfg_route.route_label || cfg_route.label || data.route;
       const via  = cfg_route.via_label || '';
       return `<div class="exp-row-div"></div>
-      <div class="exp-sub-row" style="background:rgba(255,255,255,0);border:1.5px solid rgba(255,255,255,.40)">
+      <div class="exp-sub-row" style="background:rgba(${t.rgb},.05);border:1.5px solid rgba(${t.rgb},.40)">
         <div>
           <div class="exp-row-route" style="font-size:13px;color:rgba(255,255,255,.6)">${name}</div>
           ${via ? `<div class="exp-row-via">${via}</div>` : ''}

@@ -1086,6 +1086,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v38 | UX: on-time compact pills → green tint rgba(74,222,128,.08) bg + .55 border (matches delayed red pill pattern); both outbound and inbound |
 | v38 | UX: small on-time pills get green tint bg .08 + green border .55 (was clear/white); expanded non-hero rows get green/red tint bg .06 and green border .55 |
 | v37 | Remove exp-row-div dividers between train rows in expanded view |
 | v36 | UX: hide .div separator between outbound and inbound trains |
@@ -1168,6 +1169,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v19 | UX: exp-sub-row gets rgba(t.rgb,.05) tint matching hero row; exp-row-div between route rows removed (display:none) |
 | v19 | UX: tile rows get color tint bg rgba(t.rgb,.07); exp-hero-row border 1px.25→1.5px.45 |
 | v18 | Fix: card-hdr border .28→.40; .divider hidden (card-hdr border handles separation) |
 | v18 | Fix: .card-hdr missing border-bottom — added 1.5px rgba(.28) |
@@ -1229,6 +1231,7 @@ outbound:
 
 | Version | Changes |
 |---------|---------|
+| v12 | UX: lb-ok (on-time) rows → green tint rgba(74,222,128,.08) bg + .50 border; now/soon rows already red/amber; all statuses now consistently color-coded |
 | v12 | UX: full row tinting — ok=green bg.08/border.55, soon=amber bg.10/border.55, now=red bg.12/border.55; all borders boosted to .55 |
 | v11 | UX: card-hdr border .28→.40; more space between header and pills (drive-note padding, row margin 6→8px) |
 | v11 | Fix: row margin/padding +2px; chip borders 1px→1.5px; row bdr colors boosted; 1px→1.5px on rows |
@@ -1460,6 +1463,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v13 | Fix: section dividers 1px .07 → 2px .22 — visible on low DPI wall display |
 | v12 | Fix: .hdr border-bottom .28→.40 — more visible header divider |
 | v12 | Fix: .hdr missing border-bottom — added 1.5px rgba(.28) |
 | v11 | Fix: climate/lock badge borders 1px .3→1.5px .5 |
@@ -1531,6 +1535,7 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
+| v11 | Fix: section divider 1px .07 → 2px .22 — visible on low DPI wall display |
 | v10 | Fix: banner bg .04→0, border-bottom-color .12→.45 |
 | v9 | Low-DPI: idle dot 7px→9px, opacity .55→.75 |
 | v8 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -1629,6 +1634,7 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v11 | Fix: section divider 1px .07 → 2px .22 — visible on low DPI wall display |
 | v10 | Fix: sbanner header divider always white .40 (removed dynamic color override); boost .35→.40 |
 | v10 | Fix: sbanner inline border-bottom-color .2→.45; CSS fallback .28→.35 |
 | v9 | Fix: sbanner dynamic border-bottom-color .2→.45 |

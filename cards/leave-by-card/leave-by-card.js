@@ -188,8 +188,8 @@ class LeaveByCard extends HTMLElement {
             rowBg  = 'rgba(251,191,36,.10)';
             rowBdr = 'rgba(251,191,36,.55)';
           } else {
-            rowBg  = 'rgba(255,255,255,0)';
-            rowBdr = 'rgba(255,255,255,.30)';
+            rowBg  = 'rgba(74,222,128,.08)';
+            rowBdr = 'rgba(74,222,128,.50)';
           }
 
           const opacity = '';
