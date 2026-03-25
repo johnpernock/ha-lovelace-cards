@@ -1,5 +1,5 @@
 /**
- * leave-by-card.js  —  v10
+ * leave-by-card.js  —  v11
  * "Leave by" card for Home Assistant Lovelace.
  *
  * Reads outbound SEPTA train departure times and a Waze Travel Time sensor,
@@ -183,18 +183,18 @@ class LeaveByCard extends HTMLElement {
           let rowBg, rowBdr;
           if (urgency && urgency.cls === 'lb-now') {
             rowBg  = 'rgba(248,113,113,.07)';
-            rowBdr = 'rgba(248,113,113,.22)';
+            rowBdr = 'rgba(248,113,113,.45)';
           } else if (urgency && urgency.cls === 'lb-soon') {
             rowBg  = 'rgba(251,191,36,.06)';
-            rowBdr = 'rgba(251,191,36,.18)';
+            rowBdr = 'rgba(251,191,36,.40)';
           } else {
             rowBg  = 'rgba(255,255,255,0)';
-            rowBdr = 'rgba(255,255,255,.18)';
+            rowBdr = 'rgba(255,255,255,.30)';
           }
 
           const opacity = '';
 
-          return `<div class="lb-row" style="background:${rowBg};border:1px solid ${rowBdr}"${opacity}>
+          return `<div class="lb-row" style="background:${rowBg};border:1.5px solid ${rowBdr}"${opacity}>
             <div class="lb-left">
               <div class="lb-dep-arr">${t.dep} → ${t.arrives}</div>
               <div class="lb-meta">${trainLabel}${service}${delayLabel}</div>
@@ -219,16 +219,16 @@ class LeaveByCard extends HTMLElement {
         .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:space-between}
         .hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(96,165,250,.5)}
         .drive-note{font-size:11px;color:rgba(255,255,255,.3);padding:8px 14px 4px}
-        .lb-row{margin:4px 10px;border-radius:8px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
-        .lb-row:last-child{margin-bottom:10px}
+        .lb-row{margin:6px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
+        .lb-row:last-child{margin-bottom:12px}
         .lb-left{min-width:0}
         .lb-dep-arr{font-size:12px;font-weight:600;color:rgba(255,255,255,.6)}
         .lb-meta{font-size:10px;color:rgba(255,255,255,.3);margin-top:2px}
         .lb-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
         .lb-time{font-size:22px;font-weight:700;color:white;letter-spacing:-.5px}
         .lb-chip{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 7px;border-radius:5px;white-space:nowrap}
-        .lb-now {background:rgba(248,113,113,.15);border:1px solid rgba(248,113,113,.35);color:#f87171}
-        .lb-soon{background:rgba(251,191,36,.12); border:1px solid rgba(251,191,36,.3); color:#fbbf24}
+        .lb-now {background:rgba(248,113,113,.15);border:1.5px solid rgba(248,113,113,.50);color:#f87171}
+        .lb-soon{background:rgba(251,191,36,.12); border:1.5px solid rgba(251,191,36,.45); color:#fbbf24}
         .lb-ok  {background:rgba(74,222,128,.08); border:1.5px solid rgba(74,222,128,.45); color:#4ade80}
         .lb-empty{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:12px 14px}
 

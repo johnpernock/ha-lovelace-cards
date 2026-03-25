@@ -1,5 +1,5 @@
 /**
- * wallbox-card.js  —  v9
+ * wallbox-card.js  —  v10
  * Wallbox EV charger status card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -100,7 +100,7 @@ class WallboxCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
     .card{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
-    .sbanner{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1.5px solid rgba(255,255,255,.28)}
+    .sbanner{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1.5px solid rgba(255,255,255,.35)}
     .sdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
     .slabel{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;line-height:1}
     .ssub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
@@ -191,7 +191,7 @@ class WallboxCard extends HTMLElement {
 </style>
       <ha-card>
         <div class="card" style="background:rgba(255,255,255,0);border-color:rgba(${theme.rgb},.35)">
-          <div class="sbanner" style="border-bottom-color:rgba(${theme.rgb},.2)">
+          <div class="sbanner" style="border-bottom-color:rgba(${theme.rgb},.45)">
             <div class="sdot" style="background:${theme.dot}"></div>
             <div>
               <div class="slabel" style="color:${theme.color}">${theme.label}</div>

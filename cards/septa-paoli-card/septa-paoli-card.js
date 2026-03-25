@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v33
+ * septa-paoli-card.js  —  v34
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -522,8 +522,6 @@ class SeptaPaoliCard extends HTMLElement {
         ha-card {
           background: transparent !important;
           box-shadow: none !important;
-          border: 1.5px solid rgba(255,255,255,.40) !important;
-          border-radius: 12px;
           padding: 8px 14px 10px;
           box-sizing: border-box;
           font-family: var(--primary-font-family, sans-serif);
@@ -787,7 +785,6 @@ class SeptaPaoliCard extends HTMLElement {
 
       <ha-card>
         ${heroOutHtml}
-        <div class="div"></div>
         ${heroInHtml}
         ${alertFooterHtml}
       </ha-card>

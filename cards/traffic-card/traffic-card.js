@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v17
+ * traffic-card.js  —  v18
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -117,7 +117,7 @@ class TrafficCard extends HTMLElement {
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
     .card{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
-    .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px}
+    .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28)}
     .card-hdr-title{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .updated{font-size:9px;color:rgba(255,255,255,.2)}
     .divider{height:1px;background:rgba(255,255,255,.07)}
