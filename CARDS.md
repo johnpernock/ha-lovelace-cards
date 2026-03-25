@@ -1274,6 +1274,7 @@ cards:
 
 | Version | Changes |
 |---------|---------|
+| v13 | Revert to original layout; tgt-btn updated to 44px height, 2px solid border, transparent bg; mode-btn border 0.5px→1.5px |
 | v12 | Redesign: colored left bar=mode (4px .80), mode pill left of controls, 44×44 2px tadj buttons, no bg tint, outer card border+header divider, matches room-controls tstat style |
 | v11 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v10 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
