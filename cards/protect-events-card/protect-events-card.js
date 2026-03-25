@@ -1,5 +1,5 @@
 /**
- * protect-events-card.js  —  v5.1 (standalone — shared modules inlined)
+ * protect-events-card.js  —  v6.1 (standalone — shared modules inlined)
  *
  * Shared modules (ha-utils, ha-styles, ha-popup) are inlined directly
  * so this file has no external import dependencies.
@@ -403,7 +403,7 @@ const CSS_POPUP = `
   }
   .ha-popup-sheet {
     background: var(--card-background-color, #1e1e2a);
-    border: 1px solid rgba(255,255,255,0.22);
+    border: 1.5px solid rgba(255,255,255,0.40);
     border-radius: 16px 16px 0 0;
     border-bottom: none;
     padding: 20px;
@@ -423,7 +423,7 @@ const CSS_POPUP = `
     .ha-popup-sheet {
       max-width: 440px;
       border-radius: 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.22);
+      border-bottom: 1.5px solid rgba(255,255,255,0.40);
     }
     .ha-popup-handle { display: none !important; }
   }
@@ -754,7 +754,7 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
       #${id} .portal-overlay.open { display: flex; }
       #${id} .portal-sheet {
         background: var(--card-background-color, #1e1e2a);
-        border: 1px solid rgba(255,255,255,0.22);
+        border: 1.5px solid rgba(255,255,255,0.40);
         border-radius: 16px 16px 0 0;
         border-bottom: none;
         padding: 20px;
@@ -774,7 +774,7 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
         #${id} .portal-sheet {
           max-width: ${maxWidth};
           border-radius: 16px;
-          border-bottom: 1px solid rgba(255,255,255,0.22);
+          border-bottom: 1.5px solid rgba(255,255,255,0.40);
         }
         #${id} .portal-handle { display: none !important; }
       }
@@ -951,7 +951,7 @@ function popupHeaderHtml(title, sub = '', subColor = '') {
 
 // ── protect-events-card ─────────────────────────────────────────────────────
 /**
- * protect-events-card.js  —  v5
+ * protect-events-card.js  —  v6
  * Real-time UniFi Protect smart detection event feed for Home Assistant Lovelace.
  *
  * Displays a live-updating list of detection events (person, vehicle, animal,

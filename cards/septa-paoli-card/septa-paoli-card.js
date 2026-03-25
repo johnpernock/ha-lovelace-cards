@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v29
+ * septa-paoli-card.js  —  v30
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -542,7 +542,7 @@ class SeptaPaoliCard extends HTMLElement {
 
         .hero-neutral {
           background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.18);
+          border: 1.5px solid rgba(255,255,255,0.30);
         }
 
         .hero-label {
@@ -687,8 +687,8 @@ class SeptaPaoliCard extends HTMLElement {
         }
 
         /* ── Expanded row mode ── */
-        .exp-wrap{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
-        .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between}
+        .exp-wrap{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
+        .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:space-between}
         .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
         .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
         .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -709,7 +709,7 @@ class SeptaPaoliCard extends HTMLElement {
         .exp-row-div{height:1px;background:rgba(255,255,255,.05);margin:0 10px}
         .exp-sec-div{height:1px;background:rgba(255,255,255,.07);margin:8px 14px 0}
         .exp-train-footer{font-size:11px;color:rgba(255,255,255,.3);margin-top:5px}
-        .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1px solid rgba(255,255,255,.06)}
+        .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.3);border-top:1.5px solid rgba(255,255,255,.18)}
         .exp-no-service{font-size:12px;color:rgba(255,255,255,.3);font-style:italic;padding:10px 14px}
 
         /* ── Popup — mobile: bottom sheet, desktop ≥768px: centered modal ── */
@@ -726,7 +726,7 @@ class SeptaPaoliCard extends HTMLElement {
 
         #sp-popup {
           background: var(--card-background-color, #1e1e1e);
-          border: 1px solid rgba(255,255,255,0.22);
+          border: 1.5px solid rgba(255,255,255,0.40);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
           padding: 20px;
@@ -760,7 +760,7 @@ class SeptaPaoliCard extends HTMLElement {
           #sp-popup {
             max-width: 440px;
             border-radius: 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.22);
+            border-bottom: 1.5px solid rgba(255,255,255,0.40);
           }
           #sp-handle { display: none; }
         }

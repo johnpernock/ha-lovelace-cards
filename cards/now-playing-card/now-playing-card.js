@@ -1,5 +1,5 @@
 /**
- * now-playing-card.js  —  v8
+ * now-playing-card.js  —  v9
  * Compact now-playing widget for Home Assistant Lovelace.
  * Shows active media players. Collapses to nothing when all are idle.
  *
@@ -126,7 +126,7 @@ class NowPlayingCard extends HTMLElement {
       const title   = this._mediaTitle(p.entity) || 'Unknown';
       const source  = this._mediaSource(p.entity) || '';
       const name    = p.name || p.entity.split('.').pop().replace(/_/g,' ');
-      const border  = i > 0 ? 'border-top:1px solid rgba(255,255,255,.18);' : '';
+      const border  = i > 0 ? 'border-top:1.5px solid rgba(255,255,255,.30);' : '';
 
       return `<div class="active-row" id="np-${p.entity.replace(/\./g,'_')}" data-entity="${p.entity}" style="${border}cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none">
         <div class="media-art">
@@ -161,8 +161,8 @@ class NowPlayingCard extends HTMLElement {
         :host{display:block}
         ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
         *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-        .wrap{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
-        .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.15)}
+        .wrap{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
+        .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28)}
         .active-row{display:flex;align-items:center;gap:12px;padding:11px 14px;transition:filter .1s}
         .active-row:active{filter:brightness(.85)}
         .media-art{width:44px;height:44px;border-radius:7px;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.2);flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -171,7 +171,7 @@ class NowPlayingCard extends HTMLElement {
         .media-source{font-size:11px;color:rgba(255,255,255,.4);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
         .media-room{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#60a5fa;margin-top:3px}
         .media-state{font-size:10px;font-weight:700;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
-        .idle-row{display:flex;align-items:center;gap:8px;padding:8px 14px;border-top:1px solid rgba(255,255,255,.18);opacity:.35}
+        .idle-row{display:flex;align-items:center;gap:8px;padding:8px 14px;border-top:1.5px solid rgba(255,255,255,.30);opacity:.35}
         .idle-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);flex-shrink:0}
         .idle-lbl{font-size:11px;color:rgba(255,255,255,.5);flex:1}
         .idle-state{font-size:10px;color:rgba(255,255,255,.3);font-weight:600}

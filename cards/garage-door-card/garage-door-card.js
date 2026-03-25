@@ -1,5 +1,5 @@
 /**
- * garage-door-card.js  —  v13
+ * garage-door-card.js  —  v14
  * Compact garage door toggle card for Home Assistant Lovelace.
  *
  * ── SHARED MODULES ────────────────────────────────────────────────────────────
@@ -119,7 +119,7 @@ class GarageDoorCard extends HTMLElement {
         ${CSS_TAPPABLE}
         ${CSS_UNAVAIL}
         ha-card { padding: 0 14px; }
-        .card { border-radius:10px; border:1px solid rgba(255,255,255,.22); overflow:hidden; }
+        .card { border-radius:10px; border:1.5px solid rgba(255,255,255,.40); overflow:hidden; }
         .action-btn {
           width:100%; border-radius:0; padding:20px 8px 14px; border:none;
           display:flex; flex-direction:column; align-items:center; gap:10px;

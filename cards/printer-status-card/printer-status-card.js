@@ -1,5 +1,5 @@
 /**
- * printer-status-card.js  —  v6
+ * printer-status-card.js  —  v7
  * Compact printer status widget for the Home view.
  * Uses the same `printer` prefix config as bambu-printer-card.
  * Entity lookup is domain-agnostic — see bambu-printer-card for explanation.
@@ -137,7 +137,7 @@ class PrinterStatusCard extends HTMLElement {
         :host{display:block}
         ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
         *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-        .wrap{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden;padding:10px 14px;display:flex;flex-direction:column;gap:7px}
+        .wrap{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden;padding:10px 14px;display:flex;flex-direction:column;gap:7px}
         .row{display:flex;align-items:center;gap:10px}
         .dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
         .info{flex:1;min-width:0}

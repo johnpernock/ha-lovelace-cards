@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js  —  v13
+ * weather-card-nws.js  —  v14
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -442,7 +442,7 @@ class WeatherCardUnified extends HTMLElement {
         .feels span { color:var(--primary-text-color) }
         .mets { display:flex;align-items:center;margin-bottom:16px }
         .met  { flex:1;display:flex;align-items:center;gap:9px }
-        .met+.met { border-left:1px solid rgba(255,255,255,0.18);padding-left:14px;margin-left:10px }
+        .met+.met { border-left:1.5px solid rgba(255,255,255,0.30);padding-left:14px;margin-left:10px }
         .mi { width:18px;height:18px;flex-shrink:0 }
         .mi svg { width:100%;height:100% }
         .mv  { font-size:14px;font-weight:600;line-height:1.15;color:var(--primary-text-color) }
@@ -454,7 +454,7 @@ class WeatherCardUnified extends HTMLElement {
         .div  { height:1px;background:rgba(255,255,255,0.09);margin-bottom:16px }
         .fcst { display:grid;grid-template-columns:repeat(7,1fr);gap:2px }
         .dc   { display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 2px }
-        .dc+.dc { border-left:1px solid rgba(255,255,255,0.18) }
+        .dc+.dc { border-left:1.5px solid rgba(255,255,255,0.30) }
         .dn   { font-size:10.5px;font-weight:600;color:var(--secondary-text-color);text-transform:uppercase;letter-spacing:0.06em }
         .di   { width:20px;height:20px }
         .di svg { width:100%;height:100% }
@@ -476,7 +476,7 @@ class WeatherCardUnified extends HTMLElement {
         }
         #wc-popup {
           background: var(--card-background-color, #1e1e2a);
-          border: 1px solid rgba(255,255,255,0.22);
+          border: 1.5px solid rgba(255,255,255,0.40);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
           padding: 20px;
@@ -497,7 +497,7 @@ class WeatherCardUnified extends HTMLElement {
           #wc-overlay { align-items: center; justify-content: center; padding: 24px; }
           #wc-popup {
             max-width: 440px; border-radius: 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.22);
+            border-bottom: 1.5px solid rgba(255,255,255,0.40);
           }
           #wc-handle { display: none !important; }
         }
@@ -561,7 +561,7 @@ class WeatherCardUnified extends HTMLElement {
         .ext-row {
           display:flex;align-items:center;gap:10px;
           padding:8px 0;
-          border-bottom:1px solid rgba(255,255,255,0.15);
+          border-bottom:1.5px solid rgba(255,255,255,0.28);
         }
         .ext-row:last-child { border-bottom:none }
         .ext-day  { width:38px;font-size:11px;font-weight:700;color:var(--secondary-text-color);text-transform:uppercase;flex-shrink:0 }

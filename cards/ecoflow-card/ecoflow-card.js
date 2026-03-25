@@ -1,5 +1,5 @@
 /**
- * ecoflow-card.js  —  v6
+ * ecoflow-card.js  —  v7
  * Ecoflow River 2 Pro power station card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -77,9 +77,9 @@ class EcoflowCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
-    .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between}
-    .sbanner{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.15)}
+    .card{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
+    .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:space-between}
+    .sbanner{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1.5px solid rgba(255,255,255,.28)}
     .batt-wrap{display:flex;align-items:center;gap:10px;flex:1}
     .batt-pct{font-size:24px;font-weight:700;letter-spacing:-1px;line-height:1}
     .batt-bar-wrap{flex:1}
@@ -107,7 +107,7 @@ class EcoflowCard extends HTMLElement {
     .slider-thumb{position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;top:50%;transform:translate(-50%,-50%);box-shadow:0 1px 4px rgba(0,0,0,.4);pointer-events:none;transition:left .05s}
     .slider-ends{display:flex;justify-content:space-between;margin-top:2px}
     .slider-end{font-size:9px;color:rgba(255,255,255,.2)}
-    .ctrl-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1px solid rgba(255,255,255,.06);cursor:pointer;user-select:none;transition:filter .1s}
+    .ctrl-row{display:flex;align-items:center;gap:10px;padding:8px 14px;border-top:1.5px solid rgba(255,255,255,.18);cursor:pointer;user-select:none;transition:filter .1s}
     .ctrl-row:active{filter:brightness(.85)}
     .ctrl-ico{width:18px;height:18px;flex-shrink:0}
     .ctrl-ico svg{width:100%;height:100%}
@@ -115,7 +115,7 @@ class EcoflowCard extends HTMLElement {
     .ctrl-sub{font-size:10px;color:rgba(255,255,255,.25)}
     .ctrl-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0}
     .stat-row-small{display:flex;gap:8px}
-    .stat-tile-sm{flex:1;background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.18);border-radius:8px;padding:8px 10px}
+    .stat-tile-sm{flex:1;background:rgba(255,255,255,0);border:1.5px solid rgba(255,255,255,.30);border-radius:8px;padding:8px 10px}
     .stat-lbl-sm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3);margin-bottom:3px}
     .stat-val-sm{font-size:15px;font-weight:700;color:#e2e8f0}
     .stat-unit-sm{font-size:10px;color:rgba(255,255,255,.3);margin-left:1px}

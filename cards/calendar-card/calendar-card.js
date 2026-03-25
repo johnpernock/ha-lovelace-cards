@@ -1,5 +1,5 @@
 /**
- * calendar-card.js  —  v8
+ * calendar-card.js  —  v9
  * Custom Home Assistant Lovelace calendar card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -339,12 +339,12 @@ class CalendarCard extends HTMLElement {
           + `&style=feature:road|element:geometry|color:0x2d2d44`
           + `&key=${apiKey}`;
         mapHtml = `
-          <div style="margin-top:14px;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.22)">
+          <div style="margin-top:14px;border-radius:10px;overflow:hidden;border:1.5px solid rgba(255,255,255,0.40)">
             <img src="${src}" style="width:100%;display:block" alt="Map of ${ev.location}" loading="lazy"/>
           </div>`;
       } else {
         mapHtml = `
-          <div style="margin-top:14px;border-radius:10px;border:1px solid rgba(255,255,255,0.22);background:rgba(255,255,255,0);padding:12px 14px;display:flex;align-items:center;gap:10px">
+          <div style="margin-top:14px;border-radius:10px;border:1.5px solid rgba(255,255,255,0.40);background:rgba(255,255,255,0);padding:12px 14px;display:flex;align-items:center;gap:10px">
             <div style="width:14px;height:14px;flex-shrink:0;opacity:0.3;color:var(--secondary-text-color)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
@@ -488,7 +488,7 @@ class CalendarCard extends HTMLElement {
 
           return `
             <div class="day-group"
-                 style="${gi > 0 ? 'border-top:1px solid rgba(255,255,255,0.18)' : ''}">
+                 style="${gi > 0 ? 'border-top:1.5px solid rgba(255,255,255,0.30)' : ''}">
               <div class="group-row">
                 <div class="date-col">
                   ${dateColInner}
@@ -641,7 +641,7 @@ class CalendarCard extends HTMLElement {
         }
         .ev-item:active { background: rgba(255,255,255,0.06); }
         .ev-item--next {
-          border-top: 1px solid rgba(255,255,255,0.15));
+          border-top: 1.5px solid rgba(255,255,255,0.28));
           padding-top: 7px;
           margin-top: 4px;
         }
@@ -720,7 +720,7 @@ class CalendarCard extends HTMLElement {
           flex-wrap: wrap;
           gap: 12px;
           padding: 10px 20px 12px;
-          border-top: 1px solid rgba(255,255,255,0.18);
+          border-top: 1.5px solid rgba(255,255,255,0.30);
         }
         .leg-item {
           display: flex;
@@ -748,7 +748,7 @@ class CalendarCard extends HTMLElement {
         /* Mobile: bottom sheet */
         #cc-popup {
           background: var(--card-background-color, #1e1e1e);
-          border: 1px solid rgba(255,255,255,0.22);
+          border: 1.5px solid rgba(255,255,255,0.40);
           padding: 20px;
           box-sizing: border-box;
           overflow-y: auto;
@@ -780,7 +780,7 @@ class CalendarCard extends HTMLElement {
             width: 100%;
             max-width: 420px;
             border-radius: 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.22);
+            border-bottom: 1.5px solid rgba(255,255,255,0.40);
           }
           #cc-handle { display: none; }
         }
