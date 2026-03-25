@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v14
+ * tesla-card.js  —  v15
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -524,7 +524,7 @@ class TeslaCard extends HTMLElement {
       vehicleItems.push(this._tile({
         icon: icons.odometer, state: `${Math.round(odometer).toLocaleString()} mi`,
         label: 'Odometer',
-        color: 'rgba(255,255,255,0.55)', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.1)',
+        color: 'rgba(255,255,255,0.55)', bg: 'rgba(255,255,255,0)', border: 'rgba(255,255,255,0.22)',
       }));
     }
 
@@ -661,7 +661,7 @@ class TeslaCard extends HTMLElement {
     }
 
     // Buttons
-    const OFF_STYLE  = 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.22)';
+    const OFF_STYLE  = 'background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,0.28)';
     const OFF_COLOR  = 'rgba(255,255,255,0.55)';
     const OFF_LCOLOR = 'rgba(255,255,255,0.38)';
 
@@ -733,7 +733,7 @@ class TeslaCard extends HTMLElement {
       ? `<div class="badges">${lockBadge}${chargeBadge}</div>` : '';
 
     // ── Control buttons ───────────────────────────────────────────────────
-    const OFF_STYLE  = `background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.22)`;
+    const OFF_STYLE  = `background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,0.28)`;
     const OFF_COLOR  = `rgba(255,255,255,0.55)`;
     const OFF_LCOLOR = `rgba(255,255,255,0.38)`;
 

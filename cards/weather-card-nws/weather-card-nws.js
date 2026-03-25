@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js  —  v10
+ * weather-card-nws.js  —  v11
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -527,7 +527,7 @@ class WeatherCardUnified extends HTMLElement {
 
         /* Conditions grid */
         .pop-cond-grid { display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px }
-        .pop-stat { background:rgba(255,255,255,0.04);border-radius:10px;padding:11px }
+        .pop-stat { background:rgba(255,255,255,0);border-radius:10px;padding:11px }
         .pop-stat-val { font-size:18px;font-weight:700;color:var(--primary-text-color);line-height:1 }
         .pop-stat-lbl { font-size:10px;font-weight:600;color:var(--secondary-text-color);text-transform:uppercase;letter-spacing:.06em;margin-top:4px;opacity:.7 }
 
@@ -547,7 +547,7 @@ class WeatherCardUnified extends HTMLElement {
         .pop-hourly::-webkit-scrollbar { display:none }
         .hr-cell {
           display:flex;flex-direction:column;align-items:center;gap:4px;
-          padding:9px 9px;background:rgba(255,255,255,0.04);
+          padding:9px 9px;background:rgba(255,255,255,0);
           border-radius:9px;flex-shrink:0;min-width:50px;
         }
         .hr-time { font-size:10px;font-weight:600;color:var(--secondary-text-color);text-transform:uppercase }

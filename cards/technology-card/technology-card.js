@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v15
+ * technology-card.js  —  v16
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -170,7 +170,7 @@ class TechnologyCard extends HTMLElement {
     .svc{display:flex;align-items:center;gap:5px;padding:5px 9px;border-radius:6px;background:rgba(255,255,255,0);border:1px solid rgba(255,255,255,.18)}
     .svc-lbl{font-size:12px;font-weight:600}
     .media-item{display:flex;align-items:center;gap:10px;padding:7px 0}
-    .media-item+.media-item{border-top:1px solid rgba(255,255,255,.06)}
+    .media-item+.media-item{border-top:1px solid rgba(255,255,255,.15)}
     .media-poster{width:32px;height:46px;border-radius:4px;background:rgba(255,255,255,.08);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:rgba(255,255,255,.25);text-transform:uppercase}
     .media-info{flex:1;min-width:0}
     .media-title{font-size:13px;font-weight:700;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v26
+ * septa-paoli-card.js  —  v27
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -236,11 +236,11 @@ class SeptaPaoliCard extends HTMLElement {
         <div style="display:flex;align-items:flex-start;gap:12px;">
           <div style="width:16px;height:16px;flex-shrink:0;margin-top:1px;color:var(--secondary-text-color,rgba(255,255,255,0.4));opacity:0.5;">${clockIcon}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;">
-            <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;">
+            <div style="background:rgba(255,255,255,0);border-radius:8px;padding:10px 12px;">
               <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">${depLabel}</div>
               <div style="font-size:18px;font-weight:600;color:var(--primary-text-color,white);">${data.departs}</div>
             </div>
-            <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:10px 12px;">
+            <div style="background:rgba(255,255,255,0);border-radius:8px;padding:10px 12px;">
               <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">${arrLabelFull}</div>
               <div style="font-size:18px;font-weight:600;color:${arrColor};">${arrTime}</div>
             </div>

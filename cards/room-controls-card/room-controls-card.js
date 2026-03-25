@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v82
+ * room-controls-card.js  —  v83
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -718,7 +718,7 @@ class RoomControlsCard extends HTMLElement {
       ${this._ico('fanm','#2dd4bf',14,14)}<div><div class="mode-txt mode-txt-fan" id="fanm-lbl-${roomId}">${fanMode}</div><div class="mode-sub">Fan mode</div></div></div>`;
     if(hasSwing)btns+=`<div class="mode-btn mode-btn-swing" data-room="${roomId}" data-action="swing-cycle">
       <div id="swing-ico-${roomId}">${swIco}</div><div><div class="mode-txt mode-txt-swing" id="swing-lbl-${roomId}">${swingMode}</div><div class="mode-sub">Swing</div></div></div>`;
-    if(hasPreset)btns+=`<div class="mode-btn" style="background:rgba(255,255,255,.04);border-color:${hasPV?pColor+'88':'rgba(255,255,255,.25)'}" id="preset-btn-${roomId}" data-room="${roomId}" data-action="preset-cycle">
+    if(hasPreset)btns+=`<div class="mode-btn" style="background:rgba(255,255,255,0);border-color:${hasPV?pColor+'88':'rgba(255,255,255,.25)'}" id="preset-btn-${roomId}" data-room="${roomId}" data-action="preset-cycle">
       <div class="mode-dot" style="background:${pColor}" id="preset-dot-${roomId}"></div>
       <div><div class="mode-txt" style="color:${hasPV?pColor:'rgba(255,255,255,.4)'}" id="preset-lbl-${roomId}">${hasPV?presetMode:'No preset'}</div><div class="mode-sub">Preset</div></div></div>`;
 

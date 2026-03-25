@@ -1,5 +1,5 @@
 /**
- * protect-events-card.js  —  v2.1 (standalone — shared modules inlined)
+ * protect-events-card.js  —  v3.1 (standalone — shared modules inlined)
  *
  * Shared modules (ha-utils, ha-styles, ha-popup) are inlined directly
  * so this file has no external import dependencies.
@@ -210,7 +210,7 @@ const HVAC_META = {
   },
   off: {
     label: 'Off',         split: false, dotColor: 'rgba(255,255,255,0.6)',
-    border: 'rgba(255,255,255,0.22)', bg: 'rgba(255,255,255,0.04)', text: 'rgba(255,255,255,0.45)',
+    border: 'rgba(255,255,255,0.22)', bg: 'rgba(255,255,255,0)', text: 'rgba(255,255,255,0.45)',
   },
 };
 
@@ -933,7 +933,7 @@ function popupHeaderHtml(title, sub = '', subColor = '') {
 
 // ── protect-events-card ─────────────────────────────────────────────────────
 /**
- * protect-events-card.js  —  v2
+ * protect-events-card.js  —  v3
  * Real-time UniFi Protect smart detection event feed for Home Assistant Lovelace.
  *
  * Displays a live-updating list of detection events (person, vehicle, animal,

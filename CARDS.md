@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v83 | Final pass: thermostat off dot .25→.65/bg→0/border→.22; preset-cycle bg→0 |
 | v82 | OLED visibility pass: itog-dot CSS default .75; off dot .45→.80; toggle thumb .30→.60; thermostat dot .25→.60 |
 | v81 | Comprehensive visibility pass: all neutral borders 0.22-0.28, fan pip off-dot 0.45, fan dot-off label 0.5, lm-btn 0.22, sensor-row 0.2, tstat-off 0.28, tadj popup 0.28, tdiv 0.25, theme-area off label 0.5, sheet border 0.28, fpip-dot off 0.45, mode-sub 0.45, lm-sub 0.5, sensor-lbl 0.5 |
 | v81 | Comprehensive OLED visibility pass: toggle OFF bg→0/border→.28/thumb→.45; theme-area OFF bg→0/border→.22/opacity→.6; fpip OFF bg→0/border→.28; blind border→.22; lm-btn bg→0 |
@@ -332,6 +333,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v23 | Final pass: cover closed border .09→.22/bg→0; popup icon off .28→.55; theme-area label off .20→.50 |
 | v22 | OLED visibility pass: itog-dot CSS default .75; off dot .45→.80; inner borders .08→.18 |
 | v21 | Comprehensive visibility pass: pop-tile off border 0.28, rb-track 0.22, master-exp border-top 0.3, rb-divider 0.2, fp pip border 0.22, fp dot-off 0.5, rb-preset border 0.22, rb-dot-lbl 0.6, rb-clbl 0.5 |
 | v21 | Comprehensive OLED visibility pass: theme-area OFF bg→0/border→.22; fpip OFF bg→0/border→.28; preset bg→0/border→.25; color-sec border→.22; theme-block border→.25/bg→0 |
@@ -474,6 +476,7 @@ cameras_view: /security
 
 | Version | Notes |
 |---------|-------|
+| v3 | Final pass: off state bg .04→0 |
 | v2 | OLED visibility pass: off dot .25→.60, off border .12→.22, off bg→0 |
 | v1.1 | `sensor_base` override for multi-channel cameras |
 | v1 | Initial release. Ring buffer, filter pills, thumbnail fetch, portal popup, live state_changed subscription |
@@ -601,6 +604,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v16 | Final pass: media divider .06→.15 |
 | v15 | OLED visibility pass: card border .12→.22, inner borders .08→.18, tile bg→0 |
 | v2 | OLED visibility pass: off dot .25→.60, off border .12→.22, off bg→0 |
 | v14 | `_patch()` added — inner content updates only; style block never rebuilt after initial render |
@@ -666,6 +670,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v7 | Final pass: filament slot active border .20→.35, bg→0 |
 | v6 | OLED visibility pass: card border .12→.22, inner borders .08→.18, tile bg .04→0 |
 | v5 | Fix: `_state()` now scans common HA domains (`sensor.`, `binary_sensor.`, etc.) — previously looked up bare entity IDs which never matched, causing blank card |
 | v4 | `_patch()` added — status label, progress bar, and temperatures update in-place; full re-render only when status category changes |
@@ -748,6 +753,7 @@ tap_action: popup
 
 | Version | Changes |
 |---------|---------|
+| v11 | Final pass: stat panel bg .04→0 |
 | v10 | OLED visibility pass: card border .12→.22, inner borders .08→.18 |
 | v9 | Fix: `_patch()` condition text now uses `_label()` — previously used raw `replace(/_/g,' ')` which left hyphens in place (e.g. `clear-night` instead of `Clear Night`) |
 | v8 | `_patch()` added — inline conditions, temp, and forecast strip update without rebuilding style block |
@@ -1029,6 +1035,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v27 | Final pass: expanded info box bg .04→0 |
 | v26 | OLED visibility pass: on-time pill border .08→.20, card border .22 retained |
 | v25 | set hass no longer re-renders on every HA state push — 60s interval is the sole render driver |
 | v24 | Popup max-width normalized to 440px |
@@ -1098,6 +1105,7 @@ home_routes:
 
 | Version | Changes |
 |---------|---------|
+| v11 | Final pass: unavailable row bg .03→0, border→.22 |
 | v10 | OLED visibility pass: card border .10→.22, inner borders .08→.18 |
 | v9 | New `hide_home_before` param — dims home route row before a specified hour (symmetric to `hide_to_work_after`); dashboard simplified to single home route |
 | v8 | Removed hardcoded `'21 Beryl Rd'` fallback for home direction label — now uses `home_routes[0].label` only |
@@ -1275,6 +1283,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v15 | Final pass: all off-state bg .04→0, border .10/.22→.28 |
 | v14 | OLED visibility pass: action button off border .12→.22, bg→0, off icon .28→.55 |
 | v13 | `_patch()` added — battery bar, badges, and lock/climate/trunk button states update in-place |
 | v12 | Padding consistency pass |
@@ -1360,6 +1369,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v7 | Final pass: action off border .10→.28 |
 | v6 | OLED visibility pass: card border .10→.22, inner borders .08→.18, tile bg→0 |
 | v5 | Removed hardcoded default `name: 'Magneton'` — defaults to empty string so cards without a name set don't show a stale vehicle name |
 | v4 | Fixed ReferenceError: ents is not defined in `_patch()` |
@@ -1424,6 +1434,7 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
+| v5 | Final pass: session-tile border .06→.18 |
 | v4 | OLED visibility pass: card border .10→.22, inner borders .08→.18, idle dot .18→.55, tile bg→0 |
 | v3 | New `charger_name` config param — replaces hardcoded `'Beryl Pulsar Plus'` in banner sub-label; `name` default changed from `'Magneton'` to `''` |
 | v2 | Card name label: 15px → 17px white bold |
@@ -1513,6 +1524,7 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v5 | Final pass: stat-tile bg .04→0/border→.22; section border-top .06→.15 |
 | v4 | OLED visibility pass: card border .10→.22, inner borders .08→.18 |
 | v3 | Card name label: 15px → 17px white bold |
 | v2 | Touch audit: `-webkit-tap-highlight-color:transparent` on ctrl-row and mode-opt buttons |
@@ -1645,6 +1657,7 @@ players:
 
 | Version | Changes |
 |---------|---------|
+| v6 | Final pass: player divider .06→.18, idle row border .05→.18 |
 | v5 | OLED visibility pass: idle dot .20→.55 |
 | v4 | `_patch()` added — title, source, and state update per player; full re-render only when active player count changes |
 | v3 | Card header: 10px uppercase → 17px white bold |

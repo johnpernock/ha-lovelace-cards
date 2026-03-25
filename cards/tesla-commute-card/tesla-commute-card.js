@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v6
+ * tesla-commute-card.js  —  v7
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -256,7 +256,7 @@ class TeslaCommuteCard extends HTMLElement {
       : `background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.3)`;
 
     // Action buttons
-    const OFF_BG  = `background:rgba(255,255,255,0);border-color:rgba(255,255,255,.1)`;
+    const OFF_BG  = `background:rgba(255,255,255,0);border-color:rgba(255,255,255,.28)`;
     const btnLock   = ents.door_lock   ? `<div class="action-btn" id="tc-lock-btn" style="${locked ? 'background:rgba(74,222,128,.1);border-color:rgba(74,222,128,.4)' : OFF_BG}">
       <div class="action-ico"><svg viewBox="0 0 24 24" fill="none" stroke="${locked ? '#4ade80' : '#f87171'}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${locked ? '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>' : '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>'}
       </svg></div>

@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v22
+ * room-buttons-card.js  —  v23
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -732,7 +732,7 @@ class RoomButtonsCard extends HTMLElement {
         const isOn  = st.pct > 0;
         const btnBg = isOn ? 'rgba(255,255,255,.07)' : 'rgba(255,255,255,0)';
         const btnBc = isOn ? 'rgba(255,255,255,.22)' : 'rgba(255,255,255,.22)';
-        const lblClr = isOn ? st.color : 'rgba(255,255,255,.2)';
+        const lblClr = isOn ? st.color : 'rgba(255,255,255,.5)';
         return `<div class="theme-area" style="background:${btnBg};border:1px solid ${btnBc};${isOn ? '' : 'opacity:.5'}">
           <div class="theme-area-swatches">${swatchHtml}</div>
           <div class="theme-area-label" style="color:${lblClr}">${area.label}</div>
@@ -864,7 +864,7 @@ class RoomButtonsCard extends HTMLElement {
     const onClass  = on ? this._toggleOnClass(cfg.entity) : 'off';
     const iconName = cfg.icon || this._domainIcon(cfg.entity);
     return `<div class="pop-tile ${onClass}" data-toggle-idx="${idx}">
-      <div class="pop-tile-ico" style="color:${on ? color : 'rgba(255,255,255,0.28)'}">${this._icon(iconName)}</div>
+      <div class="pop-tile-ico" style="color:${on ? color : 'rgba(255,255,255,0.55)'}">${this._icon(iconName)}</div>
       <div class="pop-tile-state" style="color:${on ? color : 'rgba(255,255,255,0.38)'}">${stateLabel}</div>
       <div class="pop-tile-lbl">${label}</div>
     </div>`;
@@ -922,7 +922,7 @@ class RoomButtonsCard extends HTMLElement {
 
     return `<div class="fan-tile ${isOn ? 'fan-on' : 'fan-off'}" data-fan-tile="1">
       <div class="fan-row">
-        <div class="fan-ico" style="color:${isOn ? color : 'rgba(255,255,255,0.28)'}">${this._icon('fan')}</div>
+        <div class="fan-ico" style="color:${isOn ? color : 'rgba(255,255,255,0.55)'}">${this._icon('fan')}</div>
         <div class="fan-info">
           <div class="fan-lbl">${label}</div>
           <div class="fan-state" style="color:${isOn ? color : 'rgba(255,255,255,0.35)'}">${speedLabels[currentStep] || 'Speed ' + currentStep}</div>
@@ -939,7 +939,7 @@ class RoomButtonsCard extends HTMLElement {
     const label = cfg.label || 'Blinds';
 
     const META = {
-      closed:  { stateLabel: 'All closed',      color: '#94a3b8', bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.09)' },
+      closed:  { stateLabel: 'All closed',      color: '#94a3b8', bg: 'rgba(255,255,255,0)', border: 'rgba(255,255,255,0.22)' },
       open:    { stateLabel: `Open to ${max}%`,  color: '#60a5fa', bg: 'rgba(96,165,250,0.07)',  border: 'rgba(96,165,250,0.28)'  },
       opening: { stateLabel: 'Opening…',         color: '#fbbf24', bg: 'rgba(251,191,36,0.06)',  border: 'rgba(251,191,36,0.25)'  },
       closing: { stateLabel: 'Closing…',         color: '#fbbf24', bg: 'rgba(251,191,36,0.06)',  border: 'rgba(251,191,36,0.25)'  },
