@@ -273,6 +273,8 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 ## Changelog
 
+See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
+
 | Date | Summary |
 |------|---------|
 | Mar 2026 | **Performance audit — `_patch()` added to all 24 cards.** Every card now separates initial render from incremental updates. Cards that were fully rebuilding their shadow DOM on every HA state push — `thermostat-card`, `door-sensor-card`, `now-playing-card`, `bambu-printer-card`, `traffic-card`, `tesla-card`, `room-buttons-card`, `technology-card`, `temp-strip-card`, `garage-door-card`, `printer-status-card` — now update only changed values in-place. `septa-paoli-card` set hass fixed to not double-render alongside its 60s interval. `leave-by-card` fixed to not call `_render()` from both `set hass` and the interval simultaneously. `weather-card-nws` patches inline values and forecast strip without rebuilding the full style block. |
@@ -300,3 +302,13 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 | Mar 2026 | **Major refactor session.** Popup portalling; `_patch()` system; fan speed priority; light color mode detection. |
 | Earlier 2026 | Tesla popup sections; technology-card expansion; calendar map thumbnails; septa popup; thermostat live modes. |
 | Late 2025 | Initial versions of all cards. Core architecture established. |
+
+---
+
+## Related Repositories
+
+| Repo | Purpose |
+|---|---|
+| [ha-lovelace-cards](https://github.com/johnpernock/ha-lovelace-cards) | This repo — dashboard cards displayed on the kiosk |
+| [ha-pi-dashboard](https://github.com/johnpernock/ha-pi-dashboard) | Kiosk OS setup — Pi hardware, browser_mod, display API |
+| [homeassistant-kiosk-popup-automation](https://github.com/johnpernock/homeassistant-kiosk-popup-automation) | browser_mod popup cards — NWS alerts, doorbell, SEPTA delays |
