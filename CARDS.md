@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v75 | Version header corrected — JS was at v74 but resources required v75 due to prior deploy at v74 |
 | v74 | Padding consistency pass — grid side padding normalized to 14px |
 | v73 | Individual light rows in popup redesigned: removed border-bottom dividers, tightened padding, brightened lit label. Fixed patch bug — popup individual light fills/thumbs/pct now update live on every hass update |
 | v72 | Fixed pp-lrow flex-direction was column — changed to row so dot/name/slider/pct/chevron all sit on one horizontal line; dot size 9→11px |

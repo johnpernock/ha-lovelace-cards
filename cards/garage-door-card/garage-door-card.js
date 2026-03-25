@@ -1,5 +1,5 @@
 /**
- * garage-door-card.js  —  v6
+ * garage-door-card.js  —  v7
  * Compact garage door toggle card for Home Assistant Lovelace.
  *
  * ── SHARED MODULES ────────────────────────────────────────────────────────────
