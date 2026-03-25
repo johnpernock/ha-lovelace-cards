@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v28
+ * septa-paoli-card.js  —  v29
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -219,26 +219,26 @@ class SeptaPaoliCard extends HTMLElement {
         <div style="display:flex;align-items:flex-start;gap:10px;flex:1;min-width:0;">
           <div style="width:16px;height:16px;flex-shrink:0;margin-top:3px;color:#60a5fa;">${trainIcon}</div>
           <div style="min-width:0;">
-            <div style="font-size:17px;font-weight:700;color:var(--primary-text-color,white);line-height:1.2;">${type === 'inbound' ? 'Inbound' : 'Outbound'}</div>
-            <div style="font-size:11px;color:var(--secondary-text-color,rgba(255,255,255,0.45));margin-top:3px;">Paoli/Thorndale Line</div>
+            <div style="font-size:17px;font-weight:700;color:white;line-height:1.2;">${type === 'inbound' ? 'Inbound' : 'Outbound'}</div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:3px;">Paoli/Thorndale Line</div>
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
           <div style="font-size:11px;font-weight:700;color:${statusColor};background:${statusBg};border:1px solid ${statusBorder};border-radius:6px;padding:4px 10px;">${statusText}</div>
-          <button id="sp-close" style="background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--secondary-text-color,rgba(255,255,255,0.5));font-size:14px;line-height:1;font-family:inherit;">✕</button>
+          <button id="sp-close" style="background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:rgba(255,255,255,0.5);font-size:14px;line-height:1;font-family:inherit;">✕</button>
         </div>
       </div>
 
-      <div style="height:1px;background:var(--divider-color,rgba(255,255,255,0.18));margin-bottom:14px;"></div>
+      <div style="height:1px;background:rgba(255,255,255,0.18);margin-bottom:14px;"></div>
 
       <div style="display:flex;flex-direction:column;gap:12px;">
 
         <div style="display:flex;align-items:flex-start;gap:12px;">
-          <div style="width:16px;height:16px;flex-shrink:0;margin-top:1px;color:var(--secondary-text-color,rgba(255,255,255,0.4));opacity:0.5;">${clockIcon}</div>
+          <div style="width:16px;height:16px;flex-shrink:0;margin-top:1px;color:rgba(255,255,255,0.4);opacity:0.5;">${clockIcon}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;">
             <div style="background:rgba(255,255,255,0);border-radius:8px;padding:10px 12px;">
               <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">${depLabel}</div>
-              <div style="font-size:18px;font-weight:600;color:var(--primary-text-color,white);">${data.departs}</div>
+              <div style="font-size:18px;font-weight:600;color:white;">${data.departs}</div>
             </div>
             <div style="background:rgba(255,255,255,0);border-radius:8px;padding:10px 12px;">
               <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">${arrLabelFull}</div>
@@ -248,15 +248,15 @@ class SeptaPaoliCard extends HTMLElement {
         </div>
 
         <div style="display:flex;align-items:flex-start;gap:12px;">
-          <div style="width:16px;height:16px;flex-shrink:0;margin-top:1px;color:var(--secondary-text-color,rgba(255,255,255,0.4));opacity:0.5;">${pinIcon}</div>
+          <div style="width:16px;height:16px;flex-shrink:0;margin-top:1px;color:rgba(255,255,255,0.4);opacity:0.5;">${pinIcon}</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;">
             <div>
-              <div style="font-size:11px;font-weight:600;color:var(--primary-text-color,white);">${type === 'inbound' ? 'Current Station' : 'Origin'}</div>
-              <div style="font-size:12px;color:var(--secondary-text-color,rgba(255,255,255,0.5));margin-top:2px;">${data.extra || '—'}</div>
+              <div style="font-size:11px;font-weight:600;color:white;">${type === 'inbound' ? 'Current Station' : 'Origin'}</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px;">${data.extra || '—'}</div>
             </div>
             <div>
-              <div style="font-size:11px;font-weight:600;color:var(--primary-text-color,white);">Service</div>
-              <div style="font-size:12px;color:var(--secondary-text-color,rgba(255,255,255,0.5));margin-top:2px;">${data.isdirect === 'true' ? 'Direct' : 'Local'}</div>
+              <div style="font-size:11px;font-weight:600;color:white;">Service</div>
+              <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:2px;">${data.isdirect === 'true' ? 'Direct' : 'Local'}</div>
             </div>
           </div>
         </div>
@@ -569,7 +569,7 @@ class SeptaPaoliCard extends HTMLElement {
         .hero-time {
           font-size: 26px;
           font-weight: 600;
-          color: var(--primary-text-color, white);
+          color: white;
           letter-spacing: -0.5px;
           line-height: 1;
         }
@@ -687,10 +687,10 @@ class SeptaPaoliCard extends HTMLElement {
         }
 
         /* ── Expanded row mode ── */
-        .exp-wrap{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
+        .exp-wrap{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
         .exp-card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between}
         .exp-card-hdr-right{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.25)}
-        .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--secondary-text-color, rgba(255,255,255,.3));padding:10px 14px 0}
+        .exp-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
         .exp-train-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
         .exp-train-row:active{opacity:.85}
         .exp-train-sub{margin:4px 10px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;transition:opacity .1s;-webkit-tap-highlight-color:transparent;user-select:none}
@@ -726,7 +726,7 @@ class SeptaPaoliCard extends HTMLElement {
 
         #sp-popup {
           background: var(--card-background-color, #1e1e1e);
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
+          border: 1px solid rgba(255,255,255,0.22);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
           padding: 20px;
@@ -760,7 +760,7 @@ class SeptaPaoliCard extends HTMLElement {
           #sp-popup {
             max-width: 440px;
             border-radius: 16px;
-            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.22));
+            border-bottom: 1px solid rgba(255,255,255,0.22);
           }
           #sp-handle { display: none; }
         }

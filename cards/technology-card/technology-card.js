@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v17
+ * technology-card.js  —  v18
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -128,7 +128,7 @@ class TechnologyCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
+    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
     .card-hdr{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px;padding:12px 14px 8px}
     .sec{padding:8px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .placeholder{font-size:12px;color:rgba(255,255,255,.25);padding:4px 0;font-style:italic}
@@ -139,7 +139,7 @@ class TechnologyCard extends HTMLElement {
     .sdot{border-radius:50%;flex-shrink:0;display:inline-block}
     .green{background:#4ade80}.red{background:#f87171}.amber{background:#fbbf24}
     .chips{display:flex;gap:6px;flex-wrap:wrap}
-    .chip{display:flex;align-items:center;gap:5px;padding:5px 9px;border-radius:7px;border:1px solid var(--divider-color, rgba(255,255,255,.22));background:rgba(255,255,255,0)}
+    .chip{display:flex;align-items:center;gap:5px;padding:5px 9px;border-radius:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,0)}
     .chip-lbl{font-size:11px;color:rgba(255,255,255,.45)}
     .chip-val{font-size:13px;font-weight:700;color:#e2e8f0;margin-left:2px}
     .speed-row{display:flex;gap:6px}
@@ -155,10 +155,10 @@ class TechnologyCard extends HTMLElement {
     .ink-pct{font-size:12px;font-weight:700;color:#e2e8f0}
     .ink-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase}
     .ink-warn{font-size:9px;font-weight:700;color:#fbbf24}
-    .rbtn{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:8px;border:1px solid var(--divider-color, rgba(255,255,255,.22));background:rgba(255,255,255,0);cursor:pointer;user-select:none;transition:background .12s;-webkit-tap-highlight-color:transparent}
+    .rbtn{display:flex;align-items:center;justify-content:space-between;padding:9px 11px;border-radius:8px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,0);cursor:pointer;user-select:none;transition:background .12s;-webkit-tap-highlight-color:transparent}
     .rbtn:active{background:rgba(255,255,255,.09)}
     .rbtn-left{display:flex;align-items:center;gap:9px}
-    .rbtn-icon{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid var(--divider-color, rgba(255,255,255,.22));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .rbtn-icon{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;flex-shrink:0}
     .rbtn-name{font-size:13px;font-weight:700;color:#e2e8f0}
     .rbtn-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:1px}
     .rbtn.danger{border-color:rgba(239,68,68,.25);background:rgba(239,68,68,.05)}
@@ -190,22 +190,22 @@ class TechnologyCard extends HTMLElement {
     .stat-sub{font-size:11px;color:rgba(255,255,255,.35);margin-top:1px}
     .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);align-items:flex-end;justify-content:center;z-index:9999}
     .overlay.open{display:flex}
-    .sheet{background:var(--card-background-color,#1e1e1e);border:1px solid var(--divider-color,rgba(255,255,255,.12));border-radius:16px 16px 0 0;border-bottom:none;padding:0 0 16px;width:100%;max-width:100%}
+    .sheet{background:var(--card-background-color,#1e1e1e);border:1px solid rgba(255,255,255,.22);border-radius:16px 16px 0 0;border-bottom:none;padding:0 0 16px;width:100%;max-width:100%}
     @media(min-width:768px){
       .overlay{align-items:center;justify-content:center;padding:24px}
-      .sheet{max-width:420px;border-radius:16px;border-bottom:1px solid var(--divider-color,rgba(255,255,255,.12))}
+      .sheet{max-width:420px;border-radius:16px;border-bottom:1px solid rgba(255,255,255,.22)}
       .sheet-handle{display:none!important}
     }
     .sheet-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.15);margin:12px auto 8px}
     .sheet-head{display:flex;align-items:flex-start;justify-content:space-between;padding:0 16px 12px;border-bottom:1px solid rgba(255,255,255,.07)}
-    .sheet-title{font-size:16px;font-weight:700;color:var(--primary-text-color,#e2e8f0);margin-bottom:3px}
+    .sheet-title{font-size:16px;font-weight:700;color:#e2e8f0;margin-bottom:3px}
     .sheet-sub{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
     .sheet-close{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.08);cursor:pointer;color:rgba(255,255,255,.6);font-size:17px;display:flex;align-items:center;justify-content:center;border:none;flex-shrink:0}
     .sheet-body{padding:14px 16px 0}
     .sheet-btns{display:flex;gap:8px}
     .btn-yes{flex:1;height:40px;border-radius:8px;background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);color:#f87171;font-size:14px;font-weight:700;cursor:pointer}
     .btn-yes:active{background:rgba(239,68,68,.25)}
-    .btn-no{flex:1;height:40px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid var(--divider-color, rgba(255,255,255,.22));color:rgba(255,255,255,.5);font-size:14px;font-weight:700;cursor:pointer}
+    .btn-no{flex:1;height:40px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.5);font-size:14px;font-weight:700;cursor:pointer}
     .btn-no:active{background:rgba(255,255,255,.12)}
   `; }
 

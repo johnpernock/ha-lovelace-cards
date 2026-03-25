@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v12
+ * traffic-card.js  —  v13
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -116,9 +116,9 @@ class TrafficCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
+    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
     .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 8px}
-    .card-hdr-title{font-size:17px;font-weight:700;color:var(--primary-text-color, white);letter-spacing:-.2px}
+    .card-hdr-title{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .updated{font-size:9px;color:rgba(255,255,255,.2)}
     .divider{height:1px;background:rgba(255,255,255,.07)}
 
@@ -156,7 +156,7 @@ class TrafficCard extends HTMLElement {
     .unavail{font-size:11px;color:rgba(255,255,255,.25);font-style:italic;padding:10px 14px}
 
     /* ── expanded row mode ── */
-    .sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--secondary-text-color, rgba(255,255,255,.3));padding:10px 14px 0}
+    .sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.3);padding:10px 14px 0}
     .exp-hero-row{margin:8px 10px;border-radius:8px;padding:12px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}
     .exp-hero-row.dimmed{opacity:.38}
     .exp-sub-row{margin:4px 10px 8px;border-radius:8px;padding:9px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;-webkit-tap-highlight-color:transparent}

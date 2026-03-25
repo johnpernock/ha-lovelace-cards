@@ -1,5 +1,5 @@
 /**
- * protect-events-card.js  —  v4.1 (standalone — shared modules inlined)
+ * protect-events-card.js  —  v5.1 (standalone — shared modules inlined)
  *
  * Shared modules (ha-utils, ha-styles, ha-popup) are inlined directly
  * so this file has no external import dependencies.
@@ -403,7 +403,7 @@ const CSS_POPUP = `
   }
   .ha-popup-sheet {
     background: var(--card-background-color, #1e1e2a);
-    border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
+    border: 1px solid rgba(255,255,255,0.22);
     border-radius: 16px 16px 0 0;
     border-bottom: none;
     padding: 20px;
@@ -443,7 +443,7 @@ const CSS_POPUP = `
   .ha-popup-title {
     font-size: 17px;
     font-weight: 700;
-    color: var(--primary-text-color, #e2e8f0);
+    color: #e2e8f0;
     line-height: 1.2;
   }
   .ha-popup-sub {
@@ -462,7 +462,7 @@ const CSS_POPUP = `
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--secondary-text-color, rgba(255,255,255,0.5));
+    color: rgba(255,255,255,0.5);
     font-size: 14px;
     line-height: 1;
     font-family: inherit;
@@ -517,7 +517,7 @@ const CSS_BADGE = `
 const CSS_UNAVAIL = `
   .ha-unavail {
     font-size: 12px;
-    color: var(--secondary-text-color, rgba(255,255,255,0.4));
+    color: rgba(255,255,255,0.4);
     text-align: center;
     padding: 16px 0;
     opacity: 0.5;
@@ -754,7 +754,7 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
       #${id} .portal-overlay.open { display: flex; }
       #${id} .portal-sheet {
         background: var(--card-background-color, #1e1e2a);
-        border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
+        border: 1px solid rgba(255,255,255,0.22);
         border-radius: 16px 16px 0 0;
         border-bottom: none;
         padding: 20px;
@@ -792,7 +792,7 @@ function createPopupPortal(id, innerHtml = '', onClose = null, options = {}) {
       }
       #${id} .portal-title {
         font-size: 17px; font-weight: 700;
-        color: var(--primary-text-color, #e2e8f0);
+        color: #e2e8f0;
         line-height: 1.2;
       }
       #${id} .portal-sub {
@@ -951,7 +951,7 @@ function popupHeaderHtml(title, sub = '', subColor = '') {
 
 // ── protect-events-card ─────────────────────────────────────────────────────
 /**
- * protect-events-card.js  —  v4
+ * protect-events-card.js  —  v5
  * Real-time UniFi Protect smart detection event feed for Home Assistant Lovelace.
  *
  * Displays a live-updating list of detection events (person, vehicle, animal,

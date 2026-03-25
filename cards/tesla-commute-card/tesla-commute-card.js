@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v8
+ * tesla-commute-card.js  —  v9
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -114,7 +114,7 @@ class TeslaCommuteCard extends HTMLElement {
     :host{display:block}
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .card{border-radius:10px;border:1px solid var(--divider-color, rgba(255,255,255,.22));overflow:hidden}
+    .card{border-radius:10px;border:1px solid rgba(255,255,255,.22);overflow:hidden}
     .divider{height:1px;background:rgba(255,255,255,.07)}
     .sec{padding:10px 14px 12px;display:flex;flex-direction:column;gap:8px}
     .sec-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28)}
@@ -151,7 +151,7 @@ class TeslaCommuteCard extends HTMLElement {
     .climate-lbl{font-size:12px;color:rgba(255,255,255,.45);flex:1}
     .climate-controls{display:flex;align-items:center;gap:8px}
     .temp-stepper{display:flex;align-items:center;gap:5px}
-    .temp-btn{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid var(--divider-color, rgba(255,255,255,.22));color:rgba(255,255,255,.7);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1;transition:background .1s}
+    .temp-btn{width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);color:rgba(255,255,255,.7);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;line-height:1;transition:background .1s}
     .temp-btn:active{background:rgba(255,255,255,.18)}
     .temp-display{font-size:14px;font-weight:700;min-width:44px;text-align:center;line-height:1}
     .on-badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px}

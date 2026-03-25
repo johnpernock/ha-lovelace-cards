@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js  —  v12
+ * weather-card-nws.js  —  v13
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -442,7 +442,7 @@ class WeatherCardUnified extends HTMLElement {
         .feels span { color:var(--primary-text-color) }
         .mets { display:flex;align-items:center;margin-bottom:16px }
         .met  { flex:1;display:flex;align-items:center;gap:9px }
-        .met+.met { border-left:1px solid var(--divider-color,rgba(255,255,255,0.18));padding-left:14px;margin-left:10px }
+        .met+.met { border-left:1px solid rgba(255,255,255,0.18);padding-left:14px;margin-left:10px }
         .mi { width:18px;height:18px;flex-shrink:0 }
         .mi svg { width:100%;height:100% }
         .mv  { font-size:14px;font-weight:600;line-height:1.15;color:var(--primary-text-color) }
@@ -451,10 +451,10 @@ class WeatherCardUnified extends HTMLElement {
         .ml  { font-size:10px;font-weight:500;color:var(--secondary-text-color);text-transform:uppercase;letter-spacing:0.06em;opacity:0.65;margin-top:1px }
         .alert { margin-bottom:16px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.45);border-radius:9px;padding:9px 13px;display:flex;align-items:flex-start;gap:9px;font-size:12.5px;font-weight:500;line-height:1.5;color:#fca5a5 }
         .alert svg { width:15px;height:15px;flex-shrink:0;margin-top:1px;stroke:#f87171 }
-        .div  { height:1px;background:var(--divider-color,rgba(255,255,255,0.09));margin-bottom:16px }
+        .div  { height:1px;background:rgba(255,255,255,0.09);margin-bottom:16px }
         .fcst { display:grid;grid-template-columns:repeat(7,1fr);gap:2px }
         .dc   { display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 2px }
-        .dc+.dc { border-left:1px solid var(--divider-color,rgba(255,255,255,0.18)) }
+        .dc+.dc { border-left:1px solid rgba(255,255,255,0.18) }
         .dn   { font-size:10.5px;font-weight:600;color:var(--secondary-text-color);text-transform:uppercase;letter-spacing:0.06em }
         .di   { width:20px;height:20px }
         .di svg { width:100%;height:100% }
@@ -476,7 +476,7 @@ class WeatherCardUnified extends HTMLElement {
         }
         #wc-popup {
           background: var(--card-background-color, #1e1e2a);
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
+          border: 1px solid rgba(255,255,255,0.22);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
           padding: 20px;
@@ -497,7 +497,7 @@ class WeatherCardUnified extends HTMLElement {
           #wc-overlay { align-items: center; justify-content: center; padding: 24px; }
           #wc-popup {
             max-width: 440px; border-radius: 16px;
-            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.22));
+            border-bottom: 1px solid rgba(255,255,255,0.22);
           }
           #wc-handle { display: none !important; }
         }
@@ -519,7 +519,7 @@ class WeatherCardUnified extends HTMLElement {
           justify-content:center;color:var(--secondary-text-color);font-size:14px;
           line-height:1;font-family:inherit;flex-shrink:0;
         }
-        .pop-divider { height:1px;background:var(--divider-color,rgba(255,255,255,0.09));margin-bottom:14px }
+        .pop-divider { height:1px;background:rgba(255,255,255,0.09);margin-bottom:14px }
         .pop-sec-lbl {
           font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
           color:var(--secondary-text-color);opacity:0.5;margin-bottom:9px;
@@ -561,7 +561,7 @@ class WeatherCardUnified extends HTMLElement {
         .ext-row {
           display:flex;align-items:center;gap:10px;
           padding:8px 0;
-          border-bottom:1px solid var(--divider-color,rgba(255,255,255,0.06));
+          border-bottom:1px solid rgba(255,255,255,0.15);
         }
         .ext-row:last-child { border-bottom:none }
         .ext-day  { width:38px;font-size:11px;font-weight:700;color:var(--secondary-text-color);text-transform:uppercase;flex-shrink:0 }

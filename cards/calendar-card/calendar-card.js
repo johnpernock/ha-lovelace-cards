@@ -1,5 +1,5 @@
 /**
- * calendar-card.js  —  v7
+ * calendar-card.js  —  v8
  * Custom Home Assistant Lovelace calendar card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -375,7 +375,7 @@ class CalendarCard extends HTMLElement {
         <button id="cc-close" style="background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--secondary-text-color);font-size:14px;line-height:1;font-family:inherit">✕</button>
       </div>
 
-      <div style="height:1px;background:var(--divider-color,rgba(255,255,255,0.18));margin-bottom:14px"></div>
+      <div style="height:1px;background:rgba(255,255,255,0.18);margin-bottom:14px"></div>
 
       <div style="display:flex;flex-direction:column;gap:12px">
 
@@ -488,7 +488,7 @@ class CalendarCard extends HTMLElement {
 
           return `
             <div class="day-group"
-                 style="${gi > 0 ? 'border-top:1px solid var(--divider-color,rgba(255,255,255,0.18))' : ''}">
+                 style="${gi > 0 ? 'border-top:1px solid rgba(255,255,255,0.18)' : ''}">
               <div class="group-row">
                 <div class="date-col">
                   ${dateColInner}
@@ -641,7 +641,7 @@ class CalendarCard extends HTMLElement {
         }
         .ev-item:active { background: rgba(255,255,255,0.06); }
         .ev-item--next {
-          border-top: 1px solid var(--divider-color, rgba(255,255,255,0.05));
+          border-top: 1px solid rgba(255,255,255,0.15));
           padding-top: 7px;
           margin-top: 4px;
         }
@@ -720,7 +720,7 @@ class CalendarCard extends HTMLElement {
           flex-wrap: wrap;
           gap: 12px;
           padding: 10px 20px 12px;
-          border-top: 1px solid var(--divider-color, rgba(255,255,255,0.18));
+          border-top: 1px solid rgba(255,255,255,0.18);
         }
         .leg-item {
           display: flex;
@@ -748,7 +748,7 @@ class CalendarCard extends HTMLElement {
         /* Mobile: bottom sheet */
         #cc-popup {
           background: var(--card-background-color, #1e1e1e);
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.22));
+          border: 1px solid rgba(255,255,255,0.22);
           padding: 20px;
           box-sizing: border-box;
           overflow-y: auto;
@@ -780,7 +780,7 @@ class CalendarCard extends HTMLElement {
             width: 100%;
             max-width: 420px;
             border-radius: 16px;
-            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.22));
+            border-bottom: 1px solid rgba(255,255,255,0.22);
           }
           #cc-handle { display: none; }
         }
