@@ -344,8 +344,8 @@ class RoomButtonsCard extends HTMLElement {
 
     const on = this._isOn(btn.entity);
     if (!on) return {
-      bg: 'rgba(255,255,255,0.04)', border: 'rgba(255,255,255,0.12)',
-      iconColor: 'rgba(255,255,255,0.22)', nameColor: 'rgba(255,255,255,0.55)', stateColor: 'rgba(255,255,255,0.3)',
+      bg: 'rgba(255,255,255,0.0)', border: 'rgba(255,255,255,0.22)',
+      iconColor: 'rgba(255,255,255,0.4)', nameColor: 'rgba(255,255,255,0.75)', stateColor: 'rgba(255,255,255,0.5)',
       stateLabel: 'Off', canAct: true, indeterminate: false,
     };
 
@@ -1327,8 +1327,8 @@ class RoomButtonsCard extends HTMLElement {
           justify-content: center;
         }
         #rb-popup {
-          background: var(--card-background-color, #1a1a2e);
-          border: 1px solid var(--divider-color, rgba(255,255,255,0.25));
+          background: #0d0d0d;
+          border: 1px solid rgba(255,255,255,0.28);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
           padding: 20px;
@@ -1353,7 +1353,7 @@ class RoomButtonsCard extends HTMLElement {
             width: 100%;
             max-width: 420px;
             border-radius: 16px;
-            border-bottom: 1px solid var(--divider-color, rgba(255,255,255,0.12));
+            border-bottom: 1px solid rgba(255,255,255,0.25);
           }
           #rb-handle { display: none !important; }
         }
@@ -1382,7 +1382,7 @@ class RoomButtonsCard extends HTMLElement {
         }
         .pop-divider {
           height: 1px;
-          background: var(--divider-color, rgba(255,255,255,0.09));
+          background: rgba(255,255,255,0.2);
           margin-bottom: 14px;
         }
         .pop-section { margin-bottom: 16px; }
@@ -1424,8 +1424,8 @@ class RoomButtonsCard extends HTMLElement {
         }
         .pop-tile:active { filter: brightness(0.82); }
         .pop-tile.off {
-          background: rgba(255,255,255,0.04);
-          border-color: rgba(255,255,255,0.07);
+          background: rgba(255,255,255,0.0);
+          border-color: rgba(255,255,255,0.2);
         }
         .pop-tile.on-amber {
           background: rgba(251,191,36,0.1);

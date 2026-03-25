@@ -1,3 +1,9 @@
+wallpanel:
+  enabled: true
+  hide_toolbar: false
+  hide_toolbar_action_icons: true
+  hide_sidebar: true
+  fullscreen: true
 views:
   - title: Home
     path: home
