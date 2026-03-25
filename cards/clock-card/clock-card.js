@@ -1,5 +1,5 @@
 /**
- * clock-card.js  —  v5
+ * clock-card.js  —  v6
  * Home Assistant Lovelace clock + date card with optional calendar popup.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────

@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v76 | Version header corrected — JS was at v75 but resources required v76 due to prior deploy |
 | v75 | Version header corrected — JS was at v74 but resources required v75 due to prior deploy at v74 |
 | v74 | Padding consistency pass — grid side padding normalized to 14px |
 | v73 | Individual light rows in popup redesigned: removed border-bottom dividers, tightened padding, brightened lit label. Fixed patch bug — popup individual light fills/thumbs/pct now update live on every hass update |
@@ -324,6 +325,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v12 | Fix: `popup.getElementById()` replaced with `popup.querySelector()` throughout — `getElementById` is a Document-only method; calling it on an Element silently returns `undefined`, breaking all chevron expand and color preset interactions |
 | v11 | Fix: chevron expand logic inverted — `classList.toggle()` returns `true` when class added (hidden), was being read as "opening"; arrow rotation and close-others logic now correct |
 | v10 | Color/CT chevrons on individual lights and master slider; theme color swatch bar in Yard popup; section labels removed from popup header; `_openCoverGroup` method header restored |
 | v9 | Fix: duplicate `_buildPopupContent` method removed — second definition was silently overwriting the first, causing `lights:` and `fans:` popup buttons to show empty popups |
@@ -772,6 +774,7 @@ today_color: '#60a5fa'
 
 | Version | Changes |
 |---------|---------|
+| v6 | Version header corrected — JS was at v5 but resources required v6 due to prior deploy |
 | v5 | `_patch()` added — temperature values update in-place on hass updates |
 | v4 | Padding consistency pass — horizontal padding normalized to 14px |
 | v3 | Calendar popup with month navigation and event dots; next-event strip |
@@ -920,6 +923,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v12 | Version header corrected — JS was at v11 but resources required v12 due to prior deploy |
 | v11 | Version header corrected — JS was at v10 but resources required v11 due to prior deploy at v10 |
 | v10 | `_patch()` added — banner color, title, and subtitle update in-place |
 | v9 | Padding consistency pass |
@@ -1420,6 +1424,7 @@ name: Garage
 
 | Version | Changes |
 |---------|---------|
+| v8 | Version header corrected — JS was at v7 but resources required v8 due to prior deploy |
 | v7 | Version header corrected — JS was at v7 but CARDS.md only had v6 |
 | v6 | `_patch()` added — button color, label, and icon update in-place |
 | v5 | Padding consistency pass |
