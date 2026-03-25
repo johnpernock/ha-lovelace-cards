@@ -10,28 +10,26 @@ Custom Home Assistant Lovelace cards for a wall-mounted 1200×800 dashboard (iPa
 ha-lovelace-cards/
 ├── cards/
 │   ├── room-controls-card/
-│   │   ├── room-controls-card.js
-│   │   └── README.md
+│   │   └── room-controls-card.js
 │   ├── bambu-printer-card/
-│   │   ├── bambu-printer-card.js
-│   │   └── README.md
+│   │   └── bambu-printer-card.js
 │   └── ... (one folder per card)
 ├── shared/
 │   ├── ha-utils.js     — entity helpers, color constants, HVAC meta, fan speed, drag slider
 │   ├── ha-styles.js    — shared CSS string exports (card reset, popup, badges, pills, etc.)
 │   └── ha-popup.js     — portal popup factory (appends to document.body)
 ├── ha-config/
-│   ├── dashboard.yaml                      — complete Lovelace dashboard (all 7 views)
-│   ├── outdoor-lighting-theme-sensor.yaml  — template sensor for holiday theme detection
+│   ├── dashboard.yaml                      — complete Lovelace dashboard (all 8 views)
+│   ├── outdoor-lighting-theme-sensor.yaml  — holiday theme template sensor
 │   ├── light-groups.yaml                   — custom light groups (yard_spotlights etc.)
-│   ├── dashboard-README.md                 — dashboard installation + view reference
+│   ├── waze-sensors.yaml                   — ⚠️ deprecated — Waze sensors now configured via UI
 │   └── README.md
-├── docs/
-│   └── style-guide.md  — UI principles, color system, component patterns, mockups
+├── CARDS.md        — per-card config params, entity reference, and changelogs for all 24 cards
+├── STYLE-GUIDE.md  — UI principles, color system, component patterns, mockups
 └── README.md
 ```
 
-Each card lives in its own folder alongside its documentation. The `shared/` modules are imported directly by card JS files — they do not need to be registered as HA resources separately.
+Each card lives in its own folder. The `shared/` modules are imported directly by card JS files — they do not need to be registered as HA resources separately. Full card documentation is in [`CARDS.md`](CARDS.md).
 
 ---
 
@@ -155,25 +153,25 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 
 ## Cards
 
-See each card's `README.md` in its folder for full documentation, parameters, and changelog.
+Full documentation for all cards — config params, entity reference, and changelogs — is in **[CARDS.md](CARDS.md)**.
 
 | Card | Folder | Version |
 |------|--------|---------|
-| Room Controls | `cards/room-controls-card/` | v72 |
-| Room Buttons | `cards/room-buttons-card/` | v4 |
+| Room Controls | `cards/room-controls-card/` | v74 |
+| Room Buttons | `cards/room-buttons-card/` | v5 |
 | Camera Layout | `cards/camera-layout-card/` | v5 |
 | Technology | `cards/technology-card/` | v13 |
-| Bambu Printer | `cards/bambu-printer-card/` | — |
+| Bambu Printer | `cards/bambu-printer-card/` | v3 |
 | Printer Status | `cards/printer-status-card/` | v1 |
-| Weather (NWS) | `cards/weather-card-nws/` | v6 |
-| Clock | `cards/clock-card/` | v3 |
-| Temp Strip | `cards/temp-strip-card/` | v3 |
-| Door Sensors | `cards/door-sensor-card/` | v8 |
+| Weather (NWS) | `cards/weather-card-nws/` | v7 |
+| Clock | `cards/clock-card/` | v4 |
+| Temp Strip | `cards/temp-strip-card/` | v4 |
+| Door Sensors | `cards/door-sensor-card/` | v9 |
 | SEPTA Paoli | `cards/septa-paoli-card/` | v24 |
-| Thermostat | `cards/thermostat-card/` | v5 |
-| Tesla | `cards/tesla-card/` | v11 |
-| Calendar | `cards/calendar-card/` | v4 |
-| Garage Door ✦ | `cards/garage-door-card/` | v4 |
+| Thermostat | `cards/thermostat-card/` | v6 |
+| Tesla | `cards/tesla-card/` | v12 |
+| Calendar | `cards/calendar-card/` | v5 |
+| Garage Door ✦ | `cards/garage-door-card/` | v5 |
 | Wallbox | `cards/wallbox-card/` | v3 |
 | PECO Energy | `cards/peco-card/` | v3 |
 | Ecoflow | `cards/ecoflow-card/` | v3 |
@@ -181,7 +179,7 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 | Traffic (Commute) | `cards/traffic-card/` | v6 |
 | Tesla Commute | `cards/tesla-commute-card/` | v4 |
 | Charging | `cards/charging-card/` | v2 |
-| Protect Events ✦ | `cards/protect-events-card/` | v1 |
+| Protect Events ✦ | `cards/protect-events-card/` | v1.1 |
 | Leave By ✦ | `cards/leave-by-card/` | v3 |
 
 ✦ = fully migrated to shared modules (ha-utils, ha-styles, ha-popup)
@@ -194,12 +192,12 @@ See each card's `README.md` in its folder for full documentation, parameters, an
 |------|------|--------|---------|
 | Home | `/home` | sections | 3 |
 | Lights & Fans | `/lightsfans` | sections | 3 |
-| Security | `/security` | panel | — |
+| Security | `/security` | sections | 3 |
 | Technology | `/technology` | sections | 3 |
 | Commute | `/commute` | sections | 3 |
 | Energy | `/energy` | sections | 3 |
 | 3D Printer | `/3d-printer` | sections | 2 (span) |
-| Security | `/security` | sections | 2 |
+| Cameras | `/cameras` | panel | — |
 
 ---
 
@@ -233,26 +231,23 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
-| Mar 2026 | **Popup consistency pass.** `room-controls-card` v70: expand chevrons bare (no box background); off individual light rows dimmed to 65% opacity; brightness % hidden when off; subtitle "X of Y on" → "X / Y"; sheet max-width 440px. All popup cards normalized to 440px max-width: `septa-paoli-card` v24, `tesla-card` v11, `weather-card-nws` v6, `door-sensor-card` v8. |
-| Mar 2026 | **Popup fixes — scroll lock + bottom sheet consistency across all cards.** `septa-paoli-card` v23, `tesla-card` v10, `weather-card-nws` v5, `door-sensor-card` v7, `room-controls-card` v66: all popups now lock body scroll on open and restore on close. Fixed `once:true` tap-outside listeners that could stop working after hass updates. Added `overscroll-behavior:contain` and `touch-action:pan-y` on popup elements so popup scrolls independently. All popups are bottom sheets on mobile (≤768px) and centered modals on desktop. |
-| Mar 2026 | **Room card polish + responsive camera.** `room-controls-card` v57–v63: thermostat grey backgrounds removed (transparent); +/− buttons transparent; slider thumb min position 4% (no edge overlap); thermostat block auto-hides when entity missing from HA; all lights slider no longer dims when off; yard area buttons dim at 50% opacity when off. `camera-layout-card` v4: responsive stacking breakpoint raised 480px → 700px. |
-| Mar 2026 | **Dashboard-wide header redesign + fan pip dots.** `room-controls-card` v57: room card background removed (transparent + stronger border); room name 17px white bold; single-fan rooms hide the redundant name label; speed pip buttons now show N dots matching the speed (1 dot, 2 dots, 3 dots, 4 dots in 2×2 grid). Header style applied to all dashboard cards: `technology-card` v13, `ecoflow-card` v3, `now-playing-card` v3, `leave-by-card` v3, `wallbox-card` v3, `peco-card` v3, `charging-card` v2, `traffic-card` v6, `septa-paoli-card` v22 — all card name labels updated to 17px white bold. |
-| Mar 2026 | **SEPTA compact mode extra trains.** `septa-paoli-card` v21: new `show_next_trains: true` config param — when enabled, compact mode shows up to 3 subsequent trains as pills below the hero row for both outbound and inbound. Default false so existing Home view usage is unchanged. |
-| Mar 2026 | **UniFi Protect event feed card + Security view.** `protect-events-card` — real-time smart detection event feed from UniFi Protect cameras. Subscribes to `state_changed` over websocket; ring buffer holds latest N events per camera; filter pills narrow by type (person / vehicle / animal / package); amber flash animation on new arrivals; async thumbnail fetch via `/api/unifiprotect/thumbnail/{event_id}` ~1.5s after detection; portal popup shows 16:9 thumbnail, 3-column meta strip (camera / type / confidence), clip and live-view actions. Footer shows rolling today-count and active-motion-sensor count. Fully migrated to shared modules (`ha-utils`, `ha-styles`, `ha-popup`). New Security view added to dashboard (2-col: camera layout left / protect-events-card right). |
-| Mar 2026 | **Touch/mobile audit across all cards.** Added `-webkit-tap-highlight-color:transparent` and `user-select:none` to all interactive elements in: `wallbox-card`, `septa-paoli-card`, `technology-card`, `traffic-card`, `garage-door-card`, `weather-card-nws`, `leave-by-card`, `now-playing-card`, `thermostat-card`. All interactive rows verified to have adequate touch target size (44px+ effective height). Added `deploy.sh` deployment script. |
-| Mar 2026 | **Bug fixes.** `tesla-commute-card` v4: fixed `ReferenceError: ents is not defined` in `_patch()` — climate mode was reading from an undefined local variable, crashing on every hass update. |
-| Mar 2026 | **Lights & Fans polish + popup consistency.** `room-controls-card` v53–v56: all lights slider border/background removed (flat, no container); toggle pill-shaped (border-radius:99px, circular thumb); popup master block matches inline — toggle and count text removed, full-width slider, sec-hdr label, subtle border replaces left bar. `camera-layout-card` v3: responsive layout with flex-wrap — doorbell stacks above cameras below 480px. Dashboard: `simplified:true` removed from bathroom and yard rooms; Security view view-order updated. |
-| Mar 2026 | **Lights & Fans redesign + bug fixes.** `room-controls-card` v42–v44: fan pips replaced with dot tap buttons (teal, full-width, name above); individual light toggle grid added below master bar (3-col, amber when on, live patch); thermostat controls right-aligned (mode badge left, +/− pushed right); popup drawers close others on open; light slider text label removed; tile font and spacing enlarged for mobile. `door-sensor-card` v6: tap-outside-to-close fixed — overlay listener now wired in `_render()` permanently so it survives hass re-renders. |
-| Mar 2026 | **Bug fixes: fan pips, light toggles, thermostat, security view merge. + design audit.** `room-controls-card` v35–v39: fan pip off-by-1 fixed (speeds now includes off pip); room toggle `data-room` bug fixed; thermostat header pills (mode dot + cur°→set°, blue sensor pill); compact inline thermostat (smaller adj buttons for mobile); `peco-card` outer container background removed; `ecoflow-card` tap states added. `tesla-commute-card` v2: climate badge shows HVAC mode name (Heating/Cooling/Auto) instead of On/Off. `STYLE-GUIDE.md` updated with expanded row pattern, header pill spec, known inconsistencies. `dashboard-README.md` updated with fan speed table. |
-| Mar 2026 | **Expanded commute view + leave-by-card.** `traffic-card` v2 — `expanded: true` mode replaces flat tiles with hero/sub rows matching the train card style; to-work hero row, home routes as hero + sub rows. `septa-paoli-card` v18 — `expanded: true` mode replaces pills with full train rows (hero row for next train, sub rows for subsequent); card header with station badge; section labels; train number + service type meta. New `leave-by-card` — computes when you need to leave to catch each outbound train based on live Waze drive time; urgency colour coding (red/amber/green); stale train filtering; 30s refresh. `dashboard.yaml` commute view updated: traffic + leave-by stacked in col 1, SEPTA expanded in col 2. |
-| Mar 2026 | **camera-layout-card v2 — dynamic 2×N grid + UniFi Protect entities.** Grid rows now derived automatically from camera count (1–2 → 1 row, 3–4 → 2 rows, 5–6 → 3 rows). Doorbell column narrowed to 26% for better cell aspect ratios at 3 rows. Updated Cameras view entity IDs to UniFi Protect G6 Turret / G6 Entry cameras (`camera.g6_entry`, `camera.driveway`, `camera.back_garden`, `camera.back_yard`, `camera.garage_side_yard`, `camera.utility_side_yard`). |
-| Mar 2026 | **Expanded Tesla + charging cards on Commute view.** `tesla-commute-card` — expanded inline version of tesla-card showing battery, interior/exterior temps, climate stepper, tire pressure grid, and action buttons (lock/trunk/sentry/odometer) all without a popup. `charging-card` — unified Tesla + Wallbox card placed below; active state shows battery progress bar with charge limit tick, live power (Wallbox), session energy (Wallbox), charging speed mi/h (Tesla); idle state shows last session summary. Commute view expanded from 2 to 3 columns. |
-| Mar 2026 | **SEPTA sort fix + Commute view.** SEPTA card v17 — trains now sorted by estimated arrival time (scheduled + delay) across all sensors so the true next-to-arrive train is always shown first. Inbound now reads all sensors not just index 0. SEPTA and traffic cards moved from Home view to new dedicated Commute view (2-col, traffic left / SEPTA right). |
-| Mar 2026 | **Traffic commute card.** `traffic-card` using Waze Travel Time sensors — live travel time, delay vs typical, distance, Waze route name, dynamic Fastest badge across home routes, incident banner when delay exceeds threshold, to-work row dims after noon. Three Waze sensors added to `ha-config/waze-sensors.yaml`. Card added to Home view column 1. |
-| Mar 2026 | **Four new cards + Energy view.** `wallbox-card` (Beryl Pulsar Plus — session energy, range, power, current slider, solar mode, lock); `peco-card` (PECO electric + gas billing — usage bar, forecast, cost, typical comparison); `ecoflow-card` (River 2 Pro — battery, power flows, max charge slider, AC/DC toggles); `now-playing-card` (Apple TV / media players — collapses when idle, tap → more-info). New Energy view added to dashboard with all three energy cards. Now-playing card added to Home view above room buttons. |
-| Mar 2026 | **Dashboard YAML added.** Full `dashboard.yaml` committed to `ha-config/` covering all 5 views (Home, Lights/Fans, Cameras, Technology, 3D Printer). Includes theme changes to Yard room and Yard button. `dashboard-README.md` documents all views, prerequisites, and the two specific changes made. |
-| Mar 2026 | **Outdoor lighting theme indicator.** New `ha-config/` folder with template sensor (`sensor.outdoor_lighting_theme`) covering 13 holidays + Default. New `light.yard_spotlights` light group. `room-controls-card` gains `theme_block:` config — Option B zone indicator with color swatches, gradient bars, and per-area state (All Outdoor, Display Lights, Front Path, Side Path). `room-buttons-card` gains `theme_sensor:` on buttons — holiday color strip + name label, hidden on Default nights. |
-| Mar 2026 | **Repo restructure.** Cards moved to per-card folders. `shared/` modules created (`ha-utils.js`, `ha-styles.js`, `ha-popup.js`). `garage-door-card` fully migrated as proof of concept. Per-card `README.md` docs added. Style guide added. |
-| Mar 2026 | **Major refactor session.** Popup portalling; `_patch()` system; fan speed priority; light color mode detection; left accent bars; blind/garage/door pills; HVAC live mode reading. |
+| Mar 2026 | **Popup consistency pass.** `room-controls-card` v70: expand chevrons bare; off individual light rows dimmed to 65% opacity; brightness % hidden when off; subtitle "X of Y on" → "X / Y"; sheet max-width 440px. All popup cards normalized to 440px max-width: `septa-paoli-card` v24, `tesla-card` v11, `weather-card-nws` v6, `door-sensor-card` v8. |
+| Mar 2026 | **Popup fixes — scroll lock + bottom sheet consistency across all cards.** Fixed `once:true` tap-outside listeners, body scroll lock on open/close, `overscroll-behavior:contain` on all popup elements. |
+| Mar 2026 | **Room card polish + responsive camera.** Thermostat grey backgrounds removed; +/− buttons transparent; thermostat block auto-hides when entity missing. `camera-layout-card` v4: responsive stacking breakpoint raised to 700px. |
+| Mar 2026 | **Dashboard-wide header redesign + fan pip dots.** Room card background removed; room name 17px white bold; speed pip buttons show N dots matching speed. Header style applied across all cards. |
+| Mar 2026 | **SEPTA compact mode extra trains.** `septa-paoli-card` v21: `show_next_trains: true` param — compact mode shows subsequent train pills. |
+| Mar 2026 | **UniFi Protect event feed card + Security view.** `protect-events-card` — real-time smart detection feed with ring buffer, filter pills, thumbnail fetch, portal popup. Security view added. |
+| Mar 2026 | **Touch/mobile audit across all cards.** `-webkit-tap-highlight-color:transparent` and `user-select:none` added everywhere. `deploy.sh` script added. |
+| Mar 2026 | **Bug fixes.** `tesla-commute-card` v4: fixed `ReferenceError: ents is not defined` in `_patch()`. |
+| Mar 2026 | **Expanded commute view + leave-by-card.** `traffic-card` v2 — `expanded: true` hero/sub row layout. `septa-paoli-card` v18 — `expanded: true` full train rows. New `leave-by-card`. |
+| Mar 2026 | **camera-layout-card v2 — dynamic 2×N grid.** Grid rows auto-derived from camera count. Updated to UniFi Protect G6 entities. |
+| Mar 2026 | **Expanded Tesla + charging cards on Commute view.** `tesla-commute-card`, `charging-card`. Commute view expanded to 3 columns. |
+| Mar 2026 | **SEPTA sort fix + Commute view.** SEPTA v17 — trains sorted by estimated arrival time. Dedicated Commute view added. |
+| Mar 2026 | **Traffic commute card.** `traffic-card` — live Waze data, incident banner, Fastest badge. |
+| Mar 2026 | **Four new cards + Energy view.** `wallbox-card`, `peco-card`, `ecoflow-card`, `now-playing-card`. Energy view added. |
+| Mar 2026 | **Dashboard YAML added.** Full `dashboard.yaml` committed to `ha-config/`. |
+| Mar 2026 | **Outdoor lighting theme indicator.** Template sensor, light groups, `theme_block:` and `theme_sensor:` config options. |
+| Mar 2026 | **Repo restructure.** Cards moved to per-card folders. `shared/` modules created. Style guide added. |
+| Mar 2026 | **Major refactor session.** Popup portalling; `_patch()` system; fan speed priority; light color mode detection. |
 | Earlier 2026 | Tesla popup sections; technology-card expansion; calendar map thumbnails; septa popup; thermostat live modes. |
 | Late 2025 | Initial versions of all cards. Core architecture established. |
