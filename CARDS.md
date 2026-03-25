@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v81 | Comprehensive visibility pass: all neutral borders 0.22-0.28, fan pip off-dot 0.45, fan dot-off label 0.5, lm-btn 0.22, sensor-row 0.2, tstat-off 0.28, tadj popup 0.28, tdiv 0.25, theme-area off label 0.5, sheet border 0.28, fpip-dot off 0.45, mode-sub 0.45, lm-sub 0.5, sensor-lbl 0.5 |
 | v80 | (version sync — intermediate v80 changes applied on device) |
 | v79 | Fix: itog off-state dot `rgba(255,255,255,.45)`, border `0.28`, label `0.65`, bg `0` — all visible on OLED black; _patch path updated to match |
 | v78 | Switch master entities now render tap-to-toggle row instead of brightness slider on both inline and popup views; `mode: toggle\|slider` override on individuals; CSS `.lm-sw-row` added |
@@ -329,6 +330,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v21 | Comprehensive visibility pass: pop-tile off border 0.28, rb-track 0.22, master-exp border-top 0.3, rb-divider 0.2, fp pip border 0.22, fp dot-off 0.5, rb-preset border 0.22, rb-dot-lbl 0.6, rb-clbl 0.5 |
 | v20 | (version sync — intermediate changes applied on device) |
 | v19 | (version sync) |
 | v18 | Fix: itog off-state dot `rgba(255,255,255,.45)`, border `0.28`, label `0.65`, bg `0` — visible on OLED; optimistic update path matched |

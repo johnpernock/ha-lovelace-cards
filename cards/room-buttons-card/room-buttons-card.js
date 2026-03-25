@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v20
+ * room-buttons-card.js  —  v21
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -1328,7 +1328,7 @@ class RoomButtonsCard extends HTMLElement {
         }
         #rb-popup {
           background: #0d0d0d;
-          border: 1px solid rgba(255,255,255,0.28);
+          border: 1px solid rgba(255,255,255,.28);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
           padding: 20px;
@@ -1353,7 +1353,7 @@ class RoomButtonsCard extends HTMLElement {
             width: 100%;
             max-width: 420px;
             border-radius: 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.25);
+            border-bottom: 1px solid rgba(255,255,255,.25);
           }
           #rb-handle { display: none !important; }
         }
@@ -1425,7 +1425,7 @@ class RoomButtonsCard extends HTMLElement {
         .pop-tile:active { filter: brightness(0.82); }
         .pop-tile.off {
           background: rgba(255,255,255,0.0);
-          border-color: rgba(255,255,255,0.2);
+          border-color: rgba(255,255,255,0.28);
         }
         .pop-tile.on-amber {
           background: rgba(251,191,36,0.1);
@@ -1571,12 +1571,12 @@ class RoomButtonsCard extends HTMLElement {
         .rb-master{margin:0 0 6px;border-radius:8px;background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.12);overflow:hidden}
         .rb-mrow{display:flex;align-items:center;gap:8px;padding:10px 12px}
         .rb-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
-        .rb-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+        .rb-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden;position:relative}
         .rb-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
         .rb-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
         .rb-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}
         .rb-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
-        .rb-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
+        .rb-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.3)}
         .rb-master-exp.hidden{display:none}
         .rb-sw-row{flex:1;display:flex;align-items:center;gap:10px;padding:0 4px;min-width:0}
         .rb-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
@@ -1590,19 +1590,19 @@ class RoomButtonsCard extends HTMLElement {
         /* ── Color expand panels ── */
         .rb-color-sec{padding:7px 0 4px;border-top:1px solid rgba(255,255,255,.06)}
         .rb-color-sec.hidden{display:none}
-        .rb-clbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.25);margin-bottom:6px;margin-top:3px}
+        .rb-clbl{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:rgba(255,255,255,.5);margin-bottom:6px;margin-top:3px}
         .rb-presets{display:flex;gap:4px;margin-bottom:8px;flex-wrap:wrap}
         .rb-presets-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px}
-        .rb-preset{flex:1;min-width:0;height:54px;border-radius:7px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 3px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .rb-preset{flex:1;min-width:0;height:54px;border-radius:7px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.04);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 3px;transition:all .12s;user-select:none;-webkit-tap-highlight-color:transparent}
         .rb-presets-grid .rb-preset{flex:unset}
         .rb-preset:active{transform:scale(.92)}
         .rb-preset-sel{border-width:1.5px}
         .rb-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0}
-        .rb-dot-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;line-height:1}
+        .rb-dot-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;line-height:1}
         .rb-preset-sel .rb-dot-lbl{color:rgba(255,255,255,.82)}
 
         /* ── Section divider ── */
-        .rb-divider{height:1px;background:rgba(255,255,255,.07);margin:8px 0}
+        .rb-divider{height:1px;background:rgba(255,255,255,.2);margin:8px 0}
 
         /* ── Fans — fpip/fpip-dot (matches room-controls-card exactly) ── */
         .fan-section{display:flex;flex-direction:column;gap:4px;padding:4px 0 8px}
@@ -1610,12 +1610,12 @@ class RoomButtonsCard extends HTMLElement {
         .fan-nm-row{padding:0 2px}
         .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}
         .fpips{display:flex;gap:4px}
-        .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.22);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
         .fpip:active{transform:scale(.9)}
         .fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
         .fpip-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2)}
         .fpip-dot-on{background:#2dd4bf}
-        .fpip-dot-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
+        .fpip-dot-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.5)}
         .fpip-dots-row{display:flex;gap:4px;align-items:center;justify-content:center}
         .fpip-dots-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center;justify-items:center}
 
