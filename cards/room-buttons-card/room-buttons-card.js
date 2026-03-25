@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v10
+ * room-buttons-card.js  —  v11
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -1057,11 +1057,12 @@ class RoomButtonsCard extends HTMLElement {
         e.stopPropagation();
         const exp = popup.getElementById('rbme');
         if (!exp) return;
-        const opening = exp.classList.toggle('hidden');
+        // toggle returns true when class was ADDED (now hidden), false when removed (now visible)
+        const nowHidden = exp.classList.toggle('hidden');
         const arrow = popup.getElementById('rbmc-a');
-        if (arrow) arrow.style.transform = opening ? '' : 'rotate(180deg)';
-        // Close all individual light color sections when master opens
-        if (!opening) {
+        if (arrow) arrow.style.transform = nowHidden ? '' : 'rotate(180deg)';
+        // When opening master, close all individual light color sections
+        if (!nowHidden) {
           popup.querySelectorAll('.rb-color-sec:not(.hidden)').forEach(s => s.classList.add('hidden'));
           popup.querySelectorAll('[id^="rbla-"]').forEach(a => { a.style.transform = ''; });
         }
@@ -1075,11 +1076,12 @@ class RoomButtonsCard extends HTMLElement {
         const li = chev.dataset.li;
         const sec = popup.getElementById(`rbcs-${li}`);
         if (!sec) return;
-        const opening = sec.classList.toggle('hidden');
+        // toggle returns true when class was ADDED (now hidden), false when removed (now visible)
+        const nowHidden = sec.classList.toggle('hidden');
         const arrow = popup.getElementById(`rbla-${li}`);
-        if (arrow) arrow.style.transform = opening ? '' : 'rotate(180deg)';
-        // Close other individual sections and master expand
-        if (!opening) {
+        if (arrow) arrow.style.transform = nowHidden ? '' : 'rotate(180deg)';
+        // When opening this light, close all other sections and the master expand
+        if (!nowHidden) {
           popup.querySelectorAll(`.rb-color-sec:not(#rbcs-${li}):not(.hidden)`).forEach(s => s.classList.add('hidden'));
           popup.querySelectorAll(`[id^="rbla-"]:not(#rbla-${li})`).forEach(a => { a.style.transform = ''; });
           const masterExp = popup.getElementById('rbme');

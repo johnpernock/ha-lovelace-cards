@@ -324,6 +324,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v11 | Fix: chevron expand logic inverted — `classList.toggle()` returns `true` when class added (hidden), was being read as "opening"; arrow rotation and close-others logic now correct |
 | v10 | Color/CT chevrons on individual lights and master slider; theme color swatch bar in Yard popup; section labels removed from popup header; `_openCoverGroup` method header restored |
 | v9 | Fix: duplicate `_buildPopupContent` method removed — second definition was silently overwriting the first, causing `lights:` and `fans:` popup buttons to show empty popups |
 | v8 | Fix: `hasPopup` check now includes `lights` and `fans` keys so custom popup opens correctly for those buttons |
