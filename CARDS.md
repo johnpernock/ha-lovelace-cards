@@ -916,6 +916,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v11 | Version header corrected — JS was at v10 but resources required v11 due to prior deploy at v10 |
 | v10 | `_patch()` added — banner color, title, and subtitle update in-place |
 | v9 | Padding consistency pass |
 | v8 | Popup max-width normalized to 440px |
