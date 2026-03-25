@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v4
+ * room-buttons-card.js  —  v5
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 /**
- * temp-strip-card.js  —  v3
+ * temp-strip-card.js  —  v4
  * A single-row temperature strip for Home Assistant Lovelace.
  * Shows sensors in one compact bar — abbr above, value below.
  *

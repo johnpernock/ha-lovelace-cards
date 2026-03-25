@@ -81,5 +81,5 @@ tesla:
 
 | Version | Changes |
 |---------|---------|
-| v2 | v2 | Card name label: 15px → 17px white bold |
+| v2 | Card name label: 15px → 17px white bold |
 | v1 | Initial release — active/idle states, battery progress bar with limit tick, Tesla + Wallbox combined stats, `_patch()` for in-place updates |

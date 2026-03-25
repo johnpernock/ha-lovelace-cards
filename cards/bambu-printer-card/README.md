@@ -79,6 +79,6 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
-| Current | Active tray detection handles multiple firmware formats; external spool auto-switch; humidity display |
-| Earlier | `current_stage` status label mapping improved (better handling of calibration/heating sub-states) |
-| Initial | Two-column layout with print status and AMS panel |
+| v3 | Active tray detection handles multiple firmware formats; external spool auto-switch; humidity display |
+| v2 | `current_stage` status label mapping improved (better handling of calibration/heating sub-states) |
+| v1 | Initial release — two-column layout with print status and AMS panel |

@@ -110,7 +110,7 @@ entities:
 |---------|---------|
 | v12 | Padding consistency pass — horizontal padding normalized to 14px |
 | v11 | Popup max-width normalized to 440px |
-| v10 | v10 | Popup: fixed once:true tap-outside listener; body scroll lock on open/close |
+| v10 | Popup: fixed once:true tap-outside listener; body scroll lock on open/close |
 | v9 | Added steering wheel heat; popup sections are now conditionally hidden based on configured entities |
 | v8 | Added seat heating section with select entity support |
 | v7 | Added climate controls section (defrost switches, target temp) |

@@ -51,7 +51,6 @@ players:
 
 | Version | Changes |
 |---------|---------|
-| v3 | v3 | Card header: font-size 10px uppercase → 17px white bold |
-| v2 | Touch audit: added `user-select:none` to tappable elements |
+| v3 | Card header: font-size 10px uppercase → 17px white bold |
 | v1 | Initial release. Collapses when idle, tap → more-info, TV show episode formatting |
 | v2 | Touch/mobile audit: added `user-select:none` to tappable elements |

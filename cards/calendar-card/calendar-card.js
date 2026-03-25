@@ -1,5 +1,5 @@
 /**
- * calendar-card.js  —  v4
+ * calendar-card.js  —  v5
  * Custom Home Assistant Lovelace calendar card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────

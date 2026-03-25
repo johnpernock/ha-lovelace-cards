@@ -47,6 +47,4 @@ name: Garage
 | v4 | Touch audit: added `-webkit-tap-highlight-color:transparent` to tappable element |
 | v3 | Updated entity ID to `cover.garage_door_door` |
 | v2 | Improved icon set — unique SVG for each state (closed panels, open void, up/down arrows); matched Tesla card button design language |
-| v3 | Updated garage door entity ID to `cover.garage_door_door` in dashboard |
-| v4 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to main tappable element |
 | v1 | Initial release |

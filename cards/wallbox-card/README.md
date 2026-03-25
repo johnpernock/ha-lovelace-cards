@@ -56,7 +56,6 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
-| v3 | v3 | Card name label: 15px → 17px white bold |
-| v2 | Touch audit: added `-webkit-tap-highlight-color:transparent` to `.ctrl-row` and `.mode-opt` |
+| v3 | Card name label: 15px → 17px white bold |
 | v1 | Initial release |
 | v2 | Touch/mobile audit: added `-webkit-tap-highlight-color:transparent` to ctrl-row and mode-opt buttons |
