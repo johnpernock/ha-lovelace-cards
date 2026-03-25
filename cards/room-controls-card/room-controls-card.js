@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v71
+ * room-controls-card.js  —  v72
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -607,11 +607,9 @@ class RoomControlsCard extends HTMLElement {
       const lSliderPct = lon ? lpct : 0;
       const hasCols = !isSw&&(this._supportsCT(l.entity)||this._supportsColor(l.entity));
       const lname = l.name||this._attr(l.entity,'friendly_name')||l.entity.split('.').pop().replace(/_/g,' ');
-      const dotClr = this._lightDotColor(l.entity);
       return `<div class="pp-light" id="ppl-${room.id}-${li}">
+        <span class="pp-lname${lon?' lit':''}">${lname}</span>
         <div class="pp-lrow">
-          <div class="pp-ldot" id="ppdot-${room.id}-${li}" style="background:${dotClr}"></div>
-          <span class="pp-lname${lon?' lit':''}">${lname}</span>
           ${!isSw?`<div class="lm-slider-wrap" id="ppls-wrap-${room.id}-${li}" data-room="${room.id}" data-li="${li}" data-action="popup-brightness-drag" data-entity="${l.entity}" style="touch-action:none">
               <div class="lm-track"><div class="lm-fill" id="ppls-${room.id}-${li}" style="width:${lSliderPct}%"></div></div>
               <div class="lm-thumb" id="pplthumb-${room.id}-${li}" style="left:${Math.max(4,Math.min(lSliderPct,96))}%"></div>
@@ -1169,13 +1167,14 @@ class RoomControlsCard extends HTMLElement {
         .pp-msub{font-size:11px;color:rgba(255,255,255,.35);font-weight:400;margin-left:4px}
         .pp-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
         .pp-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.12)}
-        .pp-lights{padding:2px 14px 6px;display:flex;flex-direction:column;gap:2px}
-        .pp-light{opacity:.5;transition:opacity .15s}
+        .pp-lights{padding:4px 14px 8px;display:flex;flex-direction:column;gap:0}
+        .pp-light{opacity:.5;transition:opacity .15s;padding:8px 0 4px;border-bottom:1px solid rgba(255,255,255,.05)}
+        .pp-light:last-child{border-bottom:none}
         .pp-light-on{opacity:1}
-        .pp-lrow{display:flex;align-items:center;gap:10px;padding:8px 0}
-        .pp-ldot{width:12px;height:12px;border-radius:50%;flex-shrink:0;transition:background .15s}
-        .pp-lname{font-size:13px;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0;width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-        .pp-lname.lit{color:rgba(255,255,255,.85)}
+        .pp-lname{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 4px;display:block}
+        .pp-lname.lit{color:rgba(255,255,255,.55)}
+        .pp-lrow{display:flex;align-items:center;gap:8px;padding:0}
+        .pp-ldot{display:none}
         .pp-ltrack{flex:1;height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
         .pp-lfill{height:100%;border-radius:99px;background:#fbbf24;transition:width .1s}
         .pp-lpct{font-size:9px;font-weight:700;color:rgba(251,191,36,.75);width:30px;text-align:right;flex-shrink:0}
