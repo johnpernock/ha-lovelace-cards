@@ -1,5 +1,5 @@
 /**
- * septa-paoli-card.js  —  v31
+ * septa-paoli-card.js  —  v32
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -200,7 +200,7 @@ class SeptaPaoliCard extends HTMLElement {
     const mins         = isDelayed ? parseInt(data.delay.replace(/[^0-9]/g, '')) : 0;
     const statusColor  = isDelayed ? '#f87171'              : '#4ade80';
     const statusBg     = isDelayed ? 'rgba(239,68,68,0.2)'  : 'rgba(74,222,128,0.1)';
-    const statusBorder = isDelayed ? 'rgba(239,68,68,0.5)'  : 'rgba(74,222,128,0.25)';
+    const statusBorder = isDelayed ? 'rgba(239,68,68,0.65)' : 'rgba(74,222,128,0.55)';
     const statusText   = isDelayed ? `${mins}m late`        : 'On Time';
 
     const depLabel     = type === 'inbound' ? 'Departs 30th St' : 'Departs Paoli';
@@ -224,7 +224,7 @@ class SeptaPaoliCard extends HTMLElement {
           </div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
-          <div style="font-size:11px;font-weight:700;color:${statusColor};background:${statusBg};border:1px solid ${statusBorder};border-radius:6px;padding:4px 10px;">${statusText}</div>
+          <div style="font-size:11px;font-weight:700;color:${statusColor};background:${statusBg};border:1.5px solid ${statusBorder};border-radius:6px;padding:4px 10px;">${statusText}</div>
           <button id="sp-close" style="background:rgba(255,255,255,0.18);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:rgba(255,255,255,0.5);font-size:14px;line-height:1;font-family:inherit;">✕</button>
         </div>
       </div>
@@ -340,7 +340,7 @@ class SeptaPaoliCard extends HTMLElement {
     // ── Expanded mode ────────────────────────────────────────────────────────
     if (this._config.expanded) {
       const alertFooterHtmlExp = alertMsg
-        ? `<div class="no-alert" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.45);border-radius:9px;padding:9px 13px;font-size:12px;font-weight:500;color:#fca5a5;margin:8px 10px 10px">${alertMsg}</div>`
+        ? `<div class="no-alert" style="background:rgba(239,68,68,.12);border:1.5px solid rgba(239,68,68,.55);border-radius:9px;padding:9px 13px;font-size:12px;font-weight:500;color:#fca5a5;margin:8px 10px 10px">${alertMsg}</div>`
         : `<div class="no-alert"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>No active service alerts</span></div>`;
       this.shadowRoot.innerHTML = `
         <style>${this._buildExpandedStyle()}</style>
@@ -368,12 +368,12 @@ class SeptaPaoliCard extends HTMLElement {
       const isDelayed    = heroOut.delay && heroOut.delay !== 'On time' && heroOut.delay !== 'N/A';
       const delayed      = isDelayed ? this._calcDelayedArrival(heroOut.arrives, heroOut.delay) : null;
       const mins         = isDelayed ? parseInt(heroOut.delay.replace(/[^0-9]/g, '')) : 0;
-      const cardBg       = isDelayed ? 'rgba(239,68,68,0.1)'  : 'rgba(74,222,128,0.07)';
-      const cardBorder   = isDelayed ? 'rgba(239,68,68,0.4)'  : 'rgba(74,222,128,0.25)';
-      const dividerColor = isDelayed ? 'rgba(239,68,68,0.2)'  : 'rgba(74,222,128,0.15)';
+      const cardBg       = isDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(74,222,128,0.08)';
+      const cardBorder   = isDelayed ? 'rgba(239,68,68,0.60)' : 'rgba(74,222,128,0.55)';
+      const dividerColor = isDelayed ? 'rgba(239,68,68,0.45)' : 'rgba(74,222,128,0.35)';
       const statusColor  = isDelayed ? '#fca5a5' : '#4ade80';
-      const statusBg     = isDelayed ? 'rgba(239,68,68,0.2)'  : 'rgba(74,222,128,0.15)';
-      const statusBorder = isDelayed ? 'rgba(239,68,68,0.5)'  : 'rgba(74,222,128,0.35)';
+      const statusBg     = isDelayed ? 'rgba(239,68,68,0.45)' : 'rgba(74,222,128,0.35)';
+      const statusBorder = isDelayed ? 'rgba(239,68,68,0.65)' : 'rgba(74,222,128,0.55)';
       const statusText   = isDelayed ? `${mins}m late` : 'On Time';
       const arrLabel     = isDelayed ? 'Est. Arrives' : 'Arrives';
       const arrTime      = delayed ? delayed.time : heroOut.arrives;
@@ -388,12 +388,12 @@ class SeptaPaoliCard extends HTMLElement {
           const tMins       = tDelayed ? parseInt(t.delay.replace(/[^0-9]/g, '')) : 0;
           const tArrTime    = tDelayedArr ? tDelayedArr.time : t.arrives;
           const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0)';
-          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.18)';
+          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.55)' : 'rgba(255,255,255,0.40)';
           const statusEl    = tDelayed
             ? `<span class="pill-late">+${tMins}m</span>`
             : this._checkmark();
 
-          return `<div class="pill" style="background:${pillBg};border:1px solid ${pillBorder};" data-train='${JSON.stringify({ ...t, extra: t.origin })}' data-type="outbound">
+          return `<div class="pill" style="background:${pillBg};border:1.5px solid ${pillBorder};" data-train='${JSON.stringify({ ...t, extra: t.origin })}' data-type="outbound">
             <div>
               <div class="pill-time">${t.departs}</div>
               <div class="pill-arr">Arr ${tArrTime}</div>
@@ -402,11 +402,11 @@ class SeptaPaoliCard extends HTMLElement {
           </div>`;
         }).join('');
 
-        pillsHtml = `<div class="pills" style="border-top:1px solid ${dividerColor};">${pills}</div>`;
+        pillsHtml = `<div class="pills" style="border-top:1.5px solid ${dividerColor};">${pills}</div>`;
       }
 
       heroOutHtml = `
-        <div class="hero" style="background:${cardBg};border:1px solid ${cardBorder};" data-train='${JSON.stringify({ ...heroOut, extra: heroOut.origin })}' data-type="outbound">
+        <div class="hero" style="background:${cardBg};border:1.5px solid ${cardBorder};" data-train='${JSON.stringify({ ...heroOut, extra: heroOut.origin })}' data-type="outbound">
           <div class="hero-label">Next Departure → Center City</div>
           <div class="hero-body">
             <div class="hero-left">
@@ -417,7 +417,7 @@ class SeptaPaoliCard extends HTMLElement {
                 <div class="hero-sublabel">${arrLabel}</div>
                 <div class="hero-subtime" style="color:${arrColor};">${arrTime}</div>
               </div>
-              <div class="status-badge" style="color:${statusColor};background:${statusBg};border:1px solid ${statusBorder};">${statusText}</div>
+              <div class="status-badge" style="color:${statusColor};background:${statusBg};border:1.5px solid ${statusBorder};">${statusText}</div>
             </div>
           </div>
           ${pillsHtml}
@@ -437,11 +437,11 @@ class SeptaPaoliCard extends HTMLElement {
       const isDelayed    = inTrain.delay && inTrain.delay !== 'On time' && inTrain.delay !== 'N/A';
       const delayed      = isDelayed ? this._calcDelayedArrival(inTrain.arrives, inTrain.delay) : null;
       const mins         = isDelayed ? parseInt(inTrain.delay.replace(/[^0-9]/g, '')) : 0;
-      const cardBg       = isDelayed ? 'rgba(239,68,68,0.1)'  : 'rgba(74,222,128,0.07)';
-      const cardBorder   = isDelayed ? 'rgba(239,68,68,0.4)'  : 'rgba(74,222,128,0.25)';
+      const cardBg       = isDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(74,222,128,0.08)';
+      const cardBorder   = isDelayed ? 'rgba(239,68,68,0.60)' : 'rgba(74,222,128,0.55)';
       const statusColor  = isDelayed ? '#fca5a5' : '#4ade80';
-      const statusBg     = isDelayed ? 'rgba(239,68,68,0.2)'  : 'rgba(74,222,128,0.15)';
-      const statusBorder = isDelayed ? 'rgba(239,68,68,0.5)'  : 'rgba(74,222,128,0.35)';
+      const statusBg     = isDelayed ? 'rgba(239,68,68,0.45)' : 'rgba(74,222,128,0.35)';
+      const statusBorder = isDelayed ? 'rgba(239,68,68,0.65)' : 'rgba(74,222,128,0.55)';
       const statusText   = isDelayed ? `${mins}m late` : 'On Time';
       const arrTime      = delayed ? delayed.time : inTrain.arrives;
 
@@ -453,18 +453,18 @@ class SeptaPaoliCard extends HTMLElement {
       const laterInTrains = []; // compact mode: next train only
       let inPillsHtml = '';
       if (laterInTrains.length > 0) {
-        const dividerColor = isDelayed ? 'rgba(239,68,68,0.2)' : 'rgba(74,222,128,0.15)';
+        const dividerColor = isDelayed ? 'rgba(239,68,68,0.45)' : 'rgba(74,222,128,0.35)';
         const pills = laterInTrains.map(t => {
           const tDelayed    = t.delay && t.delay !== 'On time' && t.delay !== 'N/A';
           const tDelayedArr = tDelayed ? this._calcDelayedArrival(t.arrives, t.delay) : null;
           const tMins       = tDelayed ? parseInt(t.delay.replace(/[^0-9]/g, '')) : 0;
           const tArrTime    = tDelayedArr ? tDelayedArr.time : t.arrives;
           const pillBg      = tDelayed ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0)';
-          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.18)';
+          const pillBorder  = tDelayed ? 'rgba(239,68,68,0.55)' : 'rgba(255,255,255,0.40)';
           const statusEl    = tDelayed
             ? `<span class="pill-late">+${tMins}m</span>`
             : this._checkmark();
-          return `<div class="pill" style="background:${pillBg};border:1px solid ${pillBorder};" data-train='${JSON.stringify({ ...t, extra: t.origin })}' data-type="inbound">
+          return `<div class="pill" style="background:${pillBg};border:1.5px solid ${pillBorder};" data-train='${JSON.stringify({ ...t, extra: t.origin })}' data-type="inbound">
             <div>
               <div class="pill-time">${tArrTime}</div>
               <div class="pill-arr">Dep ${t.departs}</div>
@@ -472,11 +472,11 @@ class SeptaPaoliCard extends HTMLElement {
             ${statusEl}
           </div>`;
         }).join('');
-        inPillsHtml = `<div class="pills" style="border-top:1px solid ${dividerColor};">${pills}</div>`;
+        inPillsHtml = `<div class="pills" style="border-top:1.5px solid ${dividerColor};">${pills}</div>`;
       }
 
       heroInHtml = `
-        <div class="hero" style="background:${cardBg};border:1px solid ${cardBorder};" data-train='${JSON.stringify({ ...inTrain, extra: nextStation || '—' })}' data-type="inbound">
+        <div class="hero" style="background:${cardBg};border:1.5px solid ${cardBorder};" data-train='${JSON.stringify({ ...inTrain, extra: nextStation || '—' })}' data-type="inbound">
           <div class="hero-label">Next Arrival ← Center City</div>
           <div class="hero-body">
             <div class="hero-left">
@@ -487,7 +487,7 @@ class SeptaPaoliCard extends HTMLElement {
                 <div class="hero-sublabel">Departs 30th St</div>
                 <div class="hero-subtime" style="color:${isDelayed ? '#f87171' : 'white'};">${inTrain.departs}</div>
               </div>
-              <div class="status-badge" style="color:${statusColor};background:${statusBg};border:1px solid ${statusBorder};">${statusText}</div>
+              <div class="status-badge" style="color:${statusColor};background:${statusBg};border:1.5px solid ${statusBorder};">${statusText}</div>
             </div>
           </div>
           <div class="hero-footer">${footerParts.join(' · ')}</div>
@@ -825,12 +825,12 @@ class SeptaPaoliCard extends HTMLElement {
     const isDelayed = train.delay && train.delay !== 'On time' && train.delay !== 'N/A';
     const delayed   = isDelayed ? this._calcDelayedArrival(train.arrives, train.delay) : null;
     const delayMins = isDelayed ? parseInt(train.delay.replace(/[^0-9]/g, '')) : 0;
-    const cardBg     = isDelayed ? 'rgba(239,68,68,.08)' : 'rgba(74,222,128,.07)';
-    const cardBorder = isDelayed ? 'rgba(239,68,68,.35)' : 'rgba(74,222,128,.25)';
+    const cardBg     = isDelayed ? 'rgba(239,68,68,.12)' : 'rgba(74,222,128,.08)';
+    const cardBorder = isDelayed ? 'rgba(239,68,68,.60)' : 'rgba(74,222,128,.55)';
     const clr        = isDelayed ? '#fca5a5' : '#4ade80';
     const clrStrong  = isDelayed ? '#f87171' : 'white';
     const badgeBg    = isDelayed ? 'rgba(239,68,68,.2)'  : 'rgba(74,222,128,.15)';
-    const badgeBdr   = isDelayed ? 'rgba(239,68,68,.5)'  : 'rgba(74,222,128,.35)';
+    const badgeBdr   = isDelayed ? 'rgba(239,68,68,.65)' : 'rgba(74,222,128,.55)';
     const badgeTxt   = isDelayed ? `${delayMins}m late`  : 'On Time';
     const service    = train.isdirect === 'true' ? 'Direct' : 'Local';
     const trainNum   = train.train && train.train !== '—' ? `Train ${train.train} · ` : '';
@@ -843,12 +843,12 @@ class SeptaPaoliCard extends HTMLElement {
       const timeCls = isHero ? 'exp-time-hero' : 'exp-time-sub';
       const apCls   = isHero ? 'exp-ap' : 'exp-ap-sub';
       const arrCls  = isHero ? 'exp-arr-hero' : 'exp-arr-sub';
-      const bg      = isHero ? cardBg : (isDelayed ? 'rgba(239,68,68,.06)' : 'rgba(255,255,255,.03)');
-      const bdr     = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.2)' : 'rgba(255,255,255,.07)');
+      const bg      = isHero ? cardBg : 'rgba(255,255,255,0)';
+      const bdr     = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.45)' : 'rgba(255,255,255,.30)');
       const parts   = train.departs.toUpperCase().replace(/\s/g,'');
       const depNum  = parts.replace('AM','').replace('PM','');
       const depAp   = parts.includes('PM') ? 'PM' : 'AM';
-      return `<div class="${rowCls}" style="background:${bg};border:1px solid ${bdr}" data-train='${JSON.stringify({...train,extra:train.origin})}' data-type="outbound">
+      return `<div class="${rowCls}" style="background:${bg};border:1.5px solid ${bdr}" data-train='${JSON.stringify({...train,extra:train.origin})}' data-type="outbound">
         <div>
           ${isHero ? `<div class="exp-row-lbl">Next departure</div>` : ''}
           <div class="${timeCls}" style="color:${timeClr}">${depNum}<span class="${apCls}">${depAp}</span></div>
@@ -857,7 +857,7 @@ class SeptaPaoliCard extends HTMLElement {
         <div class="exp-row-right">
           <div class="exp-arr-lbl">${arrLbl}</div>
           <div class="${arrCls}" style="color:${isDelayed ? '#f87171' : 'white'}">${arrTime}</div>
-          <div class="exp-badge" style="background:${badgeBg};color:${clr};border:1px solid ${badgeBdr}">${badgeTxt}</div>
+          <div class="exp-badge" style="background:${badgeBg};color:${clr};border:1.5px solid ${badgeBdr}">${badgeTxt}</div>
         </div>
       </div>`;
     } else {
@@ -871,11 +871,11 @@ class SeptaPaoliCard extends HTMLElement {
       const timeCls  = isHero ? 'exp-time-hero' : 'exp-time-sub';
       const apCls    = isHero ? 'exp-ap' : 'exp-ap-sub';
       const arrCls   = isHero ? 'exp-arr-hero' : 'exp-arr-sub';
-      const bg       = isHero ? cardBg : (isDelayed ? 'rgba(239,68,68,.06)' : 'rgba(255,255,255,.03)');
-      const bdr      = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.2)' : 'rgba(255,255,255,.07)');
+      const bg       = isHero ? cardBg : 'rgba(255,255,255,0)';
+      const bdr      = isHero ? cardBorder : (isDelayed ? 'rgba(239,68,68,.45)' : 'rgba(255,255,255,.30)');
       const timeClr  = isHero ? (isDelayed ? '#fca5a5' : 'white') : (isDelayed ? 'rgba(252,165,165,.8)' : 'rgba(255,255,255,.75)');
       const footer   = isHero && nextStation ? `<div class="exp-train-footer">At ${nextStation}</div>` : '';
-      return `<div class="${rowCls}" style="background:${bg};border:1px solid ${bdr}" data-train='${JSON.stringify({...train,extra:nextStation||'—'})}' data-type="inbound">
+      return `<div class="${rowCls}" style="background:${bg};border:1.5px solid ${bdr}" data-train='${JSON.stringify({...train,extra:nextStation||'—'})}' data-type="inbound">
         <div>
           ${isHero ? `<div class="exp-row-lbl">Next arrival at Paoli</div>` : ''}
           <div class="${timeCls}" style="color:${timeClr}">${arrNum}<span class="${apCls}">${arrAp}</span></div>
@@ -885,7 +885,7 @@ class SeptaPaoliCard extends HTMLElement {
         <div class="exp-row-right">
           <div class="exp-arr-lbl">Departs 30th St</div>
           <div class="${arrCls}" style="color:${isDelayed ? '#f87171' : 'white'}">${train.departs}</div>
-          <div class="exp-badge" style="background:${badgeBg};color:${clr};border:1px solid ${badgeBdr}">${badgeTxt}</div>
+          <div class="exp-badge" style="background:${badgeBg};color:${clr};border:1.5px solid ${badgeBdr}">${badgeTxt}</div>
         </div>
       </div>`;
     }

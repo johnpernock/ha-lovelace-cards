@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v89
+ * room-controls-card.js  —  v90
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -354,7 +354,7 @@ class RoomControlsCard extends HTMLElement {
         body += `<div class="light-row" id="lrow-${room.id}" style="margin-top:2px">
           ${masterIsSwitch
             ? `<div class="lm-sw-row" data-action="switch-toggle" data-entity="${cfg.entity}" data-room="${room.id}" style="cursor:pointer;-webkit-tap-highlight-color:transparent">
-                <div class="lm-track" style="background:${on?'rgba(251,191,36,.35)':'rgba(255,255,255,.1)'}"><div class="lm-fill" id="lfill-${room.id}" style="width:${on?'100':'0'}%"></div></div>
+                <div class="lm-track" style="background:${on?'rgba(251,191,36,.35)':'rgba(255,255,255,.35)'}"><div class="lm-fill" id="lfill-${room.id}" style="width:${on?'100':'0'}%"></div></div>
               </div>`
             : `<div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
                 <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
@@ -736,7 +736,7 @@ class RoomControlsCard extends HTMLElement {
     .room{border-radius:10px;border:1.5px solid rgba(255,255,255,.40);overflow:hidden}
     .door-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;margin-left:7px;flex-shrink:0}
     .door-pill-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-    .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 9px;border-bottom:1.5px solid rgba(255,255,255,.30)}
+    .rhead{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 9px;border-bottom:1.5px solid rgba(255,255,255,.30)}
     .rlbl{font-size:17px;font-weight:700;color:white;letter-spacing:-.2px}
     .rbody{padding:6px 10px 10px;display:flex;flex-direction:column;gap:5px}
     .tog{position:relative;border-radius:99px;cursor:pointer;flex-shrink:0;border:1px solid;transition:background .15s,border-color .15s;user-select:none}
@@ -746,7 +746,7 @@ class RoomControlsCard extends HTMLElement {
     .lm-lbl.lit{color:rgba(255,255,255,.8)}
     .lm-sub{font-size:10px;color:rgba(255,255,255,.5);font-weight:400;margin-left:4px}
     .lm-slider-wrap{flex:1;height:32px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0;padding-right:12px}
-    .lm-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+    .lm-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden;position:relative}
     .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
     .lm-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
     .lm-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);width:28px;text-align:right;flex-shrink:0}
@@ -760,7 +760,7 @@ class RoomControlsCard extends HTMLElement {
     .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.75)}
     .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
     .light-row-simple{cursor:pointer}
-    .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:6px;font-weight:400}
+    .rhead-count{font-size:11px;color:rgba(255,255,255,.35);margin-left:8px;font-weight:400}
     .rhead-chev{cursor:pointer}
     .fan-section{display:flex;flex-direction:column;gap:4px}
     .fan-flat{display:flex;flex-direction:column;gap:4px}
@@ -816,7 +816,7 @@ class RoomControlsCard extends HTMLElement {
     .hvac-btn{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;border:0.5px solid;cursor:pointer;transition:transform .1s;user-select:none}
     .hvac-btn:active{transform:scale(.95)}
     .hvac-lbl{font-size:11px;font-weight:700}
-    .rhead-temp-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;flex-shrink:0;margin-left:6px}
+    .rhead-temp-pill{display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:99px;font-size:11px;font-weight:700;flex-shrink:0;margin-left:8px}
     .rhead-temp-pill .rtp-cur{color:var(--primary-text-color)}
     .rhead-temp-pill .rtp-arr{color:rgba(255,255,255,.45);margin:0 1px}
     .rhead-temp-pill .rtp-set{color:#fb923c}
@@ -1244,7 +1244,7 @@ class RoomControlsCard extends HTMLElement {
         .sinput{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;height:44px;margin-top:-19px}
         .lm-bar{height:4px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
         .lm-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
-        .lm-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+        .lm-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden;position:relative}
         .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
         .lm-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
         .lm-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}

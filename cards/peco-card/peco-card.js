@@ -1,5 +1,5 @@
 /**
- * peco-card.js  —  v8
+ * peco-card.js  —  v9
  * PECO / Opower utility energy card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -78,7 +78,7 @@ class PecoCard extends HTMLElement {
     .bar-fill{height:100%;border-radius:99px;transition:width .5s}
     .bar-ends{display:flex;justify-content:space-between;margin-top:3px}
     .bar-end{font-size:9px;color:rgba(255,255,255,.2)}
-    .divider{height:1px;background:rgba(255,255,255,.07)}
+    .divider{height:2px;background:rgba(255,255,255,.22)}
     .bill-row{display:flex;align-items:center;justify-content:space-between}
     .bill-lbl{font-size:12px;color:rgba(255,255,255,.45)}
     .bill-val{font-size:13px;font-weight:700;color:#e2e8f0}

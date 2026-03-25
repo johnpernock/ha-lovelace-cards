@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v19
+ * tesla-card.js  —  v20
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -343,7 +343,7 @@ class TeslaCard extends HTMLElement {
 
   _tile({ icon, state, label, color, bg, border, id }) {
     return `
-      <div class="tile" id="${id || ''}" style="background:${bg};border:1px solid ${border}">
+      <div class="tile" id="${id || ''}" style="background:${bg};border:1.5px solid ${border}">
         <div class="tile-icon" style="color:${color}">${icon}</div>
         <div>
           <div class="tile-state" style="color:${color}">${state}</div>
@@ -356,8 +356,8 @@ class TeslaCard extends HTMLElement {
     return this._tile({
       icon, state, label, id,
       color:  'rgba(255,255,255,0.35)',
-      bg:     'rgba(255,255,255,0.04)',
-      border: 'rgba(255,255,255,0.1)',
+      bg:     'rgba(255,255,255,0)',
+      border: 'rgba(255,255,255,0.35)',
     });
   }
 
@@ -524,7 +524,7 @@ class TeslaCard extends HTMLElement {
       vehicleItems.push(this._tile({
         icon: icons.odometer, state: `${Math.round(odometer).toLocaleString()} mi`,
         label: 'Odometer',
-        color: 'rgba(255,255,255,0.55)', bg: 'rgba(255,255,255,0)', border: 'rgba(255,255,255,0.22)',
+        color: 'rgba(255,255,255,0.55)', bg: 'rgba(255,255,255,0)', border: 'rgba(255,255,255,0.40)',
       }));
     }
 
