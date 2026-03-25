@@ -73,9 +73,18 @@ All cards inherit `var(--primary-font-family, -apple-system, sans-serif)` from t
 
 ## Spacing & sizing
 
+### Padding standard
+
+All cards use **`14px` horizontal padding** consistently. This prevents visible misalignment between cards stacked in the same column.
+
+- Cards with an inner wrapper (`.wrap`, `.card-body`, etc.): set `ha-card { padding: 0 }` and put `padding: Xpx 14px` on the inner wrapper.
+- Cards without an inner wrapper: set `ha-card { padding: Xpx 14px }` directly.
+- Strip/row cards (temp-strip, etc.): the outermost flex container gets `padding: 0 14px`; cells get `padding: Ypx 0` (no side padding, let the container handle it).
+
 | Element | Value |
 |---------|-------|
-| Card inner padding | `10–14px` |
+| Card horizontal padding | `14px` — **never deviate** |
+| Card vertical padding (top/bottom) | `10–18px` depending on card density |
 | Section gap | `8–10px` |
 | Border radius — card section | `10px` |
 | Border radius — pill/badge | `4–6px` |

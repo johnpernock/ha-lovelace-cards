@@ -836,7 +836,7 @@ class RoomButtonsCard extends HTMLElement {
           background: transparent !important;
           box-shadow: none !important;
           border: none !important;
-          padding: 8px;
+          padding: 8px 14px;
           box-sizing: border-box;
           font-family: var(--primary-font-family, sans-serif);
         }

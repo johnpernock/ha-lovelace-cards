@@ -717,7 +717,7 @@ class TeslaCard extends HTMLElement {
           background: transparent !important;
           box-shadow: none !important;
           border: none !important;
-          padding: 12px 20px 16px;
+          padding: 12px 14px 16px;
           box-sizing: border-box;
           font-family: var(--primary-font-family, sans-serif);
           color: var(--primary-text-color);

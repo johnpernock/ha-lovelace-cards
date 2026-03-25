@@ -520,7 +520,7 @@ class CalendarCard extends HTMLElement {
         .scroll-wrap {
           height: 100%;
           overflow-y: auto;
-          padding: 12px 20px 16px;
+          padding: 12px 14px 16px;
           box-sizing: border-box;
           scrollbar-width: thin;
           scrollbar-color: rgba(255,255,255,0.1) transparent;

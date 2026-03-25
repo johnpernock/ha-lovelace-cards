@@ -116,7 +116,7 @@ class TempStripCard extends HTMLElement {
         .strip {
           display: flex;
           align-items: center;
-          padding: 0 4px;
+          padding: 0 14px;
         }
 
         .cell {
@@ -124,7 +124,7 @@ class TempStripCard extends HTMLElement {
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 10px 4px;
+          padding: 10px 0;
           min-width: 0;
         }
 

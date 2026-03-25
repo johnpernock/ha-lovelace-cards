@@ -221,7 +221,7 @@ class ThermostatCard extends HTMLElement {
           background: transparent !important;
           box-shadow: none !important;
           border: none !important;
-          padding: 12px 8px 10px;
+          padding: 12px 14px 10px;
           box-sizing: border-box;
           font-family: var(--primary-font-family, sans-serif);
         }

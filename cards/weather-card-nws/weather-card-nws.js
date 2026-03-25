@@ -365,7 +365,7 @@ class WeatherCardUnified extends HTMLElement {
           background: transparent !important;
           box-shadow: none !important;
           border: none !important;
-          padding: 18px 20px 14px;
+          padding: 18px 14px 14px;
           box-sizing: border-box;
           ${tapCursor}
         }
