@@ -158,7 +158,7 @@ Full documentation for all cards — config params, entity reference, and change
 | Card | Folder | Version |
 |------|--------|---------|
 | Room Controls | `cards/room-controls-card/` | v74 |
-| Room Buttons | `cards/room-buttons-card/` | v5 |
+| Room Buttons | `cards/room-buttons-card/` | v6 |
 | Camera Layout | `cards/camera-layout-card/` | v5 |
 | Technology | `cards/technology-card/` | v13 |
 | Bambu Printer | `cards/bambu-printer-card/` | v3 |
@@ -231,6 +231,10 @@ See [`STYLE-GUIDE.md`](STYLE-GUIDE.md) for the complete UI principles, color sys
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **room-buttons-card v6 — lights/fans popup matches lights & fans view.** Home view room buttons now open a full-featured popup with master brightness slider + individual light sliders (exact `pp-light` pattern from room-controls-card) and fan pip dot buttons (exact `fpip` pattern). Stats moved to bottom. Dashboard `buttons` config updated with `lights` and `fans` for all 12 room buttons. |
+| Mar 2026 | **Padding consistency pass.** `room-controls-card` v74, `clock-card` v4, `door-sensor-card` v9, `garage-door-card` v5, `weather-card-nws` v7, `calendar-card` v5, `thermostat-card` v6, `temp-strip-card` v4 — all horizontal padding normalized to 14px. |
+| Mar 2026 | **room-controls-card v71–v73 — individual lights popup polish.** Flat rows with uppercase name label above slider, color dot indicator, gap spacing (no dividers), live patch on every hass update. |
+| Mar 2026 | **camera-layout-card v5.** Loading placeholder (camera icon + name on dark bg) behind each stream while RTSP connects. |
 | Mar 2026 | **Popup consistency pass.** `room-controls-card` v70: expand chevrons bare; off individual light rows dimmed to 65% opacity; brightness % hidden when off; subtitle "X of Y on" → "X / Y"; sheet max-width 440px. All popup cards normalized to 440px max-width: `septa-paoli-card` v24, `tesla-card` v11, `weather-card-nws` v6, `door-sensor-card` v8. |
 | Mar 2026 | **Popup fixes — scroll lock + bottom sheet consistency across all cards.** Fixed `once:true` tap-outside listeners, body scroll lock on open/close, `overscroll-behavior:contain` on all popup elements. |
 | Mar 2026 | **Room card polish + responsive camera.** Thermostat grey backgrounds removed; +/− buttons transparent; thermostat block auto-hides when entity missing. `camera-layout-card` v4: responsive stacking breakpoint raised to 700px. |

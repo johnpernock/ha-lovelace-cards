@@ -252,7 +252,24 @@ Compact 2-column room button grid for the home view. Each button represents a ro
 | `icon` | ❌ | `home` | Icon name (see list below) |
 | `tap_action` | ❌ | `more-info` | Set to `toggle` for direct cover or switch control |
 | `theme_sensor` | ❌ | — | `sensor.outdoor_lighting_theme` entity ID — adds holiday color strip and theme name label to this button |
-| `popup_entities` | ❌ | — | List of popup entity objects. Presence overrides `tap_action`. |
+| `lights` | ❌ | — | Lights config — enables the lights/fans-view popup with master slider + individual rows (see below) |
+| `fans` | ❌ | — | List of fan objects — adds fan pip section to the popup (see below) |
+| `popup_entities` | ❌ | — | Legacy popup entity list (`stat`, `toggle`, `cover_group`). Stats are shown at the bottom. |
+
+**`lights` object**
+
+| Key | Required | Default | Description |
+|-----|----------|---------|-------------|
+| `entity` | ✅ | — | Main group/area light entity |
+| `individuals` | ❌ | `[]` | List of `{ entity, name }` — shown as individual sliders below the master |
+
+**Fan object** (item in `fans` list)
+
+| Key | Required | Default | Description |
+|-----|----------|---------|-------------|
+| `entity` | ✅ | — | Fan entity |
+| `name` | ❌ | friendly_name | Label shown above pip row |
+| `speeds` | ❌ | Auto-detected | Total pip count including off. Set explicitly for Lutron Caseta / white-series fans. |
 
 **Popup entity object**
 
@@ -277,25 +294,23 @@ buttons:
   - entity: light.all_family_room_lights
     name: Family Room
     icon: sofa
-    popup_entities:
-      - entity: sensor.family_room_temperature
-        label: Temperature
-        type: stat
-      - entity: light.all_family_room_lights
-        label: Main Lights
-        type: toggle
+    lights:
+      entity: light.all_family_room_lights
+      individuals:
+        - entity: light.venus_window_lamp
+          name: Window
+        - entity: light.reading_lamp
+          name: Reading
+    fans:
       - entity: fan.white_series_lightfan_module_2
-        label: Front Fan
-        type: fan
+        name: Front Fan
         speeds: 4
-      - entity: cover.family_room_blinds
-        label: Blinds
-        type: cover_group
-        max_position: 87
   - entity: light.all_yard_lights
     name: Yard
     icon: tree
     theme_sensor: sensor.outdoor_lighting_theme
+    lights:
+      entity: light.all_yard_lights
   - entity: cover.garage_door
     name: Garage
     icon: garage
@@ -306,6 +321,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v6 | New `lights` and `fans` button params — popup now shows master + individual brightness sliders (exact match to lights/fans view) and full-width fan pip dot buttons. Stats moved to bottom. `popup_entities` still works for legacy `toggle` and `cover_group` entries. |
 | v5 | Padding consistency pass — horizontal padding normalized to 14px |
 | v4 | `theme_sensor` parameter added — holiday color strip and theme name label |
 | v3 | Fan popup speed resolution fixed — uses `_fanResolvedSpeeds()` helper |

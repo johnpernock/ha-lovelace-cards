@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v5
+ * room-buttons-card.js  —  v6
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -216,6 +216,14 @@ class RoomButtonsCard extends HTMLElement {
     const v = e.state;
     if (v === 'unavailable' || v === 'unknown') return '—';
     return v;
+  }
+
+  _attr(entityId, key) {
+    return this._entityState(entityId)?.attributes?.[key] ?? null;
+  }
+
+  _call(domain, service, data, busyKey) {
+    this._callServiceData(domain, service, data, busyKey);
   }
 
   _unitOf(entityId) {
@@ -435,7 +443,151 @@ class RoomButtonsCard extends HTMLElement {
     }));
   }
 
-  // ── Popup HTML builders ───────────────────────────────────────────────────────
+  // ── Helpers for new lights/fans popup ────────────────────────────────────────
+
+  _lightsPopupHtml(btn) {
+    const lcfg = btn.lights;
+    if (!lcfg) return '';
+    const masterEnt = lcfg.entity || btn.entity;
+    const indiv     = lcfg.individuals || [];
+    const on        = this._isOn(masterEnt);
+    const avg       = this._brightness(masterEnt) ?? (on ? 100 : 0);
+    const sliderPct = on ? avg : 0;
+    const cnt       = indiv.length ? indiv.filter(l => this._isOn(l.entity)).length : (on ? 1 : 0);
+    const tot       = indiv.length || 1;
+
+    const masterHtml = `
+      <div class="rb-sec-hdr">All Lights</div>
+      <div class="rb-master">
+        <div class="rb-mrow">
+          <div class="rb-slider-wrap" data-action="rb-master-drag" data-entity="${masterEnt}" style="touch-action:none">
+            <div class="rb-track"><div class="rb-fill" id="rbmf" style="width:${sliderPct}%"></div></div>
+            <div class="rb-thumb" id="rbmt" style="left:${Math.min(sliderPct,96)}%"></div>
+          </div>
+          <span class="rb-pct" id="rbmpct">${on ? avg + '%' : ''}</span>
+        </div>
+      </div>`;
+
+    const list = indiv.length ? indiv : [];
+    const lightsHtml = list.map((l, li) => {
+      const lon  = this._isOn(l.entity);
+      const isSw = l.entity.startsWith('switch.');
+      const lpct = this._brightness(l.entity) ?? (lon ? 100 : 0);
+      const lsp  = lon ? lpct : 0;
+      const lname = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
+      return `<div class="rb-pp-light${lon ? ' rb-pp-light-on' : ''}" id="rbpl-${li}">
+        <span class="rb-pp-lname${lon ? ' lit' : ''}">${lname}</span>
+        <div class="rb-pp-lrow">
+          ${!isSw ? `<div class="rb-slider-wrap" data-action="rb-indiv-drag" data-entity="${l.entity}" data-li="${li}" style="touch-action:none">
+            <div class="rb-track"><div class="rb-fill" id="rblf-${li}" style="width:${lsp}%"></div></div>
+            <div class="rb-thumb" id="rblth-${li}" style="left:${Math.max(4, Math.min(lsp, 96))}%"></div>
+          </div>` : `<div style="flex:1"></div>`}
+          <span class="rb-pct" id="rblpct-${li}">${lon ? (isSw ? 'On' : lpct + '%') : ''}</span>
+        </div>
+      </div>`;
+    }).join('');
+
+    return `<div class="rb-lights-sec">${masterHtml}<div class="rb-pp-lights">${lightsHtml}</div></div>`;
+  }
+
+  _fansPopupHtml(btn) {
+    const fans = btn.fans;
+    if (!fans || !fans.length) return '';
+    const html = fans.map((fcfg, fi) => {
+      const speeds = this._fanResolvedSpeeds(fcfg);
+      const idx    = this._fanCurrentStep(fcfg);
+      const fname  = fcfg.name || this._attr(fcfg.entity, 'friendly_name') || fcfg.entity.split('.').pop().replace(/_/g, ' ');
+      let pips = '';
+      for (let i = 0; i < speeds; i++) {
+        const active = i === idx;
+        const dots   = i === 0
+          ? `<div class="rb-fpip-off">Off</div>`
+          : this._fanDots(i, speeds, active);
+        pips += `<div class="rb-fpip${active ? ' rb-fpip-on' : ''}" data-fan-idx="${fi}" data-step="${i}">${dots}</div>`;
+      }
+      return `<span class="rb-pp-lname">${fname}</span><div class="rb-fpips" id="rbfan-${fi}">${pips}</div>`;
+    }).join('');
+    return `<div class="rb-fans-sec">${html}</div>`;
+  }
+
+  _fanDots(level, speeds, active) {
+    const c = active ? 'rb-fdot rb-fdot-on' : 'rb-fdot';
+    if (level <= 3) return `<div class="rb-fdots-row">${Array(level).fill(`<div class="${c}"></div>`).join('')}</div>`;
+    return `<div class="rb-fdots-grid">${Array(4).fill(`<div class="${c}"></div>`).join('')}</div>`;
+  }
+
+  _statsPopupHtml(btn) {
+    const stats = (btn.popup_entities || []).filter(c => c.type === 'stat');
+    if (!stats.length) return '';
+    const tiles = stats.map(cfg => {
+      const raw = this._stateVal(cfg.entity);
+      const num = parseFloat(raw);
+      const val = !isNaN(num) ? (Number.isInteger(num) ? num : num.toFixed(1)) : (raw ?? '—');
+      const unit = this._entityState(cfg.entity)?.attributes?.unit_of_measurement || '';
+      return `<div class="pop-stat">
+        <div class="pop-stat-val">${val}<span class="pop-stat-unit">${unit}</span></div>
+        <div class="pop-stat-lbl">${cfg.label || ''}</div>
+      </div>`;
+    }).join('');
+    return `<div class="rb-stat-sec"><div class="rb-sec-lbl">Conditions</div><div class="pop-stats">${tiles}</div></div>`;
+  }
+
+  // ── Build full popup content ───────────────────────────────────────────────────
+
+  _buildPopupContent(btn) {
+    const name = btn.name
+      || this._entityState(btn.entity)?.attributes?.friendly_name
+      || btn.entity;
+
+    const hasLights = !!(btn.lights);
+    const hasFans   = !!(btn.fans && btn.fans.length);
+
+    let sub = '';
+    if (hasLights) {
+      const on  = this._isOn(btn.lights?.entity || btn.entity);
+      const indiv = btn.lights?.individuals || [];
+      if (indiv.length) {
+        const cnt = indiv.filter(l => this._isOn(l.entity)).length;
+        sub = `${cnt} / ${indiv.length} on`;
+      } else {
+        const bri = this._brightness(btn.lights?.entity || btn.entity);
+        sub = on ? (bri != null ? `On · ${bri}%` : 'On') : 'Off';
+      }
+    }
+
+    const lightsHtml = hasLights ? this._lightsPopupHtml(btn) : '';
+    const fansHtml   = hasFans   ? this._fansPopupHtml(btn)   : '';
+    const statsHtml  = this._statsPopupHtml(btn);
+
+    // Legacy popup_entities (toggle, cover_group) still work
+    const popupEntities = btn.popup_entities || [];
+    const toggles = popupEntities.filter(c => c.type === 'toggle');
+    const covers  = popupEntities.filter(c => c.type === 'cover_group');
+    let legacyHtml = '';
+    if (toggles.length || covers.length) {
+      let inner = '';
+      if (toggles.length) inner += `<div class="pop-tiles">${toggles.map((c, i) => this._toggleTileHTML(c, i)).join('')}</div>`;
+      covers.forEach(c => { inner += this._coverGroupTileHTML(c); });
+      legacyHtml = `<div class="pop-section"><div class="pop-sec-lbl">Controls</div>${inner}</div>`;
+    }
+
+    return `
+      <div id="rb-handle"></div>
+      <div class="pop-head">
+        <div>
+          <div class="pop-title">${name}</div>
+          ${sub ? `<div class="pop-sub">${sub}</div>` : ''}
+        </div>
+        <button id="rb-close">✕</button>
+      </div>
+      <div class="pop-divider"></div>
+      ${hasLights ? `<div class="rb-sec-lbl">Lights</div>${lightsHtml}` : ''}
+      ${hasFans   ? `${hasLights ? '<div class="rb-divider"></div>' : ''}<div class="rb-sec-lbl">Fans</div>${fansHtml}` : ''}
+      ${legacyHtml}
+      ${statsHtml}`;
+  }
+
+  // ── Popup HTML builders (legacy popup_entities) ────────────────────────────────
 
   _statTileHTML(cfg) {
     const raw   = this._stateVal(cfg.entity);
@@ -660,6 +812,123 @@ class RoomButtonsCard extends HTMLElement {
     popup.innerHTML = this._buildPopupContent(btn);
     overlay.style.display = 'flex';
     popup.scrollTop = scrollTop;
+    document.body.style.overflow = 'hidden';
+
+    // Close
+    popup.querySelector('#rb-close')?.addEventListener('click', () => this._closePopup());
+    setTimeout(() => {
+      overlay.addEventListener('click', e => { if (e.target === overlay) this._closePopup(); }, { once: true });
+    }, 50);
+
+    // ── Master brightness drag ──────────────────────────────────────────────────
+    const masterWrap = popup.querySelector('[data-action="rb-master-drag"]');
+    if (masterWrap) {
+      const eid = masterWrap.dataset.entity;
+      const fill = popup.getElementById('rbmf'), thumb = popup.getElementById('rbmt'), pct = popup.getElementById('rbmpct');
+      let dragging = false, timer = null;
+      const upd = (cx, commit) => {
+        const r = masterWrap.getBoundingClientRect();
+        const p = Math.max(0, Math.min(100, Math.round(((cx - r.left) / r.width) * 100)));
+        if (fill)  fill.style.width  = p + '%';
+        if (thumb) thumb.style.left  = Math.min(p, 96) + '%';
+        if (pct)   pct.textContent   = p + '%';
+        if (commit) { clearTimeout(timer); timer = setTimeout(() => {
+          if (p === 0) this._call('light', 'turn_off', { entity_id: eid }, null);
+          else         this._call('light', 'turn_on',  { entity_id: eid, brightness_pct: p }, null);
+        }, 150); }
+      };
+      masterWrap.addEventListener('mousedown',  e => { dragging = true; upd(e.clientX, false); e.preventDefault(); });
+      masterWrap.addEventListener('touchstart', e => { dragging = true; upd(e.touches[0].clientX, false); }, { passive: true });
+      document.addEventListener('mousemove',  e => { if (dragging) upd(e.clientX, true); });
+      document.addEventListener('touchmove',  e => { if (dragging) upd(e.touches[0].clientX, true); }, { passive: true });
+      document.addEventListener('mouseup',    () => { dragging = false; });
+      document.addEventListener('touchend',   () => { dragging = false; });
+    }
+
+    // ── Individual light drag sliders ───────────────────────────────────────────
+    popup.querySelectorAll('[data-action="rb-indiv-drag"]').forEach(wrap => {
+      const eid = wrap.dataset.entity, li = wrap.dataset.li;
+      const fill = popup.getElementById(`rblf-${li}`), thumb = popup.getElementById(`rblth-${li}`), pct = popup.getElementById(`rblpct-${li}`);
+      let dragging = false, timer = null;
+      const upd = (cx, commit) => {
+        const r = wrap.getBoundingClientRect();
+        const p = Math.max(0, Math.min(100, Math.round(((cx - r.left) / r.width) * 100)));
+        if (fill)  fill.style.width = p + '%';
+        if (thumb) thumb.style.left = Math.max(4, Math.min(p, 96)) + '%';
+        if (pct)   pct.textContent  = p + '%';
+        if (commit) { clearTimeout(timer); timer = setTimeout(() => {
+          if (p === 0) this._call('light', 'turn_off', { entity_id: eid }, null);
+          else         this._call('light', 'turn_on',  { entity_id: eid, brightness_pct: p }, null);
+        }, 150); }
+      };
+      wrap.addEventListener('mousedown',  e => { dragging = true; upd(e.clientX, false); e.preventDefault(); });
+      wrap.addEventListener('touchstart', e => { dragging = true; upd(e.touches[0].clientX, false); }, { passive: true });
+      document.addEventListener('mousemove',  e => { if (dragging) upd(e.clientX, true); });
+      document.addEventListener('touchmove',  e => { if (dragging) upd(e.touches[0].clientX, true); }, { passive: true });
+      document.addEventListener('mouseup',    () => { dragging = false; });
+      document.addEventListener('touchend',   () => { dragging = false; });
+    });
+
+    // ── Fan pip buttons ─────────────────────────────────────────────────────────
+    const fans = btn.fans || [];
+    popup.querySelectorAll('.rb-fpip[data-fan-idx]').forEach(el => {
+      const fi   = parseInt(el.dataset.fanIdx);
+      const step = parseInt(el.dataset.step);
+      const cfg  = fans[fi];
+      if (!cfg) return;
+      el.addEventListener('click', e => {
+        e.stopPropagation();
+        this._setFanSpeed(cfg, step);
+        // Patch pips in-place rather than full re-render
+        const speeds = this._fanResolvedSpeeds(cfg);
+        const row    = popup.getElementById(`rbfan-${fi}`);
+        if (row) row.querySelectorAll('.rb-fpip').forEach((pip, i) => {
+          pip.classList.toggle('rb-fpip-on', i === step);
+          const dotEl = pip.querySelector('.rb-fdots-row, .rb-fdots-grid, .rb-fpip-off');
+          if (dotEl) {
+            if (i === 0) {
+              dotEl.className = 'rb-fpip-off';
+              dotEl.innerHTML = 'Off';
+            } else {
+              const active = (i === step);
+              dotEl.className = i <= 3 ? 'rb-fdots-row' : 'rb-fdots-grid';
+              const c = active ? 'rb-fdot rb-fdot-on' : 'rb-fdot';
+              dotEl.innerHTML = Array(Math.min(i, 4)).fill(`<div class="${c}"></div>`).join('');
+            }
+          }
+        });
+      });
+    });
+
+    // ── Legacy toggle tiles ─────────────────────────────────────────────────────
+    const popupEntities = btn.popup_entities || [];
+    const toggles = popupEntities.filter(c => c.type === 'toggle');
+    const covers  = popupEntities.filter(c => c.type === 'cover_group');
+
+    popup.querySelectorAll('.pop-tile[data-toggle-idx]').forEach(el => {
+      const cfg = toggles[parseInt(el.dataset.toggleIdx)];
+      if (!cfg) return;
+      el.addEventListener('click', () => {
+        this._togglePopupEntity(cfg.entity);
+        setTimeout(() => { if (this._popupOpen) this._openPopup(btn); }, 350);
+      });
+    });
+
+    popup.querySelectorAll('.cover-tile').forEach((tileEl, ci) => {
+      const cfg = covers[ci];
+      if (!cfg) return;
+      tileEl.querySelector('[data-cov-action="open"]')?.addEventListener('click', () => {
+        this._openCoverGroup(cfg);
+        setTimeout(() => { if (this._popupOpen) this._openPopup(btn); }, 400);
+      });
+      tileEl.querySelector('[data-cov-action="close"]')?.addEventListener('click', () => {
+        this._closeCoverGroup(cfg);
+        setTimeout(() => { if (this._popupOpen) this._openPopup(btn); }, 400);
+      });
+    });
+  }
+    overlay.style.display = 'flex';
+    popup.scrollTop = scrollTop;
 
     const popupEntities = btn.popup_entities || [];
     const toggles = popupEntities.filter(c => c.type === 'toggle');
@@ -777,6 +1046,7 @@ class RoomButtonsCard extends HTMLElement {
   _closePopup() {
     this._popupOpen = false;
     this._activeBtn = null;
+    document.body.style.overflow = '';
     const overlay = this.shadowRoot.getElementById('rb-overlay');
     if (overlay) overlay.style.display = 'none';
   }
@@ -1159,6 +1429,42 @@ class RoomButtonsCard extends HTMLElement {
           background: rgba(255,255,255,0.08);
           border-color: rgba(255,255,255,0.14); color: #94a3b8;
         }
+
+        /* ── Lights section ── */
+        .rb-sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65);padding:0 0 4px;display:block}
+        .rb-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28);padding:0 0 6px;display:block}
+        .rb-lights-sec{padding:0 0 4px}
+        .rb-master{margin:0 0 6px;border-radius:8px;background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.12);overflow:hidden}
+        .rb-mrow{display:flex;align-items:center;gap:8px;padding:10px 12px}
+        .rb-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
+        .rb-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+        .rb-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
+        .rb-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
+        .rb-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}
+        .rb-pp-lights{display:flex;flex-direction:column;gap:8px;padding:0 0 8px}
+        .rb-pp-light{opacity:.5;transition:opacity .15s}
+        .rb-pp-light-on{opacity:1}
+        .rb-pp-lname{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:0 0 5px;display:block}
+        .rb-pp-lname.lit{color:rgba(255,255,255,.65)}
+        .rb-pp-lrow{display:flex;align-items:center;gap:8px}
+
+        /* ── Section divider ── */
+        .rb-divider{height:1px;background:rgba(255,255,255,.07);margin:8px 0}
+
+        /* ── Fans section ── */
+        .rb-fans-sec{padding:4px 0 8px;display:flex;flex-direction:column;gap:10px}
+        .rb-fpips{display:flex;gap:4px;margin-top:4px}
+        .rb-fpip{flex:1;height:44px;border-radius:7px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .1s,border-color .1s;user-select:none;-webkit-tap-highlight-color:transparent}
+        .rb-fpip:active{transform:scale(.9)}
+        .rb-fpip-on{background:rgba(45,212,191,.15);border-color:rgba(45,212,191,.4)}
+        .rb-fdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.2)}
+        .rb-fdot-on{background:#2dd4bf}
+        .rb-fdots-row{display:flex;gap:4px;align-items:center;justify-content:center}
+        .rb-fdots-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;align-items:center;justify-items:center}
+        .rb-fpip-off{font-size:9px;font-weight:700;color:rgba(255,255,255,.25)}
+
+        /* ── Stats section (bottom) ── */
+        .rb-stat-sec{padding:8px 0 0}
       </style>
 
       <ha-card>
