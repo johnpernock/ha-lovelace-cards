@@ -319,10 +319,5 @@ See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
 | [ha-custom-cards](https://github.com/johnpernock/ha-custom-cards) | This repo — dashboard cards displayed on the kiosk |
 | [ha-pi-dashboard](https://github.com/johnpernock/ha-pi-dashboard) | Kiosk OS setup — Pi hardware, browser_mod, display API |
 | [ha-kiosk-popup-automation](https://github.com/johnpernock/ha-kiosk-popup-automation) | browser_mod popup cards — NWS alerts, doorbell, SEPTA delays |
-| [ha-kiosk-automation](https://github.com/johnpernock/ha-kiosk-automation) | Kiosk display schedule — power off at night, on in morning |
+| [ha-custom-automation](https://github.com/johnpernock/ha-custom-automation) | All Home Assistant automations — lighting, climate, blinds, security, kiosk |
 | [ha-voice-sattelite](https://github.com/johnpernock/ha-voice-sattelite) | Voice satellite installer — LVA + ReSpeaker, ESPHome protocol |
-| [ha-outdoor-light-automation](https://github.com/johnpernock/ha-outdoor-light-automation) | Dusk-to-dawn + 13 holiday theme outdoor lighting automations |
-| [ha-hue-lutron-sync-automation](https://github.com/johnpernock/ha-hue-lutron-sync-automation) | Hue Dimmer and Lutron Caséta button sync automations |
-| [ha-blind-automation](https://github.com/johnpernock/ha-blind-automation) | Cloud/temperature/comfort-aware blind control automations |
-| [ha-camera-automation](https://github.com/johnpernock/ha-camera-automation) | UniFi Protect multi-camera recording and alert automations |
-| [ha-temperature-fan-automation](https://github.com/johnpernock/ha-temperature-fan-automation) | Temperature-based ceiling fan speed automations |
