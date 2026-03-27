@@ -715,7 +715,7 @@ class SeptaPaoliCard extends HTMLElement {
           display: none;
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.55);
+          background: rgba(0,0,0,0.85);
           z-index: 9999;
           box-sizing: border-box;
           align-items: flex-end;
@@ -723,7 +723,7 @@ class SeptaPaoliCard extends HTMLElement {
         }
 
         #sp-popup {
-          background: var(--card-background-color, #1e1e1e);
+          background: #000000;
           border: 1.5px solid rgba(255,255,255,0.40);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
@@ -918,8 +918,8 @@ class SeptaPaoliCard extends HTMLElement {
       .exp-no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.55);border-top:1.5px solid rgba(255,255,255,.25)}
       .exp-no-service{font-size:12px;color:rgba(255,255,255,.55);font-style:italic;padding:10px 14px}
       .no-alert{display:flex;align-items:center;gap:5px;padding:8px 14px 10px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.55);border-top:1.5px solid rgba(255,255,255,.25)}
-      #sp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;box-sizing:border-box;align-items:flex-end;justify-content:center}
-      #sp-popup{background:#1a1a1a;border:1.5px solid rgba(255,255,255,.40);border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
+      #sp-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;box-sizing:border-box;align-items:flex-end;justify-content:center}
+      #sp-popup{background:#000000;border:1.5px solid rgba(255,255,255,.40);border-radius:16px 16px 0 0;border-bottom:none;padding:20px;box-sizing:border-box;overflow-y:auto;max-height:80vh;width:100%}
       #sp-handle{width:36px;height:4px;background:rgba(255,255,255,.15);border-radius:2px;margin:0 auto 16px}
       @media(min-width:768px){#sp-overlay{align-items:center;justify-content:center;padding:24px}#sp-popup{max-width: 440px;border-radius:16px;border-bottom:1.5px solid rgba(255,255,255,.35)}#sp-handle{display:none}}
     `;

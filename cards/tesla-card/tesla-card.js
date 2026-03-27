@@ -849,12 +849,12 @@ class TeslaCard extends HTMLElement {
         /* ── Popup — bottom sheet mobile, centered modal desktop ── */
         #tc-overlay {
           display: none; position: fixed; inset: 0;
-          background: rgba(0,0,0,0.55);
+          background: rgba(0,0,0,0.85);
           align-items: flex-end; justify-content: center;
           z-index: 9999; box-sizing: border-box; padding: 0;
         }
         #tc-popup {
-          background: var(--card-background-color, #1e1e1e);
+          background: #000000;
           border: 1.5px solid rgba(255,255,255,0.40);
           border-radius: 16px 16px 0 0; border-bottom: none;
           padding: 20px; box-sizing: border-box;
