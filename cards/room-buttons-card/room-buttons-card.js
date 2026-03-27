@@ -1,9 +1,9 @@
 /**
- * room-buttons-card.js  —  v29
+ * room-buttons-card.js  —  v30
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy to /config/www/room-buttons-card.js
+ * 1. Copy to /config/www/cards/room-buttons-card/room-buttons-card.js
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/room-buttons-card.js
  *      Type: JavaScript Module
@@ -1320,14 +1320,14 @@ class RoomButtonsCard extends HTMLElement {
           display: none;
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.55);
+          background: rgba(0,0,0,0.85);
           z-index: 9999;
           box-sizing: border-box;
           align-items: flex-end;
           justify-content: center;
         }
         #rb-popup {
-          background: #0d0d0d;
+          background: #000000;
           border: 1.5px solid rgba(255,255,255,.40);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
@@ -1353,7 +1353,7 @@ class RoomButtonsCard extends HTMLElement {
             width: 100%;
             max-width: 420px;
             border-radius: 16px;
-            border-bottom: 1px solid rgba(255,255,255,.25);
+            border: 1.5px solid rgba(255,255,255,.20);
           }
           #rb-handle { display: none !important; }
         }
@@ -1567,8 +1567,8 @@ class RoomButtonsCard extends HTMLElement {
         /* ── Lights section ── */
         .rb-sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65);padding:0 0 4px;display:block}
         .rb-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28);padding:0 0 6px;display:block}
-        .rb-lights-sec{padding:0 0 4px}
-        .rb-master{margin:0 0 6px;border-radius:8px;background:rgba(251,191,36,0);border:1.5px solid rgba(251,191,36,.35);overflow:hidden}
+        .rb-lights-sec{padding:0 0 4px;display:flex;flex-direction:column;gap:0}
+        .rb-master{margin:0 0 10px;border-radius:8px;background:rgba(251,191,36,.06);border:1.5px solid rgba(251,191,36,.30);overflow:hidden}
         .rb-mrow{display:flex;align-items:center;gap:8px;padding:10px 12px}
         .rb-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
         .rb-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden;position:relative}
@@ -1644,7 +1644,7 @@ class RoomButtonsCard extends HTMLElement {
     /* ── Light mode override (no Amoled+ theme / default HA) ─────────────── */
     @media (prefers-color-scheme: light) {
       .card,.wrap,.room,.exp-wrap { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: var(--card-background-color, #fff) !important; }
-      .fpip { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }
+      .fpip { border-color: var(--divider-color, rgba(0,0,0,.20)) !important; background: transparent !important; }
       .fpip-dot { background: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
       .fpip-dot-off { color: var(--secondary-text-color, rgba(0,0,0,.4)) !important; }
       .itog { border-color: var(--divider-color, rgba(0,0,0,.15)) !important; background: transparent !important; }

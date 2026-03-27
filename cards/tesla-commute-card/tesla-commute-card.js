@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v14
+ * tesla-commute-card.js  —  v15
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -34,6 +34,8 @@ class TeslaCommuteCard extends HTMLElement {
     this._hass   = null;
     this._busy   = {};
   }
+
+  static getStubConfig() { return { entities: { battery_level: 'sensor.tesla_battery', battery_range: 'sensor.tesla_range' } }; }
 
   setConfig(c) {
     if (!c.entities) throw new Error('tesla-commute-card: entities is required');
@@ -274,9 +276,17 @@ class TeslaCommuteCard extends HTMLElement {
     </div>` : '';
 
     const odoDisplay = odo != null ? odo.toLocaleString()+' mi' : '—';
-    const btnOdo     = ents.odometer   ? `<div class="action-btn" style="${OFF_BG};cursor:default">
-      <div class="action-ico"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
-      <div class="action-lbl" style="color:rgba(255,255,255,.35)" id="tc-odo-lbl">${odoDisplay}</div>
+    const odoHasVal  = odo != null && odo > 0;
+    const odoBg      = odoHasVal ? 'background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.28)' : OFF_BG;
+    const odoHasVal  = odo != null && odo > 0;
+    const odoIconClr = odoHasVal ? '#60a5fa' : 'rgba(255,255,255,.3)';
+    const odoTxtClr  = odoHasVal ? '#60a5fa' : 'rgba(255,255,255,.35)';
+    const odoBg      = odoHasVal
+      ? 'background:rgba(96,165,250,.10);border-color:rgba(96,165,250,.4)'
+      : OFF_BG;
+    btnOdo     = ents.odometer   ? `<div class="action-btn" style="${odoBg};cursor:default">
+      <div class="action-ico"><svg viewBox="0 0 24 24" fill="none" stroke="${odoIconClr}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <div class="action-lbl" style="color:${odoTxtClr}" id="tc-odo-lbl">${odoDisplay}</div>
     </div>` : '';
 
     this.shadowRoot.innerHTML = `
@@ -415,7 +425,18 @@ class TeslaCommuteCard extends HTMLElement {
     // trunk + sentry
     if (el('tc-trunk-lbl'))  { el('tc-trunk-lbl').textContent = trunkOpen ? 'Open' : 'Trunk'; el('tc-trunk-lbl').style.color = trunkOpen ? '#60a5fa' : 'rgba(255,255,255,.35)'; }
     if (el('tc-sentry-lbl')) { el('tc-sentry-lbl').textContent = sentryOn ? 'Sentry on' : 'Sentry'; el('tc-sentry-lbl').style.color = sentryOn ? '#60a5fa' : 'rgba(255,255,255,.35)'; }
-    if (el('tc-odo-lbl'))    el('tc-odo-lbl').textContent = odo != null ? odo.toLocaleString()+' mi' : '—';
+    if (el('tc-odo-lbl')) {
+      el('tc-odo-lbl').textContent = odo != null ? odo.toLocaleString()+' mi' : '—';
+      const odoBtn = el('tc-odo-lbl')?.closest?.('.action-btn');
+      if (odoBtn) {
+        const hasOdo = odo != null && odo > 0;
+        odoBtn.style.background   = hasOdo ? 'rgba(96,165,250,.10)' : '';
+        odoBtn.style.borderColor  = hasOdo ? 'rgba(96,165,250,.4)'  : 'rgba(255,255,255,.28)';
+        el('tc-odo-lbl').style.color = hasOdo ? '#60a5fa' : 'rgba(255,255,255,.35)';
+        const svg = odoBtn.querySelector('svg');
+        if (svg) svg.setAttribute('stroke', hasOdo ? '#60a5fa' : 'rgba(255,255,255,.3)');
+      }
+    }
 
     // tires — patch in-place
     const tireKeys = ['tire_pressure_fl','tire_pressure_fr','tire_pressure_rl','tire_pressure_rr'];
@@ -425,6 +446,7 @@ class TeslaCommuteCard extends HTMLElement {
       const e   = el(`tc-${k}`);
       if (e) { e.textContent = v != null ? Math.round(v) : '—'; e.style.color = v == null ? 'rgba(255,255,255,.3)' : bad ? '#f87171' : '#4ade80'; }
     });
+    this._attachListeners();
   }
 
   _attachListeners() {

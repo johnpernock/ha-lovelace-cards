@@ -3,7 +3,7 @@
  * Compact Home Assistant Lovelace thermostat card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy this file to /config/www/thermostat-card.js
+ * 1. Copy this file to /config/www/cards/thermostat-card/thermostat-card.js
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/thermostat-card.js
  *      Type: JavaScript Module

@@ -26,6 +26,8 @@ class BambuPrinterCard extends HTMLElement {
     this._hass   = null;
   }
 
+  static getStubConfig() { return { prefix: 'bambu_p1s' }; }
+
   setConfig(c) {
     this._config = c;
     this._render();

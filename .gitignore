@@ -30,3 +30,9 @@ deploy.log
 # Temporary files
 tmp/
 temp/
+
+# Session context files — never commit
+ha-config/session-memory*.md
+
+# Session memory files
+ha-config/session-memory-*.md

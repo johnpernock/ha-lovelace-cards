@@ -1,11 +1,11 @@
 /**
- * door-sensor-card.js  —  v17
+ * door-sensor-card.js  —  v18
  * Compact door/window sensor summary banner for Home Assistant Lovelace.
  * Shows open count + which doors are open. Green when all clear.
  * Tap the banner to open a 3-column icon grid popup.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy to /config/www/door-sensor-card.js
+ * 1. Copy to /config/www/cards/door-sensor-card/door-sensor-card.js
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/door-sensor-card.js
  *      Type: JavaScript Module
@@ -51,12 +51,13 @@ class DoorSensorCard extends HTMLElement {
         { entity: 'binary_sensor.office_door',  name: 'Office'       },
         { entity: 'binary_sensor.kitchen_door', name: 'Kitchen'      },
       ],
+      // garage: { entity: 'cover.garage_door', name: 'Garage' }
     };
   }
 
   setConfig(config) {
-    if (!config.doors?.length) {
-      throw new Error('door-sensor-card: please define at least one door');
+    if (!config.doors?.length && !config.garage) {
+      throw new Error('door-sensor-card: please define at least one door or garage');
     }
     this._config = config;
     this._render();
@@ -77,6 +78,27 @@ class DoorSensorCard extends HTMLElement {
     if (!this._hass || !entityId) return false;
     const e = this._hass.states[entityId];
     return e ? e.state === 'on' : false;
+  }
+
+  _garageIsOpen() {
+    if (!this._config.garage || !this._hass) return false;
+    const e = this._hass.states[this._config.garage.entity];
+    if (!e) return false;
+    return ['open', 'opening'].includes(e.state);
+  }
+
+  _garageState() {
+    if (!this._config.garage || !this._hass) return null;
+    const e = this._hass.states[this._config.garage.entity];
+    return e ? e.state : null;
+  }
+
+  _garageIcon(color) {
+    return `<svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="${color}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="7" width="20" height="14" rx="1"/>
+      <path d="M2 11h20M2 15h20M6 7V4M18 7V4"/>
+    </svg>`;
   }
 
   // ── Icons — explicit stroke color so they always render ──────────────────────
@@ -132,12 +154,36 @@ class DoorSensorCard extends HTMLElement {
       ? `${openCount} door${openCount > 1 ? 's' : ''} open`
       : 'All doors closed';
 
-    // Open doors first, then closed
-    const sorted = [...doors].sort((a, b) =>
-      this._isOpen(b.entity) - this._isOpen(a.entity)
-    );
+    // Build combined list: doors + garage
+    const garageCfg = this._config.garage;
+    const allItems = [
+      ...doors.map(d => ({ ...d, type: 'door' })),
+      ...(garageCfg ? [{ ...garageCfg, type: 'garage' }] : []),
+    ];
+
+    // Open first, then closed
+    const sorted = [...allItems].sort((a, b) => {
+      const aOpen = a.type === 'garage' ? this._garageIsOpen() : this._isOpen(a.entity);
+      const bOpen = b.type === 'garage' ? this._garageIsOpen() : this._isOpen(b.entity);
+      return bOpen - aOpen;
+    });
 
     const tilesHtml = sorted.map(d => {
+      if (d.type === 'garage') {
+        const gOpen  = this._garageIsOpen();
+        const gState = this._garageState();
+        const color  = gOpen ? '#f87171' : '#4ade80';
+        const bg     = gOpen ? 'rgba(248,113,113,0.1)'  : 'rgba(74,222,128,0.07)';
+        const border = gOpen ? 'rgba(248,113,113,0.28)' : 'rgba(74,222,128,0.18)';
+        const label  = gState === 'opening' ? 'Opening' : gState === 'closing' ? 'Closing' : gOpen ? 'Open' : 'Closed';
+        return \`<div style="background:\${bg};border:1px solid \${border};border-radius:10px;
+            padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px">
+          \${this._garageIcon(color)}
+          <div style="font-size:11px;font-weight:700;color:#e2e8f0;text-align:center">\${d.name || 'Garage'}</div>
+          <div style="font-size:9.5px;font-weight:700;color:\${color};text-transform:uppercase;letter-spacing:.05em">\${label}</div>
+        </div>\`;
+      }
+      // Door tile
       const open   = this._isOpen(d.entity);
       const color  = open ? '#f87171' : '#4ade80';
       const bg     = open ? 'rgba(248,113,113,0.1)'  : 'rgba(74,222,128,0.07)';
@@ -188,17 +234,20 @@ class DoorSensorCard extends HTMLElement {
   // ── Render ────────────────────────────────────────────────────────────────────
 
   _patch() {
-    if (!this._config.doors) return;
-    const doors     = this._config.doors;
+    if (!this._config.doors && !this._config.garage) return;
+    const doors     = this._config.doors || [];
     const openDoors = doors.filter(d => this._isOpen(d.entity));
+    const garageOpen = this._garageIsOpen();
+    const garageState = this._garageState();
     const count     = openDoors.length;
-    const anyOpen   = count > 0;
-    const GREEN = '#4ade80', RED = '#f87171';
+    const anyOpen   = count > 0 || garageOpen;
+    const GREEN = '#4ade80', RED = '#f87171', AMBER = '#fbbf24';
     const bannerBg     = anyOpen ? 'rgba(239,68,68,0.10)'  : 'rgba(74,222,128,0.08)';
     const bannerBorder = anyOpen ? 'rgba(239,68,68,0.35)'  : 'rgba(74,222,128,0.25)';
     const bannerColor  = anyOpen ? RED : GREEN;
-    const bannerTitle  = anyOpen ? `${count} door${count > 1 ? 's' : ''} open` : 'All doors closed';
-    const bannerSub    = anyOpen ? openDoors.map(d => d.name).join(', ') : 'All doors are secure';
+    const openNames    = [...openDoors.map(d => d.name), ...(garageOpen ? [this._config.garage.name || 'Garage'] : [])];
+    const bannerTitle  = anyOpen ? `${openNames.length} open` : 'All clear';
+    const bannerSub    = anyOpen ? openNames.join(', ') : 'All doors and garage secure';
 
     const banner = this.shadowRoot.querySelector('.banner');
     if (!banner) return;
@@ -208,20 +257,27 @@ class DoorSensorCard extends HTMLElement {
     const title = banner.querySelector('.banner-title');
     const sub   = banner.querySelector('.banner-sub');
     const chev  = banner.querySelector('.banner-chevron');
+    const gpill = banner.querySelector('.garage-pill');
     if (ico)   ico.innerHTML = this._bannerIcon(anyOpen, bannerColor);
     if (title) { title.textContent = bannerTitle; title.style.color = bannerColor; }
     if (sub)   { sub.textContent   = bannerSub;   sub.style.color   = bannerColor; }
     if (chev)  chev.style.color    = bannerColor;
+    if (gpill) {
+      gpill.style.display = this._config.garage && garageOpen ? 'flex' : 'none';
+      gpill.textContent   = garageState === 'opening' ? '↑ Opening' : '⚠ Garage Open';
+    }
     if (this._popupOpen) this._renderPopup();
   }
 
   _render() {
-    if (!this._config.doors) return;
+    if (!this._config.doors && !this._config.garage) return;
 
-    const doors     = this._config.doors;
-    const openDoors = doors.filter(d => this._isOpen(d.entity));
-    const count     = openDoors.length;
-    const anyOpen   = count > 0;
+    const doors      = this._config.doors || [];
+    const openDoors  = doors.filter(d => this._isOpen(d.entity));
+    const garageOpen = this._garageIsOpen();
+    const garageState = this._garageState();
+    const count      = openDoors.length;
+    const anyOpen    = count > 0 || garageOpen;
 
     const GREEN = '#4ade80';
     const RED   = '#f87171';
@@ -229,12 +285,9 @@ class DoorSensorCard extends HTMLElement {
     const bannerBg     = anyOpen ? 'rgba(239,68,68,0.10)'  : 'rgba(74,222,128,0.08)';
     const bannerBorder = anyOpen ? 'rgba(239,68,68,0.35)'  : 'rgba(74,222,128,0.25)';
     const bannerColor  = anyOpen ? RED : GREEN;
-    const bannerTitle  = anyOpen
-      ? `${count} door${count > 1 ? 's' : ''} open`
-      : 'All doors closed';
-    const bannerSub    = anyOpen
-      ? openDoors.map(d => d.name).join(', ')
-      : 'All doors are secure';
+    const openNames    = [...openDoors.map(d => d.name), ...(garageOpen ? [this._config.garage?.name || 'Garage'] : [])];
+    const bannerTitle  = anyOpen ? `${openNames.length} open` : 'All clear';
+    const bannerSub    = anyOpen ? openNames.join(', ') : 'All doors and garage secure';
 
     this.shadowRoot.innerHTML = `
       <style>
@@ -377,6 +430,13 @@ class DoorSensorCard extends HTMLElement {
             <div class="banner-title" style="color:${bannerColor}">${bannerTitle}</div>
             <div class="banner-sub"   style="color:${bannerColor}">${bannerSub}</div>
           </div>
+          ${this._config.garage && garageOpen ? `<div class="garage-pill" style="
+            display:flex;align-items:center;gap:4px;padding:3px 8px;
+            border-radius:99px;font-size:11px;font-weight:700;
+            background:rgba(239,68,68,0.18);border:1px solid rgba(239,68,68,0.45);
+            color:#f87171;flex-shrink:0">
+            ${garageState === 'opening' ? '↑ Opening' : '⚠ Garage Open'}
+          </div>` : `<div class="garage-pill" style="display:none"></div>`}
           <div class="banner-chevron" style="color:${bannerColor}">›</div>
         </div>
       </ha-card>

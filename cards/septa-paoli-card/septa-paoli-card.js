@@ -3,7 +3,7 @@
  * Home Assistant Lovelace card for SEPTA Paoli/Thorndale line departures.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy to /config/www/septa-paoli-card.js
+ * 1. Copy to /config/www/cards/septa-paoli-card/septa-paoli-card.js
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/septa-paoli-card.js
  *      Type: JavaScript Module

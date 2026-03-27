@@ -33,6 +33,8 @@ class TrafficCard extends HTMLElement {
     this._hass   = null;
   }
 
+  static getStubConfig() { return { to_work: { entity: 'sensor.commute_to_work', name: 'To Work' }, to_home: { entity: 'sensor.commute_home', name: 'Home' } }; }
+
   setConfig(c) {
     if (!c.to_work?.entity)      throw new Error('traffic-card: to_work.entity is required');
     if (!c.home_routes?.length)  throw new Error('traffic-card: home_routes must have at least one entry');

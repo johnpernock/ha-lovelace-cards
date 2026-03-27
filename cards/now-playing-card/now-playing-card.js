@@ -22,6 +22,8 @@ class NowPlayingCard extends HTMLElement {
     this._hass   = null;
   }
 
+  static getStubConfig() { return { players: [{ entity: 'media_player.living_room', name: 'Living Room' }] }; }
+
   setConfig(c) {
     if (!c.players?.length) throw new Error('now-playing-card: define at least one player');
     this._config = c;

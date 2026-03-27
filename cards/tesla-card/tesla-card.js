@@ -3,7 +3,7 @@
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy this file to /config/www/tesla-card.js
+ * 1. Copy this file to /config/www/cards/tesla-card/tesla-card.js
  * 2. In HA → Settings → Dashboards → Resources, add:
  *      URL:  /local/tesla-card.js
  *      Type: JavaScript Module

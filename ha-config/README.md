@@ -36,7 +36,7 @@ After saving: **Developer Tools → YAML → Groups → Reload** (or restart HA)
 
 ---
 
-### `waze-sensors.yaml` ⚠️ Deprecated
+### `deprecated/waze-sensors.yaml` ⚠️ Deprecated
 
 Kept for reference only. Waze Travel Time sensors are now configured through the HA UI integration, not via `configuration.yaml`.
 

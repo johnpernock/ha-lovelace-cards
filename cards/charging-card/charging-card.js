@@ -28,6 +28,8 @@ class ChargingCard extends HTMLElement {
     this._hass   = null;
   }
 
+  static getStubConfig() { return { tesla_prefix: 'tesla', wallbox_prefix: 'wallbox' }; }
+
   setConfig(c) {
     if (!c.tesla)           throw new Error('charging-card: tesla entities required');
     if (!c.wallbox_prefix)  throw new Error('charging-card: wallbox_prefix required');

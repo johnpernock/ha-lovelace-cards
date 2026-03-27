@@ -17,6 +17,8 @@ class WallboxCard extends HTMLElement {
     this._busy   = {};
   }
 
+  static getStubConfig() { return { prefix: 'wallbox_beryl_pulsar_plus' }; }
+
   setConfig(c) {
     if (!c.prefix) throw new Error('wallbox-card: prefix is required');
     this._config = c;

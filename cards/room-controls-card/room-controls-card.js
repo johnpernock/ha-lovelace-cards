@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v94
+ * room-controls-card.js  —  v95
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -826,7 +826,7 @@ class RoomControlsCard extends HTMLElement {
     .sensor-val{font-size:34px;font-weight:700;color:var(--primary-text-color);letter-spacing:-1px;line-height:1}
     .sensor-lbl{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5}
     .mode-btns{display:grid;gap:5px;padding:4px 0}
-    .mode-btn{border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;border:0.5px solid;transition:transform .1s;user-select:none}
+    .mode-btn{border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;border:1.5px solid rgba(255,255,255,.30);transition:transform .1s;user-select:none}
     .mode-btn:active{transform:scale(.97)}
     .mode-txt{font-size:13px;font-weight:700}
     .mode-sub{font-size:9px;color:rgba(255,255,255,.45);font-weight:400;margin-top:1px}
@@ -1190,15 +1190,15 @@ class RoomControlsCard extends HTMLElement {
     oc.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;font-size:16px';
     oc.innerHTML = `
       <style>
-        .rcc-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,.55);
+        .rcc-overlay{display:none;position:absolute;inset:0;background:rgba(0,0,0,.85);
           align-items:flex-end;justify-content:center;pointer-events:all}
         .rcc-overlay.open{display:flex}
         @media(min-width:768px){.rcc-overlay{align-items:center;justify-content:center;padding:24px}}
-        .rcc-sheet{background:#0d0d0d;
+        .rcc-sheet{background:#000000;
           border-radius:16px 16px 0 0;border:none;padding:0 0 16px;overflow-y:auto;
           max-height:88vh;width:100%;max-width:100%;touch-action:pan-y;overscroll-behavior:contain;
           font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:16px}
-        @media(min-width:768px){.rcc-sheet{max-width:440px;border-radius:16px;border:none;max-height:80vh}}
+        @media(min-width:768px){.rcc-sheet{max-width:440px;border-radius:16px;border:1.5px solid rgba(255,255,255,.20);max-height:80vh}}
         .rcc-handle{width:36px;height:4px;border-radius:2px;background:rgba(255,255,255,.15);margin:12px auto 8px}
         @media(min-width:768px){.rcc-handle{display:none}}
         *{box-sizing:border-box;margin:0;padding:0;color:inherit}
@@ -1254,7 +1254,7 @@ class RoomControlsCard extends HTMLElement {
         .tog{position:relative;border-radius:8px;cursor:pointer;flex-shrink:0;border:1px solid;user-select:none}
         .tog-thumb{position:absolute;border-radius:50%;transition:left .15s,background .15s}
         .mode-btns{display:grid;gap:5px;padding:4px 0}
-        .mode-btn{border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;border:0.5px solid;transition:transform .1s;user-select:none}
+        .mode-btn{border-radius:9px;padding:9px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;border:1.5px solid rgba(255,255,255,.30);transition:transform .1s;user-select:none}
         .mode-btn:active{transform:scale(.97)}
         .mode-txt{font-size:13px;font-weight:700}
         .mode-sub{font-size:9px;color:rgba(255,255,255,.45);font-weight:400;margin-top:1px}

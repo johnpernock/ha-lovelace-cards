@@ -3,7 +3,7 @@
  * Custom Home Assistant Lovelace calendar card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy to /config/www/calendar-card.js
+ * 1. Copy to /config/www/cards/calendar-card/calendar-card.js
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/calendar-card.js
  *      Type: JavaScript Module

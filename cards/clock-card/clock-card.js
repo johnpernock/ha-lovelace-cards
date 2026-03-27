@@ -3,7 +3,7 @@
  * Home Assistant Lovelace clock + date card with optional calendar popup.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy to /config/www/clock-card.js
+ * 1. Copy to /config/www/cards/clock-card/clock-card.js
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/clock-card.js
  *      Type: JavaScript Module

@@ -13,6 +13,8 @@ class PrinterStatusCard extends HTMLElement {
     this._hass   = null;
   }
 
+  static getStubConfig() { return { prefix: 'bambu_p1s' }; }
+
   setConfig(c) { this._config = c; this._render(); }
   set hass(h) {
     const prev = this._hass;

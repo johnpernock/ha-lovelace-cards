@@ -17,6 +17,8 @@ class EcoflowCard extends HTMLElement {
     this._busy   = {};
   }
 
+  static getStubConfig() { return { prefix: 'river_2_pro' }; }
+
   setConfig(c) {
     if (!c.prefix) throw new Error('ecoflow-card: prefix is required');
     this._config = c;

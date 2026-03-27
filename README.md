@@ -160,16 +160,16 @@ Full documentation for all cards — config params, entity reference, and change
 
 | Card | Folder | Version |
 |------|--------|---------|
-| Room Controls | `cards/room-controls-card/` | v74 |
+| Room Controls | `cards/room-controls-card/` | v95 |
 | Room Buttons | `cards/room-buttons-card/` | v7 |
 | Camera Layout | `cards/camera-layout-card/` | v5 |
-| Technology | `cards/technology-card/` | v14 |
+| Technology | `cards/technology-card/` | v25 |
 | Bambu Printer | `cards/bambu-printer-card/` | v4 |
 | Printer Status | `cards/printer-status-card/` | v2 |
-| Weather (NWS) | `cards/weather-card-nws/` | v8 |
+| Weather (NWS) | `cards/weather-card-nws/` | v15 |
 | Clock | `cards/clock-card/` | v4 |
 | Temp Strip | `cards/temp-strip-card/` | v5 |
-| Door Sensors | `cards/door-sensor-card/` | v10 |
+| Door Sensors | `cards/door-sensor-card/` | v18 |
 | SEPTA Paoli | `cards/septa-paoli-card/` | v25 |
 | Thermostat | `cards/thermostat-card/` | v7 |
 | Tesla | `cards/tesla-card/` | v13 |
@@ -180,7 +180,7 @@ Full documentation for all cards — config params, entity reference, and change
 | Ecoflow | `cards/ecoflow-card/` | v3 |
 | Now Playing | `cards/now-playing-card/` | v4 |
 | Traffic (Commute) | `cards/traffic-card/` | v7 |
-| Tesla Commute | `cards/tesla-commute-card/` | v4 |
+| Tesla Commute | `cards/tesla-commute-card/` | v15 |
 | Charging | `cards/charging-card/` | v2 |
 | Protect Events ✦ | `cards/protect-events-card/` | v1.1 |
 | Leave By ✦ | `cards/leave-by-card/` | v4 |
@@ -277,6 +277,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
 
 | Date | Summary |
 |------|---------|
+| Mar 2026 | **Bug fixes & refactoring.** Popup overlay opacity increased to 85%, popup backgrounds set to true black for Amoled+. Wall display popup border fixed (was invisible). `room-controls-card` mode-btn border fixed. Tesla commute odometer button now colored when value present. Technology card network banners and ink bar visibility improved. Recently Added title detection expanded. Weather card condition label normalization fixed (Partlycloudy → Partly Cloudy). `protect-events-card` refactored from 1669-line standalone to 619-line import-based card. `waze-sensors.yaml` moved to `deprecated/`. Session memory file removed from repo. |
 | Mar 2026 | **Performance audit — `_patch()` added to all 24 cards.** Every card now separates initial render from incremental updates. Cards that were fully rebuilding their shadow DOM on every HA state push — `thermostat-card`, `door-sensor-card`, `now-playing-card`, `bambu-printer-card`, `traffic-card`, `tesla-card`, `room-buttons-card`, `technology-card`, `temp-strip-card`, `garage-door-card`, `printer-status-card` — now update only changed values in-place. `septa-paoli-card` set hass fixed to not double-render alongside its 60s interval. `leave-by-card` fixed to not call `_render()` from both `set hass` and the interval simultaneously. `weather-card-nws` patches inline values and forecast strip without rebuilding the full style block. |
 | Mar 2026 | **room-buttons-card v6 — lights/fans popup matches lights & fans view.** Home view room buttons now open a full-featured popup with master brightness slider + individual light sliders (exact `pp-light` pattern from room-controls-card) and fan pip dot buttons (exact `fpip` pattern). Stats moved to bottom. Dashboard `buttons` config updated with `lights` and `fans` for all 12 room buttons. |
 | Mar 2026 | **Padding consistency pass.** `room-controls-card` v74, `clock-card` v4, `door-sensor-card` v9, `garage-door-card` v5, `weather-card-nws` v7, `calendar-card` v5, `thermostat-card` v6, `temp-strip-card` v4 — all horizontal padding normalized to 14px. |

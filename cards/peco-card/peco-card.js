@@ -17,6 +17,8 @@ class PecoCard extends HTMLElement {
     this._hass   = null;
   }
 
+  static getStubConfig() { return { electric_prefix: 'peco_electric' }; }
+
   setConfig(c) {
     if (!c.electric_prefix) throw new Error('peco-card: electric_prefix is required');
     this._config = c;

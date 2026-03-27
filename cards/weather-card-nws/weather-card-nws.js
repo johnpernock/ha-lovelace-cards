@@ -1,9 +1,9 @@
 /**
- * weather-card-nws.js  —  v14
+ * weather-card-nws.js  —  v15
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy to /config/www/weather-card-nws.js
+ * 1. Copy to /config/www/cards/weather-card-nws/weather-card-nws.js
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/weather-card-nws.js
  *      Type: JavaScript Module
@@ -156,7 +156,57 @@ class WeatherCardUnified extends HTMLElement {
 
   _label(state) {
     if (!state) return 'Unknown';
-    return state.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    // Map known HA weather states to clean display labels
+    const MAP = {
+      'partlycloudy':      'Partly Cloudy',
+      'mostlycloudy':      'Mostly Cloudy',
+      'mostlysunny':       'Mostly Sunny',
+      'partlysunny':       'Partly Sunny',
+      'clearnight':        'Clear Night',
+      'lightning-rainy':   'Lightning & Rain',
+      'lightning':         'Lightning',
+      'pouring':           'Heavy Rain',
+      'rainy':             'Rainy',
+      'snowy-rainy':       'Snow & Rain',
+      'snowy':             'Snowy',
+      'hail':              'Hail',
+      'windy-variant':     'Windy',
+      'windy':             'Windy',
+      'fog':               'Foggy',
+      'cloudy':            'Cloudy',
+      'sunny':             'Sunny',
+      'clear-night':       'Clear Night',
+      'clear-day':         'Clear',
+      'exceptional':       'Exceptional',
+      // NWS hyphenated variants
+      'partly-cloudy':     'Partly Cloudy',
+      'mostly-cloudy':     'Mostly Cloudy',
+      'mostly-sunny':      'Mostly Sunny',
+      'partly-sunny':      'Partly Sunny',
+      'clear-night':       'Clear Night',
+      'slight-chance-rain':'Slight Rain Chance',
+      'chance-rain':       'Chance of Rain',
+      'chance-snow':       'Chance of Snow',
+      'chance-tstorms':    'Chance of Storms',
+      'scattered-tstorms': 'Scattered Storms',
+      'isolated-tstorms':  'Isolated Storms',
+      'light-rain':        'Light Rain',
+      'light-snow':        'Light Snow',
+      'freezing-rain':     'Freezing Rain',
+      'mixed-rain-snow':   'Rain & Snow',
+    };
+    // Normalize: lowercase, strip spaces/hyphens/underscores for MAP lookup
+    const key = (state || '').toLowerCase().replace(/[-_\s]+/g, '');
+    if (MAP[key]) return MAP[key];
+    // Also try with hyphens preserved (some integrations use 'partly-cloudy')
+    const keyHyphen = (state || '').toLowerCase().replace(/[_\s]+/g, '-');
+    if (MAP[keyHyphen]) return MAP[keyHyphen];
+    // Fallback: split on hyphen/underscore/space, capitalize each word
+    return state.replace(/[-_]/g, ' ')
+      .split(' ')
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+      .join(' ');
   }
 
   _dayName(dateStr, i) {

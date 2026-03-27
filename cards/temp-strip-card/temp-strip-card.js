@@ -4,7 +4,7 @@
  * Shows sensors in one compact bar — abbr above, value below.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
- * 1. Copy to /config/www/temp-strip-card.js
+ * 1. Copy to /config/www/cards/temp-strip-card/temp-strip-card.js
  * 2. HA → Settings → Dashboards → Resources → Add:
  *      URL:  /local/temp-strip-card.js
  *      Type: JavaScript Module

@@ -56,7 +56,7 @@ export function createPopupPortal(id, innerHtml = '', onClose = null, options = 
         display: none;
         position: absolute;
         inset: 0;
-        background: rgba(0,0,0,0.55);
+        background: rgba(0,0,0,0.85);
         pointer-events: all;
         align-items: flex-end;
         justify-content: center;
@@ -64,7 +64,7 @@ export function createPopupPortal(id, innerHtml = '', onClose = null, options = 
       }
       #${id} .portal-overlay.open { display: flex; }
       #${id} .portal-sheet {
-        background: var(--card-background-color, #1e1e2a);
+        background: #000000;
         border: 1px solid rgba(255,255,255,0.12);
         border-radius: 16px 16px 0 0;
         border-bottom: none;
@@ -85,7 +85,8 @@ export function createPopupPortal(id, innerHtml = '', onClose = null, options = 
         #${id} .portal-sheet {
           max-width: ${maxWidth};
           border-radius: 16px;
-          border-bottom: 1px solid rgba(255,255,255,0.12);
+          border: 1.5px solid rgba(255,255,255,0.20);
+          border-bottom: 1.5px solid rgba(255,255,255,0.20);
         }
         #${id} .portal-handle { display: none !important; }
       }

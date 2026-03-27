@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v95 | Popup border fixes: rcc-sheet border added at ≥768px (was `border:none`); mode-btn border increased from 0.5px to 1.5px; popup overlay dim increased to 85%; popup background set to true black |
 | v94 | UX: remove border from popup sheet (rcc-sheet) — both mobile and desktop variants |
 | v93 | Remove .room border/border-radius — room cards borderless on Lights/Fans view |
 | v92 | UX: tstat bars 3px .5→4px .80, bg tints removed; inline tadj 34×34 1.5px→44×44 2px; popup tadj 1.5px→2px — all match new thermostat-card style |
@@ -344,6 +345,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v30 | Popup border fixes: wall display modal border added (1.5px); rb-overlay dim increased to 85%; rb-popup background set to true black; rb-master All Lights border opacity increased for visibility |
 | v29 | UX: gray=off/color=on — button tile off state bolder (icon .65, name .85); itog off border .40, dot .65, label .75; theme-area no opacity dim |
 | v28 | Fix: master slider container bg .04→0, border 1px .12→1.5px .35 |
 | v27 | Low-DPI: rb-clbl font 8px→10px, opacity .5→.6 |
@@ -497,6 +499,7 @@ cameras_view: /security
 
 | Version | Notes |
 |---------|-------|
+| v7 | Refactored from standalone (shared modules inlined, 1669 lines) to using shared/ imports (619 lines). Bug fixes to ha-utils/ha-styles/ha-popup now automatically propagate to this card |
 | v6 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v5 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v4 | Light mode: CSS vars on borders; @media light override block |
@@ -628,6 +631,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v25 | Network banners background/border opacity increased for wall display visibility. Recently Added: expanded title detection (series.title → seriesTitle → title → path → filename scrub). Ink bar track opacity increased 8%→18%. Added getStubConfig() |
 | v24 | Remove outer .card border/border-radius — borderless on Technology view |
 | v23 | Fix: card-hdr now has border-bottom 1.5px .28 — consistent with all other cards |
 | v22 | Fix: popup sheet-head divider border .18→.30 |
@@ -793,6 +797,7 @@ tap_action: popup
 
 | Version | Changes |
 |---------|---------|
+| v15 | Condition label normalization strips hyphens/underscores before MAP lookup — fixes raw state display (e.g. Partlycloudy). Added NWS hyphenated state mappings. Fallback capitalizer improved |
 | v14 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v13 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v12 | Light mode: CSS vars on border; @media light override block |
@@ -1009,6 +1014,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v18 | Garage door alert in banner: already supported via `garage:` config — confirmed working. Popup overlay dim increased to 85%; popup background true black |
 | v17 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v16 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
 | v15 | Light mode: @media light override block |
@@ -1474,6 +1480,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v15 | Odometer button now shows blue color and highlighted background when value is present — was always dim. Live patch updates odo color/border without re-render |
 | v14 | Remove outer .card border/border-radius — borderless on Commute view |
 | v13 | Fix: section dividers 1px .07 → 2px .22 — visible on low DPI wall display |
 | v12 | Fix: .hdr border-bottom .28→.40 — more visible header divider |

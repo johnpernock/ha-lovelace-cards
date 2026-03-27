@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v24
+ * technology-card.js  —  v25
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -17,6 +17,19 @@ class TechnologyCard extends HTMLElement {
     this._apiCache  = {};
     this._fetching  = {};
     this._CACHE_TTL = 60000;
+  }
+
+  static getStubConfig() {
+    return {
+      section: 'network',
+      entities: {
+        ap_hallway:    'binary_sensor.ap_hallway',
+        ap_family_room:'binary_sensor.ap_family_room',
+        clients_main:  'sensor.unifi_clients_main',
+        clients_iot:   'sensor.unifi_clients_iot',
+        clients_guest: 'sensor.unifi_clients_guest',
+      },
+    };
   }
 
   setConfig(c) {
@@ -150,7 +163,7 @@ class TechnologyCard extends HTMLElement {
     .spark{display:block;height:24px;width:100%;margin-top:5px}
     .ink-row{display:flex;gap:6px}
     .ink-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-    .ink-bar-wrap{width:100%;height:52px;background:rgba(255,255,255,.06);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+    .ink-bar-wrap{width:100%;height:52px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.12);border-radius:6px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
     .ink-bar{width:100%;border-radius:0}
     .ink-pct{font-size:12px;font-weight:700;color:#e2e8f0}
     .ink-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase}
@@ -229,15 +242,15 @@ class TechnologyCard extends HTMLElement {
     const guest = this._val(this._e('clients_guest')) || '—';
     return `<div class="card">
       <div class="card-hdr">Network</div>
-      <div class="big-row" style="background:rgba(255,255,255,0);border-bottom:1.5px solid rgba(${wC},.45)">
+      <div class="big-row" style="background:rgba(${wC},.10);border:1.5px solid rgba(${wC},.45);border-radius:8px;margin:6px 10px 4px">
         <div class="big-dot sdot ${wDot}" style="width:16px;height:16px"></div>
         <div><div class="big-label" style="color:${wLbl}">Internet</div><div class="big-sub">${wTxt}</div></div>
       </div>
-      <div class="big-row" style="background:rgba(255,255,255,0);border-bottom:1.5px solid rgba(255,255,255,.30)">
+      <div class="big-row" style="background:rgba(${aC},.10);border:1.5px solid rgba(${aC},.40);border-radius:8px;margin:0 10px 8px">
         <div class="big-dot sdot ${aDot}" style="width:16px;height:16px"></div>
         <div><div class="big-label" style="color:${aLbl}">WiFi</div><div class="big-sub">${aTxt}</div></div>
       </div>
-      <div class="sec" style="padding-top:10px">
+      <div class="sec" style="padding-top:4px">
         <div class="chips">
           <div class="chip"><span class="sdot green" style="width:9px;height:9px;margin-right:2px"></span><span class="chip-lbl">Main</span><span class="chip-val">${main}</span></div>
           <div class="chip"><span class="sdot amber" style="width:9px;height:9px;margin-right:2px"></span><span class="chip-lbl">IoT</span><span class="chip-val">${iot}</span></div>
@@ -372,17 +385,36 @@ class TechnologyCard extends HTMLElement {
     const seen = new Set();
     const items = [
       ...sRecords
-        .filter(r => r.data?.importedPath || r.sourceTitle)
+        .filter(r => r.series?.title || r.seriesTitle || r.title || r.data?.importedPath || r.sourceTitle)
         .map(r => {
-          let title = r.sourceTitle || '';
-          if (r.data?.importedPath) {
+          // Priority: series.title → seriesTitle → title (top-level) → path → filename scrub
+          let title = r.series?.title || r.seriesTitle || '';
+          if (!title && r.title && !/\.mkv|\.mp4|\.avi/i.test(r.title)) {
+            // r.title can be episode title — not ideal but better than a filename
+            title = r.title;
+          }
+          if (!title && r.data?.importedPath) {
             const parts = r.data.importedPath.replace(/\\/g,'/').split('/').filter(Boolean);
             const file = parts[parts.length-1] || '';
             const ep = file.match(/S(\d+)E(\d+)/i);
             const showName = parts.length >= 3 ? parts[parts.length-3] : (parts[parts.length-2] || '');
             title = showName + (ep ? ' S'+ep[1].padStart(2,'0')+'E'+ep[2].padStart(2,'0') : '');
           }
-          return { title, type:'tv', date:r.date };
+          if (!title && r.sourceTitle) {
+            // sourceTitle is a filename — strip extension and release group noise
+            title = (r.sourceTitle || '')
+              .replace(/\.[^.]+$/, '')
+              .replace(/\.?(\d{3,4}p|BluRay|WEB-?DL|WEBRip|HDTV|x264|x265|HEVC|AAC|AC3|DTS|REMUX|PROPER|REPACK)[^.]*/gi, '')
+              .replace(/[._]/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim();
+          }
+          const ep = r.episodes?.[0];
+          const sNum = r.seasonNumber ?? ep?.seasonNumber;
+          const eNum = ep?.episodeNumber;
+          const epStr = (sNum != null && eNum != null)
+            ? \` S\${String(sNum).padStart(2,'0')}E\${String(eNum).padStart(2,'0')}\` : '';
+          return { title: title + epStr, type:'tv', date: r.date || r.airDateUtc };
         }),
       ...rRecords
         .filter(r => r.movie?.title)
