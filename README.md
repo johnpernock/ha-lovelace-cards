@@ -160,30 +160,30 @@ Full documentation for all cards — config params, entity reference, and change
 
 | Card | Folder | Version |
 |------|--------|---------|
-| Room Controls | `cards/room-controls-card/` | v95 |
-| Room Buttons | `cards/room-buttons-card/` | v7 |
-| Camera Layout | `cards/camera-layout-card/` | v5 |
+| Room Controls | `cards/room-controls-card/` | v96 |
+| Room Buttons | `cards/room-buttons-card/` | v31 |
+| Camera Layout | `cards/camera-layout-card/` | v9 |
 | Technology | `cards/technology-card/` | v25 |
-| Bambu Printer | `cards/bambu-printer-card/` | v4 |
-| Printer Status | `cards/printer-status-card/` | v2 |
+| Bambu Printer | `cards/bambu-printer-card/` | v12 |
+| Printer Status | `cards/printer-status-card/` | v7 |
 | Weather (NWS) | `cards/weather-card-nws/` | v15 |
-| Clock | `cards/clock-card/` | v4 |
-| Temp Strip | `cards/temp-strip-card/` | v5 |
-| Door Sensors | `cards/door-sensor-card/` | v18 |
-| SEPTA Paoli | `cards/septa-paoli-card/` | v25 |
-| Thermostat | `cards/thermostat-card/` | v7 |
-| Tesla | `cards/tesla-card/` | v13 |
-| Calendar | `cards/calendar-card/` | v5 |
-| Garage Door ✦ | `cards/garage-door-card/` | v6 |
-| Wallbox | `cards/wallbox-card/` | v3 |
-| PECO Energy | `cards/peco-card/` | v3 |
-| Ecoflow | `cards/ecoflow-card/` | v3 |
-| Now Playing | `cards/now-playing-card/` | v4 |
-| Traffic (Commute) | `cards/traffic-card/` | v7 |
+| Clock | `cards/clock-card/` | v12 |
+| Temp Strip | `cards/temp-strip-card/` | v8 |
+| Door Sensors | `cards/door-sensor-card/` | v19 |
+| SEPTA Paoli | `cards/septa-paoli-card/` | v40 |
+| Thermostat | `cards/thermostat-card/` | v15 |
+| Tesla | `cards/tesla-card/` | v22 |
+| Calendar | `cards/calendar-card/` | v9 |
+| Garage Door ✦ | `cards/garage-door-card/` | v14 |
+| Wallbox | `cards/wallbox-card/` | v12 |
+| PECO Energy | `cards/peco-card/` | v10 |
+| Ecoflow | `cards/ecoflow-card/` | v9 |
+| Now Playing | `cards/now-playing-card/` | v11 |
+| Traffic (Commute) | `cards/traffic-card/` | v20 |
 | Tesla Commute | `cards/tesla-commute-card/` | v15 |
-| Charging | `cards/charging-card/` | v2 |
-| Protect Events ✦ | `cards/protect-events-card/` | v1.1 |
-| Leave By ✦ | `cards/leave-by-card/` | v4 |
+| Charging | `cards/charging-card/` | v12 |
+| Protect Events ✦ | `cards/protect-events-card/` | v7 |
+| Leave By ✦ | `cards/leave-by-card/` | v13 |
 
 ✦ = fully migrated to shared modules (ha-utils, ha-styles, ha-popup)
 
@@ -320,3 +320,8 @@ See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
 | [ha-pi-dashboard](https://github.com/johnpernock/ha-pi-dashboard) | Kiosk OS setup — Pi hardware, browser_mod, display API |
 | [ha-kiosk-popup-automation](https://github.com/johnpernock/ha-kiosk-popup-automation) | browser_mod popup cards — NWS alerts, doorbell, SEPTA delays |
 | [ha-voice-sattelite](https://github.com/johnpernock/ha-voice-sattelite) | Voice satellite installer — LVA + ReSpeaker, ESPHome protocol |
+| [ha-outdoor-light-automation](https://github.com/johnpernock/ha-outdoor-light-automation) | Dusk-to-dawn + 13 holiday theme outdoor lighting automations |
+| [ha-hue-lutron-sync-automation](https://github.com/johnpernock/ha-hue-lutron-sync-automation) | Hue Dimmer and Lutron Caséta button sync automations |
+| [ha-blind-automation](https://github.com/johnpernock/ha-blind-automation) | Cloud/temperature/comfort-aware blind control automations |
+| [ha-camera-automation](https://github.com/johnpernock/ha-camera-automation) | UniFi Protect multi-camera recording and alert automations |
+| [ha-temperature-fan-automation](https://github.com/johnpernock/ha-temperature-fan-automation) | Temperature-based ceiling fan speed automations |

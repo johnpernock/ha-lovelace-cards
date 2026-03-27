@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v96 | Popup overlay dim corrected to 85% and sheet background set to true black `#000000` across all `rcc-overlay` instances within this card |
 | v95 | Popup border fixes: rcc-sheet border added at ≥768px (was `border:none`); mode-btn border increased from 0.5px to 1.5px; popup overlay dim increased to 85%; popup background set to true black |
 | v94 | UX: remove border from popup sheet (rcc-sheet) — both mobile and desktop variants |
 | v93 | Remove .room border/border-radius — room cards borderless on Lights/Fans view |
