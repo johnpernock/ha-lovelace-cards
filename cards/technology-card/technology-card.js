@@ -413,7 +413,7 @@ class TechnologyCard extends HTMLElement {
           const sNum = r.seasonNumber ?? ep?.seasonNumber;
           const eNum = ep?.episodeNumber;
           const epStr = (sNum != null && eNum != null)
-            ? \` S\${String(sNum).padStart(2,'0')}E\${String(eNum).padStart(2,'0')}\` : '';
+            ? ` S${String(sNum).padStart(2,'0')}E${String(eNum).padStart(2,'0')}` : '';
           return { title: title + epStr, type:'tv', date: r.date || r.airDateUtc };
         }),
       ...rRecords

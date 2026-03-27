@@ -153,6 +153,24 @@ class DoorSensorCard extends HTMLElement {
     document.body.style.overflow = '';
   }
 
+
+  _openPopup() {
+    const overlay = this.shadowRoot.getElementById('ds-overlay');
+    if (!overlay) return;
+    this._popupOpen = true;
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    this._renderPopup();
+    // overlay tap-outside is wired in _render() permanently
+  }
+
+  _closePopup() {
+    this._popupOpen = false;
+    const overlay = this.shadowRoot.getElementById('ds-overlay');
+    if (overlay) overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
   _renderPopup() {
     const popup = this.shadowRoot.getElementById('ds-popup');
     if (!popup) return;
@@ -191,12 +209,12 @@ class DoorSensorCard extends HTMLElement {
         const bg     = gOpen ? 'rgba(248,113,113,0.1)'  : 'rgba(74,222,128,0.07)';
         const border = gOpen ? 'rgba(248,113,113,0.28)' : 'rgba(74,222,128,0.18)';
         const label  = gState === 'opening' ? 'Opening' : gState === 'closing' ? 'Closing' : gOpen ? 'Open' : 'Closed';
-        return \`<div style="background:\${bg};border:1px solid \${border};border-radius:10px;
+        return `<div style="background:${bg};border:1px solid ${border};border-radius:10px;
             padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:6px">
-          \${this._garageIcon(color)}
-          <div style="font-size:11px;font-weight:700;color:#e2e8f0;text-align:center">\${d.name || 'Garage'}</div>
-          <div style="font-size:9.5px;font-weight:700;color:\${color};text-transform:uppercase;letter-spacing:.05em">\${label}</div>
-        </div>\`;
+          ${this._garageIcon(color)}
+          <div style="font-size:11px;font-weight:700;color:#e2e8f0;text-align:center">${d.name || 'Garage'}</div>
+          <div style="font-size:9.5px;font-weight:700;color:${color};text-transform:uppercase;letter-spacing:.05em">${label}</div>
+        </div>`;
       }
       // Door tile
       const open   = this._isOpen(d.entity);

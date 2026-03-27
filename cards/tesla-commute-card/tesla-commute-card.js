@@ -277,14 +277,12 @@ class TeslaCommuteCard extends HTMLElement {
 
     const odoDisplay = odo != null ? odo.toLocaleString()+' mi' : '—';
     const odoHasVal  = odo != null && odo > 0;
-    const odoBg      = odoHasVal ? 'background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.28)' : OFF_BG;
-    const odoHasVal  = odo != null && odo > 0;
-    const odoIconClr = odoHasVal ? '#60a5fa' : 'rgba(255,255,255,.3)';
-    const odoTxtClr  = odoHasVal ? '#60a5fa' : 'rgba(255,255,255,.35)';
     const odoBg      = odoHasVal
       ? 'background:rgba(96,165,250,.10);border-color:rgba(96,165,250,.4)'
       : OFF_BG;
-    btnOdo     = ents.odometer   ? `<div class="action-btn" style="${odoBg};cursor:default">
+    const odoIconClr = odoHasVal ? '#60a5fa' : 'rgba(255,255,255,.3)';
+    const odoTxtClr  = odoHasVal ? '#60a5fa' : 'rgba(255,255,255,.35)';
+    const btnOdo     = ents.odometer   ? `<div class="action-btn" style="${odoBg};cursor:default">
       <div class="action-ico"><svg viewBox="0 0 24 24" fill="none" stroke="${odoIconClr}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
       <div class="action-lbl" style="color:${odoTxtClr}" id="tc-odo-lbl">${odoDisplay}</div>
     </div>` : '';
