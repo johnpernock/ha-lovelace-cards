@@ -48,6 +48,14 @@ Most recent changes are listed first within each month.
 - Refactored from standalone (shared modules inlined) to using imports from `shared/` — reduced from 1,669 lines to 619 lines
 - Bug fixes to shared modules now automatically apply to this card
 
+
+**Door sensor card (v19)**
+- `_garageCfg()` helper added — garage can now be defined either as a separate `garage:` config key OR as an entry in the `doors` array with `type: garage`. Both work identically for banner open state, alert count, and popup tile. Fixes the HA editor configuration error when garage is placed in the doors array.
+- Banner correctly counts garage as open and shows name in the open list when using `type: garage` in doors array
+
+**Tesla card (v22)**
+- Removed `.batt-nub` battery terminal cap element — the small bright bar that appeared at the right end of the battery indicator on the home card
+
 ### Repository hygiene
 - Deleted `ha-config/session-memory-2026-03-23.md` (should never have been committed)
 - Added `ha-config/session-memory-*.md` to `.gitignore`

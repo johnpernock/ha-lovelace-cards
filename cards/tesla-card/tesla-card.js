@@ -1,5 +1,5 @@
 /**
- * tesla-card.js  —  v21
+ * tesla-card.js  —  v22
  * A Home Assistant Lovelace custom card for Tesla vehicles.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -717,7 +717,7 @@ class TeslaCard extends HTMLElement {
           <div class="batt-shell">
             <div class="batt-fill" style="width:${pct}%;background:${battColor}"></div>
           </div>
-          <div class="batt-nub"></div>
+          
         </div>
         <div class="batt-pct" style="color:${battColor}">${pct}%</div>
         ${range !== null ? `<div class="sep">·</div><div class="batt-range">${range} mi</div>` : ''}
@@ -806,7 +806,6 @@ class TeslaCard extends HTMLElement {
           position: relative; overflow: hidden; flex-shrink: 0;
         }
         .batt-fill  { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 99px; transition: width 0.6s ease; }
-        .batt-nub   { width: 5px; height: 14px; background: rgba(255,255,255,0.35); border-radius: 0 2px 2px 0; margin-left: -1px; flex-shrink: 0; }
         .batt-pct   { font-size: 13px; font-weight: 700; white-space: nowrap; }
         .sep        { font-size: 11px; color: rgba(255,255,255,0.45); }
         .batt-range { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.65); white-space: nowrap; }

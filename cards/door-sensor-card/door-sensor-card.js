@@ -82,16 +82,25 @@ class DoorSensorCard extends HTMLElement {
     return e.state === 'on' || e.state === 'open' || e.state === 'opening';
   }
 
+  // Resolve garage config — supports both `garage:` key and doors array entry with type:'garage'
+  _garageCfg() {
+    if (this._config.garage) return this._config.garage;
+    const inDoors = (this._config.doors || []).find(d => d.type === 'garage');
+    return inDoors || null;
+  }
+
   _garageIsOpen() {
-    if (!this._config.garage || !this._hass) return false;
-    const e = this._hass.states[this._config.garage.entity];
+    const cfg = this._garageCfg();
+    if (!cfg || !this._hass) return false;
+    const e = this._hass.states[cfg.entity];
     if (!e) return false;
     return ['open', 'opening'].includes(e.state);
   }
 
   _garageState() {
-    if (!this._config.garage || !this._hass) return null;
-    const e = this._hass.states[this._config.garage.entity];
+    const cfg = this._garageCfg();
+    if (!cfg || !this._hass) return null;
+    const e = this._hass.states[cfg.entity];
     return e ? e.state : null;
   }
 
@@ -245,13 +254,21 @@ class DoorSensorCard extends HTMLElement {
     const openDoors = doors.filter(d => this._isOpen(d.entity));
     const garageOpen = this._garageIsOpen();
     const garageState = this._garageState();
-    const count     = openDoors.length;
-    const anyOpen   = count > 0 || garageOpen;
+    const garageInDoorsOpen = (doors || []).some(d => d.type === 'garage' && this._garageIsOpen());
+    const count     = openDoors.filter(d => d.type !== 'garage').length;
+    const anyOpen   = count > 0 || garageOpen || garageInDoorsOpen;
     const GREEN = '#4ade80', RED = '#f87171', AMBER = '#fbbf24';
     const bannerBg     = anyOpen ? 'rgba(239,68,68,0.10)'  : 'rgba(74,222,128,0.08)';
     const bannerBorder = anyOpen ? 'rgba(239,68,68,0.35)'  : 'rgba(74,222,128,0.25)';
     const bannerColor  = anyOpen ? RED : GREEN;
-    const openNames    = [...openDoors.map(d => d.name), ...(garageOpen ? [this._config.garage.name || 'Garage'] : [])];
+    const garageDoorNames = (doors || [])
+      .filter(d => d.type === 'garage' && this._garageIsOpen())
+      .map(d => d.name);
+    const openNames = [
+      ...openDoors.filter(d => d.type !== 'garage').map(d => d.name),
+      ...garageDoorNames,
+      ...(garageOpen && this._config.garage ? [this._config.garage.name || 'Garage'] : []),
+    ];
     const bannerTitle  = anyOpen ? `${openNames.length} open` : 'All clear';
     const bannerSub    = anyOpen ? openNames.join(', ') : 'All doors and garage secure';
 

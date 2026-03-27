@@ -1014,6 +1014,7 @@ doors:
 
 | Version | Changes |
 |---------|---------|
+| v19 | `_garageCfg()` helper — garage from `doors` array (`type: garage`) now fully supported in banner and alert, identical to separate `garage:` key. |
 | v18 | Garage door alert in banner: already supported via `garage:` config — confirmed working. Popup overlay dim increased to 85%; popup background true black |
 | v17 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
 | v16 | Fix: borders reverted to hardcoded rgba — CSS vars were being overridden by Amoled+ theme making all borders invisible; CSS vars now only in @media light block |
@@ -1388,6 +1389,7 @@ entities:
 
 | Version | Changes |
 |---------|---------|
+| v22 | Removed `.batt-nub` terminal cap element — the bright bar at the right end of the battery indicator on the home card. |
 | v21 | Fix: tile-lbl color rgba(.55) instead of opacity:.6 on secondary text color |
 | v20 | Fix: tile 1px→1.5px; off state bg .04→0, border .1→.35; popup off border .22→.40 |
 | v19 | Fix: Lock/Climate/Trunk action button borders 1px→1.5px .7 |
