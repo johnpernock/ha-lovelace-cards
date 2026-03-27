@@ -9,6 +9,15 @@ Most recent changes are listed first within each month.
 
 ### Bug fixes
 
+**Door sensor card (v19)**
+- Fixed `type: garage` in `doors:` array — cover entity state (`open`/`opening`) now correctly detected for banner count and popup tile
+- `_isOpen()` now handles both `binary_sensor` (`on`) and `cover` (`open`/`opening`) entities
+- Garage tile in popup now reads entity state directly from `d.entity` instead of requiring separate `garage:` config key
+- Banner open count and open names list correctly include garage-type items from the `doors:` array
+
+**Room controls card (v96)**
+- Slider thumb (circular handle) now hides (`opacity:0`) when light is off — eliminates the stray dot/bar visible at the right end of the brightness track on the home view
+
 **Popups / buttons (all cards)**
 - Popup overlay dim increased from 55% to 85% opacity — more readable on Amoled+ theme
 - Popup sheet background changed to true black `#000000` on all cards for proper Amoled display

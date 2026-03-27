@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v95
+ * room-controls-card.js  —  v96
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -358,7 +358,7 @@ class RoomControlsCard extends HTMLElement {
               </div>`
             : `<div class="lm-slider-wrap" id="lslider-${room.id}" data-room="${room.id}" data-action="brightness-drag" data-entity="${cfg.entity}" style="touch-action:none">
                 <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
-                <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%;background:${on?'#fbbf24':'rgba(255,255,255,.70)'}"></div>
+                <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%;background:${on?'#fbbf24':'rgba(255,255,255,.70)'};opacity:${on?1:0}"></div>
               </div>`}
           <div class="lm-btn">${this._ico('chev','rgba(255,255,255,.4)',14,14)}</div>
         </div>`;
@@ -988,7 +988,7 @@ class RoomControlsCard extends HTMLElement {
         const thumb = sr.getElementById(`lthumb-${room.id}`);
         const pct   = sr.getElementById(`lpct-${room.id}`);
         if (fill)  fill.style.width  = (on?avg:0)+'%';
-        if (thumb) thumb.style.left  = Math.max(4,Math.min(on?avg:0,96))+'%';
+        if (thumb) { thumb.style.left = Math.max(4,Math.min(on?avg:0,96))+'%'; thumb.style.opacity = on?1:0; }
         if (pct)   pct.textContent   = on?avg+'%':'';
         // lm-lbl lit class
         const lbl = sr.querySelector(`#lrow-${room.id} .lm-lbl`);
