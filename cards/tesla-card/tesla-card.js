@@ -688,7 +688,7 @@ class TeslaCard extends HTMLElement {
     }
 
     // If popup is open, patch it too
-    if (this._popupOpen) this._renderPopup();
+    if (this._popupOpen) this._openPopup();
   }
 
   _render() {

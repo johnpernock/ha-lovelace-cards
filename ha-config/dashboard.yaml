@@ -1,14 +1,3 @@
-wallpanel:
-  enabled: true
-  hide_toolbar: false
-  hide_toolbar_action_icons: false
-  hide_sidebar: false
-  fullscreen: false
-  idle_time: 0
-  profiles:
-    device.browser_mod_ad445bc6_d2c1ddb9:
-      enabled: true
-      idle_time: 0
 views:
   - title: Home
     path: home
@@ -89,20 +78,9 @@ views:
               - entity: binary_sensor.myggbett_door_window_sensor_door_7
                 name: Kitchen Back
                 type: door
-          - type: custom:now-playing-card
-            players:
-              - entity: media_player.dining_hp
-                name: Dining Room
-              - entity: media_player.family_room_hp
-                name: Family Room
-              - entity: media_player.master_bedroom_hp
-                name: Master Bedroom
-              - entity: media_player.family_room
-                name: Family Room TV
-              - entity: media_player.master_bedroom
-                name: Bedroom TV
-              - entity: media_player.office
-                name: Office TV
+              - entity: cover.garage_door_door
+                name: Garage
+                type: garage
           - type: custom:room-buttons-card
             buttons:
               - entity: light.all_main_lights
@@ -307,6 +285,20 @@ views:
             printer: p1s_01p09a3a1100648
       - type: grid
         cards:
+          - type: custom:now-playing-card
+            players:
+              - entity: media_player.dining_hp
+                name: Dining Room
+              - entity: media_player.family_room_hp
+                name: Family Room
+              - entity: media_player.master_bedroom_hp
+                name: Master Bedroom
+              - entity: media_player.family_room
+                name: Family Room TV
+              - entity: media_player.master_bedroom
+                name: Bedroom TV
+              - entity: media_player.office
+                name: Office TV
           - type: custom:calendar-card
             grid_rows: 10
             mobile_expand: false
@@ -321,10 +313,11 @@ views:
                 color: '#fb923c'
               - entity: calendar.personal
                 color: '#60a5fa'
-            days_ahead: 14
-            max_events: 8
+            days_ahead: 60
+            max_events: 12
     cards: []
     theme: Amoled+
+    dense_section_placement: true
   - title: Lights / Fans
     path: lightsfans
     icon: mdi:lightbulb-group
@@ -366,9 +359,7 @@ views:
                   entity: climate.family_room_2
                   name: Family Rm
                   sensor: sensor.family_room_temperature
-                  sensor_label: |-
-                    AC
-                    sensor
+                  sensor_label: "AC\nsensor"
           - type: custom:room-controls-card
             rooms:
               - id: kitchen
@@ -387,9 +378,7 @@ views:
                   entity: climate.main_floor
                   name: Main Floor
                   sensor: sensor.kitchen_temperature
-                  sensor_label: |-
-                    Room
-                    sensor
+                  sensor_label: "Room\nsensor"
           - type: custom:room-controls-card
             rooms:
               - id: bathroom
@@ -482,9 +471,7 @@ views:
                   entity: climate.main_floor
                   name: Main Floor
                   sensor: sensor.bedroom_temperature
-                  sensor_label: |-
-                    Room
-                    sensor
+                  sensor_label: "Room\nsensor"
           - type: custom:room-controls-card
             rooms:
               - id: garage
@@ -522,9 +509,7 @@ views:
                   entity: climate.main_floor
                   name: Main Floor
                   sensor: sensor.office_temperature
-                  sensor_label: |-
-                    Room
-                    sensor
+                  sensor_label: "Room\nsensor"
           - type: custom:room-controls-card
             rooms:
               - id: solarium
@@ -568,21 +553,16 @@ views:
     icon: mdi:cctv
     cards:
       - type: custom:camera-layout-card
-        height: 640
         doorbell:
-          entity: camera.g6_entry_high_resolution_channel
+          entity: camera.front_doorbell
           name: Front Door
         cameras:
-          - entity: camera.driveway
+          - entity: camera.back_left_camera
             name: Driveway
-          - entity: camera.back_garden
+          - entity: camera.back_right_camera
             name: Back Garden
-          - entity: camera.back_yard
+          - entity: camera.driveway_camera
             name: Back Yard
-          - entity: camera.garage_side_yard
-            name: Garage Side
-          - entity: camera.utility_side_yard
-            name: Utility Side
         grid_options:
           columns: 24
           rows: auto
@@ -855,3 +835,4 @@ views:
             name: River 2 Pro
     cards: []
     theme: Amoled+
+    badges: []
