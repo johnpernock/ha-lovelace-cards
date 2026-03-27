@@ -1,9 +1,9 @@
 #!/bin/bash
 # deploy.sh — pull latest cards from git and copy to HA www directory
 # Run from anywhere on the HA server:
-#   bash /config/ha-lovelace-cards/deploy.sh
+#   bash /config/ha-custom-cards/deploy.sh
 # Or with a specific card:
-#   bash /config/ha-lovelace-cards/deploy.sh septa-paoli-card
+#   bash /config/ha-custom-cards/deploy.sh septa-paoli-card
 
 set -e
 
