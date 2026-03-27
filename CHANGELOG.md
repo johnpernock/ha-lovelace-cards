@@ -56,6 +56,19 @@ Most recent changes are listed first within each month.
 **Tesla card (v22)**
 - Removed `.batt-nub` battery terminal cap element — the small bright bar that appeared at the right end of the battery indicator on the home card
 
+
+**room-buttons-card (v31)**
+- Popup header restyled to match `room-controls-card`: edge-to-edge with `border-bottom: 1.5px solid rgba(255,255,255,.35)`, zero top padding, flush to popup edge
+- Close button increased from 28px to 44px (easier to tap on wall display)
+- Sheet padding changed from `20px` to `0 0 16px` — content sections handle their own horizontal margins
+- Master slider (`rb-master`) margin updated to `10px 14px 6px` matching `pp-master` in room-controls
+- Individual lights grid (`itog-grid`) margin updated to `4px 14px 8px` for consistent horizontal alignment
+- Fan section padding `4px 14px 8px` for consistent horizontal alignment  
+- Wall display max-width 420px → 440px to match room-controls popup width
+
+**Popup consistency (all cards)**
+- `door-sensor-card`, `tesla-card`, `clock-card`, `septa-paoli-card`: popup overlay dim fixed to 85% and sheet background set to true black `#000000` — these were missed in the initial pass
+
 ### Repository hygiene
 - Deleted `ha-config/session-memory-2026-03-23.md` (should never have been committed)
 - Added `ha-config/session-memory-*.md` to `.gitignore`

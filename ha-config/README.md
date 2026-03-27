@@ -144,7 +144,7 @@ lovelace:
 | Technology | `/technology` | sections · 3 col | Network, speed, APs, Unraid health, services, storage, ink, media |
 | Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
 | 3D Printer | `/3d-printer` | sections · 2 col | Bambu P1S full status card spanning both columns |
-| Cameras | `/cameras` | panel | Full-panel camera-layout-card |
+| Security | `/security` | panel | Col 1–2: camera-layout-card (doorbell + 3 turrets). Col 3: protect-events-card |
 
 ### Prerequisites
 

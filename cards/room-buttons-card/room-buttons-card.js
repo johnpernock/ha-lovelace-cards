@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v30
+ * room-buttons-card.js  —  v31
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -1331,13 +1331,15 @@ class RoomButtonsCard extends HTMLElement {
           border: 1.5px solid rgba(255,255,255,.40);
           border-radius: 16px 16px 0 0;
           border-bottom: none;
-          padding: 20px;
+          padding: 0 0 16px;
           width: 100%;
           max-height: 80vh;
           overflow-y: auto;
           box-sizing: border-box;
           scrollbar-width: thin;
           scrollbar-color: rgba(255,255,255,0.1) transparent;
+          touch-action: pan-y;
+          overscroll-behavior: contain;
         }
         #rb-popup::-webkit-scrollbar { width: 4px; }
         #rb-popup::-webkit-scrollbar-track { background: transparent; }
@@ -1351,7 +1353,7 @@ class RoomButtonsCard extends HTMLElement {
           }
           #rb-popup {
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             border-radius: 16px;
             border: 1.5px solid rgba(255,255,255,.20);
           }
@@ -1365,31 +1367,30 @@ class RoomButtonsCard extends HTMLElement {
           margin: 0 auto 16px;
         }
         .pop-head {
-          display: flex; align-items: flex-start;
-          justify-content: space-between; margin-bottom: 14px;
+          display: flex; align-items: center;
+          justify-content: space-between;
+          padding: 10px 16px 12px;
+          border-bottom: 1.5px solid rgba(255,255,255,.35);
+          margin-bottom: 14px;
         }
         .pop-title {
           font-size: 17px; font-weight: 700;
-          color: var(--primary-text-color); line-height: 1.2;
+          color: white; line-height: 1.2; letter-spacing: -.2px;
         }
-        .pop-sub { font-size: 11px; color: var(--secondary-text-color); margin-top: 3px; }
+        .pop-sub { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 2px; }
         #rb-close {
-          background: rgba(255,255,255,0.18); border: none; border-radius: 50%;
-          width: 28px; height: 28px; cursor: pointer; display: flex;
+          background: rgba(255,255,255,0.08); border: none; border-radius: 50%;
+          width: 44px; height: 44px; cursor: pointer; display: flex;
           align-items: center; justify-content: center;
-          color: var(--secondary-text-color); font-size: 14px;
-          line-height: 1; font-family: inherit; flex-shrink: 0;
+          color: rgba(255,255,255,.6); font-size: 20px;
+          line-height: 1; font-family: inherit; flex-shrink: 0; user-select: none;
         }
-        .pop-divider {
-          height: 1px;
-          background: rgba(255,255,255,0.2);
-          margin-bottom: 14px;
-        }
+        .pop-divider { display: none; }
         .pop-section { margin-bottom: 16px; }
         .pop-sec-lbl {
-          font-size: 10px; font-weight: 700; text-transform: uppercase;
-          letter-spacing: .1em; color: var(--secondary-text-color);
-          opacity: 0.5; margin-bottom: 9px;
+          font-size: 9px; font-weight: 700; text-transform: uppercase;
+          letter-spacing: .08em; color: rgba(255,255,255,.5);
+          margin-bottom: 8px; padding: 0 2px;
         }
 
         /* ── Stat tiles ── */
@@ -1567,8 +1568,8 @@ class RoomButtonsCard extends HTMLElement {
         /* ── Lights section ── */
         .rb-sec-hdr{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.65);padding:0 0 4px;display:block}
         .rb-sec-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.28);padding:0 0 6px;display:block}
-        .rb-lights-sec{padding:0 0 4px;display:flex;flex-direction:column;gap:0}
-        .rb-master{margin:0 0 10px;border-radius:8px;background:rgba(251,191,36,.06);border:1.5px solid rgba(251,191,36,.30);overflow:hidden}
+        .rb-lights-sec{padding:0 0 4px;display:flex;flex-direction:column;gap:0;margin:0}
+        .rb-master{margin:10px 14px 6px;border-radius:8px;background:rgba(251,191,36,.06);border:1.5px solid rgba(251,191,36,.30);overflow:hidden}
         .rb-mrow{display:flex;align-items:center;gap:8px;padding:10px 12px}
         .rb-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
         .rb-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden;position:relative}
@@ -1582,7 +1583,7 @@ class RoomButtonsCard extends HTMLElement {
         .rb-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
         .rb-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
         /* ── Individual lights — itog-grid (matches room-controls-card) ── */
-        .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:6px 0 2px}
+        .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 14px 8px}
         .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s;border:1.5px solid rgba(255,255,255,.40)}
         .itog:active{transform:scale(.94)}
         .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.75)}
@@ -1605,7 +1606,7 @@ class RoomButtonsCard extends HTMLElement {
         .rb-divider{height:1px;background:rgba(255,255,255,.2);margin:8px 0}
 
         /* ── Fans — fpip/fpip-dot (matches room-controls-card exactly) ── */
-        .fan-section{display:flex;flex-direction:column;gap:4px;padding:4px 0 8px}
+        .fan-section{display:flex;flex-direction:column;gap:4px;padding:4px 14px 8px}
         .fan-flat{display:flex;flex-direction:column;gap:4px}
         .fan-nm-row{padding:0 2px}
         .fan-nm{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:rgba(255,255,255,.3)}

@@ -345,6 +345,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v31 | Popup restyled to match `room-controls-card`: edge-to-edge header with `border-bottom: 1.5px solid`, bigger close button (44px), tighter padding rhythm, `440px` max-width on wall display, proper horizontal margins on master slider and individual light grid |
 | v30 | Popup border fixes: wall display modal border added (1.5px); rb-overlay dim increased to 85%; rb-popup background set to true black; rb-master All Lights border opacity increased for visibility |
 | v29 | UX: gray=off/color=on — button tile off state bolder (icon .65, name .85); itog off border .40, dot .65, label .75; theme-area no opacity dim |
 | v28 | Fix: master slider container bg .04→0, border 1px .12→1.5px .35 |
