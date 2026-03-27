@@ -1,4 +1,4 @@
-# ha-lovelace-cards
+# ha-custom-cards
 
 Custom Home Assistant Lovelace cards for a wall-mounted 1200×800 dashboard (iPad/tablet) with mobile support. All cards share a consistent dark-theme design language built on a common set of shared utility modules.
 
@@ -7,7 +7,7 @@ Custom Home Assistant Lovelace cards for a wall-mounted 1200×800 dashboard (iPa
 ## Repository structure
 
 ```
-ha-lovelace-cards/
+ha-custom-cards/
 ├── cards/
 │   ├── room-controls-card/
 │   │   └── room-controls-card.js
@@ -211,13 +211,13 @@ The repo includes `deploy.sh` — a script that pulls the latest from git and co
 ```bash
 # One-time: clone the repo on your HA server
 cd /config
-git clone https://YOUR_USER:YOUR_PAT@github.com/johnpernock/ha-lovelace-cards.git
+git clone https://YOUR_USER:YOUR_PAT@github.com/johnpernock/ha-custom-cards.git
 
 # Every subsequent deploy
-bash /config/ha-lovelace-cards/deploy.sh
+bash /config/ha-custom-cards/deploy.sh
 
 # Deploy a single card only
-bash /config/ha-lovelace-cards/deploy.sh septa-paoli-card
+bash /config/ha-custom-cards/deploy.sh septa-paoli-card
 ```
 
 After running: hard refresh your browser. Resource version bumps are optional since a hard refresh bypasses the cache.
@@ -316,7 +316,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
 
 | Repo | Purpose |
 |---|---|
-| [ha-lovelace-cards](https://github.com/johnpernock/ha-lovelace-cards) | This repo — dashboard cards displayed on the kiosk |
+| [ha-custom-cards](https://github.com/johnpernock/ha-custom-cards) | This repo — dashboard cards displayed on the kiosk |
 | [ha-pi-dashboard](https://github.com/johnpernock/ha-pi-dashboard) | Kiosk OS setup — Pi hardware, browser_mod, display API |
 | [ha-kiosk-popup-automation](https://github.com/johnpernock/ha-kiosk-popup-automation) | browser_mod popup cards — NWS alerts, doorbell, SEPTA delays |
 | [ha-kiosk-automation](https://github.com/johnpernock/ha-kiosk-automation) | Kiosk display schedule — power off at night, on in morning |
