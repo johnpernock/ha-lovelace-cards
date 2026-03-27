@@ -12,8 +12,10 @@ Template sensor (`sensor.outdoor_lighting_theme`) that detects the current outdo
 
 ```yaml
 # configuration.yaml
-template: !include ha-config/outdoor-lighting-theme-sensor.yaml
+template: !include_dir_merge_list ha-config/templates/
 ```
+
+This merges all YAML files in `ha-config/templates/` automatically — outdoor-lighting-theme-sensor.yaml lives there alongside any other template sensors (kiosk display lights, security sensors, etc).
 
 After saving: **Developer Tools → YAML → Template Entities → Reload**
 
@@ -104,6 +106,47 @@ Do **not** add `sensor: !include ha-config/waze-sensors.yaml` to `configuration.
 | `light.hue_path_lights` | Group — front path pedestals | Light group |
 | `light.all_yard_lights` | Group — all yard lights | Light group |
 | `switch.yard_light_controller_zone_1` | Side path lights zone | Switch (no color) |
+---
+
+### Kiosk display API config
+
+The kiosk template lights (`light.kiosk_front_door_display`, `light.kiosk_garage_display`) live in `ha-config/templates/kiosk-displays.yaml` and are auto-merged by `!include_dir_merge_list`.
+
+The `rest_command:` and `rest:` sensor entries go directly in `configuration.yaml`:
+
+```yaml
+rest_command:
+  kiosk_front_door_set_brightness:
+    url: "http://192.168.1.235:2701/brightness"
+    method: POST
+    content_type: "application/json"
+    payload: '{"value": {{ brightness }}}'
+  kiosk_front_door_screen_off:
+    url: "http://192.168.1.235:2701/screen/off"
+    method: POST
+  kiosk_front_door_screen_on:
+    url: "http://192.168.1.235:2701/screen/on"
+    method: POST
+  kiosk_garage_set_brightness:
+    url: "http://192.168.1.249:2701/brightness"
+    method: POST
+    content_type: "application/json"
+    payload: '{"value": {{ brightness }}}'
+  kiosk_garage_screen_off:
+    url: "http://192.168.1.249:2701/screen/off"
+    method: POST
+  kiosk_garage_screen_on:
+    url: "http://192.168.1.249:2701/screen/on"
+    method: POST
+```
+
+Sensors are added under the existing `rest:` block. See [ha-pi-smarthome → ha-display-config.yaml](https://github.com/johnpernock/ha-pi-smarthome/blob/main/ha-display-config.yaml) for the full sensor definitions.
+
+**Kiosks:**
+| Name | IP | Browser ID |
+|---|---|---|
+| Front Door | 192.168.1.235 | `kiosk-front-door` |
+| Garage | 192.168.1.249 | `kiosk-garage` |
 
 ---
 
@@ -153,7 +196,7 @@ lovelace:
 **HA config includes** — add to `configuration.yaml`:
 
 ```yaml
-template: !include ha-config/outdoor-lighting-theme-sensor.yaml
+template: !include_dir_merge_list ha-config/templates/
 light: !include ha-config/light-groups.yaml
 ```
 
