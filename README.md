@@ -318,6 +318,5 @@ See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
 |---|---|
 | [ha-custom-cards](https://github.com/johnpernock/ha-custom-cards) | This repo — dashboard cards displayed on the kiosk |
 | [ha-pi-smarthome](https://github.com/johnpernock/ha-pi-smarthome) | Kiosk OS setup — Pi hardware, browser_mod, display API |
-| [ha-kiosk-popup-automation](https://github.com/johnpernock/ha-kiosk-popup-automation) | browser_mod popup cards — NWS alerts, doorbell, SEPTA delays |
 | [ha-custom-automation](https://github.com/johnpernock/ha-custom-automation) | All Home Assistant automations — lighting, climate, blinds, security, kiosk |
 | [ha-voice-sattelite](https://github.com/johnpernock/ha-voice-sattelite) | Voice satellite installer — LVA + ReSpeaker, ESPHome protocol |
