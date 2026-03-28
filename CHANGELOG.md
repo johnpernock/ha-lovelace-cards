@@ -5,6 +5,36 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Media view cards + naming pass
+
+### Added
+
+**`appletv-remote-card` (v1)** — Apple TV remote with multi-ATV selector tabs, 200px D-pad, 2×4 button grid (Menu/Back/Home/Play + Prev/Next/Vol+/Vol−), drag volume slider, sleep/power button. `_patch()` updates now-playing strip without full re-render. Document-level drag listeners cleaned up on disconnect.
+
+**`homepod-music-card` (v1)** — HomePod group management + music control. Now playing with 5s auto-advancing progress bar, transport controls, per-speaker group toggles (`media_player.join`/`unjoin`), individual volume bars, group master volume slider, configurable favorites grid (4-col, 1–2 rows, emoji + name). Volume debounced 150ms. Document listeners cleaned up on disconnect.
+
+**`recently-added-card` (v1)** — Standalone card extracted from `technology-card` section:recently_added. Sonarr + Radarr recent imports merged and sorted by date. Only re-renders when sensor `last_updated` changes. Includes all Sonarr v3 title + episode resolution fixes.
+
+**`jellyseerr-card` (v1)** — Jellyseerr search + request card. 400ms debounced search, request status badges (Pending/Processing/Partial/Available), optional server power entity dot, clear button. Requests movies as `mediaType:movie` and TV shows with `seasons:all`.
+
+**`ps5-card` (v1)** — PlayStation 5 status via ha-playstation HACS integration. Power state badge, current game tile, wake (when off) and turn off (when on) buttons with 2s busy lock and pointer-events disable on inactive state.
+
+**`steam-card` (v1)** — Steam online status via built-in HA Steam integration (no HACS). Per-account rows: in_game (blue + game title), online (green), offline (gray + last seen time). `_patch()` replaces only changed rows.
+
+### Changed
+
+**`printer-status-card` → `bambu-status-card` (v8)** — Renamed for naming convention clarity. Old folder kept with deprecation notice. `dashboard.yaml` updated.
+
+**Naming convention established:**
+- `printer-*` = Epson inkjet (paper printer)
+- `bambu-*` = Bambu Lab 3D printer
+
+### Performance fixes
+
+- `appletv-remote-card` + `homepod-music-card`: document-level mousemove/touchmove/mouseup/touchend listeners now stored on instance and removed in `disconnectedCallback()` — previously leaked on every card re-render
+
+---
+
 ## [Mar 2026] — Latest (naming pass)
 
 ### Added

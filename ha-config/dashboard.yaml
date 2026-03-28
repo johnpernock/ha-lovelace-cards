@@ -646,6 +646,75 @@ views:
               charge_limit: sensor.magneton_charge_limit
     cards: []
     theme: Amoled+
+  - title: Media
+    path: media
+    icon: mdi:television-play
+    type: sections
+    max_columns: 3
+    sections:
+      - type: grid
+        column: 1
+        cards:
+          - type: custom:appletv-remote-card
+            apple_tvs:
+              - name: Family Room
+                media_player: media_player.family_room_apple_tv
+                remote: remote.family_room_apple_tv
+              - name: Bedroom
+                media_player: media_player.bedroom_apple_tv
+                remote: remote.bedroom_apple_tv
+              - name: Office
+                media_player: media_player.office_apple_tv
+                remote: remote.office_apple_tv
+      - type: grid
+        column: 2
+        cards:
+          - type: custom:homepod-music-card
+            speakers:
+              - entity: media_player.family_room_homepod
+                name: Family Room
+              - entity: media_player.kitchen_homepod
+                name: Kitchen
+              - entity: media_player.bedroom_homepod
+                name: Bedroom
+            favorites:
+              - name: Morning
+                icon: "🌅"
+                media_content_id: "music://playlist/morning"
+              - name: Focus
+                icon: "🎯"
+                media_content_id: "music://playlist/focus"
+              - name: Workout
+                icon: "💪"
+                media_content_id: "music://playlist/workout"
+              - name: Dinner
+                icon: "🍷"
+                media_content_id: "music://playlist/dinner"
+              - name: Jazz
+                icon: "🎷"
+                media_content_id: "music://playlist/jazz"
+              - name: Party
+                icon: "🎉"
+                media_content_id: "music://playlist/party"
+              - name: Sleep
+                icon: "😴"
+                media_content_id: "music://playlist/sleep"
+              - name: Radio
+                icon: "📻"
+                media_content_id: "music://playlist/radio"
+      - type: grid
+        column: 3
+        cards:
+          - type: custom:recently-added-card
+            sonarr_sensor: sensor.sonarr_recent
+            radarr_sensor: sensor.radarr_recent
+            max_items: 5
+          - type: custom:jellyseerr-card
+            url: http://192.168.1.x:5055
+            api_key: !secret jellyseerr_api_key
+            power_entity: switch.unraid_seerr
+            max_results: 5
+
   - title: Technology
     path: technology
     icon: mdi:desktop-classic

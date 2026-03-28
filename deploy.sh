@@ -42,6 +42,12 @@ CARDS=(
   traffic-card
   wallbox-card
   weather-card-nws
+  appletv-remote-card
+  homepod-music-card
+  jellyseerr-card
+  ps5-card
+  recently-added-card
+  steam-card
 )
 
 # ── Deploy ────────────────────────────────────────────────────────────────────

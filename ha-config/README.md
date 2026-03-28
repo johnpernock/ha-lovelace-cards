@@ -184,6 +184,7 @@ lovelace:
 | Lights / Fans | `/lightsfans` | sections · 3 col | Room control cards for all rooms — lights, fans, blinds, thermostats |
 | Security | `/security` | sections · 3 col | Col 1–2 (span): camera-layout-card. Col 3: protect-events-card |
 | Commute | `/commute` | sections · 3 col | Col 1: traffic-card (expanded) + leave-by-card. Col 2: SEPTA Paoli (expanded). Col 3: tesla-commute-card + charging-card |
+| Media | `/media` | sections · 3 col | Col 1: appletv-remote-card. Col 2: homepod-music-card. Col 3: recently-added-card + jellyseerr-card |
 | Technology | `/technology` | sections · 3 col | Network, speed, APs, Unraid health, services, storage, ink, media |
 | Energy | `/energy` | sections · 3 col | Wallbox charger, PECO electric bill, Ecoflow River 2 Pro |
 | 3D Printer | `/3d-printer` | sections · 2 col | Bambu P1S full status card spanning both columns |
@@ -192,6 +193,14 @@ lovelace:
 ### Prerequisites
 
 **Card resources** — all 24 card JS files registered under **Settings → Dashboards → Resources**. See root `README.md` for the full URL list.
+
+**New card entity requirements:**
+- `appletv-remote-card` — requires `media_player.*_apple_tv` and `remote.*_apple_tv` entities from the Apple TV integration
+- `homepod-music-card` — requires `media_player.*_homepod` entities from HomeKit integration; supports `media_player.join`/`unjoin`
+- `recently-added-card` — requires Sonarr and Radarr REST sensors (see card docs for sensor config)
+- `jellyseerr-card` — requires Jellyseerr API key and URL; optionally a switch/binary_sensor for server status
+- `ps5-card` — requires ha-playstation HACS integration
+- `steam-card` — requires built-in HA Steam integration + free API key from steamcommunity.com/dev/apikey
 
 **HA config includes** — add to `configuration.yaml`:
 

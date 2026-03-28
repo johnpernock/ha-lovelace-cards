@@ -107,6 +107,12 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 |-----|------|
 | `/local/cards/bambu-printer-card/bambu-printer-card.js` | JavaScript Module |
 | `/local/cards/bambu-status-card/bambu-status-card.js` | JavaScript Module |
+| `/local/cards/appletv-remote-card/appletv-remote-card.js` | JavaScript Module |
+| `/local/cards/homepod-music-card/homepod-music-card.js` | JavaScript Module |
+| `/local/cards/recently-added-card/recently-added-card.js` | JavaScript Module |
+| `/local/cards/jellyseerr-card/jellyseerr-card.js` | JavaScript Module |
+| `/local/cards/ps5-card/ps5-card.js` | JavaScript Module |
+| `/local/cards/steam-card/steam-card.js` | JavaScript Module |
 | `/local/cards/printer-ink-card/printer-ink-card.js` | JavaScript Module |
 | `/local/cards/calendar-card/calendar-card.js` | JavaScript Module |
 | `/local/cards/camera-layout-card/camera-layout-card.js` | JavaScript Module |
@@ -119,6 +125,12 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/now-playing-card/now-playing-card.js` | JavaScript Module |
 | `/local/cards/peco-card/peco-card.js` | JavaScript Module |
 | `/local/cards/bambu-status-card/bambu-status-card.js` | JavaScript Module |
+| `/local/cards/appletv-remote-card/appletv-remote-card.js` | JavaScript Module |
+| `/local/cards/homepod-music-card/homepod-music-card.js` | JavaScript Module |
+| `/local/cards/recently-added-card/recently-added-card.js` | JavaScript Module |
+| `/local/cards/jellyseerr-card/jellyseerr-card.js` | JavaScript Module |
+| `/local/cards/ps5-card/ps5-card.js` | JavaScript Module |
+| `/local/cards/steam-card/steam-card.js` | JavaScript Module |
 | `/local/cards/protect-events-card/protect-events-card.js` | JavaScript Module |
 | `/local/cards/room-buttons-card/room-buttons-card.js` | JavaScript Module |
 | `/local/cards/room-controls-card/room-controls-card.js` | JavaScript Module |
@@ -167,7 +179,14 @@ Full documentation for all cards — config params, entity reference, and change
 | Camera Layout | `cards/camera-layout-card/` | v9 |
 | Technology | `cards/technology-card/` | v25 |
 | Bambu Printer | `cards/bambu-printer-card/` | v12 |
-| Printer Status | `cards/bambu-status-card/` | v7 |
+| Bambu Status | `cards/bambu-status-card/` | v8 |
+| Printer Ink | `cards/printer-ink-card/` | v1 |
+| Apple TV Remote | `cards/appletv-remote-card/` | v1 |
+| HomePod Music | `cards/homepod-music-card/` | v1 |
+| Recently Added | `cards/recently-added-card/` | v1 |
+| Jellyseerr | `cards/jellyseerr-card/` | v1 |
+| PS5 | `cards/ps5-card/` | v1 |
+| Steam | `cards/steam-card/` | v1 |
 | Weather (NWS) | `cards/weather-card-nws/` | v15 |
 | Clock | `cards/clock-card/` | v12 |
 | Temp Strip | `cards/temp-strip-card/` | v8 |

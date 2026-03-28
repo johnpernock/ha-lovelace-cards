@@ -1842,3 +1842,240 @@ players:
 | v4 | `_patch()` added — player title, source, and play/pause state update in-place; re-renders only when active count changes |
 | v2 | Touch audit: `user-select:none` on tappable elements |
 | v1 | Initial release |
+
+---
+
+## appletv-remote-card
+
+Apple TV remote control card with multi-ATV selector tabs, 200px D-pad, two rows of navigation and playback buttons, volume slider, and sleep/power button.
+
+**Config:**
+```yaml
+type: custom:appletv-remote-card
+apple_tvs:
+  - name: Family Room
+    media_player: media_player.family_room_apple_tv
+    remote: remote.family_room_apple_tv
+  - name: Bedroom
+    media_player: media_player.bedroom_apple_tv
+    remote: remote.bedroom_apple_tv
+  - name: Office
+    media_player: media_player.office_apple_tv
+    remote: remote.office_apple_tv
+```
+
+**Features:**
+- Selector tabs at top switch active ATV — single card instance controls all three
+- Now playing strip shows current title, app source, and play/pause state
+- 200px D-pad ring with large touch targets (76×76px per direction zone)
+- Row 1 buttons: Menu, Back, Home, Play/Pause
+- Row 2 buttons: Previous, Next, Vol+, Vol−
+- Drag or tap volume slider; slider debounced 150ms before service call
+- Sleep/Power button calls `media_player.turn_off` on active ATV
+- `_patch()` updates now-playing strip and volume without full re-render
+- Document-level drag listeners cleaned up in `disconnectedCallback()`
+
+**Changelog:**
+
+| v1 | Initial release — multi-ATV tabs, 200px D-pad, transport + volume + power |
+
+---
+
+## homepod-music-card
+
+HomePod speaker group management + music control card with now playing, progress bar, transport controls, per-speaker grouping toggles, group volume slider, and configurable favorites grid.
+
+**Config:**
+```yaml
+type: custom:homepod-music-card
+speakers:
+  - entity: media_player.family_room_homepod
+    name: Family Room
+  - entity: media_player.kitchen_homepod
+    name: Kitchen
+  - entity: media_player.bedroom_homepod
+    name: Bedroom
+favorites:
+  - name: Morning
+    icon: 🌅
+    media_content_id: "music://playlist/morning"
+    media_content_type: music           # optional, defaults to music
+  - name: Focus
+    icon: 🎯
+    media_content_id: "music://playlist/focus"
+  - name: Workout
+    icon: 💪
+    media_content_id: "music://playlist/workout"
+```
+
+**Features:**
+- First speaker in list is the group coordinator
+- Speaker toggle: ON calls `media_player.join` (adds to coordinator group), OFF calls `media_player.unjoin`
+- Group volume slider adjusts all currently-grouped speakers proportionally
+- Progress bar auto-advances every 5s while playing (no extra HA polling)
+- Shuffle and repeat buttons toggle state with active highlight
+- Favorites grid: 4-column, 1–2 rows, configurable name + emoji icon
+- Favorites call `media_player.play_media` on the coordinator entity
+- All volume changes debounced 150ms before service call
+- Document-level drag listeners cleaned up in `disconnectedCallback()`
+
+**Getting Apple Music playlist URIs:**
+Use a Shortcut on iPhone: Shortcuts app → New Shortcut → Get Current Song → Get Details of Music → Copy to Clipboard. Play the playlist you want, run the shortcut, paste the URI into config.
+
+**Changelog:**
+
+| v1 | Initial release — now playing, speaker grouping, group vol, favorites |
+
+---
+
+## recently-added-card
+
+Standalone recently-added media card showing the most recently imported movies and TV episodes from Radarr and Sonarr REST sensors. Extracted from `technology-card` (section: recently_added).
+
+**Config:**
+```yaml
+type: custom:recently-added-card
+sonarr_sensor: sensor.sonarr_recent    # default
+radarr_sensor: sensor.radarr_recent    # default
+max_items: 5                           # default
+```
+
+**REST sensor setup (configuration.yaml):**
+```yaml
+rest:
+  - resource: "http://SONARR_IP:8989/api/v3/history?pageSize=10&includeSeries=true&includeEpisode=true"
+    headers:
+      X-Api-Key: !secret sonarr_api_key
+    scan_interval: 300
+    sensor:
+      - name: "Sonarr Recent"
+        value_template: "{{ value_json.records | length }}"
+        json_attributes_path: "$"
+        json_attributes: ["records"]
+  - resource: "http://RADARR_IP:7878/api/v3/history?pageSize=10&includeMovie=true"
+    headers:
+      X-Api-Key: !secret radarr_api_key
+    scan_interval: 300
+    sensor:
+      - name: "Radarr Recent"
+        value_template: "{{ value_json.records | length }}"
+        json_attributes_path: "$"
+        json_attributes: ["records"]
+```
+
+**Important:** Sonarr URL must include `includeSeries=true&includeEpisode=true` otherwise episode numbers won't resolve and 3 episodes of the same show will collapse to 1 entry.
+
+**Features:**
+- Merges TV (Sonarr) and Movie (Radarr) records, sorted by import date
+- Deduplicates by full title+episode string
+- Title resolution priority: `series.title` → `seriesTitle` → `title` → path extraction → filename scrub
+- Episode numbers from `r.episode` (Sonarr v3 singular) with fallback to `r.episodes[0]`
+- Only re-renders when sensor `last_updated` changes — no wasted DOM work
+
+**Changelog:**
+
+| v1 | Initial release — extracted from technology-card section:recently_added |
+
+---
+
+## jellyseerr-card
+
+Jellyseerr search and request card. Search for movies and TV shows via the Jellyseerr API and submit requests directly from the dashboard.
+
+**Config:**
+```yaml
+type: custom:jellyseerr-card
+url: http://192.168.1.x:5055          # Jellyseerr base URL, no trailing slash
+api_key: !secret jellyseerr_api_key   # Settings → General → API Key
+power_entity: switch.unraid_seerr     # optional — shows server online dot
+max_results: 5                        # optional, default 5
+```
+
+**Features:**
+- Search debounced 400ms — fires after user stops typing
+- Results show movie or TV type badge, year, and request button
+- Already-requested items show status badge instead of Request button: Pending / Processing / Partial / Available
+- Optional server status dot (green/red) driven by any HA switch or binary_sensor
+- Requests movies with `mediaType: movie`; TV shows with `seasons: all`
+- Clear button (✕) resets search and results instantly
+- All API calls use `X-Api-Key` header (no cookie auth)
+
+**Request status codes:**
+| Code | Label | Color |
+|------|-------|-------|
+| 2 | Pending | Amber |
+| 3 | Processing | Blue |
+| 4 | Partial | Purple |
+| 5 | Available | Green |
+
+**Changelog:**
+
+| v1 | Initial release — search, request, status badges, optional power entity |
+
+---
+
+## ps5-card
+
+PlayStation 5 status card showing power state, current game, and wake/power controls. Uses the ha-playstation HACS integration.
+
+**Config:**
+```yaml
+type: custom:ps5-card
+media_player: media_player.playstation_5
+name: PlayStation 5                    # optional display name
+```
+
+**Setup:** Install `ha-playstation` via HACS, then add the integration under Settings → Integrations.
+
+**Features:**
+- Status badge: On (green) / Off (gray) / Unavailable (dim)
+- Current game tile shows `media_title` attribute; falls back to `app_name` then "Home screen"
+- Wake button enabled only when PS5 is off/standby (`media_player.turn_on`)
+- Turn Off button enabled only when PS5 is on (`media_player.turn_off`)
+- Disabled buttons use `pointer-events: none` + reduced opacity — no double-fire
+- Busy lock (2s) prevents rapid repeated service calls
+
+**Changelog:**
+
+| v1 | Initial release — status, current game, wake/power with busy lock |
+
+---
+
+## steam-card
+
+Steam online status card showing current game and online status per account. Uses the built-in HA Steam integration — no HACS required.
+
+**Config:**
+```yaml
+type: custom:steam-card
+accounts:
+  - entity: sensor.steam_123456789
+    name: John                         # optional — falls back to profile_name attribute
+  - entity: sensor.steam_987654321
+    name: Friend
+```
+
+**Setup:**
+1. Get a free API key at https://steamcommunity.com/dev/apikey
+2. HA → Settings → Integrations → Add → Steam
+3. Set your Steam friends list to Public during initial setup (can revert after)
+
+**Steam sensor states:**
+| State | Meaning |
+|-------|---------|
+| `in_game` | Playing a game (`game` attribute has title) |
+| `online` | Online but not in game |
+| `offline` | Offline (`last_online` attribute has ISO timestamp) |
+
+**Features:**
+- `in_game`: blue badge + game title in blue
+- `online`: green badge
+- `offline`: gray badge + "Last seen Xh ago" from `last_online` attribute
+- Falls back to `profile_name` attribute if `name` not set in config
+- `_patch()` replaces only changed account rows, not full re-render
+
+**Changelog:**
+
+| v1 | Initial release — online status, current game, last seen time |
+
+---

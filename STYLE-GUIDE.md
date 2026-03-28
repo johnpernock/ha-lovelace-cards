@@ -872,3 +872,69 @@ Shows a bare temp reading in blue when `thermostat.sensor` is configured (room s
 | `thermostat:` only | ✅ | — |
 | `thermostat:` + `sensor:` | ✅ | ✅ |
 | No thermostat | — | — |
+
+---
+
+## Media card patterns
+
+### ATV selector tab pattern
+
+Used in `appletv-remote-card` to switch between devices within a single card instance.
+
+```css
+.tab {
+  flex: 1; height: 32px; border-radius: 7px;
+  font-size: 11px; font-weight: 700;
+  background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.10);
+  color: rgba(255,255,255,.4);
+}
+.tab.active {
+  background: rgba(96,165,250,.12); border-color: rgba(96,165,250,.35); color: #60a5fa;
+}
+```
+
+### Speaker toggle row pattern
+
+Used in `homepod-music-card` for grouping speakers.
+
+Active speaker row (in group): blue tint background + blue toggle
+Inactive speaker row: neutral background, gray toggle, muted name
+
+```css
+.spk.on { background: rgba(96,165,250,.06); border-color: rgba(96,165,250,.25); }
+.tog.on { background: rgba(96,165,250,.25); border-color: rgba(96,165,250,.5); }
+.tog.on .tog-dot { background: #60a5fa; }
+```
+
+### Jellyseerr request status badge colors
+
+| Status | Color | Token |
+|--------|-------|-------|
+| Pending | Amber `#fbbf24` | `rgba(251,191,36,…)` |
+| Processing | Blue `#60a5fa` | `rgba(96,165,250,…)` |
+| Partial | Purple `#a78bfa` | `rgba(167,139,250,…)` |
+| Available | Green `#4ade80` | `rgba(74,222,128,…)` |
+
+### D-pad sizing
+
+| Size | Ring diameter | Center diameter | Arrow zone |
+|------|---------------|-----------------|------------|
+| Standard (wall display) | 200px | 72px | 76×76px |
+
+Arrow zones must be large enough for comfortable wall-panel touch: 76px minimum.
+
+### Naming convention
+
+| Prefix | Device |
+|--------|--------|
+| `printer-*` | Epson inkjet (paper printer) |
+| `bambu-*` | Bambu Lab 3D printer |
+| `appletv-*` | Apple TV |
+| `homepod-*` | HomePod / AirPlay speakers |
+| `ps5-*` | PlayStation 5 |
+| `ps5-*` | PlayStation 5 |
+| `steam-*` | Steam / PC gaming |
+
+**Card prefixes:**
+- `ps5-card` = PlayStation 5 cards
+- `steam-card` = Steam / PC gaming cards
