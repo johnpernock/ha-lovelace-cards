@@ -887,6 +887,7 @@ views:
             entities:
               sonarr_recent: sensor.sonarr_recent
               radarr_recent: sensor.radarr_recent
+            max_items: 10
 
     cards: []
     theme: Amoled+

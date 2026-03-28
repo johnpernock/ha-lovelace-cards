@@ -241,8 +241,8 @@ class AppleTvRemoteCard extends HTMLElement {
                    position: absolute; top: 50%; transform: translate(-50%,-50%);
                    border: 2px solid rgba(255,255,255,.35); transition: left .1s; }
       /* Power */
-      .power-wrap { padding: 2px 14px 12px; }
-      .power-btn  { width: 100%; height: 44px; border-radius: 8px;
+      .power-wrap { display: flex; gap: 8px; padding: 2px 14px 12px; }
+      .power-btn  { flex: 1; height: 44px; border-radius: 8px;
                     background: rgba(248,113,113,.06); border: 1px solid rgba(248,113,113,.25);
                     display: flex; align-items: center; justify-content: center; gap: 8px;
                     cursor: pointer; -webkit-tap-highlight-color: transparent;
@@ -250,6 +250,8 @@ class AppleTvRemoteCard extends HTMLElement {
                     color: #f87171; font-size: 12px; font-weight: 700;
                     text-transform: uppercase; letter-spacing: .05em; }
       .power-btn:active { transform: scale(.98); filter: brightness(.88); }
+      .power-btn.wake  { color: #4ade80; border-color: rgba(74,222,128,.3); }
+      .power-btn.sleep { color: rgba(248,113,113,.8); border-color: rgba(248,113,113,.25); }
     `;
   }
 
@@ -329,12 +331,19 @@ class AppleTvRemoteCard extends HTMLElement {
             <div class="vol-btn ha-tappable" id="vol-up">+</div>
           </div>
           <div class="power-wrap">
-            <div class="power-btn ha-tappable" id="btn-sleep">
+            <div class="power-btn wake ha-tappable" id="btn-wake">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="12" cy="12" r="4"/>
+                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+              </svg>
+              Wake
+            </div>
+            <div class="power-btn sleep ha-tappable" id="btn-sleep">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <path d="M18.36 6.64A9 9 0 1 1 5.64 6.64"/>
                 <line x1="12" y1="2" x2="12" y2="12"/>
               </svg>
-              Sleep / Power
+              Sleep
             </div>
           </div>
         </div>
@@ -412,6 +421,7 @@ class AppleTvRemoteCard extends HTMLElement {
     });
 
     // Sleep / power
+    root.getElementById('btn-wake')?.addEventListener('click',  () => this._mediaCmd('turn_on'));
     root.getElementById('btn-sleep')?.addEventListener('click', () => this._mediaCmd('turn_off'));
   }
 
