@@ -66,7 +66,6 @@ class NetworkStatusCardCard extends HTMLElement {
 
   getCardSize() { return 3; }
 
-  // ── Helpers ─────────────────────────────────────────────────────────────────
   _e(k)   { const id = this._config.entities?.[k]; return id || null; }
 
 
@@ -82,6 +81,9 @@ class NetworkStatusCardCard extends HTMLElement {
   }
 
   // ── CSS ──────────────────────────────────────────────────────────────────────
+
+  _listen() {}  // no interactive elements — no-op
+
   _css() {
     return `${CSS_RESET}${CSS_TAPPABLE}${CSS_SECTION}
 

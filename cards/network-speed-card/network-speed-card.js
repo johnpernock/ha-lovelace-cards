@@ -62,7 +62,6 @@ class NetworkSpeedCardCard extends HTMLElement {
 
   getCardSize() { return 3; }
 
-  // ── Helpers ─────────────────────────────────────────────────────────────────
   _e(k)   { const id = this._config.entities?.[k]; return id || null; }
 
 
@@ -98,6 +97,14 @@ _spark(id, color) {
   }
 
   // ── CSS ──────────────────────────────────────────────────────────────────────
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  _s(id)    { return id ? this._hass?.states[id] : null; }
+  _val(id)  { return this._s(id)?.state; }
+  _attr(id, k) { return this._s(id)?.attributes?.[k] ?? null; }
+  _num(id)  { const v = parseFloat(this._val(id)); return isNaN(v) ? null : v; }
+  _listen() {}  // no interactive elements — no-op
+
   _css() {
     return `${CSS_RESET}${CSS_TAPPABLE}${CSS_SECTION}
 
