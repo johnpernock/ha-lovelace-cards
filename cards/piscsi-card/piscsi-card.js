@@ -220,7 +220,7 @@ class PiSCSICard extends HTMLElement {
   _css() { return `
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important}
     *{box-sizing:border-box;margin:0;padding:0;font-family:var(--primary-font-family,-apple-system,sans-serif)}
-    .wrap{border-radius:10px;border:1px solid rgba(255,255,255,.12);overflow:hidden;position:relative}
+    .wrap{border-radius:10px;overflow:hidden;position:relative}
     .card-hdr{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.2px;padding:10px 14px 9px;border-bottom:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:space-between}
     .chip{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:4px}
     .chip-ok{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.28);color:#4ade80}

@@ -8,7 +8,7 @@ Shared design language, color system, component patterns, and interaction princi
 
 - **Wall display first.** Designed for 1200×800 (iPad landscape, wall-mounted). Mobile is fully supported but secondary.
 - **Transparent backgrounds.** Cards never set their own background color — they inherit the dashboard theme. This lets the HA theme's background show through uniformly.
-- **No outer borders on cards.** The card itself has no visible border. Sections and pills inside the card use subtle borders.
+- **No outer borders on cards.** Both `ha-card` AND the inner `.wrap`/`.card` container must have no border. HA's sections layout and the dashboard theme handle card separation. Internal elements (rows, stat tiles, section blocks, pills) use subtle `rgba(255,255,255,.10–.14)` borders to create structure inside the card.
 - **Dark theme assumed.** All colors are tuned for a dark background. Light theme compatibility is not a design goal.
 - **Information density over decoration.** Every pixel should earn its place. No padding for padding's sake.
 
@@ -523,18 +523,18 @@ Used in `room-controls-card` thermostat row and `thermostat-card`.
 
 ## Room card structure
 
-Room control cards (Lights & Fans view) use a transparent shell — no background fill, border only:
+Room control cards (Lights & Fans view) use a transparent shell — no background fill, no border on the outer container:
 
 ```css
 .room {
   border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.12);  /* matches technology-card */
+  /* NO border — follows the no-outer-border rule */
   overflow: hidden;
   /* NO background */
 }
 ```
 
-This creates visual separation without adding grey fill on top of the page background. Contrast this with energy/commute cards which use `border:1px solid rgba(255,255,255,.10)` — same pattern, slightly lighter for less visual weight.
+Individual room sections inside the card use `border: 1px solid rgba(255,255,255,.12)` to separate them from each other — this is an internal structural border, not a card shell border.
 
 Room name headers use 17px white bold:
 
@@ -805,7 +805,7 @@ This section tracks design decisions that are intentionally inconsistent across 
 
 ### `.wrap` vs `.card` as outer container name
 
-Some cards use `.wrap` (now-playing, protect-events, leave-by, printer-status) and others use `.card` (bambu, peco, wallbox, ecoflow, charging, traffic, septa) as the class name for the visible bordered container inside `ha-card`. Both are correct — the important rule is that `ha-card` itself must always be `transparent`, `box-shadow: none`, `border: none`, and the visual border lives on the inner container. New cards should prefer `.wrap` for consistency with the shared module pattern.
+Some cards use `.wrap` (now-playing, protect-events, leave-by) and others use `.card` (bambu, peco, wallbox, ecoflow, charging, traffic, septa) as the class name for the outer container inside `ha-card`. Both are correct. The important rule is that **neither `ha-card` nor `.wrap`/`.card` should have a `border`**. Both must be borderless — `ha-card` is always `transparent`, `box-shadow: none`, `border: none`, and `.wrap`/`.card` is always `border: none` as well. Internal structure is created with bordered inner elements (rows, stat tiles, pills) not the card shell. New cards should prefer `.wrap` for consistency.
 
 ### Tap states — not all cards have them
 

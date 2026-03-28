@@ -98,7 +98,7 @@ class Ps5Card extends HTMLElement {
   _css() {
     return `${CSS_RESET}${CSS_TAPPABLE}${CSS_BADGE}
       ha-card { padding: 0; }
-      .wrap { border-radius: 10px; border: 1px solid rgba(255,255,255,.12); overflow: hidden; }
+      .wrap { border-radius: 10px; overflow: hidden; }
       .hdr  { font-size: 17px; font-weight: 700; color: white; letter-spacing: -.2px;
               padding: 10px 14px 9px; border-bottom: 1.5px solid rgba(255,255,255,.28); }
       .body { padding: 12px 14px; }

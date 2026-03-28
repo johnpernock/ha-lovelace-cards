@@ -869,10 +869,82 @@ views:
               ink_magenta: sensor.epson_et_5170_series_magenta_ink
               ink_yellow: sensor.epson_et_5170_series_yellow_ink
 
+    cards: []
+    theme: Amoled+
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # MEDIA
+  # Streaming, music, remote control, gaming, and content discovery.
+  # ═══════════════════════════════════════════════════════════════════════════
+  - title: Media
+    path: media
+    icon: mdi:television-play
+    type: sections
+    max_columns: 3
+    sections:
+
+      # ── Column 1: Now Playing + Apple TV ───────────────────────────────────
+      - type: grid
+        cards:
+          - type: custom:now-playing-card
+            players:
+              - entity: media_player.dining_hp
+                name: Dining Room
+              - entity: media_player.family_room_hp
+                name: Family Room
+              - entity: media_player.master_bedroom_hp
+                name: Master Bedroom
+              - entity: media_player.family_room
+                name: Family Room TV
+              - entity: media_player.master_bedroom
+                name: Bedroom TV
+              - entity: media_player.office
+                name: Office TV
+
+          - type: custom:appletv-remote-card
+            devices:
+              - name: Family Room
+                media_player: media_player.family_room
+                remote: remote.family_room
+              - name: Bedroom
+                media_player: media_player.master_bedroom
+                remote: remote.master_bedroom
+              - name: Office
+                media_player: media_player.office
+                remote: remote.office
+
+      # ── Column 2: HomePods + Jellyseerr ────────────────────────────────────
+      - type: grid
+        cards:
+          - type: custom:homepod-music-card
+            speakers:
+              - entity: media_player.family_room_hp
+                name: Family Room
+              - entity: media_player.master_bedroom_hp
+                name: Bedroom
+              - entity: media_player.dining_hp
+                name: Dining Room
+
+          - type: custom:jellyseerr-card
+            url: http://192.168.1.33:5055
+            api_key: !secret jellyseerr_api_key
+
+      # ── Column 3: Recently Added + Gaming ──────────────────────────────────
+      - type: grid
+        cards:
           - type: custom:recently-added-card
             entities:
               sonarr_recent: sensor.sonarr_recent
               radarr_recent: sensor.radarr_recent
+
+          - type: custom:ps5-card
+            name: PlayStation 5
+            media_player: media_player.ps5
+            status_sensor: sensor.ps5_status
+
+          - type: custom:steam-card
+            name: Steam
+            status_sensor: sensor.steam_status
 
     cards: []
     theme: Amoled+

@@ -5,6 +5,22 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — No outer borders + Media view
+
+### Fixed
+
+**Outer border removed from 13 cards** — all cards now follow the no-outer-border rule. The `.wrap`/`.card` shell is borderless on all 45 cards. Internal structure (rows, tiles, pills, sections) still uses `rgba(255,255,255,.10–.14)` borders. Cards fixed: appletv-remote-card, homepod-music-card, jellyseerr-card, kiosk-displays-card, kiosk-health-card, kiosk-voice-card, network-controls-card, network-devices-card, piscsi-card, printer-ink-card, ps5-card, recently-added-card, steam-card.
+
+STYLE-GUIDE.md updated — no-outer-border rule now explicitly covers both `ha-card` and the inner `.wrap`/`.card` container.
+
+### Changed
+
+**Dashboard — Media view added** (`dashboard/dashboard.yaml`). Moved `recently-added-card` from Technology view column 3 to the new Media view. Media view has 3 columns: Now Playing + Apple TV remotes | HomePods + Jellyseerr | Recently Added + PS5 + Steam.
+
+Technology view column 3 now contains: `network-controls-card` and `printer-ink-card` only.
+
+---
+
 ## [Mar 2026] — Dashboard migration + version control
 
 ### Added

@@ -103,7 +103,6 @@ class PrinterInkCard extends HTMLElement {
         * { box-sizing: border-box; margin: 0; padding: 0; }
         .wrap {
           border-radius: 10px;
-          border: 1px solid rgba(255,255,255,.12);
           overflow: hidden;
         }
         .hdr {

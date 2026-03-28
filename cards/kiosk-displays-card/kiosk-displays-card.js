@@ -134,7 +134,7 @@ class KioskDisplaysCard extends HTMLElement {
 
   _css() { return `
     ha-card{background:transparent!important;box-shadow:none!important;border:none!important}
-    .wrap{border-radius:10px;border:1px solid rgba(255,255,255,.12);overflow:hidden}
+    .wrap{border-radius:10px;overflow:hidden}
     .card-hdr{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.2px;padding:10px 14px 9px;border-bottom:1.5px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:space-between}
     .hdr-chips{display:flex;gap:5px}
     .chip{font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:4px}

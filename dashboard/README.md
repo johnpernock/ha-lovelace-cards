@@ -19,7 +19,8 @@ or fully reload HA if changes aren't picked up.
 | Lights / Fans | room-controls-card per room | Full light + fan + blind + thermostat controls |
 | Security | camera-layout-card | Panel view |
 | Commute | traffic, leave-by, septa (expanded), tesla-commute, charging | Commute day view |
-| Technology | network-status, network-speed, access-points, immich, server-health, services, storage, network-controls, printer-ink, recently-added | All individual extracted cards — no technology-card sections |
+| Technology | network-status, network-speed, access-points, immich, server-health, services, storage, network-controls, printer-ink | All individual extracted cards — no technology-card sections |
+| Media | now-playing, appletv-remote, homepod-music, jellyseerr, recently-added, ps5, steam | |
 | 3D Printer | bambu-printer-card | Panel view |
 | Energy | wallbox, peco, ecoflow | |
 
