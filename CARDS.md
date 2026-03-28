@@ -1205,14 +1205,14 @@ incident_threshold: 10
 hide_to_work_after: 12
 to_work:
   entity: sensor.commute_to_work
-  label: 1030 Continental Dr
+  label: Work Address
   route_label: US-202 N
 home_routes:
   - entity: sensor.commute_home_via_202
-    label: 21 Beryl Rd
+    label: Home Address
     route_label: US-202 S
   - entity: sensor.commute_home_via_rt_30
-    label: 21 Beryl Rd
+    label: Home Address
     route_label: Route 30 W
     via_label: via Lancaster Ave
 ```
@@ -1235,7 +1235,7 @@ home_routes:
 | v11 | Final pass: unavailable row bg .03→0, border→.22 |
 | v10 | OLED visibility pass: card border .10→.22, inner borders .08→.18 |
 | v9 | New `hide_home_before` param — dims home route row before a specified hour (symmetric to `hide_to_work_after`); dashboard simplified to single home route |
-| v8 | Removed hardcoded `'21 Beryl Rd'` fallback for home direction label — now uses `home_routes[0].label` only |
+| v8 | Removed hardcoded `'Home Address'` fallback for home direction label — now uses `home_routes[0].label` only |
 | v7 | `_patch()` added — route times and delays update in-place; full re-render only when incident banner appears/disappears |
 | v6 | Card header title: 10px uppercase → 17px white bold |
 | v5 | Touch audit: `-webkit-tap-highlight-color:transparent` on expanded row classes |

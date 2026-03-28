@@ -14,19 +14,19 @@
 # The route attribute contains the road name Waze selected.
 # ──────────────────────────────────────────────────────────────────────────────
 
-# ── To work: 21 Beryl Rd → 1030 Continental Dr via US-202 N ──────────────────
+# ── To work: Home Address
 - platform: waze_travel_time
   name: "Commute to Work"
-  origin: "21 Beryl Rd, Paoli, PA 19301"
-  destination: "1030 Continental Dr, King of Prussia, PA 19406"
+  origin: "Home Address, "
+  destination: "Work Address, "
   region: US
   realtime: true
 
-# ── Home via 202 S: 1030 Continental Dr → 21 Beryl Rd ────────────────────────
+# ── Home via 202 S: Work Address
 - platform: waze_travel_time
   name: "Commute Home via 202"
-  origin: "1030 Continental Dr, King of Prussia, PA 19406"
-  destination: "21 Beryl Rd, Paoli, PA 19301"
+  origin: "Work Address, "
+  destination: "Home Address, "
   region: US
   realtime: true
 
@@ -35,8 +35,8 @@
 # avoid_highways: true nudges Waze toward the local road option.
 - platform: waze_travel_time
   name: "Commute Home via Rt 30"
-  origin: "1030 Continental Dr, King of Prussia, PA 19406"
-  destination: "21 Beryl Rd, Paoli, PA 19301"
+  origin: "Work Address, "
+  destination: "Home Address, "
   region: US
   realtime: true
   avoid_highways: true

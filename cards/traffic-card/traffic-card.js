@@ -16,11 +16,11 @@
  * hide_to_work_after: 12        # optional — hour (24h) to dim "to work" row (default 12)
  * hide_home_before: 14          # optional — hour (24h) before which to dim "home" row (default none)
  * to_work:
- *   label: "1030 Continental Dr"
+ *   label: "Work Address"
  *   entity: sensor.commute_to_work
  *   route_label: US-202 N       # fallback if Waze route attribute is empty
  * home_routes:
- *   - label: "21 Beryl Rd"
+ *   - label: "Home Address"
  *     entity: sensor.commute_home_via_202
  *     route_label: US-202 S
  */
@@ -466,7 +466,7 @@ class TrafficCard extends HTMLElement {
                 <polyline points="5 12 19 12"/><polyline points="13 6 19 12 13 18"/>
               </svg>
             </div>
-            <div class="dir-lbl">To work · ${cfg.to_work.label || '1030 Continental Dr'}</div>
+            <div class="dir-lbl">To work · ${cfg.to_work.label || 'Work Address'}</div>
           </div>
           ${toWorkTile}
 

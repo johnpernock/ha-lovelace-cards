@@ -582,11 +582,11 @@ views:
             hide_home_before: 14
             to_work:
               entity: sensor.commute_to_work
-              label: 1030 Continental Dr
+              label: Work Address
               route_label: US-202 N
             home_routes:
               - entity: sensor.commute_home_via_202
-                label: 21 Beryl Rd
+                label: Home Address
                 route_label: US-202 S
           - type: custom:leave-by-card
             waze_entity: sensor.commute_to_work

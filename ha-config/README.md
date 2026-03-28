@@ -46,9 +46,9 @@ Kept for reference only. Waze Travel Time sensors are now configured through the
 
 | Sensor entity | Direction |
 |---|---|
-| `sensor.commute_to_work` | 21 Beryl Rd → 1030 Continental Dr |
-| `sensor.commute_home_via_202` | 1030 Continental Dr → 21 Beryl Rd |
-| `sensor.commute_home_via_rt_30` | 1030 Continental Dr → 21 Beryl Rd |
+| `sensor.commute_to_work` | Home Address
+| `sensor.commute_home_via_202` | Work Address
+| `sensor.commute_home_via_rt_30` | Work Address
 
 Do **not** add `sensor: !include ha-config/waze-sensors.yaml` to `configuration.yaml` — this will cause a HA startup error.
 
