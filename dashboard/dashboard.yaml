@@ -927,7 +927,7 @@ views:
 
           - type: custom:jellyseerr-card
             url: http://192.168.1.33:5055
-            api_key: !secret jellyseerr_api_key
+            api_key: YOUR_JELLYSEERR_API_KEY    # paste your key here directly
 
       # ── Column 3: Recently Added + Gaming ──────────────────────────────────
       - type: grid
