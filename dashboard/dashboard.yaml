@@ -759,52 +759,38 @@ views:
             gateway:
               name: UniFi Dream Machine
               ip: 192.168.1.1
-              latency_sensor: sensor.udm_ping_latency
-              uptime_sensor: sensor.udm_uptime
-              clients_sensor: sensor.unifi_clients_total
-              wan_ip_sensor: sensor.wan_ip
-              wan_sensor: binary_sensor.wan_online
+              # Optional — add when sensors are created:
+              # latency_sensor: sensor.udm_ping_latency   (ping platform)
+              # clients_sensor: sensor.unifi_clients_total (UniFi integration)
+              # wan_sensor: binary_sensor.wan_online       (template sensor)
             managed_switches:
               - name: USW-24-PoE
                 ip: 192.168.1.2
                 description: 24 port · PoE+
-                ports_up: 18
-                ports_down: 4
-                ports_sfp: 2
-                poe_used_sensor: sensor.usw24_poe_power
                 poe_budget: 100
                 poe_ports:
                   - port: 3
                     name: Front Door Kiosk
                     entity: switch.usw24_port_3_poe
-                    power_sensor: sensor.usw24_port_3_power
                   - port: 4
                     name: Garage Kiosk
                     entity: switch.usw24_port_4_poe
-                    power_sensor: sensor.usw24_port_4_power
               - name: USW-Lite-8-PoE
                 ip: 192.168.1.3
                 description: 8 port · PoE
-                ports_up: 6
-                ports_down: 2
-                poe_used_sensor: sensor.usw_lite_poe_power
                 poe_budget: 45
                 poe_ports:
                   - port: 1
                     name: Hallway AP
                     entity: switch.usw_lite_port_1_poe
-                    power_sensor: sensor.usw_lite_port_1_power
                   - port: 2
                     name: Family Room AP
                     entity: switch.usw_lite_port_2_poe
-                    power_sensor: sensor.usw_lite_port_2_power
             unmanaged_switches:
               - name: USW-Flex · Office
                 ip: 192.168.1.4
-                ports: 5
               - name: USW-Flex · Garage
                 ip: 192.168.1.5
-                ports: 5
             pending:
               - name: Pi-hole / AdGuard
                 sub: DNS · block rate

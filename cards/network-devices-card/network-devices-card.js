@@ -415,7 +415,8 @@ class NetworkDevicesCard extends HTMLElement {
       const portsSfp  = this._resolve(sw.ports_sfp,  0);
       const portLabel = `${portsUp} up · ${portsDn} down${portsSfp ? ` · ${portsSfp} SFP` : ''}`;
 
-      const portGrid  = this._buildPortGrid(sw);
+      const portGrid   = this._buildPortGrid(sw);
+      const hasPortData = sw.ports_up != null || sw.ports_down != null;
 
       return `
         <div class="dev-row" id="sw-row-${i}">
@@ -427,15 +428,15 @@ class NetworkDevicesCard extends HTMLElement {
             </div>
             <div class="dev-badge db-ok">Online</div>
           </div>
+          ${sw.poe_ports?.length ? `
           <div class="ports-hdr">
-            <div class="ports-lbl" id="sw-port-lbl-${i}">${portLabel}</div>
-            ${sw.poe_ports?.length ? `
-              <div class="poe-btn" data-sw="${i}" id="poe-btn-${i}">
-                ${this._boltIco()} PoE ports
-              </div>` : ''}
-          </div>
-          <div class="ports" id="sw-ports-${i}">${portGrid}</div>
-          ${poeUsed != null || sw.poe_budget ? `
+            ${hasPortData ? `<div class="ports-lbl" id="sw-port-lbl-${i}">${portLabel}</div>` : '<div></div>'}
+            <div class="poe-btn" data-sw="${i}" id="poe-btn-${i}">
+              ${this._boltIco()} PoE ports
+            </div>
+          </div>` : ''}
+          ${hasPortData ? `<div class="ports" id="sw-ports-${i}">${portGrid}</div>` : ''}
+          ${(poeUsed != null || sw.poe_budget) && hasPortData ? `
             <div class="poe-bud">
               <div class="poe-top">
                 <div class="poe-lbl">PoE budget</div>
