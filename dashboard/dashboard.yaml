@@ -789,8 +789,12 @@ views:
             unmanaged_switches:
               - name: USW-Flex · Office
                 ip: 192.168.1.4
+                ports: 5
+                online_sensor: binary_sensor.ping_flex_office
               - name: USW-Flex · Garage
                 ip: 192.168.1.5
+                ports: 5
+                online_sensor: binary_sensor.ping_flex_garage
             pending:
               - name: Pi-hole / AdGuard
                 sub: DNS · block rate
