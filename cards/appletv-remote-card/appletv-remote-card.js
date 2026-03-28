@@ -94,6 +94,10 @@ class AppleTvRemoteCard extends HTMLElement {
   _state()     { return this._hass?.states[this._mp()]; }
   _playing()   { return ['playing','paused'].includes(this._state()?.state); }
   _isPlaying() { return this._state()?.state === 'playing'; }
+  _unavail()   {
+    const s = this._state()?.state;
+    return !s || s === 'unavailable' || s === 'unknown';
+  }
 
   _mediaTitle() {
     const s = this._state();
@@ -178,6 +182,14 @@ class AppleTvRemoteCard extends HTMLElement {
                   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       .np-sub   { font-size: 10px; color: rgba(255,255,255,.4); margin-top: 2px;
                   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      /* Unavailable banner */
+      .unavail-banner { display:flex;align-items:center;gap:8px;margin:8px 14px 6px;padding:7px 10px;
+        border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08); }
+      .unavail-dot  { width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0; }
+      .unavail-text { font-size:11px;color:rgba(255,255,255,.3);font-style:italic; }
+      /* Inactive transport controls */
+      .btn-row.ctrl-inactive { opacity:.3;pointer-events:none; }
+      /* Badge variants */
       .np-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px;
                   text-transform: uppercase; letter-spacing: .05em; flex-shrink: 0; }
       .np-badge.playing { background: rgba(74,222,128,.08); border: 1px solid rgba(74,222,128,.25); color: #4ade80; }
@@ -252,8 +264,9 @@ class AppleTvRemoteCard extends HTMLElement {
     const playing = state === 'playing';
     const paused  = state === 'paused';
     const active  = playing || paused;
-    const badgeCls = playing ? 'playing' : paused ? 'paused' : 'idle';
-    const badgeTxt = playing ? 'Playing' : paused ? 'Paused' : 'Idle';
+    const unavail  = this._unavail();
+    const badgeCls = playing ? 'playing' : paused ? 'paused' : unavail ? 'unavail' : 'idle';
+    const badgeTxt = playing ? 'Playing' : paused ? 'Paused' : unavail ? 'Unavailable' : 'Idle';
     const volPct = vol ?? 50;
 
     this.shadowRoot.innerHTML = `
@@ -264,6 +277,11 @@ class AppleTvRemoteCard extends HTMLElement {
           <div class="tabs">
             ${atvs.map((a,i) => `<div class="tab ha-tappable${i===this._idx?' active':''}" data-idx="${i}">${a.name}</div>`).join('')}
           </div>
+          \${this._unavail() ? `
+            <div class="unavail-banner">
+              <div class="unavail-dot"></div>
+              <div class="unavail-text">\${this._atv().name} unavailable</div>
+            </div>` : ''}
           <div class="np" id="np">
             <div class="np-art">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="1.8">
@@ -288,13 +306,13 @@ class AppleTvRemoteCard extends HTMLElement {
               <div class="dpd-center" id="dpd-ok"><span>OK</span></div>
             </div>
           </div>
-          <div class="btn-row">
+          <div class="btn-row\${unavail ? ' ctrl-inactive' : ''}">
             <div class="fpip ha-tappable" data-cmd="menu">Menu</div>
             <div class="fpip ha-tappable" data-cmd="back">Back</div>
             <div class="fpip ha-tappable" data-cmd="home_hold">Home</div>
             <div class="fpip ha-tappable" data-media="media_play_pause">⏯</div>
           </div>
-          <div class="btn-row" style="padding-bottom:8px">
+          <div class="btn-row\${unavail ? ' ctrl-inactive' : ''}" style="padding-bottom:8px">
             <div class="fpip ha-tappable" data-media="media_previous_track">⏮</div>
             <div class="fpip ha-tappable" data-media="media_next_track">⏭</div>
             <div class="fpip ha-tappable" data-cmd="volume_up">Vol+</div>
@@ -408,8 +426,9 @@ class AppleTvRemoteCard extends HTMLElement {
     const playing  = state === 'playing';
     const paused   = state === 'paused';
     const active   = playing || paused;
-    const badgeCls = playing ? 'playing' : paused ? 'paused' : 'idle';
-    const badgeTxt = playing ? 'Playing' : paused ? 'Paused' : 'Idle';
+    const unavail  = this._unavail();
+    const badgeCls = playing ? 'playing' : paused ? 'paused' : unavail ? 'unavail' : 'idle';
+    const badgeTxt = playing ? 'Playing' : paused ? 'Paused' : unavail ? 'Unavailable' : 'Idle';
 
     const titleEl = root.getElementById('np-title');
     const subEl   = root.getElementById('np-sub');

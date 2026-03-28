@@ -64,6 +64,7 @@ class Ps5Card extends HTMLElement {
   _entity()    { return this._hass?.states[this._config.media_player]; }
   _state()     { return this._entity()?.state || 'unavailable'; }
   _isOn()      { return this._state() === 'playing' || this._state() === 'on' || this._state() === 'idle'; }
+  _unavail()   { return this._state() === 'unavailable' || this._state() === 'unknown'; }
   _isOff()     { return this._state() === 'off' || this._state() === 'standby'; }
   _game()      { return this._entity()?.attributes?.media_title || null; }
   _app()       { return this._entity()?.attributes?.app_name || null; }
@@ -127,6 +128,11 @@ class Ps5Card extends HTMLElement {
       .game-empty { font-size: 12px; color: rgba(255,255,255,.3); font-style: italic; }
       /* Action buttons */
       .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+      /* Unavailable banner */
+      .unavail-banner { display:flex;align-items:center;gap:8px;margin:8px 14px 6px;padding:7px 10px;
+        border-radius:8px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08); }
+      .unavail-dot  { width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);flex-shrink:0; }
+      .unavail-text { font-size:11px;color:rgba(255,255,255,.3);font-style:italic; }
       .action-btn { height: 44px; border-radius: 8px; display: flex; align-items: center;
                     justify-content: center; gap: 7px; font-size: 12px; font-weight: 700;
                     text-transform: uppercase; letter-spacing: .05em;
@@ -154,6 +160,11 @@ class Ps5Card extends HTMLElement {
       <ha-card>
         <div class="wrap">
           <div class="hdr">${this._config.name}</div>
+          \${this._unavail() ? `
+            <div class="unavail-banner">
+              <div class="unavail-dot"></div>
+              <div class="unavail-text">PlayStation 5 unavailable</div>
+            </div>` : ''}
           <div class="body">
             <div class="console-row">
               <div class="ps-logo">PS5</div>

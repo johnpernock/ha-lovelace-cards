@@ -1003,4 +1003,7 @@ Dim the specific controls that are meaningless when inactive — do not block ev
 ### Cards with this pattern implemented
 
 - `homepod-music-card` — unavailable banner + group toggle disabled when idle + group vol dimmed when solo
+- `appletv-remote-card` — unavailable banner + transport button rows dimmed when unavailable + badge shows "Unavailable"
+- `ps5-card` — unavailable banner + wake/off buttons have `.disabled` CSS
+- `now-playing-card` — collapses to invisible when all players idle (intentional — card only exists when something is playing)
 

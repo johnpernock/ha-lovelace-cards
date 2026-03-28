@@ -5,6 +5,26 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Unavailable/inactive states applied to all media cards
+
+### Changed
+
+Applied the unavailable/inactive state pattern (documented in STYLE-GUIDE.md) to all remaining media cards:
+
+**`appletv-remote-card`**
+- Unavailable banner shown below tabs when entity is unavailable
+- Transport button rows (`btn-row`) dimmed to `.3` opacity and non-interactive when unavailable
+- D-pad and navigation buttons remain interactive (remote commands still work when TV is on but media player integration is down)
+- Badge now shows "Unavailable" state correctly (was incorrectly falling through to "Idle")
+
+**`ps5-card`**
+- Unavailable banner shown when entity state is `unavailable` or `unknown`
+- `.action-btn.disabled` CSS added (`opacity: .3; pointer-events: none`) — Wake and Turn Off buttons were already toggling this class but had no style rule for it
+
+**`now-playing-card`** — no changes. Intentionally collapses to invisible when all players are idle. This is the correct pattern for a card that only has value when something is actively playing.
+
+---
+
 ## [Mar 2026] — HomePod group inactive state + unavailable pattern
 
 ### Changed
