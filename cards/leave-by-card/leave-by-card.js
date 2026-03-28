@@ -1,5 +1,5 @@
 /**
- * leave-by-card.js  —  v13
+ * leave-by-card.js  —  v14
  * "Leave by" card for Home Assistant Lovelace.
  *
  * Reads outbound SEPTA train departure times and a Waze Travel Time sensor,
@@ -42,6 +42,13 @@ class LeaveByCard extends HTMLElement {
       ],
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'leave-by-card',
+    };
+  }
+
 
   setConfig(config) {
     if (!config.waze_entity) throw new Error('leave-by-card: waze_entity is required');

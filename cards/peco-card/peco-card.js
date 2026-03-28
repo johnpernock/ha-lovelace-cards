@@ -1,5 +1,5 @@
 /**
- * peco-card.js  —  v10
+ * peco-card.js  —  v11
  * PECO / Opower utility energy card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -18,6 +18,13 @@ class PecoCard extends HTMLElement {
   }
 
   static getStubConfig() { return { electric_prefix: 'peco_electric' }; }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'peco-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.electric_prefix) throw new Error('peco-card: electric_prefix is required');

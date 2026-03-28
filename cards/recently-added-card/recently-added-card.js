@@ -1,5 +1,5 @@
 /**
- * recently-added-card.js  —  v1
+ * recently-added-card.js  —  v2
  * Standalone recently-added media card for Home Assistant Lovelace.
  * Extracted from technology-card (section: recently_added).
  *
@@ -59,6 +59,17 @@ class RecentlyAddedCard extends HTMLElement {
       max_items: 5,
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'sonarr_sensor', label: 'Sonarr Recent sensor', selector: { entity: { domain: 'sensor' } } },
+      { name: 'radarr_sensor', label: 'Radarr Recent sensor', selector: { entity: { domain: 'sensor' } } },
+      { name: 'max_items',     label: 'Max items to show',    selector: { number: { min: 1, max: 20, mode: 'box' } } },
+    ],
+      assertCustomElement: 'recently-added-card',
+    };
+  }
+
 
   setConfig(c) {
     this._config = {

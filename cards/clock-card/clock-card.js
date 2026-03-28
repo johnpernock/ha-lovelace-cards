@@ -1,5 +1,5 @@
 /**
- * clock-card.js  —  v12
+ * clock-card.js  —  v13
  * Home Assistant Lovelace clock + date card with optional calendar popup.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -65,6 +65,17 @@ class ClockCard extends HTMLElement {
       today_color: '#60a5fa',
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'show_date',    label: 'Show date',           selector: { boolean: {} } },
+      { name: 'show_weather', label: 'Show weather',        selector: { boolean: {} } },
+      { name: 'weather',      label: 'Weather entity',      selector: { entity: { domain: 'weather' } } },
+    ],
+      assertCustomElement: 'clock-card',
+    };
+  }
+
 
   setConfig(config) {
     this._config = config;

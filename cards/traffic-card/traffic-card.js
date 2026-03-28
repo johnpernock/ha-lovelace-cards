@@ -1,5 +1,5 @@
 /**
- * traffic-card.js  —  v20
+ * traffic-card.js  —  v21
  * Commute traffic card for Home Assistant Lovelace.
  * Uses Waze Travel Time sensors for live travel time data.
  *
@@ -34,6 +34,13 @@ class TrafficCard extends HTMLElement {
   }
 
   static getStubConfig() { return { to_work: { entity: 'sensor.commute_to_work', name: 'To Work' }, to_home: { entity: 'sensor.commute_home', name: 'Home' } }; }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'traffic-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.to_work?.entity)      throw new Error('traffic-card: to_work.entity is required');

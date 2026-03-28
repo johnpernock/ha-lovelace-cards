@@ -1,5 +1,5 @@
 /**
- * charging-card.js  —  v12
+ * charging-card.js  —  v13
  * Unified EV charging card combining Tesla (battery, range, time-to-full,
  * charging speed) and Wallbox (power, session energy) data into one view.
  *
@@ -29,6 +29,17 @@ class ChargingCard extends HTMLElement {
   }
 
   static getStubConfig() { return { tesla_prefix: 'tesla', wallbox_prefix: 'wallbox' }; }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'name',         label: 'Vehicle name',          selector: { text: {} } },
+      { name: 'charger_name', label: 'Charger name',          selector: { text: {} } },
+      { name: 'wallbox_prefix', label: 'Wallbox entity prefix', selector: { text: {} } },
+    ],
+      assertCustomElement: 'charging-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.tesla)           throw new Error('charging-card: tesla entities required');

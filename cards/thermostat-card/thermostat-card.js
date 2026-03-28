@@ -1,5 +1,5 @@
 /**
- * thermostat-card.js  —  v15
+ * thermostat-card.js  —  v16
  * Compact Home Assistant Lovelace thermostat card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -52,6 +52,16 @@ class ThermostatCard extends HTMLElement {
   static getStubConfig() {
     return { entity: 'climate.main_floor', name: 'Main Floor', step: 1 };
   }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'entity', label: 'Climate entity', selector: { entity: { domain: 'climate' } } },
+      { name: 'name',   label: 'Display name',   selector: { text: {} } },
+    ],
+      assertCustomElement: 'thermostat-card',
+    };
+  }
+
 
   setConfig(config) {
     if (!config.entity) throw new Error('thermostat-card: please define an entity');

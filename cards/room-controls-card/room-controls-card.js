@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v97
+ * room-controls-card.js  —  v98
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -60,6 +60,13 @@ class RoomControlsCard extends HTMLElement {
   
     this._docHandlers = [];
   }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'room-controls-card',
+    };
+  }
+
 
   setConfig(config) {
     if (!config.rooms?.length) throw new Error('room-controls-card: define at least one room');

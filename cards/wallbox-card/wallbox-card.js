@@ -1,5 +1,5 @@
 /**
- * wallbox-card.js  —  v13
+ * wallbox-card.js  —  v14
  * Wallbox EV charger status card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -20,6 +20,16 @@ class WallboxCard extends HTMLElement {
   }
 
   static getStubConfig() { return { prefix: 'wallbox_beryl_pulsar_plus' }; }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'prefix', label: 'Wallbox entity prefix', selector: { text: {} } },
+      { name: 'name',   label: 'Display name',          selector: { text: {} } },
+    ],
+      assertCustomElement: 'wallbox-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.prefix) throw new Error('wallbox-card: prefix is required');

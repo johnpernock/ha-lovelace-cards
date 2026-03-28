@@ -1,5 +1,7 @@
 # ha-custom-cards
 
+![CI](https://github.com/johnpernock/ha-custom-cards/actions/workflows/ci.yml/badge.svg)
+
 Custom Home Assistant Lovelace cards for a wall-mounted 1200×800 dashboard (iPad/tablet) with mobile support. All cards share a consistent dark-theme design language built on a common set of shared utility modules.
 
 ---
@@ -113,6 +115,14 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/jellyseerr-card/jellyseerr-card.js` | JavaScript Module |
 | `/local/cards/ps5-card/ps5-card.js` | JavaScript Module |
 | `/local/cards/steam-card/steam-card.js` | JavaScript Module |
+| `/local/cards/network-status-card/network-status-card.js` | JavaScript Module |
+| `/local/cards/network-speed-card/network-speed-card.js` | JavaScript Module |
+| `/local/cards/access-points-card/access-points-card.js` | JavaScript Module |
+| `/local/cards/server-health-card/server-health-card.js` | JavaScript Module |
+| `/local/cards/services-card/services-card.js` | JavaScript Module |
+| `/local/cards/storage-card/storage-card.js` | JavaScript Module |
+| `/local/cards/network-controls-card/network-controls-card.js` | JavaScript Module |
+| `/local/cards/immich-card/immich-card.js` | JavaScript Module |
 | `/local/cards/printer-ink-card/printer-ink-card.js` | JavaScript Module |
 | `/local/cards/calendar-card/calendar-card.js` | JavaScript Module |
 | `/local/cards/camera-layout-card/camera-layout-card.js` | JavaScript Module |
@@ -131,6 +141,14 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/jellyseerr-card/jellyseerr-card.js` | JavaScript Module |
 | `/local/cards/ps5-card/ps5-card.js` | JavaScript Module |
 | `/local/cards/steam-card/steam-card.js` | JavaScript Module |
+| `/local/cards/network-status-card/network-status-card.js` | JavaScript Module |
+| `/local/cards/network-speed-card/network-speed-card.js` | JavaScript Module |
+| `/local/cards/access-points-card/access-points-card.js` | JavaScript Module |
+| `/local/cards/server-health-card/server-health-card.js` | JavaScript Module |
+| `/local/cards/services-card/services-card.js` | JavaScript Module |
+| `/local/cards/storage-card/storage-card.js` | JavaScript Module |
+| `/local/cards/network-controls-card/network-controls-card.js` | JavaScript Module |
+| `/local/cards/immich-card/immich-card.js` | JavaScript Module |
 | `/local/cards/protect-events-card/protect-events-card.js` | JavaScript Module |
 | `/local/cards/room-buttons-card/room-buttons-card.js` | JavaScript Module |
 | `/local/cards/room-controls-card/room-controls-card.js` | JavaScript Module |
@@ -187,6 +205,14 @@ Full documentation for all cards — config params, entity reference, and change
 | Jellyseerr | `cards/jellyseerr-card/` | v1 |
 | PS5 | `cards/ps5-card/` | v1 |
 | Steam | `cards/steam-card/` | v1 |
+| Network Status | `cards/network-status-card/` | v1 |
+| Network Speed | `cards/network-speed-card/` | v1 |
+| Access Points | `cards/access-points-card/` | v1 |
+| Server Health | `cards/server-health-card/` | v1 |
+| Services | `cards/services-card/` | v1 |
+| Storage | `cards/storage-card/` | v1 |
+| Network Controls | `cards/network-controls-card/` | v1 |
+| Immich | `cards/immich-card/` | v1 |
 | Weather (NWS) | `cards/weather-card-nws/` | v15 |
 | Clock | `cards/clock-card/` | v12 |
 | Temp Strip | `cards/temp-strip-card/` | v8 |

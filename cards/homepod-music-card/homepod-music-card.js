@@ -1,5 +1,5 @@
 /**
- * homepod-music-card.js  —  v1
+ * homepod-music-card.js  —  v2
  * HomePod speaker group + music control card for Home Assistant Lovelace.
  *
  * Sections:
@@ -65,6 +65,13 @@ class HomepodMusicCard extends HTMLElement {
       ],
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'homepod-music-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.speakers?.length) throw new Error('homepod-music-card: speakers required');

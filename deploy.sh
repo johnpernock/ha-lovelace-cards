@@ -48,6 +48,14 @@ CARDS=(
   ps5-card
   recently-added-card
   steam-card
+  access-points-card
+  immich-card
+  network-controls-card
+  network-speed-card
+  network-status-card
+  server-health-card
+  services-card
+  storage-card
 )
 
 # ── Deploy ────────────────────────────────────────────────────────────────────

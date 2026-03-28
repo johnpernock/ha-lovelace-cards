@@ -1,5 +1,5 @@
 /**
- * steam-card.js  —  v1
+ * steam-card.js  —  v2
  * Steam online status card for Home Assistant Lovelace.
  *
  * Shows online status and current game per Steam account using the
@@ -55,6 +55,13 @@ class SteamCard extends HTMLElement {
       ],
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'steam-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.accounts?.length) throw new Error('steam-card: accounts required');

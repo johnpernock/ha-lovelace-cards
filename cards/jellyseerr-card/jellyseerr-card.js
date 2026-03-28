@@ -1,5 +1,5 @@
 /**
- * jellyseerr-card.js  —  v1
+ * jellyseerr-card.js  —  v2
  * Jellyseerr search + request card for Home Assistant Lovelace.
  *
  * Search for movies and TV shows via the Jellyseerr API, view request status,
@@ -58,6 +58,18 @@ class JellyseerrCard extends HTMLElement {
       api_key: 'your_api_key_here',
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'url',           label: 'Jellyseerr URL',        selector: { text: {} } },
+      { name: 'api_key',       label: 'API Key',               selector: { text: {} } },
+      { name: 'power_entity',  label: 'Server power entity',   selector: { entity: {} } },
+      { name: 'max_results',   label: 'Max search results',    selector: { number: { min: 1, max: 10, mode: 'box' } } },
+    ],
+      assertCustomElement: 'jellyseerr-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.url)     throw new Error('jellyseerr-card: url required');

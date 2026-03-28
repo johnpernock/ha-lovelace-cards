@@ -1,5 +1,5 @@
 /**
- * weather-card-nws.js  —  v15
+ * weather-card-nws.js  —  v16
  * Home Assistant Lovelace weather card — NWS / any weather entity.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -45,6 +45,16 @@ class WeatherCardUnified extends HTMLElement {
   }
 
   static getStubConfig() { return { entity: 'weather.home' }; }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'entity', label: 'Weather entity', selector: { entity: { domain: 'weather' } } },
+      { name: 'name',   label: 'Display name',   selector: { text: {} } },
+    ],
+      assertCustomElement: 'weather-card-nws',
+    };
+  }
+
 
   setConfig(config) {
     if (!config.entity) throw new Error('Please define a weather entity');

@@ -1,5 +1,5 @@
 /**
- * ps5-card.js  —  v1
+ * ps5-card.js  —  v2
  * PlayStation 5 status card for Home Assistant Lovelace.
  *
  * Shows power state, current game, session indicator, and wake/power buttons.
@@ -33,6 +33,16 @@ class Ps5Card extends HTMLElement {
   static getStubConfig() {
     return { media_player: 'media_player.playstation_5', name: 'PlayStation 5' };
   }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'media_player', label: 'PS5 media_player entity', selector: { entity: { domain: 'media_player' } } },
+      { name: 'name',         label: 'Display name',            selector: { text: {} } },
+    ],
+      assertCustomElement: 'ps5-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.media_player) throw new Error('ps5-card: media_player required');

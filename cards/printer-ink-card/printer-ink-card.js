@@ -1,5 +1,5 @@
 /**
- * printer-ink-card.js  —  v1
+ * printer-ink-card.js  —  v2
  * Compact Epson printer ink level display for Home Assistant Lovelace.
  * Extracted from technology-card (section: ink).
  *
@@ -30,6 +30,18 @@ class PrinterInkCard extends HTMLElement {
       }
     };
   }
+  static getConfigForm() {
+    return {
+      schema: { name: 'entities', type: 'grid', schema: [
+      { name: 'ink_black',   label: 'Black ink %',   selector: { entity: { domain: 'sensor' } } },
+      { name: 'ink_cyan',    label: 'Cyan ink %',    selector: { entity: { domain: 'sensor' } } },
+      { name: 'ink_magenta', label: 'Magenta ink %', selector: { entity: { domain: 'sensor' } } },
+      { name: 'ink_yellow',  label: 'Yellow ink %',  selector: { entity: { domain: 'sensor' } } },
+    ] },
+      assertCustomElement: 'printer-ink-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.entities) throw new Error('printer-ink-card: entities required');

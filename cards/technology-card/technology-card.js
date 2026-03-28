@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v27
+ * technology-card.js  —  v29
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -33,6 +33,18 @@ class TechnologyCard extends HTMLElement {
       },
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'section', label: 'Section', selector: { select: { options: [
+        'network','speed','access_points','server_health','services',
+        'storage','controls','recently_added','immich','ink'
+      ] } } },
+    ],
+      assertCustomElement: 'technology-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.section) throw new Error('technology-card: section is required');
@@ -380,57 +392,54 @@ class TechnologyCard extends HTMLElement {
   }
 
   _buildRecentlyAdded() {
+    // Delegates to the same logic as recently-added-card.
+    // Keeping this thin wrapper avoids duplicating ~60 lines of title
+    // resolution and deduplication logic.
     const sId = this._config.entities?.sonarr_recent || 'sensor.sonarr_recent';
     const rId = this._config.entities?.radarr_recent || 'sensor.radarr_recent';
     const sRecords = this._attr(sId,'records') || [];
     const rRecords = this._attr(rId,'records') || [];
     const seen = new Set();
+    const max  = this._config.max_items || 5;
+
     const items = [
       ...sRecords
         .filter(r => r.series?.title || r.seriesTitle || r.title || r.data?.importedPath || r.sourceTitle)
         .map(r => {
-          // Priority: series.title → seriesTitle → title (top-level) → path → filename scrub
           let title = r.series?.title || r.seriesTitle || '';
-          if (!title && r.title && !/\.mkv|\.mp4|\.avi/i.test(r.title)) {
-            // r.title can be episode title — not ideal but better than a filename
-            title = r.title;
-          }
+          if (!title && r.title && !/\.mkv|\.mp4|\.avi/i.test(r.title)) title = r.title;
           if (!title && r.data?.importedPath) {
             const parts = r.data.importedPath.replace(/\\/g,'/').split('/').filter(Boolean);
-            const file = parts[parts.length-1] || '';
-            const ep = file.match(/S(\d+)E(\d+)/i);
-            const showName = parts.length >= 3 ? parts[parts.length-3] : (parts[parts.length-2] || '');
-            title = showName + (ep ? ' S'+ep[1].padStart(2,'0')+'E'+ep[2].padStart(2,'0') : '');
+            const file  = parts[parts.length-1] || '';
+            const ep    = file.match(/S(\d+)E(\d+)/i);
+            const show  = parts.length >= 3 ? parts[parts.length-3] : (parts[parts.length-2] || '');
+            title = show + (ep ? ` S${ep[1].padStart(2,'0')}E${ep[2].padStart(2,'0')}` : '');
           }
           if (!title && r.sourceTitle) {
-            // sourceTitle is a filename — strip extension and release group noise
             title = (r.sourceTitle || '')
               .replace(/\.[^.]+$/, '')
               .replace(/\.?(\d{3,4}p|BluRay|WEB-?DL|WEBRip|HDTV|x264|x265|HEVC|AAC|AC3|DTS|REMUX|PROPER|REPACK)[^.]*/gi, '')
-              .replace(/[._]/g, ' ')
-              .replace(/\s+/g, ' ')
-              .trim();
+              .replace(/[._]/g, ' ').replace(/\s+/g, ' ').trim();
           }
-          // Sonarr v3: episode data is r.episode (singular), not r.episodes[]
-          // seasonNumber/episodeNumber may also be directly on the record
-          const ep = r.episode || r.episodes?.[0];
+          const ep   = r.episode || r.episodes?.[0];
           const sNum = r.seasonNumber ?? ep?.seasonNumber;
           const eNum = r.episodeNumber ?? ep?.episodeNumber;
           const epStr = (sNum != null && eNum != null)
             ? ` S${String(sNum).padStart(2,'0')}E${String(eNum).padStart(2,'0')}` : '';
-          return { title: title + epStr, type:'tv', date: r.date || r.airDateUtc };
+          return { title: title + epStr, type: 'tv', date: r.date || r.airDateUtc };
         }),
       ...rRecords
         .filter(r => r.movie?.title)
         .map(r => ({
-          title: r.movie.title + (r.movie.year ? ' ('+r.movie.year+')' : ''),
-          type:'movie', date:r.date,
+          title: r.movie.title + (r.movie.year ? ` (${r.movie.year})` : ''),
+          type: 'movie', date: r.date,
         })),
     ]
-    .sort((a,b)=>new Date(b.date)-new Date(a.date))
+    .sort((a,b) => new Date(b.date) - new Date(a.date))
     .filter(item => { if (seen.has(item.title)) return false; seen.add(item.title); return true; })
-    .slice(0,5);
-    const rows = items.length ? items.map(item=>`
+    .slice(0, max);
+
+    const rows = items.length ? items.map(item => `
       <div class="media-item">
         <div class="media-poster">${item.type==='movie'?'MOV':'TV'}</div>
         <div class="media-info">

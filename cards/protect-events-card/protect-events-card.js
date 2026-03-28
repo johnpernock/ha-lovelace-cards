@@ -1,5 +1,5 @@
 /**
- * protect-events-card.js  —  v8
+ * protect-events-card.js  —  v9
  *
  * UniFi Protect event log card for Home Assistant Lovelace.
  * Shows recent motion/doorbell/smart detection events with thumbnails.
@@ -60,6 +60,13 @@ class ProtectEventsCard extends HTMLElement {
       confidence_threshold: 0,
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'protect-events-card',
+    };
+  }
+
 
   setConfig(config) {
     if (!config.cameras?.length) {

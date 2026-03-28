@@ -1,5 +1,5 @@
 /**
- * bambu-status-card.js  —  v9
+ * bambu-status-card.js  —  v10
  * Compact Bambu Lab 3D printer status widget for the Home view.
  * Uses the same `printer` prefix config as bambu-printer-card.
  * Entity lookup is domain-agnostic — see bambu-printer-card for explanation.
@@ -14,6 +14,15 @@ class BambuStatusCard extends HTMLElement {
   }
 
   static getStubConfig() { return { prefix: 'bambu_p1s' }; }
+  static getConfigForm() {
+    return {
+      schema: [
+      { name: 'printer', label: 'Bambu entity prefix (e.g. bambu_p1s)', selector: { text: {} } },
+    ],
+      assertCustomElement: 'bambu-status-card',
+    };
+  }
+
 
   setConfig(c) { if (!c.printer && !c.prefix) throw new Error('bambu-status-card: printer entity prefix required (printer: bambu_p1s)'); this._config = c; this._render(); }
   set hass(h) {

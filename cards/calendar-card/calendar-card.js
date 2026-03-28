@@ -1,5 +1,5 @@
 /**
- * calendar-card.js  —  v9
+ * calendar-card.js  —  v10
  * Custom Home Assistant Lovelace calendar card.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -108,6 +108,13 @@ class CalendarCard extends HTMLElement {
   }
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'calendar-card',
+    };
+  }
+
 
   setConfig(config) {
     if (!config.calendars?.length) throw new Error('calendar-card: define at least one calendar');

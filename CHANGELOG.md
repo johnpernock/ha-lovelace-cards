@@ -5,6 +5,43 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Technology card extractions + getConfigForm + CI
+
+### Added
+
+**9 new standalone cards extracted from `technology-card`:**
+
+Each section that previously required `type: custom:technology-card` with `section: X` is now also available as its own card that can be placed anywhere on any dashboard view independently.
+
+| New card | Replaces |
+|---|---|
+| `network-status-card` | `technology-card` section: network |
+| `network-speed-card` | `technology-card` section: speed |
+| `access-points-card` | `technology-card` section: access_points |
+| `server-health-card` | `technology-card` section: server_health |
+| `services-card` | `technology-card` section: services |
+| `storage-card` | `technology-card` section: storage |
+| `network-controls-card` | `technology-card` section: controls |
+| `immich-card` | `technology-card` section: immich |
+
+`technology-card` itself is unchanged — all existing dashboard configs continue to work.
+
+**`getConfigForm()` on all 40 cards** — enables the native HA visual card editor. Clicking the card in the dashboard UI now opens a form with entity pickers and dropdowns instead of raw YAML. Cards with complex array configs (rooms, buttons, cameras) show a note directing to YAML.
+
+**GitHub Actions CI** (`.github/workflows/ci.yml`):
+- Syntax checks all card JS files on every push and pull request
+- Checks shared modules
+- Verifies deploy.sh CARDS array matches the cards/ directory
+- CI badge added to README
+
+### Changed
+
+- **`technology-card` (v27→v28)** — `_buildRecentlyAdded` annotated as sharing logic with `recently-added-card`
+- **`deploy.sh`** — 9 new cards added to CARDS array
+- All existing cards bumped one minor version for `getConfigForm` addition
+
+---
+
 ## [Mar 2026] — Security audit pass
 
 ### Fixed

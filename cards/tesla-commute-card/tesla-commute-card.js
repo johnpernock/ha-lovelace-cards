@@ -1,5 +1,5 @@
 /**
- * tesla-commute-card.js  —  v15
+ * tesla-commute-card.js  —  v16
  * Expanded Tesla card for the Commute view. Surfaces all commute-relevant
  * data inline — no popup needed. Compact tesla-card on the Home view remains
  * unchanged; this card is an independent component.
@@ -36,6 +36,13 @@ class TeslaCommuteCard extends HTMLElement {
   }
 
   static getStubConfig() { return { entities: { battery_level: 'sensor.tesla_battery', battery_range: 'sensor.tesla_range' } }; }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'tesla-commute-card',
+    };
+  }
+
 
   setConfig(c) {
     if (!c.entities) throw new Error('tesla-commute-card: entities is required');

@@ -1,5 +1,5 @@
 /**
- * camera-layout-card.js  —  v9
+ * camera-layout-card.js  —  v10
  *
  * Portrait doorbell on the left, dynamic 2×N grid of cameras on the right.
  * Designed for a 1200×800 wall display — fills the full card width,
@@ -53,6 +53,13 @@ class CameraLayoutCard extends HTMLElement {
       ],
     };
   }
+  static getConfigForm() {
+    return {
+      schema: [],
+      assertCustomElement: 'camera-layout-card',
+    };
+  }
+
 
   setConfig(config) {
     if (!config.doorbell?.entity) {
