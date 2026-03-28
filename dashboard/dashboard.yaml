@@ -907,6 +907,54 @@ views:
     cards: []
     theme: Amoled+
 
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # KIOSK
+  # Wall panel display control, health monitoring, and voice satellites.
+  # ═══════════════════════════════════════════════════════════════════════════
+  - title: Kiosk
+    path: kiosk
+    icon: mdi:tablet-dashboard
+    type: sections
+    max_columns: 2
+    sections:
+
+      # ── Column 1: Display control ───────────────────────────────────────────
+      - type: grid
+        cards:
+          - type: custom:kiosk-displays-card
+            displays:
+              - name: Front Door
+                entity: light.kiosk_front_door_display
+                dim_at: "22:00"
+                wake_at: "07:00"
+              - name: Garage
+                entity: light.kiosk_garage_display
+                dim_at: "22:00"
+                wake_at: "07:00"
+            night_brightness: 20
+
+          - type: custom:kiosk-voice-card
+            satellites:
+              - name: Front Door
+                ip: 192.168.1.235
+              - name: Garage
+                ip: 192.168.1.249
+            night_volume: 25
+
+      # ── Column 2: Health monitoring ─────────────────────────────────────────
+      - type: grid
+        cards:
+          - type: custom:kiosk-health-card
+            displays:
+              - name: Front Door
+                health_sensor: sensor.kiosk_front_door_api_health
+              - name: Garage
+                health_sensor: sensor.kiosk_garage_api_health
+
+    cards: []
+    theme: Amoled+
+
   # ═══════════════════════════════════════════════════════════════════════════
   # ENERGY
   # ═══════════════════════════════════════════════════════════════════════════
