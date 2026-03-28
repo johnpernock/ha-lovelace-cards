@@ -902,7 +902,7 @@ views:
                 name: Office TV
 
           - type: custom:appletv-remote-card
-            devices:
+            apple_tvs:
               - name: Family Room
                 media_player: media_player.family_room
                 remote: remote.family_room
@@ -940,11 +940,11 @@ views:
           - type: custom:ps5-card
             name: PlayStation 5
             media_player: media_player.ps5
-            status_sensor: sensor.ps5_status
 
           - type: custom:steam-card
-            name: Steam
-            status_sensor: sensor.steam_status
+            accounts:
+              - entity: sensor.steam_YOUR_STEAM_ID    # replace with your sensor
+                name: John                            # optional display name
 
     cards: []
     theme: Amoled+

@@ -90,6 +90,15 @@ else
   done
 fi
 
+# ── Deploy shared utilities ────────────────────────────────────────────────────
+SHARED_SRC="$REPO_DIR/shared"
+SHARED_DST="/config/www/shared"
+if [ -d "$SHARED_SRC" ]; then
+  mkdir -p "$SHARED_DST"
+  cp "$SHARED_SRC"/*.js "$SHARED_DST/"
+  echo "  OK   shared utilities"
+fi
+
 echo ""
 echo "Done. Hard refresh your browser to pick up changes."
 echo "Remember to bump resource versions in Settings → Dashboards → Resources if needed."
