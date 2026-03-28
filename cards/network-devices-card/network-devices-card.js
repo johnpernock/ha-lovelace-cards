@@ -480,20 +480,16 @@ class NetworkDevicesCard extends HTMLElement {
     const pills = switches.map(sw => {
       const hasMonitor = !!sw.online_sensor;
       const online     = hasMonitor ? this._isOn(sw.online_sensor) : null;
-      // null = unknown (no sensor), true = online, false = offline
-      const dotCol = online === true  ? '#4ade80'
-                   : online === false ? '#f87171'
-                   : 'rgba(255,255,255,.15)';  // grey = unknown
-      const subText = [
-        sw.ip,
-        sw.ports ? sw.ports + ' port' : '5 port',
-        !hasMonitor ? 'no monitor' : null,
-      ].filter(Boolean).join(' · ');
+      const dotCol     = online === true  ? '#4ade80'
+                       : online === false ? '#f87171'
+                       : 'rgba(255,255,255,.18)';
+      const subText    = [sw.ip, sw.ports ? sw.ports + ' port' : '5 port']
+                           .filter(Boolean).join(' · ');
       return `
         <div class="pill">
-          <div class="pill-dot" style="background:${dotCol}"></div>
+          ${hasMonitor ? `<div class="pill-dot" style="background:${dotCol}"></div>` : ''}
           <div class="pill-body">
-            <div class="pill-name" style="color:${online === false ? 'rgba(255,255,255,.35)' : 'rgba(255,255,255,.55)'}">${sw.name ?? 'Switch'}</div>
+            <div class="pill-name">${sw.name ?? 'Switch'}</div>
             <div class="pill-sub">${subText}</div>
           </div>
         </div>`;
