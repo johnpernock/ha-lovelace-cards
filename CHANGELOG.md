@@ -5,6 +5,30 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — PII audit + address redaction
+
+### Security
+
+**Removed real street addresses from all files.**
+
+A full PII scan across all repos found two real addresses (home and work) embedded in example configs in `CARDS.md`, `traffic-card.js`, `ha-config/dashboard.yaml`, `ha-config/README.md`, and `ha-config/deprecated/waze-sensors.yaml`. All replaced with generic `Home Address` / `Work Address` placeholders.
+
+Files updated:
+- `CARDS.md` — traffic-card and tesla-commute-card example configs
+- `cards/traffic-card/traffic-card.js` — doc comments + fallback default label
+- `ha-config/dashboard.yaml` — Waze sensor route labels
+- `ha-config/README.md` — sensor route table
+- `ha-config/deprecated/waze-sensors.yaml` — origin/destination fields
+
+All other findings across all four repos were confirmed false positives:
+- `1.1.1.1` in kiosk-setup.sh — routing utility, never contacts Cloudflare
+- `a1b2c3d4...` — example placeholder in an echo instruction
+- `friendly_name: "Kiosk Screen"` — device label, not a person's name
+- Generic security sensor labels (Someone Home, Everyone Away, etc.)
+- Nest `device_id` — hardware identifier, not personal data
+
+---
+
 ## [Mar 2026] — Technology card extractions + getConfigForm + CI
 
 ### Added
