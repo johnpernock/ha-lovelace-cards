@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v25
+ * technology-card.js  —  v26
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -409,9 +409,11 @@ class TechnologyCard extends HTMLElement {
               .replace(/\s+/g, ' ')
               .trim();
           }
-          const ep = r.episodes?.[0];
+          // Sonarr v3: episode data is r.episode (singular), not r.episodes[]
+          // seasonNumber/episodeNumber may also be directly on the record
+          const ep = r.episode || r.episodes?.[0];
           const sNum = r.seasonNumber ?? ep?.seasonNumber;
-          const eNum = ep?.episodeNumber;
+          const eNum = r.episodeNumber ?? ep?.episodeNumber;
           const epStr = (sNum != null && eNum != null)
             ? ` S${String(sNum).padStart(2,'0')}E${String(eNum).padStart(2,'0')}` : '';
           return { title: title + epStr, type:'tv', date: r.date || r.airDateUtc };
@@ -425,7 +427,7 @@ class TechnologyCard extends HTMLElement {
     ]
     .sort((a,b)=>new Date(b.date)-new Date(a.date))
     .filter(item => { if (seen.has(item.title)) return false; seen.add(item.title); return true; })
-    .slice(0,3);
+    .slice(0,5);
     const rows = items.length ? items.map(item=>`
       <div class="media-item">
         <div class="media-poster">${item.type==='movie'?'MOV':'TV'}</div>

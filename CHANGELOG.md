@@ -69,6 +69,12 @@ Most recent changes are listed first within each month.
 **Popup consistency (all cards)**
 - `door-sensor-card`, `tesla-card`, `clock-card`, `septa-paoli-card`: popup overlay dim fixed to 85% and sheet background set to true black `#000000` — these were missed in the initial pass
 
+
+**Technology card (v26)**
+- Recently Added: fixed Sonarr episode number extraction — was checking `r.episodes[0]` (array) but Sonarr v3 API returns `r.episode` (singular object) with `includeEpisode=true`. All 3 episodes of the same show were collapsing to one entry due to missing episode numbers making titles identical.
+- Also checks `r.episodeNumber` directly on the record as a fallback
+- Increased max displayed items from 3 → 5 so a batch of same-show episodes doesn't push out movies
+
 ### Repository hygiene
 - Deleted `ha-config/session-memory-2026-03-23.md` (should never have been committed)
 - Added `ha-config/session-memory-*.md` to `.gitignore`
