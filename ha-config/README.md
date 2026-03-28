@@ -192,7 +192,7 @@ lovelace:
 
 ### Prerequisites
 
-**Card resources** — all 24 card JS files registered under **Settings → Dashboards → Resources**. See root `README.md` for the full URL list.
+**Card resources** — all 32 card JS files registered under **Settings → Dashboards → Resources**. See root `README.md` for the complete URL list and current version table.
 
 **New card entity requirements:**
 - `appletv-remote-card` — requires `media_player.*_apple_tv` and `remote.*_apple_tv` entities from the Apple TV integration
