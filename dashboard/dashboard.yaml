@@ -759,10 +759,10 @@ views:
             gateway:
               name: UniFi Dream Machine
               ip: 192.168.1.1
-              # Optional — add when sensors are created:
-              # latency_sensor: sensor.udm_ping_latency   (ping platform)
-              # clients_sensor: sensor.unifi_clients_total (UniFi integration)
-              # wan_sensor: binary_sensor.wan_online       (template sensor)
+              latency_sensor: sensor.udm_ping_latency
+              uptime_sensor: sensor.udm_uptime
+              clients_sensor: sensor.unifi_network_clients
+              # wan_sensor: binary_sensor.wan_online  # uncomment when template sensor is created
             managed_switches:
               - name: USW-24-PoE
                 ip: 192.168.1.2
