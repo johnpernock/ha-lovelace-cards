@@ -1,5 +1,5 @@
 /**
- * protect-events-card.js  —  v7
+ * protect-events-card.js  —  v8
  *
  * UniFi Protect event log card for Home Assistant Lovelace.
  * Shows recent motion/doorbell/smart detection events with thumbnails.
@@ -25,6 +25,18 @@ import { CSS_RESET, CSS_BADGE, CSS_TAPPABLE, CSS_UNAVAIL }
 import { createPopupPortal, openPopup, closePopup,
          destroyPopupPortal, popupHeaderHtml }
   from '../../shared/ha-popup.js';
+
+// ── Safe thumbnail URL construction ───────────────────────────────────────────
+// Constructs the HA camera proxy URL for a UniFi Protect event thumbnail.
+// event_id values are UUIDs from the UniFi Protect integration — validated
+// before use to prevent any URL manipulation from malformed state data.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function thumbnailUrl(eventId) {
+  if (!eventId || !UUID_RE.test(String(eventId))) return null;
+  // UniFi Protect integration exposes event thumbnails via the HA API
+  return `/api/unifiprotect/thumbnail/${eventId}`;
+}
 
 class ProtectEventsCard extends HTMLElement {
   constructor() {
@@ -177,6 +189,7 @@ class ProtectEventsCard extends HTMLElement {
     if (!entry.eventId) return;
     try {
       const url = thumbnailUrl(entry.eventId);
+      if (!url) return;   // invalid or missing event_id — skip silently
       // Verify image is accessible — HA will 404 if not ready yet
       const res = await fetch(url, { credentials: 'same-origin' });
       if (!res.ok) return;
@@ -347,7 +360,10 @@ class ProtectEventsCard extends HTMLElement {
 
   _thumbHtml(ev, w, h) {
     if (ev.thumbUrl) {
-      return `<img src="${ev.thumbUrl}" width="${w}" height="${h}"
+      // Only allow relative HA API paths in src — never external URLs
+      const safeSrc = ev.thumbUrl && ev.thumbUrl.startsWith('/api/') ? ev.thumbUrl : '';
+      if (!safeSrc) return CAMERA_SVG;
+      return `<img src="${safeSrc}" width="${w}" height="${h}"
                    style="object-fit:cover;border-radius:5px;display:block" loading="lazy">`;
     }
     return CAMERA_SVG;

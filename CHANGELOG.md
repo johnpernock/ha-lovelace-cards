@@ -5,6 +5,29 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Security audit pass
+
+### Fixed
+
+**`protect-events-card` (v7→v8) — two fixes:**
+
+1. **`thumbnailUrl` was undefined** — the function was called but never defined, causing a silent `ReferenceError` at runtime so thumbnails never loaded. Defined as a module-level function that constructs the correct HA UniFi Protect API path (`/api/unifiprotect/thumbnail/<eventId>`).
+
+2. **UUID validation on `eventId`** — before constructing the thumbnail URL, `eventId` is validated against a strict UUID regex (`/^[0-9a-f]{8}-...-[0-9a-f]{12}$/i`). Malformed event IDs (which could theoretically be injected via a compromised UniFi Protect integration) are rejected and return `null` — the fetch is skipped entirely.
+
+3. **`src` attribute restricted to `/api/` paths** — `thumbUrl` is checked to start with `/api/` before being placed in `<img src>`. Prevents any non-HA URL from appearing in the img element, even if `thumbUrl` were somehow set to an external value.
+
+### Audit findings (no action required)
+
+All other 30 cards were audited and are clean:
+- No `eval()` usage in any card
+- No hardcoded API keys or credentials
+- No `postMessage` without origin validation
+- No external fetch URLs (all calls are same-origin HA API or local Pi API)
+- `innerHTML` usage across all cards is with HA state data (trusted source — entity names and states controlled by HA admin, not end users)
+
+---
+
 ## [Mar 2026] — Performance audit + configurability pass
 
 ### Performance fixes
