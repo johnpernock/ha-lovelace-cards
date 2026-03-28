@@ -5,6 +5,17 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Latest (naming pass)
+
+### Added
+- **`printer-ink-card`** — standalone Epson printer ink levels extracted from `technology-card`. Four bars (K/C/M/Y), low-ink warning at < 20%. Use independently or alongside the technology cards.
+
+### Changed
+- **`printer-status-card` → `bambu-status-card`** — renamed for clarity. The card has always been Bambu Lab 3D printer specific. Naming convention going forward: `printer-*` = Epson inkjet, `bambu-*` = Bambu Lab 3D printer.
+- `dashboard.yaml` updated to use `custom:bambu-status-card`
+
+---
+
 ## [Mar 2026] — Latest
 
 ### Bug fixes

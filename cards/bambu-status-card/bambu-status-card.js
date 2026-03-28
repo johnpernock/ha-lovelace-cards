@@ -1,19 +1,11 @@
 /**
- * DEPRECATED — use bambu-status-card instead.
- * This file is kept for backwards compatibility only.
- * Please update your dashboard YAML:
- *   type: custom:bambu-status-card
- * And register /local/cards/bambu-status-card/bambu-status-card.js as a resource.
- */
-
-/**
- * printer-status-card.js  —  v7
- * Compact printer status widget for the Home view.
+ * bambu-status-card.js  —  v8
+ * Compact Bambu Lab 3D printer status widget for the Home view.
  * Uses the same `printer` prefix config as bambu-printer-card.
  * Entity lookup is domain-agnostic — see bambu-printer-card for explanation.
  */
 
-class PrinterStatusCard extends HTMLElement {
+class BambuStatusCard extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
@@ -187,4 +179,4 @@ class PrinterStatusCard extends HTMLElement {
   }
 }
 
-customElements.define('printer-status-card', PrinterStatusCard);
+customElements.define('bambu-status-card', BambuStatusCard);

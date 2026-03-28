@@ -106,6 +106,8 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | URL | Type |
 |-----|------|
 | `/local/cards/bambu-printer-card/bambu-printer-card.js` | JavaScript Module |
+| `/local/cards/bambu-status-card/bambu-status-card.js` | JavaScript Module |
+| `/local/cards/printer-ink-card/printer-ink-card.js` | JavaScript Module |
 | `/local/cards/calendar-card/calendar-card.js` | JavaScript Module |
 | `/local/cards/camera-layout-card/camera-layout-card.js` | JavaScript Module |
 | `/local/cards/charging-card/charging-card.js` | JavaScript Module |
@@ -116,7 +118,7 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/leave-by-card/leave-by-card.js` | JavaScript Module |
 | `/local/cards/now-playing-card/now-playing-card.js` | JavaScript Module |
 | `/local/cards/peco-card/peco-card.js` | JavaScript Module |
-| `/local/cards/printer-status-card/printer-status-card.js` | JavaScript Module |
+| `/local/cards/bambu-status-card/bambu-status-card.js` | JavaScript Module |
 | `/local/cards/protect-events-card/protect-events-card.js` | JavaScript Module |
 | `/local/cards/room-buttons-card/room-buttons-card.js` | JavaScript Module |
 | `/local/cards/room-controls-card/room-controls-card.js` | JavaScript Module |
@@ -165,7 +167,7 @@ Full documentation for all cards — config params, entity reference, and change
 | Camera Layout | `cards/camera-layout-card/` | v9 |
 | Technology | `cards/technology-card/` | v25 |
 | Bambu Printer | `cards/bambu-printer-card/` | v12 |
-| Printer Status | `cards/printer-status-card/` | v7 |
+| Printer Status | `cards/bambu-status-card/` | v7 |
 | Weather (NWS) | `cards/weather-card-nws/` | v15 |
 | Clock | `cards/clock-card/` | v12 |
 | Temp Strip | `cards/temp-strip-card/` | v8 |
@@ -278,7 +280,7 @@ See [CHANGELOG.md](CHANGELOG.md) for the full structured version history.
 | Date | Summary |
 |------|---------|
 | Mar 2026 | **Bug fixes & refactoring.** Popup overlay opacity increased to 85%, popup backgrounds set to true black for Amoled+. Wall display popup border fixed (was invisible). `room-controls-card` mode-btn border fixed. Tesla commute odometer button now colored when value present. Technology card network banners and ink bar visibility improved. Recently Added title detection expanded. Weather card condition label normalization fixed (Partlycloudy → Partly Cloudy). `protect-events-card` refactored from 1669-line standalone to 619-line import-based card. `waze-sensors.yaml` moved to `deprecated/`. Session memory file removed from repo. |
-| Mar 2026 | **Performance audit — `_patch()` added to all 24 cards.** Every card now separates initial render from incremental updates. Cards that were fully rebuilding their shadow DOM on every HA state push — `thermostat-card`, `door-sensor-card`, `now-playing-card`, `bambu-printer-card`, `traffic-card`, `tesla-card`, `room-buttons-card`, `technology-card`, `temp-strip-card`, `garage-door-card`, `printer-status-card` — now update only changed values in-place. `septa-paoli-card` set hass fixed to not double-render alongside its 60s interval. `leave-by-card` fixed to not call `_render()` from both `set hass` and the interval simultaneously. `weather-card-nws` patches inline values and forecast strip without rebuilding the full style block. |
+| Mar 2026 | **Performance audit — `_patch()` added to all 24 cards.** Every card now separates initial render from incremental updates. Cards that were fully rebuilding their shadow DOM on every HA state push — `thermostat-card`, `door-sensor-card`, `now-playing-card`, `bambu-printer-card`, `traffic-card`, `tesla-card`, `room-buttons-card`, `technology-card`, `temp-strip-card`, `garage-door-card`, `bambu-status-card` — now update only changed values in-place. `septa-paoli-card` set hass fixed to not double-render alongside its 60s interval. `leave-by-card` fixed to not call `_render()` from both `set hass` and the interval simultaneously. `weather-card-nws` patches inline values and forecast strip without rebuilding the full style block. |
 | Mar 2026 | **room-buttons-card v6 — lights/fans popup matches lights & fans view.** Home view room buttons now open a full-featured popup with master brightness slider + individual light sliders (exact `pp-light` pattern from room-controls-card) and fan pip dot buttons (exact `fpip` pattern). Stats moved to bottom. Dashboard `buttons` config updated with `lights` and `fans` for all 12 room buttons. |
 | Mar 2026 | **Padding consistency pass.** `room-controls-card` v74, `clock-card` v4, `door-sensor-card` v9, `garage-door-card` v5, `weather-card-nws` v7, `calendar-card` v5, `thermostat-card` v6, `temp-strip-card` v4 — all horizontal padding normalized to 14px. |
 | Mar 2026 | **room-controls-card v71–v73 — individual lights popup polish.** Flat rows with uppercase name label above slider, color dot indicator, gap spacing (no dividers), live patch on every hass update. |

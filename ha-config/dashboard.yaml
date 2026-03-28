@@ -281,7 +281,7 @@ views:
               - type: custom:thermostat-card
                 entity: climate.solarium_mini_split
                 name: Solarium
-          - type: custom:printer-status-card
+          - type: custom:bambu-status-card
             printer: p1s_01p09a3a1100648
       - type: grid
         cards:

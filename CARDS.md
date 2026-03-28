@@ -12,7 +12,7 @@ Config parameters, entity reference, and changelogs for all 24 cards. For design
 - [protect-events-card](#protect-events-card)
 - [technology-card](#technology-card)
 - [bambu-printer-card](#bambu-printer-card)
-- [printer-status-card](#printer-status-card)
+- [bambu-status-card](#bambu-status-card)
 - [weather-card-nws](#weather-card-nws)
 - [clock-card](#clock-card)
 - [calendar-card](#calendar-card)
@@ -451,6 +451,26 @@ cameras:
 
 ---
 
+## printer-ink-card
+
+Standalone Epson printer ink level card. Extracted from `technology-card` (`section: ink`) so it can be used independently anywhere on the dashboard.
+
+**Config:**
+```yaml
+type: custom:printer-ink-card
+entities:
+  ink_black:   sensor.epson_et_5170_series_black_ink
+  ink_cyan:    sensor.epson_et_5170_series_cyan_ink
+  ink_magenta: sensor.epson_et_5170_series_magenta_ink
+  ink_yellow:  sensor.epson_et_5170_series_yellow_ink
+```
+
+**Changelog:**
+
+| v1 | Initial release — extracted from `technology-card` section: ink. Four ink bars (K/C/M/Y) with low-ink warning at < 20%. |
+
+---
+
 ## protect-events-card
 
 Real-time UniFi Protect smart detection event feed. Displays a live-updating list of person, vehicle, animal, and package detections across all configured cameras.
@@ -723,7 +743,7 @@ printer: p1s_01p09a3a1100648
 
 ---
 
-## printer-status-card
+## bambu-status-card
 
 Compact Bambu Lab printer status widget for the home view. Only renders when the printer is actively doing something — returns an invisible empty card when idle.
 
@@ -744,7 +764,7 @@ Compact Bambu Lab printer status widget for the home view. Only renders when the
 ### Example
 
 ```yaml
-type: custom:printer-status-card
+type: custom:bambu-status-card
 printer: p1s_01p09a3a1100648
 ```
 

@@ -112,7 +112,7 @@ class NowPlayingCard extends HTMLElement {
     const players = this._config.players;
     const active  = players.filter(p => this._isActive(this._estate(p.entity)?.state));
 
-    // Collapse to invisible when all idle — same pattern as printer-status-card
+    // Collapse to invisible when all idle — same pattern as bambu-status-card
     if (!active.length) {
       this.shadowRoot.innerHTML = `
         <style>:host{display:block}ha-card{background:transparent!important;box-shadow:none!important;border:none!important;padding:0;margin:0}</style>

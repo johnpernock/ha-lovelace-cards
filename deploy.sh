@@ -28,7 +28,8 @@ CARDS=(
   leave-by-card
   now-playing-card
   peco-card
-  printer-status-card
+  bambu-status-card
+  printer-ink-card
   protect-events-card
   room-buttons-card
   room-controls-card
