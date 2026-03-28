@@ -1,5 +1,5 @@
 /**
- * ecoflow-card.js  —  v9
+ * ecoflow-card.js  —  v10
  * Ecoflow River 2 Pro power station card for Home Assistant Lovelace.
  *
  * CONFIG:
@@ -15,6 +15,8 @@ class EcoflowCard extends HTMLElement {
     this._config = {};
     this._hass   = null;
     this._busy   = {};
+  
+    this._docHandlers = [];
   }
 
   static getStubConfig() { return { prefix: 'river_2_pro' }; }
@@ -30,6 +32,16 @@ class EcoflowCard extends HTMLElement {
     this._hass = h;
     if (!this.shadowRoot.innerHTML || !prev) { this._render(); return; }
     this._patch();
+  }
+
+  disconnectedCallback() {
+    this._docHandlers.forEach(h => {
+      document.removeEventListener('mousemove',  h);
+      document.removeEventListener('touchmove',  h);
+      document.removeEventListener('mouseup',    h);
+      document.removeEventListener('touchend',   h);
+    });
+    this._docHandlers = [];
   }
 
   getCardSize() { return 6; }
@@ -340,10 +352,14 @@ class EcoflowCard extends HTMLElement {
     };
     wrap.addEventListener('mousedown',  e => { dragging=true; update(e.clientX,false); e.preventDefault(); });
     wrap.addEventListener('touchstart', e => { dragging=true; update(e.touches[0].clientX,false); }, {passive:true});
-    document.addEventListener('mousemove',  e => { if(dragging) update(e.clientX,false); });
-    document.addEventListener('touchmove',  e => { if(dragging) update(e.touches[0].clientX,false); }, {passive:true});
-    document.addEventListener('mouseup',    () => { dragging=false; });
-    document.addEventListener('touchend',   () => { dragging=false; });
+    const _onMove  = e => { if(dragging) update(e.clientX,false); };
+    const _onMoveT = e => { if(dragging) update(e.touches[0].clientX,false); };
+    const _onUp    = () => { dragging=false; };
+    document.addEventListener('mousemove',  _onMove);
+    document.addEventListener('touchmove',  _onMoveT, {passive:true});
+    document.addEventListener('mouseup',    _onUp);
+    document.addEventListener('touchend',   _onUp);
+    this._docHandlers.push(_onMove, _onMoveT, _onUp);
   }
 }
 

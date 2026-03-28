@@ -5,6 +5,45 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Performance audit + configurability pass
+
+### Performance fixes
+
+All 31 cards audited. 5 real issues found and fixed, 26 already clean.
+
+**`room-controls-card` (v96→v97) — critical popup slider leak**
+Each popup open was adding 12 document-level event listeners (mousemove/touchmove/mouseup/touchend × 3 sliders) that were never removed. On a wall panel open all day with repeated popup interactions, this accumulated to hundreds of zombie listeners. Fix: added `_trackDoc(event, handler, opts)` helper that registers listeners and stores them for cleanup. Added `_clearDocHandlers()` called on popup close and in new `disconnectedCallback`.
+
+**`room-buttons-card` (v31→v32) — same popup slider leak**
+8 document listeners per popup open. Same fix as room-controls-card — `_trackDoc` + `_clearDocHandlers` + `disconnectedCallback`.
+
+**`ecoflow-card` (v9→v10) — drag slider listener leak**
+4 document listeners in `_attachListeners()` with no cleanup. Added named handler variables pushed to `_docHandlers[]` array, added `disconnectedCallback` that iterates `_docHandlers` and removes each from document.
+
+**`wallbox-card` (v12→v13) — drag slider listener leak**
+Same pattern as ecoflow-card. 4 document listeners, same fix.
+
+**`technology-card` (v26→v27) — unnecessary full DOM rebuild on every hass update**
+`_patch()` was calling `haCard.innerHTML = inner` and `this._listen()` on every HA state push, regardless of whether any relevant sensor values changed. Added `_patchKey()` that fingerprints entity `last_updated` timestamps. `_patch()` now returns early when the key matches `_lastPatchKey`, skipping the rebuild entirely.
+
+### Configurability fixes
+
+**`bambu-printer-card` (v12→v13)** — added `setConfig` validation with clear error message when `printer` prefix is missing.
+
+**`bambu-status-card` (v8→v9)** — same validation added.
+
+**`septa-paoli-card` (v40→v41)** — added `setConfig` validation requiring at least one `outbound.trains` or `inbound.trains` sensor array.
+
+### False positives (documented for clarity)
+
+The following were flagged by the initial audit script but are **not** issues:
+- `innerHTML` in `_patch()` on `garage-door-card`, `now-playing-card`, `temp-strip-card` — these are targeted SVG/text updates on specific elements, not full re-renders
+- `_render()` in `_patch()` on `thermostat-card`, `weather-card-nws` — only called when entity becomes unavailable/null, not on normal updates
+- "Hardcoded entities" in all cards — these were `getStubConfig()` example values or `|| 'fallback'` defaults, not actual hardcoded logic
+- `leave-by-card`, `septa-paoli-card` `set hass` — guards use DOM query (`querySelector`) which is equivalent and correct
+
+---
+
 ## [Mar 2026] — Media view cards + naming pass
 
 ### Added

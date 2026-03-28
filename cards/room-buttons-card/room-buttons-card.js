@@ -1,5 +1,5 @@
 /**
- * room-buttons-card.js  —  v31
+ * room-buttons-card.js  —  v32
  * Compact 2-column room button grid for Home Assistant Lovelace.
  *
  * ── INSTALLATION ──────────────────────────────────────────────────────────────
@@ -108,6 +108,8 @@ class RoomButtonsCard extends HTMLElement {
     this._busy      = {};
     this._popupOpen = false;
     this._activeBtn = null;
+  
+    this._docHandlers = [];
   }
 
   static getStubConfig() {
@@ -142,6 +144,10 @@ class RoomButtonsCard extends HTMLElement {
     this._hass = hass;
     if (!this.shadowRoot.querySelector('.grid') || !prev) { this._render(); return; }
     this._patch();
+  }
+
+  disconnectedCallback() {
+    this._clearDocHandlers();
   }
 
   getCardSize() { return Math.ceil(this._config.buttons?.length / 2) || 3; }
@@ -1035,10 +1041,10 @@ class RoomButtonsCard extends HTMLElement {
       };
       masterWrap.addEventListener('mousedown',  e => { dragging = true; upd(e.clientX, false); e.preventDefault(); });
       masterWrap.addEventListener('touchstart', e => { dragging = true; upd(e.touches[0].clientX, false); }, { passive: true });
-      document.addEventListener('mousemove',  e => { if (dragging) upd(e.clientX, true); });
-      document.addEventListener('touchmove',  e => { if (dragging) upd(e.touches[0].clientX, true); }, { passive: true });
-      document.addEventListener('mouseup',    () => { dragging = false; });
-      document.addEventListener('touchend',   () => { dragging = false; });
+      this._trackDoc('mousemove',  e => { if (dragging) upd(e.clientX, true); });
+      this._trackDoc('touchmove',  e => { if (dragging) upd(e.touches[0].clientX, true); }, { passive: true });
+      this._trackDoc('mouseup', () => { dragging = false; });
+      this._trackDoc('touchend', () => { dragging = false; });
     }
 
     // ── Individual light drag sliders ───────────────────────────────────────────
@@ -1059,10 +1065,10 @@ class RoomButtonsCard extends HTMLElement {
       };
       wrap.addEventListener('mousedown',  e => { dragging = true; upd(e.clientX, false); e.preventDefault(); });
       wrap.addEventListener('touchstart', e => { dragging = true; upd(e.touches[0].clientX, false); }, { passive: true });
-      document.addEventListener('mousemove',  e => { if (dragging) upd(e.clientX, true); });
-      document.addEventListener('touchmove',  e => { if (dragging) upd(e.touches[0].clientX, true); }, { passive: true });
-      document.addEventListener('mouseup',    () => { dragging = false; });
-      document.addEventListener('touchend',   () => { dragging = false; });
+      this._trackDoc('mousemove',  e => { if (dragging) upd(e.clientX, true); });
+      this._trackDoc('touchmove',  e => { if (dragging) upd(e.touches[0].clientX, true); }, { passive: true });
+      this._trackDoc('mouseup', () => { dragging = false; });
+      this._trackDoc('touchend', () => { dragging = false; });
     });
 
     // ── Fan pip buttons ─────────────────────────────────────────────────────────
@@ -1186,6 +1192,17 @@ class RoomButtonsCard extends HTMLElement {
   }
 
   // ── Render ────────────────────────────────────────────────────────────────────
+
+  _trackDoc(event, handler, opts) {
+    document.addEventListener(event, handler, opts);
+    this._docHandlers.push([event, handler]);
+  }
+
+  _clearDocHandlers() {
+    this._docHandlers.forEach(([ev, h]) => document.removeEventListener(ev, h));
+    this._docHandlers = [];
+  }
+
 
   _render() {
     if (!this._config.buttons) return;

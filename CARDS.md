@@ -206,6 +206,7 @@ rooms:
 
 | Version | Changes |
 |---------|---------|
+| v97 | **Perf fix:** popup slider document listeners now tracked via `_trackDoc()` helper and cleared via `_clearDocHandlers()` on popup close and `disconnectedCallback`. Previously each popup open added 12 document listeners (4 per slider × 3 sliders) that persisted for the card lifetime, compounding across repeated popup opens on a long-running wall panel |
 | v96 | Popup overlay dim corrected to 85% and sheet background set to true black `#000000` across all `rcc-overlay` instances within this card |
 | v95 | Popup border fixes: rcc-sheet border added at ≥768px (was `border:none`); mode-btn border increased from 0.5px to 1.5px; popup overlay dim increased to 85%; popup background set to true black |
 | v94 | UX: remove border from popup sheet (rcc-sheet) — both mobile and desktop variants |
@@ -346,6 +347,7 @@ buttons:
 
 | Version | Changes |
 |---------|---------|
+| v32 | **Perf fix:** same popup slider listener cleanup as room-controls-card — 8 document listeners per popup open now properly cleaned up via `_trackDoc()` + `_clearDocHandlers()` |
 | v31 | Popup restyled to match `room-controls-card`: edge-to-edge header with `border-bottom: 1.5px solid`, bigger close button (44px), tighter padding rhythm, `440px` max-width on wall display, proper horizontal margins on master slider and individual light grid |
 | v30 | Popup border fixes: wall display modal border added (1.5px); rb-overlay dim increased to 85%; rb-popup background set to true black; rb-master All Lights border opacity increased for visibility |
 | v29 | UX: gray=off/color=on — button tile off state bolder (icon .65, name .85); itog off border .40, dot .65, label .75; theme-area no opacity dim |
@@ -681,6 +683,12 @@ entities:
 
 ---
 
+
+**Changelog:**
+
+| v27 | **Perf fix:** `_patch()` guards with `_patchKey()` fingerprint — skips full `haCard.innerHTML` rebuild when no entity `last_updated` values have changed since last render |
+| v26 | Episode number fix: `r.episode` (Sonarr v3) not `r.episodes[0]`; slice 3→5 items |
+
 ## bambu-printer-card
 
 Full Bambu Lab P1S status card. Two-column layout — print status on the left, filament (AMS or external spool) on the right.
@@ -728,6 +736,7 @@ printer: p1s_01p09a3a1100648
 
 | Version | Changes |
 |---------|---------|
+| v13 | **Config:** added `setConfig` validation — throws clear error if `printer` prefix not provided |
 | v12 | Remove outer .card border/border-radius — borderless on 3D Printer view |
 | v11 | Fix: status banner bg .05→0, border-bottom 1px .1→1.5px .45 |
 | v10 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |
@@ -781,6 +790,12 @@ printer: p1s_01p09a3a1100648
 | v1 | Initial release |
 
 ---
+
+
+**Changelog:**
+
+| v9 | **Config:** added `setConfig` validation — throws clear error if `printer` prefix not provided |
+| v8 | Renamed from `printer-status-card` |
 
 ## weather-card-nws
 
@@ -1120,6 +1135,7 @@ alert: sensor.paoli_line_alert
 
 | Version | Changes |
 |---------|---------|
+| v41 | **Config:** added `setConfig` validation — throws clear error if neither `outbound.trains` nor `inbound.trains` is defined |
 | v40 | Fix: add border:none!important to expanded view ha-card — HA default was showing |
 | v39 | Remove .exp-wrap border/border-radius — expanded view borderless like compact |
 | v38 | UX: on-time compact pills → green tint rgba(74,222,128,.08) bg + .55 border (matches delayed red pill pattern); both outbound and inbound |
@@ -1678,6 +1694,7 @@ name: Wallbox Beryl Pulsar Plus
 
 | Version | Changes |
 |---------|---------|
+| v13 | **Perf fix:** same document listener cleanup as ecoflow-card — `_docHandlers` array + `disconnectedCallback` |
 | v12 | Remove outer .card border/border-radius — borderless on Energy view |
 | v11 | Fix: section divider 1px .07 → 2px .22 — visible on low DPI wall display |
 | v10 | Fix: sbanner header divider always white .40 (removed dynamic color override); boost .35→.40 |
@@ -1789,6 +1806,7 @@ name: River 2 Pro
 
 | Version | Changes |
 |---------|---------|
+| v10 | **Perf fix:** added `disconnectedCallback` — document-level drag handlers (mousemove/touchmove/mouseup/touchend) now stored in `_docHandlers` and removed on disconnect, preventing memory leak during long wall-panel sessions |
 | v9 | Remove outer .card border/border-radius — borderless on Energy view |
 | v8 | Fix: section divider height 1px→2px, opacity .07→.22 |
 | v7 | Wall display fix: all borders boosted to 1.5px thickness; outer card borders .22→.40, inner tile borders .18→.30, section dividers .07/.15→.18/.28 — physically thicker lines visible on lower-DPI displays |

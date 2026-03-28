@@ -1,5 +1,5 @@
 /**
- * bambu-printer-card.js  —  v12
+ * bambu-printer-card.js  —  v13
  *
  * Unified Bambu Lab P1S dashboard card.
  * Shows printer status, progress, temperatures, speed/layer,
@@ -29,6 +29,7 @@ class BambuPrinterCard extends HTMLElement {
   static getStubConfig() { return { prefix: 'bambu_p1s' }; }
 
   setConfig(c) {
+    if (!c.printer && !c.prefix) throw new Error('bambu-printer-card: printer entity prefix required (printer: bambu_p1s)');
     this._config = c;
     this._render();
   }

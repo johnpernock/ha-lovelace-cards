@@ -1,5 +1,5 @@
 /**
- * room-controls-card.js  —  v96
+ * room-controls-card.js  —  v97
  *
  * Unified room control card. One card definition works on both the
  * wall display (1200×800) and mobile. Popups are bottom-sheets on
@@ -57,6 +57,8 @@ class RoomControlsCard extends HTMLElement {
     this._config = {};
     this._hass   = null;
     this._busy   = {};
+  
+    this._docHandlers = [];
   }
 
   setConfig(config) {
@@ -71,6 +73,10 @@ class RoomControlsCard extends HTMLElement {
     if (!this.shadowRoot.innerHTML || !prev) { this._render(); return; }
     this._patch();
   }
+  disconnectedCallback() {
+    this._clearDocHandlers();
+  }
+
   getCardSize() { return (this._config.rooms?.length || 1) * 3; }
 
   static getStubConfig() {
@@ -727,6 +733,17 @@ class RoomControlsCard extends HTMLElement {
   }
 
   /* ── CSS ──────────────────────────────────────────────────────────── */
+
+  _trackDoc(event, handler, opts) {
+    document.addEventListener(event, handler, opts);
+    this._docHandlers.push([event, handler]);
+  }
+
+  _clearDocHandlers() {
+    this._docHandlers.forEach(([ev, h]) => document.removeEventListener(ev, h));
+    this._docHandlers = [];
+  }
+
 
   _css() { return `
     :host{display:block}
@@ -1400,10 +1417,10 @@ class RoomControlsCard extends HTMLElement {
         };
         wrap.addEventListener('mousedown',e=>{dragging=true;update(e.clientX,false);e.preventDefault();});
         wrap.addEventListener('touchstart',e=>{dragging=true;update(e.touches[0].clientX,false);},{passive:true});
-        document.addEventListener('mousemove',e=>{if(dragging)update(e.clientX,true);});
-        document.addEventListener('touchmove',e=>{if(dragging)update(e.touches[0].clientX,true);},{passive:true});
-        document.addEventListener('mouseup',()=>{dragging=false;});
-        document.addEventListener('touchend',()=>{dragging=false;});
+        this._trackDoc('mousemove',e=>{if(dragging)update(e.clientX,true);});
+        this._trackDoc('touchmove',e=>{if(dragging)update(e.touches[0].clientX,true);},{passive:true});
+        this._trackDoc('mouseup',()=>{dragging=false;});
+        this._trackDoc('touchend',()=>{dragging=false;});
       });
 
       // Master "All Lights" drag slider in overlay
@@ -1426,10 +1443,10 @@ class RoomControlsCard extends HTMLElement {
         };
         wrap.addEventListener('mousedown',e=>{dragging=true;update(e.clientX,false);e.preventDefault();});
         wrap.addEventListener('touchstart',e=>{dragging=true;update(e.touches[0].clientX,false);},{passive:true});
-        document.addEventListener('mousemove',e=>{if(dragging)update(e.clientX,true);});
-        document.addEventListener('touchmove',e=>{if(dragging)update(e.touches[0].clientX,true);},{passive:true});
-        document.addEventListener('mouseup',()=>{dragging=false;});
-        document.addEventListener('touchend',()=>{dragging=false;});
+        this._trackDoc('mousemove',e=>{if(dragging)update(e.clientX,true);});
+        this._trackDoc('touchmove',e=>{if(dragging)update(e.touches[0].clientX,true);},{passive:true});
+        this._trackDoc('mouseup',()=>{dragging=false;});
+        this._trackDoc('touchend',()=>{dragging=false;});
       });
       // switch-toggle: tap-to-toggle for switch.* master entities in popup
       oc.querySelectorAll('[data-action="switch-toggle"]').forEach(row => {
@@ -1597,10 +1614,10 @@ class RoomControlsCard extends HTMLElement {
         dragging = true;
         update(e.touches[0].clientX, false);
       }, {passive:true});
-      document.addEventListener('mousemove', e => { if (dragging) update(e.clientX, true); });
-      document.addEventListener('touchmove', e => { if (dragging) update(e.touches[0].clientX, true); }, {passive:true});
-      document.addEventListener('mouseup',  () => { dragging = false; });
-      document.addEventListener('touchend', () => { dragging = false; });
+      this._trackDoc('mousemove', e => { if (dragging) update(e.clientX, true); });
+      this._trackDoc('touchmove', e => { if (dragging) update(e.touches[0].clientX, true); }, {passive: true});
+      this._trackDoc('mouseup', () => { dragging = false; });
+      this._trackDoc('touchend', () => { dragging = false; });
     });
 
     /* switch-toggle: tap-to-toggle for switch.* master entities on inline rows */

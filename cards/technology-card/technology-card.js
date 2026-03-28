@@ -1,5 +1,5 @@
 /**
- * technology-card.js  —  v26
+ * technology-card.js  —  v27
  *
  * One card, one section. Use multiple instances in a masonry view.
  *
@@ -17,6 +17,8 @@ class TechnologyCard extends HTMLElement {
     this._apiCache  = {};
     this._fetching  = {};
     this._CACHE_TTL = 60000;
+  
+    this._lastPatchKey = null;
   }
 
   static getStubConfig() {
@@ -575,11 +577,24 @@ class TechnologyCard extends HTMLElement {
     };
     const method = map[this._config.section];
     if (!method) return;
+    // Skip rebuild if relevant entities haven't changed since last patch
+    const patchKey = this._patchKey();
+    if (patchKey && patchKey === this._lastPatchKey) return;
+    this._lastPatchKey = patchKey;
     const inner = this[method]();
     const haCard = this.shadowRoot.querySelector('ha-card');
     if (!haCard) { this._render(); return; }
     haCard.innerHTML = inner;
     this._listen();
+  }
+
+  _patchKey() {
+    // Build a fingerprint from the last_updated timestamps of all
+    // entities referenced by the current section config.
+    if (!this._hass || !this._config.entities) return null;
+    return Object.values(this._config.entities)
+      .map(id => this._hass.states[id]?.last_updated || '')
+      .join('|');
   }
 
   _render() {

@@ -174,12 +174,12 @@ Full documentation for all cards — config params, entity reference, and change
 
 | Card | Folder | Version |
 |------|--------|---------|
-| Room Controls | `cards/room-controls-card/` | v96 |
-| Room Buttons | `cards/room-buttons-card/` | v31 |
+| Room Controls | `cards/room-controls-card/` | v97 |
+| Room Buttons | `cards/room-buttons-card/` | v32 |
 | Camera Layout | `cards/camera-layout-card/` | v9 |
-| Technology | `cards/technology-card/` | v25 |
-| Bambu Printer | `cards/bambu-printer-card/` | v12 |
-| Bambu Status | `cards/bambu-status-card/` | v8 |
+| Technology | `cards/technology-card/` | v27 |
+| Bambu Printer | `cards/bambu-printer-card/` | v13 |
+| Bambu Status | `cards/bambu-status-card/` | v9 |
 | Printer Ink | `cards/printer-ink-card/` | v1 |
 | Apple TV Remote | `cards/appletv-remote-card/` | v1 |
 | HomePod Music | `cards/homepod-music-card/` | v1 |
@@ -191,14 +191,14 @@ Full documentation for all cards — config params, entity reference, and change
 | Clock | `cards/clock-card/` | v12 |
 | Temp Strip | `cards/temp-strip-card/` | v8 |
 | Door Sensors | `cards/door-sensor-card/` | v19 |
-| SEPTA Paoli | `cards/septa-paoli-card/` | v40 |
+| SEPTA Paoli | `cards/septa-paoli-card/` | v41 |
 | Thermostat | `cards/thermostat-card/` | v15 |
 | Tesla | `cards/tesla-card/` | v22 |
 | Calendar | `cards/calendar-card/` | v9 |
 | Garage Door ✦ | `cards/garage-door-card/` | v14 |
-| Wallbox | `cards/wallbox-card/` | v12 |
+| Wallbox | `cards/wallbox-card/` | v13 |
 | PECO Energy | `cards/peco-card/` | v10 |
-| Ecoflow | `cards/ecoflow-card/` | v9 |
+| Ecoflow | `cards/ecoflow-card/` | v10 |
 | Now Playing | `cards/now-playing-card/` | v11 |
 | Traffic (Commute) | `cards/traffic-card/` | v20 |
 | Tesla Commute | `cards/tesla-commute-card/` | v15 |
