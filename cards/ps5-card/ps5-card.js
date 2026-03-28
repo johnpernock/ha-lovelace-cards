@@ -160,7 +160,7 @@ class Ps5Card extends HTMLElement {
       <ha-card>
         <div class="wrap">
           <div class="hdr">${this._config.name}</div>
-          \${this._unavail() ? `
+          ${this._unavail() ? `
             <div class="unavail-banner">
               <div class="unavail-dot"></div>
               <div class="unavail-text">PlayStation 5 unavailable</div>

@@ -277,10 +277,10 @@ class AppleTvRemoteCard extends HTMLElement {
           <div class="tabs">
             ${atvs.map((a,i) => `<div class="tab ha-tappable${i===this._idx?' active':''}" data-idx="${i}">${a.name}</div>`).join('')}
           </div>
-          \${this._unavail() ? `
+          ${this._unavail() ? `
             <div class="unavail-banner">
               <div class="unavail-dot"></div>
-              <div class="unavail-text">\${this._atv().name} unavailable</div>
+              <div class="unavail-text">${this._atv().name} unavailable</div>
             </div>` : ''}
           <div class="np" id="np">
             <div class="np-art">
@@ -306,13 +306,13 @@ class AppleTvRemoteCard extends HTMLElement {
               <div class="dpd-center" id="dpd-ok"><span>OK</span></div>
             </div>
           </div>
-          <div class="btn-row\${unavail ? ' ctrl-inactive' : ''}">
+          <div class="btn-row${unavail ? ' ctrl-inactive' : ''}">
             <div class="fpip ha-tappable" data-cmd="menu">Menu</div>
             <div class="fpip ha-tappable" data-cmd="back">Back</div>
             <div class="fpip ha-tappable" data-cmd="home_hold">Home</div>
             <div class="fpip ha-tappable" data-media="media_play_pause">⏯</div>
           </div>
-          <div class="btn-row\${unavail ? ' ctrl-inactive' : ''}" style="padding-bottom:8px">
+          <div class="btn-row${unavail ? ' ctrl-inactive' : ''}" style="padding-bottom:8px">
             <div class="fpip ha-tappable" data-media="media_previous_track">⏮</div>
             <div class="fpip ha-tappable" data-media="media_next_track">⏭</div>
             <div class="fpip ha-tappable" data-cmd="volume_up">Vol+</div>
