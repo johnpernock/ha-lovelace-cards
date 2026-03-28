@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  syntax-check:
+    name: Syntax check all cards
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check card syntax
+        run: |
+          fail=0
+          for card in cards/*/; do
+            name=$(basename "$card")
+            file="$card$name.js"
+            [ -f "$file" ] || continue
+            if node --check "$file" 2>/dev/null; then
+              echo "✓ $name"
+            else
+              echo "✗ $name"
+              node --check "$file" 2>&1
+              fail=$((fail+1))
+            fi
+          done
+          [ $fail -eq 0 ] && echo "" && echo "All cards pass syntax check" || exit 1
+
+      - name: Check shared modules
+        run: |
+          for f in shared/*.js; do
+            node --check "$f" && echo "✓ $f" || exit 1
+          done
+
+      - name: Verify deploy.sh card list matches cards/ directory
+        run: |
+          # Every card folder should be in deploy.sh CARDS array
+          fail=0
+          for card in cards/*/; do
+            name=$(basename "$card")
+            [ "$name" = "printer-status-card" ] && continue  # deprecated
+            if ! grep -q "  $name$" deploy.sh; then
+              echo "⚠  $name missing from deploy.sh CARDS array"
+              fail=$((fail+1))
+            fi
+          done
+          [ $fail -eq 0 ] && echo "✓ deploy.sh CARDS list is complete" || exit 1
