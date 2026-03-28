@@ -1,5 +1,5 @@
 /**
- * now-playing-card.js  —  v12
+ * now-playing-card.js  —  v13
  * Compact now-playing widget for Home Assistant Lovelace.
  * Shows active media players. Collapses to nothing when all are idle.
  *
@@ -22,7 +22,13 @@ class NowPlayingCard extends HTMLElement {
     this._hass   = null;
   }
 
-  static getStubConfig() { return { players: [{ entity: 'media_player.living_room', name: 'Living Room' }] }; }
+  static getStubConfig() {
+    return { players: [
+      { entity: 'media_player.family_room',    name: 'Family Room' },
+      { entity: 'media_player.master_bedroom', name: 'Bedroom' },
+      { entity: 'media_player.office',         name: 'Office' },
+    ] };
+  }
   static getConfigForm() {
     return {
       schema: [],

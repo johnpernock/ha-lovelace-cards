@@ -1,5 +1,5 @@
 /**
- * appletv-remote-card.js  —  v2
+ * appletv-remote-card.js  —  v3
  * Apple TV remote card for Home Assistant Lovelace.
  *
  * Multi-ATV selector tabs, 200px D-pad, 2×4 navigation/playback buttons,
@@ -44,7 +44,9 @@ class AppleTvRemoteCard extends HTMLElement {
   static getStubConfig() {
     return {
       apple_tvs: [
-        { name: 'Family Room', media_player: 'media_player.family_room_apple_tv', remote: 'remote.family_room_apple_tv' },
+        { name: 'Family Room', media_player: 'media_player.family_room',    remote: 'remote.family_room' },
+        { name: 'Bedroom',     media_player: 'media_player.master_bedroom', remote: 'remote.master_bedroom' },
+        { name: 'Office',      media_player: 'media_player.office',         remote: 'remote.office' },
       ],
     };
   }

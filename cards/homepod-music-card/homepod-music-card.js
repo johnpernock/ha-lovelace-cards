@@ -1,5 +1,5 @@
 /**
- * homepod-music-card.js  —  v2
+ * homepod-music-card.js  —  v3
  * HomePod speaker group + music control card for Home Assistant Lovelace.
  *
  * Sections:
@@ -58,10 +58,13 @@ class HomepodMusicCard extends HTMLElement {
   static getStubConfig() {
     return {
       speakers: [
-        { entity: 'media_player.homepod', name: 'Living Room' },
+        { entity: 'media_player.family_room_hp',    name: 'Family Room' },
+        { entity: 'media_player.master_bedroom_hp', name: 'Master Bedroom' },
+        { entity: 'media_player.dining_hp',         name: 'Dining Room' },
       ],
       favorites: [
         { name: 'Morning', icon: '🌅', media_content_id: 'music://playlist/morning' },
+        { name: 'Focus',   icon: '🎯', media_content_id: 'music://playlist/focus' },
       ],
     };
   }

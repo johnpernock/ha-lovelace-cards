@@ -5,6 +5,28 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Wire real entity IDs for media cards
+
+### Changed
+
+**`appletv-remote-card` (v2)** — `getStubConfig()` updated with real Apple TV entity IDs:
+- Family Room: `media_player.family_room` + `remote.family_room`
+- Bedroom: `media_player.master_bedroom` + `remote.master_bedroom`
+- Office: `media_player.office` + `remote.office`
+
+**`homepod-music-card` (v2)** — `getStubConfig()` updated with real HomePod entity IDs:
+- Family Room: `media_player.family_room_hp`
+- Master Bedroom: `media_player.master_bedroom_hp`
+- Dining Room: `media_player.dining_hp` *(not kitchen as initially assumed — corrected)*
+
+**`now-playing-card` (v12)** — stub updated to match Apple TV entities.
+
+**`ha-config/dashboard.yaml`** — Media view wired with real entities.
+
+**`ps5-card` and `steam-card`** — integration not yet configured in HA; cards ready but will show unavailable until integrations are added (ha-playstation HACS + built-in Steam integration).
+
+---
+
 ## [Mar 2026] — PII audit + address redaction
 
 ### Security
