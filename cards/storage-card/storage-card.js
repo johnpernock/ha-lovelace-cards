@@ -66,11 +66,12 @@ class StorageCardCard extends HTMLElement {
   // ── Helpers ─────────────────────────────────────────────────────────────────
   _e(k)   { const id = this._config.entities?.[k]; return id || null; }
 
-_e(k)      { return this._config.entities?.[k]; }
 
-_val(id)   { return this._s(id)?.state; }
+  _s(id)    { return id ? this._hass?.states[id] : null; }
 
-_num(id)   {
+  _val(id)   { return this._s(id)?.state; }
+
+  _num(id)   {
     const s = this._val(id);
     if (!s || s === 'unavailable' || s === 'unknown') return null;
     const v = parseFloat(s); return isNaN(v) ? null : v;

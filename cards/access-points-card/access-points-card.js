@@ -67,11 +67,12 @@ class AccessPointsCardCard extends HTMLElement {
   // ── Helpers ─────────────────────────────────────────────────────────────────
   _e(k)   { const id = this._config.entities?.[k]; return id || null; }
 
-_e(k)      { return this._config.entities?.[k]; }
 
-_val(id)   { return this._s(id)?.state; }
+  _s(id)    { return id ? this._hass?.states[id] : null; }
 
-_isOn(id)  {
+  _val(id)   { return this._s(id)?.state; }
+
+  _isOn(id)  {
     const v = this._val(id)?.toLowerCase();
     if (!v || v === 'unavailable' || v === 'unknown') return false;
     if (v === 'not_home' || v === 'off' || v === 'exited' || v === 'disconnected') return false;

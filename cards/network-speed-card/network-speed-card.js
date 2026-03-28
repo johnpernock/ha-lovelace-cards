@@ -65,9 +65,8 @@ class NetworkSpeedCardCard extends HTMLElement {
   // ── Helpers ─────────────────────────────────────────────────────────────────
   _e(k)   { const id = this._config.entities?.[k]; return id || null; }
 
-_e(k)      { return this._config.entities?.[k]; }
 
-_num(id)   {
+  _num(id)   {
     const s = this._val(id);
     if (!s || s === 'unavailable' || s === 'unknown') return null;
     const v = parseFloat(s); return isNaN(v) ? null : v;
