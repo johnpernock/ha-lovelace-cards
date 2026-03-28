@@ -124,6 +124,8 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/kiosk-displays-card/kiosk-displays-card.js` | JavaScript Module |
 | `/local/cards/kiosk-health-card/kiosk-health-card.js` | JavaScript Module |
 | `/local/cards/kiosk-voice-card/kiosk-voice-card.js` | JavaScript Module |
+| `/local/cards/network-devices-card/network-devices-card.js` | JavaScript Module |
+| `/local/cards/piscsi-card/piscsi-card.js` | JavaScript Module |
 | `/local/cards/network-controls-card/network-controls-card.js` | JavaScript Module |
 | `/local/cards/immich-card/immich-card.js` | JavaScript Module |
 | `/local/cards/printer-ink-card/printer-ink-card.js` | JavaScript Module |
@@ -153,6 +155,8 @@ Go to **Settings → Dashboards → Resources → Add resource** for each card:
 | `/local/cards/kiosk-displays-card/kiosk-displays-card.js` | JavaScript Module |
 | `/local/cards/kiosk-health-card/kiosk-health-card.js` | JavaScript Module |
 | `/local/cards/kiosk-voice-card/kiosk-voice-card.js` | JavaScript Module |
+| `/local/cards/network-devices-card/network-devices-card.js` | JavaScript Module |
+| `/local/cards/piscsi-card/piscsi-card.js` | JavaScript Module |
 | `/local/cards/network-controls-card/network-controls-card.js` | JavaScript Module |
 | `/local/cards/immich-card/immich-card.js` | JavaScript Module |
 | `/local/cards/protect-events-card/protect-events-card.js` | JavaScript Module |
@@ -220,6 +224,8 @@ Full documentation for all cards — config params, entity reference, and change
 | Kiosk Displays | `cards/kiosk-displays-card/` | v1 |
 | Kiosk Health | `cards/kiosk-health-card/` | v1 |
 | Kiosk Voice | `cards/kiosk-voice-card/` | v1 |
+| Network Devices | `cards/network-devices-card/` | v1 |
+| PiSCSI | `cards/piscsi-card/` | v1 |
 | Network Controls | `cards/network-controls-card/` | v1 |
 | Immich | `cards/immich-card/` | v1 |
 | Weather (NWS) | `cards/weather-card-nws/` | v15 |

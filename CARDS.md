@@ -2221,3 +2221,107 @@ night_volume: 25     # optional — Night vol target (default 25)
 
 | v1 | Initial release |
 
+
+
+---
+
+## network-devices-card
+
+Network infrastructure monitoring card. Shows UniFi gateway stats, managed switch port grids with PoE budget bars, a PoE port control popup, unmanaged switches as compact pills, and optional coming-soon pending tiles.
+
+### Config
+
+```yaml
+type: custom:network-devices-card
+gateway:
+  name: UniFi Dream Machine
+  ip: 192.168.1.1                              # shown in card
+  latency_sensor:  sensor.udm_ping_latency     # ms — green <20, amber <60, red ≥60
+  uptime_sensor:   sensor.udm_uptime           # seconds or pre-formatted string
+  clients_sensor:  sensor.unifi_clients_total
+  wan_ip_sensor:   sensor.wan_ip               # optional — masked to xx.xx.xxx.xxx
+  wan_sensor:      binary_sensor.wan_online    # optional — WAN dot state
+
+managed_switches:
+  - name: USW-24-PoE
+    ip: 192.168.1.2
+    description: 24 port · PoE+
+    uptime_sensor:   sensor.usw24_uptime        # optional
+    ports_up:        18                         # count (int) or sensor entity ID
+    ports_down:      4
+    ports_sfp:       2
+    poe_used_sensor: sensor.usw24_poe_power     # watts
+    poe_budget:      100                        # watts total
+    poe_ports:                                  # opens PoE popup with toggles
+      - port: 3
+        name: Front Door Kiosk
+        entity: switch.usw24_port_3_poe         # switch entity
+        power_sensor: sensor.usw24_port_3_power # optional watts
+        speed: "1000 Mbps"                      # optional static label
+
+unmanaged_switches:
+  - name: USW-Flex · Office
+    ip: 192.168.1.4
+    ports: 5                                    # optional — shown in pill
+    online_sensor: binary_sensor.flex_office    # optional
+
+pending:                                        # optional coming-soon tiles
+  - name: Pi-hole
+    sub: DNS · block rate
+  - name: UPS
+    sub: Battery · runtime
+```
+
+### PoE popup
+
+Tapping "PoE ports" on any managed switch opens a portal popup showing each configured PoE port with a left-accent-bar row (green = on, amber = high draw >10W, dim = off), wattage, link speed, and a toggle switch. The popup updates live while open.
+
+**Changelog:**
+
+| v1 | Initial release |
+
+---
+
+## piscsi-card
+
+PiSCSI / RaSCSI monitoring via direct REST API — no HA integration needed. Polls the PiSCSI web API every 30s (configurable). Shows daemon status, SCSI device rows with image names, drive type badges, and an eject button with confirmation overlay.
+
+### Config
+
+```yaml
+type: custom:piscsi-card
+host: 192.168.1.x        # required — PiSCSI IP or hostname
+port: 3000               # optional — default 3000
+name: Color Classic      # optional — machine name shown in header
+poll_interval: 30        # optional — seconds (min 10, default 30)
+```
+
+### SCSI device display
+
+| Type code | Badge | Accent |
+|---|---|---|
+| SCHD | HD | Green |
+| SCCD | CD | Blue |
+| SCRM / SCMO | MO | Purple |
+| SCBR / SCDP | BR / NET | Amber |
+
+Empty SCSI IDs show dimmed "No image mounted" with a disabled eject button.
+
+### Eject flow
+
+1. Tap eject button on a mounted device
+2. Confirmation overlay appears with image name and safety reminder
+3. Confirm → `DELETE /api/v1/devices/{id}` called, re-poll on completion
+4. Cancel → overlay dismissed, no action
+
+### Security
+
+- `host` must match `[a-zA-Z0-9._-]{1,253}` — rejects any malformed input at `setConfig` time
+- SCSI IDs validated as integers 0–7 before any API call
+- API response filenames inserted via `textContent` (never `innerHTML`)
+- Busy lock prevents double-tap eject
+
+**Changelog:**
+
+| v1 | Initial release |
+

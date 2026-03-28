@@ -5,6 +5,36 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — network-devices-card + piscsi-card
+
+### Added
+
+**`network-devices-card` (v1)**
+Network infrastructure monitoring — gateway stats (WAN status, ping latency, uptime, client count), managed switches with port grids and PoE budget bars, unmanaged switches as side-by-side pills, and configurable coming-soon pending tiles. PoE port control popup (via `ha-popup.js` portal) shows per-port rows with left-accent-bar pattern, live wattage, and toggle switches. Supports configurable pending tiles for Pi-hole and UPS once set up. All entity references configurable — gateway sensors, switch sensors, per-port switch entities and power sensors.
+
+**`piscsi-card` (v1)**
+PiSCSI / RaSCSI monitoring via direct REST API — no HA integration needed. Polls `/api/v1/devices` and `/api/v1/system/status` every 30s (configurable). Shows daemon status bar, SCSI device rows using the style-guide left-accent-bar pattern (green for HD, blue for CD, purple for MO), and an eject button per device with confirmation overlay. Device type codes mapped to human labels (SCHD→HD, SCCD→CD, SCRM/SCMO→MO). Security: host validated against safe character allowlist, SCSI IDs validated 0–7, API response data via textContent only, busy lock on eject.
+
+### Design standards audit — both cards
+
+| Check | network-devices-card | piscsi-card |
+|---|---|---|
+| `_patch()` not `_render()` on updates | ✓ | ✓ (patchDevices) |
+| `disconnectedCallback` clears interval | ✓ portal destroyed | ✓ clearInterval |
+| `_trackDoc` / `_clearDocHandlers` | ✓ | n/a (no doc listeners) |
+| `getStubConfig` | ✓ | ✓ |
+| `getConfigForm` | ✓ schema | ✓ schema with entity pickers |
+| `setConfig` validation | ✓ | ✓ host required + format check |
+| `getCardSize` | ✓ computed | ✓ |
+| No `innerHTML` with external data | ✓ | ✓ textContent for API data |
+| No `eval()` | ✓ | ✓ |
+| Input sanitisation | ✓ | ✓ HOST_SAFE_RE, SCSI ID 0-7 |
+| 44px touch targets | ✓ | ✓ |
+| Active states | ✓ | ✓ |
+| `-webkit-tap-highlight-color` | ✓ | ✓ |
+
+---
+
 ## [Mar 2026] — Kiosk control card suite
 
 ### Added

@@ -59,6 +59,8 @@ CARDS=(
   kiosk-displays-card
   kiosk-health-card
   kiosk-voice-card
+  network-devices-card
+  piscsi-card
 )
 
 # ── Deploy ────────────────────────────────────────────────────────────────────
