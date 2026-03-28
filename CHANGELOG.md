@@ -5,6 +5,22 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — network-controls-card v3
+
+### Changed
+
+**`network-controls-card` (v2 → v3)** — complete rewrite.
+
+The card was previously a vertical list of icon+label rows with a chevron. Replaced with a 3-pill-across grid layout matching the kiosk control card suite pattern. Icon sits above a centred label in each pill. Pill colour encodes action severity — neutral for standard restarts, danger (red) for destructive actions, warn (amber) for caution, info (blue) for status, success (green) for safe actions.
+
+Structural fixes from v2: class body was malformed with `_css()` and `_buildControls()` outside the class, a stray `customElements.define('technology-card', TechnologyCard)` line mid-file, and duplicate `_ico()` definitions. All resolved in the clean rewrite.
+
+New config format uses `sections:` with optional `title:` labels per group. Legacy `restart_buttons:` flat list is still accepted and auto-mapped. `danger: true` legacy flag maps to `color: danger`.
+
+Confirmation overlay retained for danger and warn colour pills — auto-triggered unless `confirm: false` is set explicitly.
+
+---
+
 ## [Mar 2026] — network-devices-card + piscsi-card
 
 ### Added
