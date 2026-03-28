@@ -5,6 +5,27 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Kiosk control card suite
+
+### Added
+
+Three new cards designed as a suite for the kiosk/media technology view. Each card is fully independent — place them in any column layout.
+
+**`kiosk-displays-card` (v1)**
+Wall-panel display control. Per-display rows with on/off toggle and five brightness pips (20/40/60/80/100). Sleep banner with "Wake both" when all displays are off. Schedule countdown shows next dim/wake event with live time remaining. Night action sets all displays to configurable brightness. Calls `light.turn_on/off` on HA template lights.
+
+**`kiosk-health-card` (v1)**
+Read-only monitoring. Four tiles: API health + uptime + Pi CPU temp per display, touch-to-wake grab state (blue when evdev grab is active), and last tap with time delta. Pulls from REST sensors defined in `ha-display-config.yaml`.
+
+**`kiosk-voice-card` (v1)**
+Voice satellite monitoring and control. Per-satellite rows showing online/listening/muted/pending state, mic mute toggle, TTS speaker volume pips (25/50/75/100), and last wake phrase. Section actions: Mute all, Unmute all, Night vol. Gracefully handles unconfigured satellites with "Pending setup" state — wire in entities progressively as satellites come online.
+
+### Design notes
+
+Cards were designed through 5 mockup iterations covering: sleep mode banner, per-display schedule countdown, touch-to-wake live state, voice satellite states (idle/listening/muted/pending), mic mute toggle (red when muted for privacy visibility), and volume pips coloured in info-blue to distinguish from display brightness (amber). Pill buttons used throughout — no sliders.
+
+---
+
 ## [Mar 2026] — Wire real entity IDs for media cards
 
 ### Changed

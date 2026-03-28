@@ -2097,3 +2097,127 @@ accounts:
 | v1 | Initial release — online status, current game, last seen time |
 
 ---
+
+
+---
+
+## kiosk-displays-card
+
+Wall-panel display control. One row per kiosk — on/off toggle, five brightness pips (20/40/60/80/100), and a schedule countdown showing when the display will next dim or wake. Sleep banner appears when all displays are off with a single-tap "Wake both" action. Quick actions: Both off, Both on, Night (configurable brightness).
+
+Pairs with `kiosk-health-card` and `kiosk-voice-card` — each card is independent and placeable anywhere in a dashboard layout.
+
+### Config
+
+```yaml
+type: custom:kiosk-displays-card
+displays:
+  - name: Front Door
+    entity:  light.kiosk_front_door_display   # HA template light
+    dim_at:  "22:00"                          # optional — schedule label
+    wake_at: "07:00"                          # optional — schedule label
+  - name: Garage
+    entity:  light.kiosk_garage_display
+    dim_at:  "22:00"
+    wake_at: "07:00"
+night_brightness: 20    # optional — Night button target (default 20)
+```
+
+| Option | Type | Required | Description |
+|---|---|---|---|
+| `displays` | list | ✅ | One entry per kiosk display |
+| `displays[].name` | string | ✅ | Label shown in the card |
+| `displays[].entity` | string | ✅ | HA template light entity ID |
+| `displays[].dim_at` | string | ❌ | Time to show on dim schedule label (HH:MM) |
+| `displays[].wake_at` | string | ❌ | Time to show on wake schedule label (HH:MM) |
+| `night_brightness` | int | ❌ | Brightness % for Night action (default 20) |
+
+**Changelog:**
+
+| v1 | Initial release |
+
+---
+
+## kiosk-health-card
+
+Read-only monitoring card for kiosk display health. Four tiles: one per display showing API status and Pi CPU temperature, a touch-to-wake grab state tile, and a last-tap tile. Pairs with `kiosk-displays-card`.
+
+### Config
+
+```yaml
+type: custom:kiosk-health-card
+displays:
+  - name: Front Door
+    health_sensor: sensor.kiosk_front_door_api_health    # required
+    screen_state:  sensor.kiosk_front_door_screen_state  # optional
+    temp_sensor:   sensor.kiosk_front_door_cpu_temp      # optional
+  - name: Garage
+    health_sensor: sensor.kiosk_garage_api_health
+    screen_state:  sensor.kiosk_garage_screen_state
+    temp_sensor:   sensor.kiosk_garage_cpu_temp
+```
+
+| Option | Type | Required | Description |
+|---|---|---|---|
+| `displays` | list | ✅ | One entry per kiosk display |
+| `displays[].name` | string | ✅ | Label shown in the tile |
+| `displays[].health_sensor` | string | ✅ | REST health sensor (value: `ok` or error) |
+| `displays[].screen_state` | string | ❌ | Screen state sensor — exposes `touch_grab` and `last_activity` attributes |
+| `displays[].temp_sensor` | string | ❌ | Pi CPU temperature sensor |
+
+**Changelog:**
+
+| v1 | Initial release |
+
+---
+
+## kiosk-voice-card
+
+Voice satellite monitoring and control. One row per satellite showing online/listening/muted/pending state, mic mute toggle, TTS speaker volume pips (25/50/75/100), and last wake phrase. Section actions: Mute all, Unmute all, Night vol (configurable target).
+
+Designed to work before satellites are configured — rows show "Pending setup" gracefully when entities are absent. Wire up entities progressively as satellites come online.
+
+### Config
+
+```yaml
+type: custom:kiosk-voice-card
+satellites:
+  - name: Family Room
+    ip: 192.168.1.210                                      # shown in card UI
+    mute_entity:      switch.family_room_sat_mute          # optional
+    volume_entity:    number.family_room_sat_volume        # optional (0-100)
+    state_entity:     binary_sensor.family_room_sat_listening  # optional
+    last_wake_entity: sensor.family_room_sat_last_wake     # optional
+  - name: Bedroom
+    ip: 192.168.1.211
+    mute_entity:      switch.bedroom_sat_mute
+    volume_entity:    number.bedroom_sat_volume
+    state_entity:     binary_sensor.bedroom_sat_listening
+    last_wake_entity: sensor.bedroom_sat_last_wake
+night_volume: 25     # optional — Night vol target (default 25)
+```
+
+| Option | Type | Required | Description |
+|---|---|---|---|
+| `satellites` | list | ✅ | One entry per voice satellite |
+| `satellites[].name` | string | ✅ | Display name |
+| `satellites[].ip` | string | ❌ | IP address shown in row |
+| `satellites[].mute_entity` | string | ❌ | Switch entity for mic mute |
+| `satellites[].volume_entity` | string | ❌ | Number entity for TTS volume (0-100) |
+| `satellites[].state_entity` | string | ❌ | Binary sensor for listening state |
+| `satellites[].last_wake_entity` | string | ❌ | Sensor for last wake phrase |
+| `night_volume` | int | ❌ | Volume % for Night vol action (default 25) |
+
+### Satellite states
+
+| State | Condition | Avatar colour |
+|---|---|---|
+| Pending setup | No entities configured | Dim |
+| Idle | Mic on, not listening | Green |
+| Active / Listening | `state_entity` is `on` | Blue pulse |
+| Muted | `mute_entity` is `on` | Red |
+
+**Changelog:**
+
+| v1 | Initial release |
+

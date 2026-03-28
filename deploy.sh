@@ -56,6 +56,9 @@ CARDS=(
   server-health-card
   services-card
   storage-card
+  kiosk-displays-card
+  kiosk-health-card
+  kiosk-voice-card
 )
 
 # ── Deploy ────────────────────────────────────────────────────────────────────
