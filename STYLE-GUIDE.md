@@ -938,3 +938,69 @@ Arrow zones must be large enough for comfortable wall-panel touch: 76px minimum.
 **Card prefixes:**
 - `ps5-card` = PlayStation 5 cards
 - `steam-card` = Steam / PC gaming cards
+
+---
+
+## Unavailable and inactive states
+
+Cards handle two distinct offline states differently. Never collapse or hide a card for either — show the shell and communicate the state inline.
+
+### State definitions
+
+| State | Condition | Example |
+|---|---|---|
+| **Unavailable** | Entity doesn't exist in HA or integration is down | `state === 'unavailable'` or `state == null` |
+| **Inactive** | Entity exists and reachable, but idle/off/not playing | `state === 'idle'` / `state === 'off'` / nothing playing |
+
+### Unavailable state pattern
+
+Show a subtle inline banner below the card header. Do not grey out the entire card or remove controls — other entities on the card may still be functional.
+
+```css
+.unavail-banner {
+  display: flex; align-items: center; gap: 8px;
+  margin: 10px 14px 8px; padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.unavail-dot  { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.2); }
+.unavail-text { font-size: 11px; color: rgba(255,255,255,.3); font-style: italic; }
+```
+
+```html
+${isUnavailable ? `
+  <div class="unavail-banner">
+    <div class="unavail-dot"></div>
+    <div class="unavail-text">Speaker unavailable</div>
+  </div>` : ''}
+```
+
+### Inactive state pattern
+
+Dim the specific controls that are meaningless when inactive — do not block everything. Use `opacity` + `pointer-events: none` on the specific element, not the whole card.
+
+```css
+/* Disabled control — inactive but entity reachable */
+.control-disabled {
+  opacity: .25;
+  pointer-events: none;
+}
+```
+
+**Rule:** only disable a control if the action it would perform is genuinely impossible or nonsensical in the current state. Leave controls that still make sense (e.g. volume while paused) fully interactive.
+
+### Media card rules (homepod, appletv, now-playing, ps5)
+
+| Control | Unavailable | Inactive (off/idle) | Active (playing/paused) |
+|---|---|---|---|
+| Transport (play/pause/skip) | Show, dim `.25` | Show, dim `.25` | Full opacity |
+| Volume | Always interactive | Always interactive | Always interactive |
+| Group toggle | Always show | Dim if not already grouped | Full opacity |
+| Group volume | Show | Dim if no active group | Full opacity |
+| Now playing info | Show `—` / "Nothing playing" | Show `—` / "Nothing playing" | Show track/artist |
+
+### Cards with this pattern implemented
+
+- `homepod-music-card` — unavailable banner + group toggle disabled when idle + group vol dimmed when solo
+

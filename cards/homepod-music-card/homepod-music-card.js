@@ -174,6 +174,23 @@ class HomepodMusicCard extends HTMLElement {
     return vols.length ? Math.round(vols.reduce((a,b) => a+b, 0) / vols.length) : null;
   }
 
+  _groupedCount() {
+    return this._config.speakers.filter(s => this._isGrouped(s.entity)).length;
+  }
+
+  _coordUnavail() {
+    const s = this._coordState()?.state;
+    return !s || s === 'unavailable' || s === 'unknown';
+  }
+
+  // toggle should be disabled when: nothing playing AND speaker is not already grouped
+  // (keeps toggle enabled if already grouped so user can dissolve)
+  _togDisabled(entity) {
+    const active = this._isActive(entity);
+    const grouped = this._isGrouped(entity);
+    return !active && !grouped;
+  }
+
   // ── Service calls ─────────────────────────────────────────────────────────
 
   async _mediaCmd(service, data = {}, lockKey = null) {
@@ -291,6 +308,20 @@ class HomepodMusicCard extends HTMLElement {
       .tog-dot { width: 13px; height: 13px; border-radius: 50%; background: rgba(255,255,255,.3);
                  position: absolute; top: 2px; left: 2px; transition: left .15s, background .15s; }
       .tog.on .tog-dot { left: 19px; background: #60a5fa; }
+      /* Disabled toggle — nothing playing and not grouped */
+      .spk.tog-disabled { pointer-events: none; }
+      .spk.tog-disabled .tog { opacity: .25; }
+      .spk.tog-disabled .spk-name { opacity: .4; }
+      .spk.tog-disabled .spk-vol-pct { opacity: .4; }
+      /* Group volume — dimmed when solo (no group active) */
+      .gvol.gvol-solo { opacity: .35; pointer-events: none; }
+      /* Unavailable — coordinator entity not available */
+      .unavail-banner { display: flex; align-items: center; gap: 8px;
+        margin: 10px 14px 8px; padding: 8px 10px; border-radius: 8px;
+        background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); }
+      .unavail-dot { width: 6px; height: 6px; border-radius: 50%;
+        background: rgba(255,255,255,.2); flex-shrink: 0; }
+      .unavail-text { font-size: 11px; color: rgba(255,255,255,.3); font-style: italic; }
       /* Group volume */
       .gvol { display: flex; align-items: center; gap: 8px; padding: 8px 14px 10px;
               border-top: 1px solid rgba(255,255,255,.06); }
@@ -335,7 +366,8 @@ class HomepodMusicCard extends HTMLElement {
     const speakersHtml = this._config.speakers.map((s,i) => {
       const on    = this._isGrouped(s.entity);
       const vol   = this._volume(s.entity) ?? 0;
-      return `<div class="spk${on?' on':''}" data-entity="${s.entity}" id="spk-${i}">
+      const disabled = this._togDisabled(s.entity);
+      return `<div class="spk${on?' on':''}${disabled?' tog-disabled':''}" data-entity="${s.entity}" id="spk-${i}">
         <div class="spk-name">${s.name}</div>
         <div class="spk-vol-track"><div class="spk-vol-fill" id="svf-${i}" style="width:${on?vol:0}%"></div></div>
         <div class="spk-vol-pct" id="svp-${i}">${on?vol+'%':'—'}</div>
@@ -355,6 +387,11 @@ class HomepodMusicCard extends HTMLElement {
       <ha-card>
         <div class="wrap">
           <div class="hdr">Music</div>
+          ${this._coordUnavail() ? `
+            <div class="unavail-banner">
+              <div class="unavail-dot"></div>
+              <div class="unavail-text">Speaker unavailable</div>
+            </div>` : ''}
           <div class="np">
             <div class="np-art">♪</div>
             <div class="np-info">
@@ -384,7 +421,7 @@ class HomepodMusicCard extends HTMLElement {
           <div class="divider"></div>
           <div class="ha-section-label">Speakers</div>
           ${speakersHtml}
-          <div class="gvol">
+          <div class="gvol${this._groupedCount() <= 1 ? ' gvol-solo' : ''}">
             <div class="gvol-lbl">Group</div>
             <div class="gvol-wrap" id="gvol-wrap">
               <div class="gvol-track">

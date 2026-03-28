@@ -5,6 +5,24 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — HomePod group inactive state + unavailable pattern
+
+### Changed
+
+**`homepod-music-card`** — group toggle and group volume now reflect playback state:
+- Speaker toggle disabled (opacity .25, pointer-events none) when nothing is playing AND the speaker is not already part of a group. If already grouped, toggle stays enabled so the group can be dissolved even while idle.
+- Group volume slider dimmed when only one speaker is active (no group to adjust).
+- Unavailable banner shown below header when the coordinator entity is unavailable.
+
+**STYLE-GUIDE.md** — new section documenting the unavailable/inactive state pattern:
+- Two distinct states: unavailable (entity down) vs inactive (idle/off but reachable)
+- `.unavail-banner` pattern for inline unavailable indication
+- `.control-disabled` pattern for opacity + pointer-events on specific controls
+- Media card rules table covering transport, volume, group toggle, group volume per state
+- Only `homepod-music-card` implements this so far — other media cards to follow
+
+---
+
 ## [Mar 2026] — No outer borders + Media view
 
 ### Fixed
