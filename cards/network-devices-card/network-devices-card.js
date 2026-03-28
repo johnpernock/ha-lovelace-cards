@@ -354,24 +354,27 @@ class NetworkDevicesCard extends HTMLElement {
         ${wanIp ? `<div class="wan-ip" id="wan-ip">${this._maskIp(wanIp)}</div>` : ''}
       </div>`;
 
-    const statsHtml = `
-      <div class="stat-grid">
-        <div class="stat">
+    // Only render stat tiles for configured sensors
+    const statTiles = [
+      gw.latency_sensor ? `<div class="stat">
           <div class="stat-l">Latency</div>
           <div class="stat-v" id="gw-latency" style="color:${latColor}">${latency != null ? latency + ' ms' : '—'}</div>
           <div class="stat-s">to 8.8.8.8</div>
-        </div>
-        <div class="stat">
+        </div>` : '',
+      gw.uptime_sensor ? `<div class="stat">
           <div class="stat-l">Uptime</div>
           <div class="stat-v" id="gw-uptime">${uptime ?? '—'}</div>
           <div class="stat-s">last reboot</div>
-        </div>
-        <div class="stat">
+        </div>` : '',
+      gw.clients_sensor ? `<div class="stat">
           <div class="stat-l">Clients</div>
           <div class="stat-v" id="gw-clients">${clients != null ? clients : '—'}</div>
           <div class="stat-s">active</div>
-        </div>
-      </div>`;
+        </div>` : '',
+    ].filter(Boolean);
+    const statsHtml = statTiles.length
+      ? `<div class="stat-grid">${statTiles.join('')}</div>`
+      : '';
 
     return `
       <div class="sec-lbl">Gateway</div>
