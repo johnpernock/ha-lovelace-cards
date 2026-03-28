@@ -5,6 +5,35 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Dashboard migration + version control
+
+### Added
+
+**`dashboard/dashboard.yaml`** — main Lovelace dashboard now tracked in this repo alongside the cards. Includes a `dashboard/README.md` with deploy instructions and a migration table.
+
+### Changed
+
+**Technology view** — complete migration from `technology-card` section instances to individual standalone cards. All `vertical-stack` wrappers removed. Cards placed directly in section `cards:` lists.
+
+| Removed | Replaced with |
+|---|---|
+| `technology-card section: network` | `network-status-card` |
+| `technology-card section: speed` | `network-speed-card` |
+| `technology-card section: access_points` | `access-points-card` |
+| `technology-card section: immich` | `immich-card` |
+| `technology-card section: server_health` | `server-health-card` |
+| `technology-card section: services` | `services-card` |
+| `technology-card section: storage` | `storage-card` |
+| `technology-card section: controls` | `network-controls-card` v3 (pill grid) |
+| `technology-card section: ink` | `printer-ink-card` |
+| `technology-card section: recently_added` | `recently-added-card` |
+
+**Home view** — `printer-status-card` (deprecated) replaced with `bambu-status-card`.
+
+All other views (Lights/Fans, Security, Commute, 3D Printer, Energy) unchanged.
+
+---
+
 ## [Mar 2026] — network-controls-card v3
 
 ### Changed
