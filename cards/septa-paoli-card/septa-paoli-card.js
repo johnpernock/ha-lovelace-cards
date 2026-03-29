@@ -65,9 +65,16 @@ class SeptaPaoliCard extends HTMLElement {
 
 
   setConfig(config) {
-    const cfg = config.outbound || config.inbound || {};
-    if (!cfg.trains?.length && !config.outbound?.trains?.length && !config.inbound?.trains?.length) {
-      throw new Error('septa-paoli-card: define at least outbound.trains or inbound.trains sensor array');
+    // Accept both flat array format (outbound: [sensor1, sensor2])
+    // and nested format (outbound: { trains: [sensor1, sensor2] })
+    const hasOutbound = Array.isArray(config.outbound)
+      ? config.outbound.length > 0
+      : config.outbound?.trains?.length > 0;
+    const hasInbound = Array.isArray(config.inbound)
+      ? config.inbound.length > 0
+      : config.inbound?.trains?.length > 0;
+    if (!hasOutbound && !hasInbound) {
+      throw new Error('septa-paoli-card: define at least outbound or inbound sensor array');
     }
     this._config = config;
     this._render();
