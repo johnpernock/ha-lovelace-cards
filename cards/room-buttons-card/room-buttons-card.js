@@ -1587,10 +1587,10 @@ class RoomButtonsCard extends HTMLElement {
         .rb-master{margin:10px 14px 6px;border-radius:8px;background:rgba(251,191,36,.06);border:1.5px solid rgba(251,191,36,.30);overflow:hidden}
         .rb-mrow{display:flex;align-items:center;gap:8px;padding:10px 12px}
         .rb-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
-        .rb-track{width:100%;height:5px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden;position:relative}
-        .rb-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
-        .rb-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
-        .rb-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}
+        .rb-track{width:100%;height:4px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+        .rb-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,rgba(250,204,21,.5),#facc15);transition:width .05s}
+        .rb-thumb{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#facc15;border:2px solid rgba(0,0,0,.5);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
+        .rb-pct{font-size:12px;font-weight:700;color:rgba(250,204,21,.7);width:32px;text-align:right;flex-shrink:0}
         .rb-mchev{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;-webkit-tap-highlight-color:transparent}
         .rb-master-exp{padding:0 12px 10px;border-top:1px solid rgba(251,191,36,.3)}
         .rb-master-exp.hidden{display:none}

@@ -373,6 +373,7 @@ class RoomControlsCard extends HTMLElement {
                 <div class="lm-track"><div class="lm-fill" id="lfill-${room.id}" style="width:${sliderPct}%"></div></div>
                 <div class="lm-thumb" id="lthumb-${room.id}" style="left:${Math.max(4,Math.min(sliderPct,96))}%;background:${on?'#fbbf24':'rgba(255,255,255,.70)'};opacity:${on?1:0}"></div>
               </div>`}
+          <span class="lm-pct" id="lpct-${room.id}">${on?avg+'%':''}</span>
           <div class="lm-btn">${this._ico('chev','rgba(255,255,255,.4)',14,14)}</div>
         </div>`;
         // Individual light toggle grid
@@ -766,10 +767,10 @@ class RoomControlsCard extends HTMLElement {
     .lm-lbl.lit{color:rgba(255,255,255,.8)}
     .lm-sub{font-size:10px;color:rgba(255,255,255,.5);font-weight:400;margin-left:4px}
     .lm-slider-wrap{flex:1;height:32px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0;padding-right:12px}
-    .lm-track{width:100%;height:7px;border-radius:99px;background:rgba(255,255,255,.55);overflow:hidden;position:relative}
-    .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
-    .lm-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
-    .lm-pct{font-size:11px;font-weight:700;color:rgba(255,255,255,.35);width:28px;text-align:right;flex-shrink:0}
+    .lm-track{width:100%;height:4px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+    .lm-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,rgba(250,204,21,.5),#facc15);transition:width .05s}
+    .lm-thumb{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#facc15;border:2px solid rgba(0,0,0,.5);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
+    .lm-pct{font-size:11px;font-weight:700;color:rgba(250,204,21,.7);width:28px;text-align:right;flex-shrink:0}
     .lm-sw-row{flex:1;display:flex;align-items:center;gap:8px;padding:0 4px;min-width:0;user-select:none}
     .lm-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
     .lm-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
@@ -1264,14 +1265,14 @@ class RoomControlsCard extends HTMLElement {
         .sinput{position:absolute;inset:0;width:100%;opacity:0;cursor:pointer;height:44px;margin-top:-19px}
         .lm-bar{height:5px;border-radius:99px;background:rgba(255,255,255,.40);overflow:hidden}
         .lm-slider-wrap{flex:1;height:36px;display:flex;align-items:center;position:relative;cursor:ew-resize;min-width:0}
-        .lm-track{width:100%;height:7px;border-radius:99px;background:rgba(255,255,255,.55);overflow:hidden;position:relative}
-        .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .05s}
-        .lm-thumb{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:#fbbf24;border:2px solid rgba(255,255,255,.9);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
-        .lm-pct{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);width:32px;text-align:right;flex-shrink:0}
+        .lm-track{width:100%;height:4px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;position:relative}
+        .lm-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,rgba(250,204,21,.5),#facc15);transition:width .05s}
+        .lm-thumb{position:absolute;top:50%;width:12px;height:12px;border-radius:50%;background:#facc15;border:2px solid rgba(0,0,0,.5);transform:translate(-50%,-50%);pointer-events:none;transition:left .05s}
+        .lm-pct{font-size:12px;font-weight:700;color:rgba(250,204,21,.7);width:32px;text-align:right;flex-shrink:0}
         .lm-sw-row{flex:1;display:flex;align-items:center;gap:8px;padding:0 4px;min-width:0;user-select:none}
         .lm-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
         .lm-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
-        .lm-fill{height:100%;border-radius:99px;background:#fbbf24;transition:width .2s}
+        .lm-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,rgba(250,204,21,.5),#facc15);transition:width .2s}
         .tog{position:relative;border-radius:8px;cursor:pointer;flex-shrink:0;border:1px solid;user-select:none}
         .tog-thumb{position:absolute;border-radius:50%;transition:left .15s,background .15s}
         .mode-btns{display:grid;gap:5px;padding:4px 0}
