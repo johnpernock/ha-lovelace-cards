@@ -1,5 +1,5 @@
 /**
- * appletv-remote-card.js  —  v3
+ * appletv-remote-card.js  —  v4
  * Apple TV remote card for Home Assistant Lovelace.
  *
  * Multi-ATV selector tabs, 200px D-pad, 2×4 navigation/playback buttons,
@@ -235,11 +235,9 @@ class AppleTvRemoteCard extends HTMLElement {
                  color: rgba(255,255,255,.55); font-size: 18px; flex-shrink: 0; }
       .vol-btn:active { transform: scale(.96); filter: brightness(.88); }
       .vol-wrap { flex: 1; padding: 14px 0; cursor: pointer; touch-action: none; user-select: none; }
-      .vol-track { height: 5px; background: rgba(255,255,255,.10); border-radius: 99px; position: relative; }
-      .vol-fill  { height: 100%; background: rgba(255,255,255,.5); border-radius: 99px; transition: width .1s; }
-      .vol-thumb { width: 18px; height: 18px; border-radius: 50%; background: #fff;
-                   position: absolute; top: 50%; transform: translate(-50%,-50%);
-                   border: 2px solid rgba(255,255,255,.35); transition: left .1s; }
+      .vol-track { height: 4px; background: rgba(255,255,255,.10); border-radius: 99px; position: relative; }
+      .vol-fill  { height: 100%; background: linear-gradient(90deg,rgba(255,255,255,.3),rgba(255,255,255,.7)); border-radius: 99px; transition: width .1s; }
+      .vol-thumb { width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 2px solid rgba(0,0,0,.4); position: absolute; top: 50%; transform: translate(-50%,-50%); pointer-events: none; transition: left .1s; }
       /* Power */
       .power-wrap { display: flex; gap: 8px; padding: 2px 14px 12px; }
       .power-btn  { flex: 1; height: 44px; border-radius: 8px;

@@ -328,11 +328,9 @@ class HomepodMusicCard extends HTMLElement {
       .gvol-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em;
                   color: rgba(255,255,255,.25); flex-shrink: 0; }
       .gvol-wrap { flex: 1; padding: 12px 0; cursor: pointer; touch-action: none; user-select: none; }
-      .gvol-track { height: 5px; background: rgba(255,255,255,.10); border-radius: 99px; position: relative; }
-      .gvol-fill  { height: 100%; background: #fbbf24; border-radius: 99px; transition: width .1s; }
-      .gvol-thumb { width: 16px; height: 16px; border-radius: 50%; background: #fbbf24;
-                    position: absolute; top: 50%; transform: translate(-50%,-50%);
-                    border: 2px solid rgba(255,255,255,.4); transition: left .1s; }
+      .gvol-track { height: 4px; background: rgba(255,255,255,.10); border-radius: 99px; position: relative; }
+      .gvol-fill  { height: 100%; background: linear-gradient(90deg,rgba(250,204,21,.5),#facc15); border-radius: 99px; transition: width .1s; }
+      .gvol-thumb { width: 12px; height: 12px; border-radius: 50%; background: #facc15; border: 2px solid rgba(0,0,0,.5); position: absolute; top: 50%; transform: translate(-50%,-50%); pointer-events: none; transition: left .1s; }
       .gvol-pct { font-size: 11px; font-weight: 700; color: #fbbf24; width: 30px; text-align: right; flex-shrink: 0; }
       /* Favorites */
       .fav-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; padding: 4px 14px 12px; }

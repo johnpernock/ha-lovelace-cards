@@ -842,7 +842,7 @@ class RoomControlsCard extends HTMLElement {
     .hvac-btn{display:flex;align-items:center;gap:6px;padding:6px 10px;border-radius:7px;border:0.5px solid;cursor:pointer;transition:transform .1s;user-select:none}
     .hvac-btn:active{transform:scale(.95)}
     .hvac-lbl{font-size:11px;font-weight:700}
-    .rhead-temp-pill{display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:99px;font-size:11px;font-weight:700;flex-shrink:0}
+    .rhead-temp-pill{display:flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;font-size:11px;font-weight:700;flex-shrink:0}
     .rhead-temp-pill .rtp-cur{color:var(--primary-text-color)}
     .rhead-temp-pill .rtp-arr{color:rgba(255,255,255,.45);margin:0 1px}
     .rhead-temp-pill .rtp-set{color:#fb923c}
