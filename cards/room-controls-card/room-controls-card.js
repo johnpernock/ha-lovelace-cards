@@ -379,13 +379,9 @@ class RoomControlsCard extends HTMLElement {
         if (cfg.individuals?.length) {
           const btns = cfg.individuals.map(l => {
             const lon = this._isOn(l.entity);
-            const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
-            const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.40)';
-            const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.65)';
-            const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.75)';
             const nm  = l.name || this._attr(l.entity,'friendly_name') || l.entity.split('.').pop();
             const eid = l.entity.replace(/[^a-z0-9]/g,'_');
-            return `<div class="itog" id="itog-${room.id}-${eid}" data-room="${room.id}" data-action="indiv-tog" data-entity="${l.entity}" style="background:${bg};border:1px solid ${bc}"><div class="itog-dot" style="background:${dc}"></div><div class="itog-lbl" style="color:${lc}">${nm}</div></div>`;
+            return `<div class="itog${lon?' itog-on':''}" id="itog-${room.id}-${eid}" data-room="${room.id}" data-action="indiv-tog" data-entity="${l.entity}"><div class="itog-dot"></div><div class="itog-lbl">${nm}</div></div>`;
           }).join('');
           body += `<div class="itog-grid" id="itog-grid-${room.id}">${btns}</div>`;
         }
@@ -778,11 +774,16 @@ class RoomControlsCard extends HTMLElement {
     .lm-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
     .lm-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
     .lm-btn{width:26px;height:26px;border-radius:5px;background:rgba(255,255,255,0);border:1.5px solid rgba(255,255,255,.40);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer}
-    .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 2px;}
-    .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s;border:1.5px solid rgba(255,255,255,.40)}
+    .itog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin:4px 0 6px;}
+    .itog{border-radius:7px;padding:7px 10px;display:flex;flex-direction:row;align-items:center;gap:7px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:36px;transition:background .1s,border-color .1s;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03)}
     .itog:active{transform:scale(.94)}
-    .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.75)}
-    .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
+    .itog-on{border-color:rgba(250,204,21,.3)!important;background:rgba(250,204,21,.07)!important}
+    .itog-on .itog-dot{background:#facc15!important}
+    .itog-on .itog-lbl{color:#e2e8f0!important}
+    .itog .itog-dot{background:rgba(255,255,255,.2)}
+    .itog .itog-lbl{color:rgba(255,255,255,.4)}
+    .itog-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+    .itog-lbl{font-size:11px;font-weight:600;text-align:left;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
     .light-row-simple{cursor:pointer}
     .rhead-count{font-size:11px;color:rgba(255,255,255,.50);font-weight:400}
     .rhead-chev{cursor:pointer}
@@ -1024,11 +1025,7 @@ class RoomControlsCard extends HTMLElement {
             const lon = this._isOn(l.entity);
             const btn = itogGrid.querySelector(`[data-entity="${l.entity}"]`);
             if (!btn) return;
-            btn.style.background = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
-            btn.style.borderColor = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.40)';
-            const dot2=btn.querySelector('.itog-dot'), lbl2=btn.querySelector('.itog-lbl');
-            if (dot2) dot2.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.65)';
-            if (lbl2) lbl2.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.75)';
+            btn.classList.toggle('itog-on', lon);
           });
         }
         // simplified header count

@@ -666,13 +666,9 @@ class RoomButtonsCard extends HTMLElement {
     if (indiv.length) {
       const btns = indiv.map(l => {
         const lon = this._isOn(l.entity);
-        const bg  = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
-        const bc  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.40)';
-        const dc  = lon ? '#fbbf24' : 'rgba(255,255,255,.65)';
-        const lc  = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.75)';
         const nm  = l.name || this._attr(l.entity, 'friendly_name') || l.entity.split('.').pop().replace(/_/g, ' ');
         const eid = l.entity.replace(/[^a-z0-9]/g, '_');
-        return `<div class="itog" id="rbitog-${eid}" data-action="rb-indiv-tog" data-entity="${l.entity}" style="background:${bg};border:1px solid ${bc}"><div class="itog-dot" style="background:${dc}"></div><div class="itog-lbl" style="color:${lc}">${nm}</div></div>`;
+        return `<div class="itog${lon?' itog-on':''}" id="rbitog-${eid}" data-action="rb-indiv-tog" data-entity="${l.entity}"><div class="itog-dot"></div><div class="itog-lbl">${nm}</div></div>`;
       }).join('');
       indivHtml = `<div class="itog-grid">${btns}</div>`;
     }
@@ -1110,12 +1106,7 @@ class RoomButtonsCard extends HTMLElement {
         this._call(domain === 'switch' ? 'switch' : 'light', svc, { entity_id: eid }, null);
         // Optimistic visual update
         const lon   = !isOn;
-        el.style.background   = lon ? 'rgba(251,191,36,.10)' : 'rgba(255,255,255,0)';
-        el.style.borderColor  = lon ? 'rgba(251,191,36,.30)' : 'rgba(255,255,255,.40)';
-        const dot = el.querySelector('.itog-dot');
-        const lbl = el.querySelector('.itog-lbl');
-        if (dot) dot.style.background = lon ? '#fbbf24' : 'rgba(255,255,255,.65)';
-        if (lbl) lbl.style.color = lon ? 'rgba(251,191,36,.8)' : 'rgba(255,255,255,.75)';
+        el.classList.toggle('itog-on', lon);
       });
     });
 
@@ -1607,11 +1598,16 @@ class RoomButtonsCard extends HTMLElement {
         .rb-sw-lbl{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);flex:1}
         .rb-sw-state{font-size:12px;font-weight:700;flex-shrink:0}
         /* ── Individual lights — itog-grid (matches room-controls-card) ── */
-        .itog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 14px 8px}
-        .itog{border-radius:7px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:54px;justify-content:center;transition:background .1s,border-color .1s;border:1.5px solid rgba(255,255,255,.40)}
+        .itog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:5px;margin:4px 14px 8px}
+        .itog{border-radius:7px;padding:7px 10px;display:flex;flex-direction:row;align-items:center;gap:7px;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;min-height:36px;transition:background .1s,border-color .1s;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.03)}
         .itog:active{transform:scale(.94)}
-        .itog-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;background:rgba(255,255,255,.75)}
-        .itog-lbl{font-size:12px;font-weight:700;text-align:center;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding:0 3px}
+    .itog-on{border-color:rgba(250,204,21,.3)!important;background:rgba(250,204,21,.07)!important}
+    .itog-on .itog-dot{background:#facc15!important}
+    .itog-on .itog-lbl{color:#e2e8f0!important}
+    .itog .itog-dot{background:rgba(255,255,255,.2)}
+    .itog .itog-lbl{color:rgba(255,255,255,.4)}
+        .itog-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+        .itog-lbl{font-size:11px;font-weight:600;text-align:left;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
         /* ── Color expand panels ── */
         .rb-color-sec{padding:7px 0 4px;border-top:1.5px solid rgba(255,255,255,.40)}
         .rb-color-sec.hidden{display:none}

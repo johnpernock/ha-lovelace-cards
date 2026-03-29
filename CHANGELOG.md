@@ -5,6 +5,26 @@ Most recent changes are listed first within each month.
 
 ---
 
+## [Mar 2026] — Individual light pills redesign
+
+### Changed
+
+**`room-controls-card` (v98)** and **`room-buttons-card` (v33)**
+
+Individual light toggle buttons redesigned from vertical square tiles to horizontal pills:
+
+- Layout: `repeat(3,1fr)` → `repeat(2,1fr)` grid, tiles fill full card width
+- Shape: `flex-direction:column` centered tile → `flex-direction:row` horizontal pill
+- Size: `min-height:54px` → `min-height:36px` — roughly one third less vertical space
+- On state: amber dot on left + bright label (class-based `.itog-on`) replacing inline styles
+- Off state: dim dot + muted label, subtle border, near-transparent background
+- Both render and patch methods updated — patch now uses `classList.toggle('itog-on', lon)`
+
+Applies to both the Lights/Fans view (room-controls-card) and the
+Home view popup (room-buttons-card individual light section).
+
+---
+
 ## [Mar 2026] — Unavailable/inactive states applied to all media cards
 
 ### Changed
